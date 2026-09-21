@@ -1,4 +1,5 @@
 
+
 // 'use client';
 
 // import { useState, useEffect, useCallback, useRef } from 'react';
@@ -74,31 +75,34 @@
 // import QuickDeliveryModal from '@/app/components/QuickDeliveryModal';
 // import CourierScoreModal from '@/app/components/CourierScoreModal';
 // import ProtectedRoute from '@/app/components/ProtectedRoute';
+// import PartialDeliveryModal from '@/app/components/PartialDeliveryModal';
+
+
 
 // // ========== ORDER STATUSES - UPDATED ==========
 // const ORDER_STATUSES = [
 //   // Initial statuses
-//   { value: 'placed', label: 'Placed', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaClock, nextStatuses: ['follow_up', 'approved', 'hold', 'processing', 'cancelled'] },
-//   { value: 'follow_up', label: 'Follow Up', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaHeadset, nextStatuses: ['accepted', 'rejected', 'cancelled', 'reminder'] },
-//   { value: 'reminder', label: 'Reminder', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaClock, nextStatuses: ['accepted', 'rejected', 'cancelled'] },
+//   { value: 'placed', label: 'Placed', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaClock, nextStatuses: ['follow_up', 'approved', 'hold', 'processing', 'cancelled'] },
+//   { value: 'follow_up', label: 'Follow Up', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaHeadset, nextStatuses: ['accepted', 'rejected', 'cancelled', 'reminder'] },
+//   { value: 'reminder', label: 'Reminder', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaClock, nextStatuses: ['accepted', 'rejected', 'cancelled'] },
   
 //   // Main statuses
-//   { value: 'accepted', label: 'Accepted', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaCheckCircle, nextStatuses: ['approved', 'processing', 'hold', 'cancelled'] },
-//   { value: 'approved', label: 'Approved', color: 'bg-[#82947A]/10 text-[#82947A] border-[#82947A]/30', icon: FaCheckDouble, nextStatuses: ['processing', 'hold', 'cancelled', 'courier_assigned'] },
+//   { value: 'accepted', label: 'Accepted', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaCheckCircle, nextStatuses: ['approved', 'processing', 'hold', 'cancelled'] },
+//   { value: 'approved', label: 'Approved', color: 'bg-black/10 text-black border-black/30', icon: FaCheckDouble, nextStatuses: ['processing', 'hold', 'cancelled', 'courier_assigned'] },
   
 //   // HOLD status
 //   { value: 'hold', label: 'On Hold', color: 'bg-yellow-50 text-yellow-600 border-yellow-200', icon: FaClock, nextStatuses: ['approved', 'processing', 'cancelled', 'courier_assigned'] },
   
 //   // PROCESSING
-//   { value: 'processing', label: 'Processing', color: 'bg-blue-50 text-[#82947A] border-blue-200', icon: FaSpinner, nextStatuses: ['hold', 'cancelled', 'courier_assigned'] },
+//   { value: 'processing', label: 'Processing', color: 'bg-blue-50 text-black border-blue-200', icon: FaSpinner, nextStatuses: ['hold', 'cancelled', 'courier_assigned'] },
   
 //   // COURIER ASSIGNED
-//   { value: 'courier_assigned', label: 'Courier Assigned', color: 'bg-[#82947A]/10 text-[#82947A] border-[#82947A]/30', icon: FaTruck, nextStatuses: ['ready_to_ship', 'partial_delivery', 'delivered', 'returned', 'cancelled'] },
+//   { value: 'courier_assigned', label: 'Courier Assigned', color: 'bg-black/10 text-black border-black/30', icon: FaTruck, nextStatuses: ['ready_to_ship', 'partial_delivery', 'delivered', 'returned', 'cancelled'] },
   
 //   // PARTIAL DELIVERY
 //   { value: 'partial_delivery', label: 'Partial Delivery', color: 'bg-yellow-100 text-yellow-800 border-yellow-300', icon: FaCheckDouble, nextStatuses: ['delivered', 'returned', 'cancelled'] },
   
-//   { value: 'ready_to_ship', label: 'Ready to Ship', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaBox, nextStatuses: ['partial_delivery', 'delivered', 'returned', 'cancelled'] },
+//   { value: 'ready_to_ship', label: 'Ready to Ship', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaBox, nextStatuses: ['partial_delivery', 'delivered', 'returned', 'cancelled'] },
   
 //   // Terminal statuses - NO nextStatuses allowed
 //   { value: 'rejected', label: 'Rejected', color: 'bg-orange-50 text-orange-600 border-orange-200', icon: FaTimesCircle, nextStatuses: [] },
@@ -107,15 +111,15 @@
 //   { value: 'returned', label: 'Returned', color: 'bg-purple-50 text-purple-600 border-purple-200', icon: FaUndo, nextStatuses: [] },
   
 //   // Courier handled - not shown in manual dropdown
-//   { value: 'shipped', label: 'Shipped', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaShippingFast, nextStatuses: [] },
-//   { value: 'out_for_delivery', label: 'Out for Delivery', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaTruck, nextStatuses: [] },
+//   { value: 'shipped', label: 'Shipped', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaShippingFast, nextStatuses: [] },
+//   { value: 'out_for_delivery', label: 'Out for Delivery', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaTruck, nextStatuses: [] },
 // ];
 
 // const PAYMENT_STATUSES = [
-//   { value: 'pending', label: 'Pending', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30' },
-//   { value: 'paid', label: 'Paid', color: 'bg-[#82947A]/10 text-[#82947A] border-[#82947A]/30' },
+//   { value: 'pending', label: 'Pending', color: 'bg-[#E2E7EA] text-black border-black/30' },
+//   { value: 'paid', label: 'Paid', color: 'bg-black/10 text-black border-black/30' },
 //   { value: 'failed', label: 'Failed', color: 'bg-red-50 text-red-600 border-red-200' },
-//   { value: 'refunded', label: 'Refunded', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30' }
+//   { value: 'refunded', label: 'Refunded', color: 'bg-[#E2E7EA] text-black border-black/30' }
 // ];
 
 // // ========== DELIVERY STATUSES ==========
@@ -294,9 +298,9 @@
 //   return (
 //     <div className="relative" ref={dropdownRef}>
 //       <div
-//         className={`w-full px-3 py-2 border rounded-xl focus-within:ring-2 focus-within:ring-[#82947A] focus-within:border-transparent cursor-pointer flex items-center justify-between transition-all text-sm ${
+//         className={`w-full px-3 py-2 border rounded-xl focus-within:ring-2 focus-within:ring-black focus-within:border-transparent cursor-pointer flex items-center justify-between transition-all text-sm ${
 //           disabled ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white'
-//         } ${error ? 'border-red-500' : 'border-[#82947A]/30 hover:border-[#82947A]/60'}`}
+//         } ${error ? 'border-red-500' : 'border-black/30 hover:border-black/60'}`}
 //         onClick={() => !disabled && setIsOpen(!isOpen)}
 //       >
 //         <span className={`text-sm ${selectedOption ? 'text-black font-medium' : 'text-[#64748B]'}`}>
@@ -310,7 +314,7 @@
 //                 e.stopPropagation();
 //                 handleClear();
 //               }}
-//               className="text-[#64748B] hover:text-[#82947A]"
+//               className="text-[#64748B] hover:text-black"
 //             >
 //               <FaTimes className="w-3 h-3" />
 //             </button>
@@ -320,8 +324,8 @@
 //       </div>
 
 //       {isOpen && !disabled && (
-//         <div className="absolute z-50 w-full mt-1 bg-white border border-[#82947A]/30 rounded-xl shadow-lg max-h-60 overflow-hidden">
-//           <div className="p-2 border-b border-[#82947A]/20">
+//         <div className="absolute z-50 w-full mt-1 bg-white border border-black/30 rounded-xl shadow-lg max-h-60 overflow-hidden">
+//           <div className="p-2 border-b border-black/20">
 //             <div className="relative">
 //               <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#64748B] w-3.5 h-3.5" />
 //               <input
@@ -329,7 +333,7 @@
 //                 value={searchTerm}
 //                 onChange={(e) => setSearchTerm(e.target.value)}
 //                 placeholder="Search..."
-//                 className="w-full pl-9 pr-3 py-1.5 border border-[#82947A]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#82947A] text-sm"
+//                 className="w-full pl-9 pr-3 py-1.5 border border-black/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-black text-sm"
 //                 onClick={(e) => e.stopPropagation()}
 //               />
 //             </div>
@@ -395,7 +399,7 @@
 //         initial={{ opacity: 0, scale: 0.95 }}
 //         animate={{ opacity: 1, scale: 1 }}
 //         exit={{ opacity: 0, scale: 0.95 }}
-//         className="relative bg-white rounded-2xl border border-[#82947A]/30 shadow-2xl w-full max-w-md overflow-hidden"
+//         className="relative bg-white rounded-2xl border border-black/30 shadow-2xl w-full max-w-md overflow-hidden"
 //       >
 //         <div className="p-4 bg-gradient-to-r from-red-500 to-red-600 text-white">
 //           <div className="flex items-center gap-2">
@@ -410,8 +414,8 @@
 //           <p className="text-xs text-red-500 mt-3">⚠️ This action cannot be undone!</p>
 //         </div>
 
-//         <div className="p-4 border-t border-[#82947A]/30 bg-[#E2E7EA]/20 flex gap-3">
-//           <button onClick={onClose} className="flex-1 px-3 py-2 border border-[#82947A]/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
+//         <div className="p-4 border-t border-black/30 bg-[#E2E7EA]/20 flex gap-3">
+//           <button onClick={onClose} className="flex-1 px-3 py-2 border border-black/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
 //             Cancel
 //           </button>
 //           <button onClick={handleDelete} disabled={loading} className="flex-1 px-3 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:shadow-lg hover:shadow-red-500/25 transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm">
@@ -491,7 +495,7 @@
 //         initial={{ opacity: 0, scale: 0.95 }}
 //         animate={{ opacity: 1, scale: 1 }}
 //         exit={{ opacity: 0, scale: 0.95 }}
-//         className="relative bg-white rounded-2xl border border-[#82947A]/30 shadow-2xl w-full max-w-md overflow-hidden"
+//         className="relative bg-white rounded-2xl border border-black/30 shadow-2xl w-full max-w-md overflow-hidden"
 //       >
 //         <div className="p-4 bg-gradient-to-r from-red-500 to-red-600 text-white">
 //           <div className="flex items-center gap-2">
@@ -507,15 +511,15 @@
 //           <p className="text-xs text-[#64748B] mb-2">This action cannot be undone!</p>
 //           <div className="bg-[#E2E7EA]/50 rounded-lg p-2 max-h-[150px] overflow-y-auto">
 //             {selectedOrders.map((order, index) => (
-//               <p key={order._id} className="text-xs text-black py-0.5 border-b border-[#82947A]/10 last:border-0">
+//               <p key={order._id} className="text-xs text-black py-0.5 border-b border-black/10 last:border-0">
 //                 #{order.orderNumber || order._id.slice(-8).toUpperCase()} - {order.customerInfo?.fullName}
 //               </p>
 //             ))}
 //           </div>
 //         </div>
 
-//         <div className="p-4 border-t border-[#82947A]/30 bg-[#E2E7EA]/20 flex gap-3">
-//           <button onClick={onClose} className="flex-1 px-3 py-2 border border-[#82947A]/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
+//         <div className="p-4 border-t border-black/30 bg-[#E2E7EA]/20 flex gap-3">
+//           <button onClick={onClose} className="flex-1 px-3 py-2 border border-black/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
 //             Cancel
 //           </button>
 //           <button onClick={handleBulkDelete} disabled={loading} className="flex-1 px-3 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:shadow-lg hover:shadow-red-500/25 transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm">
@@ -549,9 +553,9 @@
 //         initial={{ opacity: 0, scale: 0.95 }}
 //         animate={{ opacity: 1, scale: 1 }}
 //         exit={{ opacity: 0, scale: 0.95 }}
-//         className="relative bg-white rounded-2xl border border-[#82947A]/30 shadow-2xl w-full max-w-md overflow-hidden"
+//         className="relative bg-white rounded-2xl border border-black/30 shadow-2xl w-full max-w-md overflow-hidden"
 //       >
-//         <div className="p-4 bg-gradient-to-r from-[#82947A] to-black text-white">
+//         <div className="p-4 bg-gradient-to-r from-black to-black text-white">
 //           <div className="flex items-center justify-between">
 //             <div className="flex items-center gap-2">
 //               <FaTruck className="w-5 h-5" />
@@ -593,7 +597,7 @@
 //                   <button
 //                     onClick={onRefreshTracking}
 //                     disabled={refreshLoading}
-//                     className="text-[#82947A] hover:text-[#0891B2] transition-colors"
+//                     className="text-black hover:text-[#0891B2] transition-colors"
 //                     title="Refresh tracking"
 //                   >
 //                     {refreshLoading ? (
@@ -612,7 +616,7 @@
 //                     href={displayData.trackingUrl}
 //                     target="_blank"
 //                     rel="noopener noreferrer"
-//                     className="text-[#82947A] hover:underline flex items-center gap-1"
+//                     className="text-black hover:underline flex items-center gap-1"
 //                   >
 //                     <FaExternalLinkAlt className="w-3 h-3" />
 //                     Track on {displayData?.courierName || 'Courier'}
@@ -625,13 +629,13 @@
 //           {displayData?.history && displayData.history.length > 0 && (
 //             <div>
 //               <h3 className="text-sm font-semibold text-black mb-2 flex items-center gap-2">
-//                 <FaClock className="w-4 h-4 text-[#82947A]" />
+//                 <FaClock className="w-4 h-4 text-black" />
 //                 Tracking History
 //               </h3>
 //               <div className="space-y-2 max-h-[200px] overflow-y-auto">
 //                 {displayData.history.map((entry, index) => (
-//                   <div key={index} className="flex items-start gap-3 text-xs border-b border-[#82947A]/10 pb-2 last:border-0">
-//                     <div className="w-2 h-2 rounded-full bg-[#82947A] mt-1.5 flex-shrink-0"></div>
+//                   <div key={index} className="flex items-start gap-3 text-xs border-b border-black/10 pb-2 last:border-0">
+//                     <div className="w-2 h-2 rounded-full bg-black mt-1.5 flex-shrink-0"></div>
 //                     <div>
 //                       <p className="text-black">{entry.message || entry.status}</p>
 //                       <p className="text-[#64748B] text-[10px]">
@@ -663,8 +667,8 @@
 //           )}
 //         </div>
 
-//         <div className="p-4 border-t border-[#82947A]/30 bg-[#E2E7EA]/20 flex justify-end">
-//           <button onClick={onClose} className="px-4 py-2 bg-[#82947A] text-white rounded-xl hover:bg-[#0891B2] transition-colors text-sm">
+//         <div className="p-4 border-t border-black/30 bg-[#E2E7EA]/20 flex justify-end">
+//           <button onClick={onClose} className="px-4 py-2 bg-black text-white rounded-xl hover:bg-[#0891B2] transition-colors text-sm">
 //             Close
 //           </button>
 //         </div>
@@ -674,7 +678,7 @@
 // };
 
 // // ========== STATUS UPDATE MODAL - UPDATED ==========
-// const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
+// const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole, onPartialDelivery  }) => {
 //   const [selectedStatus, setSelectedStatus] = useState('');
 //   const [trackingNumber, setTrackingNumber] = useState('');
 //   const [deliveryNote, setDeliveryNote] = useState('');
@@ -748,7 +752,9 @@
 //       'hold': ['approved', 'processing', 'cancelled', 'courier_assigned'],
 //       'processing': ['hold', 'cancelled', 'courier_assigned'],
 //       'courier_assigned': ['ready_to_ship', 'partial_delivery', 'delivered', 'returned', 'cancelled'],
-//       'partial_delivery': ['delivered', 'returned', 'cancelled'],
+//       'delivered': ['partial_delivery'],   // ✅ NEW
+//   'partial_delivery': ['delivered', 'returned', 'cancelled', 'partial_delivery'],
+      
 //       'ready_to_ship': ['delivered', 'partial_delivery', 'returned', 'cancelled'],
 //       'rejected': [],
 //       'cancelled': [],
@@ -906,6 +912,12 @@
 //       return;
 //     }
 
+//     if (selectedStatus === 'partial_delivery') {
+//   onClose();
+//   onPartialDelivery?.();   // new prop
+//   return;
+// }
+
 //     setLoading(true);
 
 //     try {
@@ -970,20 +982,20 @@
 
 //   const getRoleColor = () => {
 //     const colorMap = {
-//       super_admin: 'bg-gradient-to-r from-[#82947A] to-black',
-//       admin: 'bg-gradient-to-r from-[#82947A] to-[#0891B2]',
-//       moderator: 'bg-gradient-to-r from-black to-[#82947A]'
+//       super_admin: 'bg-gradient-to-r from-black to-black',
+//       admin: 'bg-gradient-to-r from-black to-[#0891B2]',
+//       moderator: 'bg-gradient-to-r from-black to-black'
 //     };
-//     return colorMap[userRole] || 'bg-gradient-to-r from-[#82947A] to-black';
+//     return colorMap[userRole] || 'bg-gradient-to-r from-black to-black';
 //   };
 
 //   const getRoleBadgeColor = () => {
 //     const colorMap = {
-//       super_admin: 'bg-[#82947A]/10 border-[#82947A]/30 text-[#82947A]',
-//       admin: 'bg-[#82947A]/10 border-[#82947A]/30 text-[#82947A]',
-//       moderator: 'bg-[#E2E7EA] border-[#82947A]/30 text-black'
+//       super_admin: 'bg-black/10 border-black/30 text-black',
+//       admin: 'bg-black/10 border-black/30 text-black',
+//       moderator: 'bg-[#E2E7EA] border-black/30 text-black'
 //     };
-//     return colorMap[userRole] || 'bg-[#E2E7EA] border-[#82947A]/30 text-black';
+//     return colorMap[userRole] || 'bg-[#E2E7EA] border-black/30 text-black';
 //   };
 
 //   const getPermissionMessage = () => {
@@ -1021,7 +1033,7 @@
 //         initial={{ opacity: 0, scale: 0.95 }}
 //         animate={{ opacity: 1, scale: 1 }}
 //         exit={{ opacity: 0, scale: 0.95 }}
-//         className="relative bg-white rounded-2xl border border-[#82947A]/30 shadow-2xl w-full max-w-md overflow-hidden"
+//         className="relative bg-white rounded-2xl border border-black/30 shadow-2xl w-full max-w-md overflow-hidden"
 //       >
 //         <div className={`p-4 text-white ${getRoleColor()}`}>
 //           <div className="flex items-center justify-between">
@@ -1053,7 +1065,7 @@
 
 //           <div>
 //             <label className="block text-xs font-medium text-black mb-1">Current Status</label>
-//             <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs border ${currentStatusInfo?.color || 'bg-[#E2E7EA] text-black border-[#82947A]/30'}`}>
+//             <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs border ${currentStatusInfo?.color || 'bg-[#E2E7EA] text-black border-black/30'}`}>
 //               {currentStatusInfo?.icon && <currentStatusInfo.icon className="w-3 h-3" />}
 //               <span>{currentStatusInfo?.label || order?.orderStatus}</span>
 //             </div>
@@ -1075,7 +1087,7 @@
 //                       setRejectionReason('');
 //                     }
 //                   }}
-//                   className="w-full px-3 py-1.5 text-sm border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white text-black"
+//                   className="w-full px-3 py-1.5 text-sm border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black"
 //                 >
 //                   <option value={order.orderStatus}>Current: {currentStatusInfo?.label}</option>
 //                   {availableNextStatuses.map(statusValue => {
@@ -1090,8 +1102,8 @@
 //               </div>
 
 //               {selectedStatus !== order.orderStatus && (
-//                 <div className="bg-[#E2E7EA]/50 rounded-xl p-2 border border-[#82947A]/30">
-//                   <p className="text-xs text-[#82947A]">
+//                 <div className="bg-[#E2E7EA]/50 rounded-xl p-2 border border-black/30">
+//                   <p className="text-xs text-black">
 //                     <span className="font-medium">Will change to:</span> {selectedStatusInfo?.label}
 //                   </p>
 //                 </div>
@@ -1099,10 +1111,10 @@
 
 //               {/* ========== COURIER ASSIGNMENT SECTION ========== */}
 //               {showCourierOption() && (
-//                 <div className="bg-[#82947A]/10 border border-[#82947A]/30 rounded-xl p-3 space-y-3">
+//                 <div className="bg-black/10 border border-black/30 rounded-xl p-3 space-y-3">
 //                   <div>
 //                     <div className="flex items-center gap-2 mb-2">
-//                       <FaTruck className="w-4 h-4 text-[#82947A]" />
+//                       <FaTruck className="w-4 h-4 text-black" />
 //                       <label className="text-xs font-medium text-black">
 //                         Select Courier Service <span className="text-red-500">*</span>
 //                       </label>
@@ -1110,7 +1122,7 @@
                     
 //                     {loadingCouriers ? (
 //                       <div className="flex items-center justify-center py-2">
-//                         <FaSpinner className="w-4 h-4 animate-spin text-[#82947A]" />
+//                         <FaSpinner className="w-4 h-4 animate-spin text-black" />
 //                         <span className="ml-2 text-xs text-[#64748B]">Loading couriers...</span>
 //                       </div>
 //                     ) : connectedCouriers.length === 0 ? (
@@ -1122,7 +1134,7 @@
 //                       <select
 //                         value={courierService}
 //                         onChange={(e) => setCourierService(e.target.value)}
-//                         className="w-full px-3 py-1.5 text-sm border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white text-black"
+//                         className="w-full px-3 py-1.5 text-sm border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black"
 //                         required
 //                       >
 //                         <option value="">Select a courier...</option>
@@ -1135,7 +1147,7 @@
 //                     )}
                     
 //                     {connectedCouriers.length > 0 && (
-//                       <p className="text-xs text-[#82947A] mt-1">
+//                       <p className="text-xs text-black mt-1">
 //                         <FaCheckCircle className="inline w-3 h-3 mr-1" />
 //                         {connectedCouriers.length} courier service(s) connected
 //                       </p>
@@ -1154,7 +1166,7 @@
 //                         onChange={(e) => setWeight(parseFloat(e.target.value) || 0)}
 //                         min="0.1"
 //                         step="0.1"
-//                         className="w-full pl-10 pr-3 py-1.5 text-sm border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white text-black"
+//                         className="w-full pl-10 pr-3 py-1.5 text-sm border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black"
 //                         placeholder="Enter package weight"
 //                       />
 //                     </div>
@@ -1176,7 +1188,7 @@
 //                         value={deliveryNote}
 //                         onChange={(e) => setDeliveryNote(e.target.value)}
 //                         rows="2"
-//                         className="w-full pl-10 pr-3 py-1.5 text-sm border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white text-black placeholder:text-[#64748B] resize-none"
+//                         className="w-full pl-10 pr-3 py-1.5 text-sm border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black placeholder:text-[#64748B] resize-none"
 //                         placeholder="Add any delivery notes or special instructions..."
 //                       />
 //                     </div>
@@ -1192,7 +1204,7 @@
 //               {/* ========== INFO BOX FOR COURIER ASSIGNED → DELIVERED/RETURNED ========== */}
 //               {order?.orderStatus === 'courier_assigned' && (selectedStatus === 'delivered' || selectedStatus === 'returned' || selectedStatus === 'partial_delivery') && (
 //                 <div className="bg-blue-50 border border-blue-200 rounded-xl p-3">
-//                   <p className="text-xs text-[#82947A] flex items-center gap-2">
+//                   <p className="text-xs text-black flex items-center gap-2">
 //                     <FaInfoCircle className="w-3.5 h-3.5" />
 //                     This order is currently with courier. Marking as {selectedStatusInfo?.label} will update the order status.
 //                   </p>
@@ -1222,7 +1234,7 @@
 //                     onChange={(e) => setCancellationReason(e.target.value)}
 //                     rows="3"
 //                     placeholder="Please provide a reason for cancellation..."
-//                     className="w-full px-3 py-1.5 text-sm border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white text-black placeholder:text-[#64748B]"
+//                     className="w-full px-3 py-1.5 text-sm border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black placeholder:text-[#64748B]"
 //                     required
 //                   />
 //                   <p className="text-xs text-red-600 mt-1">This reason will be saved with the order</p>
@@ -1242,7 +1254,7 @@
 //                     onChange={(e) => setRejectionReason(e.target.value)}
 //                     rows="3"
 //                     placeholder="Please provide a reason for rejection..."
-//                     className="w-full px-3 py-1.5 text-sm border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white text-black placeholder:text-[#64748B]"
+//                     className="w-full px-3 py-1.5 text-sm border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black placeholder:text-[#64748B]"
 //                     required
 //                   />
 //                   <p className="text-xs text-orange-600 mt-1">This reason will be saved with the order</p>
@@ -1257,14 +1269,14 @@
 //                     onChange={(e) => setDeliveryNote(e.target.value)}
 //                     rows="2"
 //                     placeholder="Add any delivery notes or special instructions"
-//                     className="w-full px-3 py-1.5 text-sm border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white text-black placeholder:text-[#64748B]"
+//                     className="w-full px-3 py-1.5 text-sm border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black placeholder:text-[#64748B]"
 //                   />
 //                 </div>
 //               )}
 
 //               {isDelivered && order.paymentStatus !== 'paid' && (
-//                 <div className="bg-[#82947A]/10 border border-[#82947A]/30 rounded-xl p-2">
-//                   <p className="text-xs text-[#82947A] flex items-center gap-2">
+//                 <div className="bg-black/10 border border-black/30 rounded-xl p-2">
+//                   <p className="text-xs text-black flex items-center gap-2">
 //                     <FaCheckCircle className="w-3 h-3" />
 //                     Payment status will be automatically updated to "Paid"
 //                   </p>
@@ -1274,8 +1286,8 @@
 //           )}
 
 //           {!canChange && order?.orderStatus === 'delivered' && (
-//             <div className="bg-[#82947A]/10 border border-[#82947A]/30 rounded-xl p-3">
-//               <p className="text-xs text-[#82947A] flex items-center gap-2">
+//             <div className="bg-black/10 border border-black/30 rounded-xl p-3">
+//               <p className="text-xs text-black flex items-center gap-2">
 //                 <FaCheckDouble className="w-4 h-4" />
 //                 This order has been delivered. No further changes allowed.
 //               </p>
@@ -1310,8 +1322,8 @@
 //           )}
 
 //           {!canChange && order?.orderStatus === 'courier_assigned' && (
-//             <div className="bg-[#82947A]/10 border border-[#82947A]/30 rounded-xl p-3">
-//               <p className="text-xs text-[#82947A] flex items-center gap-2">
+//             <div className="bg-black/10 border border-black/30 rounded-xl p-3">
+//               <p className="text-xs text-black flex items-center gap-2">
 //                 <FaTruck className="w-4 h-4" />
 //                 This order has been assigned to courier.
 //               </p>
@@ -1319,8 +1331,8 @@
 //           )}
 
 //           {!canChange && ['processing', 'shipped', 'out_for_delivery'].includes(order?.orderStatus) && (
-//             <div className="bg-[#82947A]/10 border border-[#82947A]/30 rounded-xl p-3">
-//               <p className="text-xs text-[#82947A] flex items-center gap-2">
+//             <div className="bg-black/10 border border-black/30 rounded-xl p-3">
+//               <p className="text-xs text-black flex items-center gap-2">
 //                 <FaShippingFast className="w-4 h-4" />
 //                 This order is being handled by the courier service.
 //               </p>
@@ -1328,14 +1340,14 @@
 //           )}
 //         </div>
 
-//         <div className="p-4 border-t border-[#82947A]/30 bg-[#E2E7EA]/20 flex gap-3">
-//           <button onClick={onClose} className="flex-1 px-3 py-2 border border-[#82947A]/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
+//         <div className="p-4 border-t border-black/30 bg-[#E2E7EA]/20 flex gap-3">
+//           <button onClick={onClose} className="flex-1 px-3 py-2 border border-black/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
 //             Cancel
 //           </button>
 //           <button
 //             onClick={handleSubmit}
 //             disabled={loading || !canChange || selectedStatus === order?.orderStatus}
-//             className="flex-1 px-3 py-2 bg-gradient-to-r from-[#82947A] to-black text-white rounded-xl hover:shadow-lg hover:shadow-[#82947A]/25 transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm"
+//             className="flex-1 px-3 py-2 bg-gradient-to-r from-black to-black text-white rounded-xl hover:shadow-lg hover:shadow-black/25 transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm"
 //           >
 //             {loading ? <FaSpinner className="w-3 h-3 animate-spin" /> : 
 //               isCourierAssign ? <FaTruck className="w-3 h-3" /> : <FaCheckCircle className="w-3 h-3" />
@@ -1445,9 +1457,9 @@
 // //         initial={{ opacity: 0, scale: 0.95 }}
 // //         animate={{ opacity: 1, scale: 1 }}
 // //         exit={{ opacity: 0, scale: 0.95 }}
-// //         className="relative bg-white rounded-2xl border border-[#82947A]/30 shadow-2xl w-full max-w-md overflow-hidden"
+// //         className="relative bg-white rounded-2xl border border-black/30 shadow-2xl w-full max-w-md overflow-hidden"
 // //       >
-// //         <div className="p-4 bg-gradient-to-r from-[#82947A] to-black text-white">
+// //         <div className="p-4 bg-gradient-to-r from-black to-black text-white">
 // //           <div className="flex items-center justify-between">
 // //             <div className="flex items-center gap-2">
 // //               <FaMoneyBillWave className="w-5 h-5" />
@@ -1463,7 +1475,7 @@
 // //         <div className="p-4 space-y-3">
 // //           <div>
 // //             <label className="block text-xs font-medium text-black mb-1">Current Payment Status</label>
-// //             <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs border ${currentPaymentInfo?.color || 'bg-[#E2E7EA] text-black border-[#82947A]/30'}`}>
+// //             <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs border ${currentPaymentInfo?.color || 'bg-[#E2E7EA] text-black border-black/30'}`}>
 // //               <FaMoneyBillWave className="w-3 h-3" />
 // //               <span>{currentPaymentInfo?.label || order?.paymentStatus}</span>
 // //             </div>
@@ -1479,7 +1491,7 @@
 // //               <select
 // //                 value={selectedStatus}
 // //                 onChange={(e) => setSelectedStatus(e.target.value)}
-// //                 className="w-full px-3 py-1.5 text-sm border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white text-black"
+// //                 className="w-full px-3 py-1.5 text-sm border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black"
 // //               >
 // //                 <option value={order.paymentStatus}>Current: {currentPaymentInfo?.label}</option>
 // //                 {availableStatuses.map(status => (
@@ -1489,21 +1501,21 @@
 // //                 ))}
 // //               </select>
 // //             ) : (
-// //               <div className="px-3 py-1.5 text-sm bg-[#E2E7EA] text-[#64748B] rounded-xl border border-[#82947A]/30">
+// //               <div className="px-3 py-1.5 text-sm bg-[#E2E7EA] text-[#64748B] rounded-xl border border-black/30">
 // //                 No further changes allowed
 // //               </div>
 // //             )}
 // //           </div>
 // //         </div>
 
-// //         <div className="p-4 border-t border-[#82947A]/30 bg-[#E2E7EA]/20 flex gap-3">
-// //           <button onClick={onClose} className="flex-1 px-3 py-2 border border-[#82947A]/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
+// //         <div className="p-4 border-t border-black/30 bg-[#E2E7EA]/20 flex gap-3">
+// //           <button onClick={onClose} className="flex-1 px-3 py-2 border border-black/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
 // //             Cancel
 // //           </button>
 // //           <button
 // //             onClick={handleSubmit}
 // //             disabled={loading || !canChange || selectedStatus === order?.paymentStatus}
-// //             className="flex-1 px-3 py-2 bg-gradient-to-r from-[#82947A] to-black text-white rounded-xl hover:shadow-lg hover:shadow-[#82947A]/25 transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm"
+// //             className="flex-1 px-3 py-2 bg-gradient-to-r from-black to-black text-white rounded-xl hover:shadow-lg hover:shadow-black/25 transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm"
 // //           >
 // //             {loading ? <FaSpinner className="w-3 h-3 animate-spin" /> : <FaSave className="w-3 h-3" />}
 // //             Update Payment
@@ -1626,9 +1638,9 @@
 //         initial={{ opacity: 0, scale: 0.95 }}
 //         animate={{ opacity: 1, scale: 1 }}
 //         exit={{ opacity: 0, scale: 0.95 }}
-//         className="relative bg-white rounded-2xl border border-[#82947A]/30 shadow-2xl w-full max-w-md overflow-hidden"
+//         className="relative bg-white rounded-2xl border border-black/30 shadow-2xl w-full max-w-md overflow-hidden"
 //       >
-//         <div className="p-4 bg-gradient-to-r from-[#82947A] to-black text-white">
+//         <div className="p-4 bg-gradient-to-r from-black to-black text-white">
 //           <div className="flex items-center justify-between">
 //             <div className="flex items-center gap-2">
 //               <FaMoneyBillWave className="w-5 h-5" />
@@ -1644,7 +1656,7 @@
 //         <div className="p-4 space-y-3">
 //           <div>
 //             <label className="block text-xs font-medium text-black mb-1">Current Payment Status</label>
-//             <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs border ${currentPaymentInfo?.color || 'bg-[#E2E7EA] text-black border-[#82947A]/30'}`}>
+//             <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs border ${currentPaymentInfo?.color || 'bg-[#E2E7EA] text-black border-black/30'}`}>
 //               <FaMoneyBillWave className="w-3 h-3" />
 //               <span>{currentPaymentInfo?.label || order?.paymentStatus}</span>
 //             </div>
@@ -1670,7 +1682,7 @@
 //               <select
 //                 value={selectedStatus}
 //                 onChange={(e) => setSelectedStatus(e.target.value)}
-//                 className="w-full px-3 py-1.5 text-sm border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white text-black"
+//                 className="w-full px-3 py-1.5 text-sm border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black"
 //               >
 //                 <option value={order.paymentStatus}>Current: {currentPaymentInfo?.label}</option>
 //                 {availableStatuses.map(status => (
@@ -1680,7 +1692,7 @@
 //                 ))}
 //               </select>
 //             ) : (
-//               <div className="px-3 py-1.5 text-sm bg-[#E2E7EA] text-[#64748B] rounded-xl border border-[#82947A]/30">
+//               <div className="px-3 py-1.5 text-sm bg-[#E2E7EA] text-[#64748B] rounded-xl border border-black/30">
 //                 {order?.orderStatus === 'cancelled' 
 //                   ? 'Payment cannot be changed for cancelled orders' 
 //                   : 'No further changes allowed'}
@@ -1689,14 +1701,14 @@
 //           </div>
 //         </div>
 
-//         <div className="p-4 border-t border-[#82947A]/30 bg-[#E2E7EA]/20 flex gap-3">
-//           <button onClick={onClose} className="flex-1 px-3 py-2 border border-[#82947A]/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
+//         <div className="p-4 border-t border-black/30 bg-[#E2E7EA]/20 flex gap-3">
+//           <button onClick={onClose} className="flex-1 px-3 py-2 border border-black/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
 //             Cancel
 //           </button>
 //           <button
 //             onClick={handleSubmit}
 //             disabled={loading || !canChange || selectedStatus === order?.paymentStatus || order?.orderStatus === 'cancelled'}
-//             className="flex-1 px-3 py-2 bg-gradient-to-r from-[#82947A] to-black text-white rounded-xl hover:shadow-lg hover:shadow-[#82947A]/25 transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm"
+//             className="flex-1 px-3 py-2 bg-gradient-to-r from-black to-black text-white rounded-xl hover:shadow-lg hover:shadow-black/25 transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm"
 //           >
 //             {loading ? <FaSpinner className="w-3 h-3 animate-spin" /> : <FaSave className="w-3 h-3" />}
 //             Update Payment
@@ -1710,6 +1722,482 @@
 // // ========== ORDER DETAILS MODAL ==========
 // const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUpdate, onDownloadInvoice }) => {
 //   const [downloading, setDownloading] = useState(false);
+
+//   // ========== HELPER: Get color name ==========
+//   const getColorName = (color) => {
+//     const colorMap = {
+//       '#000000': 'Black',
+//       '#FFFFFF': 'White',
+//       '#FF0000': 'Red',
+//       '#00FF00': 'Green',
+//       '#0000FF': 'Blue',
+//       '#FFFF00': 'Yellow',
+//       '#FF00FF': 'Magenta',
+//       '#00FFFF': 'Cyan',
+//       '#FFA500': 'Orange',
+//       '#800080': 'Purple',
+//       '#008000': 'Dark Green',
+//       '#FFC0CB': 'Pink',
+//       '#A52A2A': 'Brown',
+//       '#808080': 'Gray',
+//       '#C0C0C0': 'Silver',
+//       '#4A90E2': 'Blue',
+//       '#FF6B6B': 'Red',
+//       '#4ECDC4': 'Teal',
+//       '#45B7D1': 'Sky Blue',
+//       '#96CEB4': 'Mint',
+//       '#FFEAA7': 'Cream',
+//       '#DDA0DD': 'Plum',
+//       '#98D8C8': 'Seafoam',
+//       '#F7DC6F': 'Gold',
+//       '#BB8FCE': 'Lavender'
+//     };
+//     return colorMap[color] || color;
+//   };
+
+//   // ========== GET COLOR DISPLAY ==========
+//   const getColorDisplay = (item) => {
+//     if (item.colors && Array.isArray(item.colors) && item.colors.length > 0) {
+//       const hasValidColors = item.colors.some(c => 
+//         c.color && 
+//         c.color !== 'null' && 
+//         c.color !== '' && 
+//         c.color !== 'undefined'
+//       );
+      
+//       if (hasValidColors) {
+//         return item.colors
+//           .filter(c => c.color && c.color !== 'null' && c.color !== '' && c.color !== 'undefined')
+//           .map(c => ({
+//             color: c.color,
+//             quantity: c.quantity || 0,
+//             price: c.price || item.discountPrice || item.regularPrice
+//           }));
+//       }
+//     }
+    
+//     if (item.selectedColor && 
+//         item.selectedColor !== 'null' && 
+//         item.selectedColor !== '' && 
+//         item.selectedColor !== 'undefined') {
+//       return [{
+//         color: item.selectedColor,
+//         quantity: item.quantity || 0,
+//         price: item.discountPrice || item.regularPrice
+//       }];
+//     }
+    
+//     return [];
+//   };
+
+//   // ========== GROUP ITEMS WITH PROPER HIERARCHY ==========
+//   const groupItemsForDisplay = (items) => {
+//     if (!items || items.length === 0) return [];
+    
+//     const productGroups = {};
+    
+//     items.forEach(item => {
+//       const productId = item.productId?.toString() || 'unknown';
+      
+//       if (!productGroups[productId]) {
+//         productGroups[productId] = {
+//           productId: productId,
+//           productName: item.productName,
+//           productSlug: item.productSlug || '',
+//           image: item.image || '',
+//           regularPrice: item.regularPrice,
+//           discountPrice: item.discountPrice || 0,
+//           unit: item.unit || 'pcs',
+//           stockQuantity: item.stockQuantity || 0,
+//           hasVariants: false,
+//           hasSubVariants: false,
+//           items: [],
+//           variantDetails: item.variantDetails || []
+//         };
+//       }
+      
+//       productGroups[productId].items.push(item);
+      
+//       if (item.isVariant || item.isSubVariant || (item.variantDetails && item.variantDetails.length > 0)) {
+//         productGroups[productId].hasVariants = true;
+//       }
+      
+//       if (item.isSubVariant) {
+//         productGroups[productId].hasSubVariants = true;
+//       }
+      
+//       if (item.variantDetails && item.variantDetails.length > 0) {
+//         item.variantDetails.forEach(variant => {
+//           if (variant.subVariants && variant.subVariants.length > 0) {
+//             productGroups[productId].hasSubVariants = true;
+//           }
+//         });
+//       }
+//     });
+    
+//     const result = [];
+    
+//     Object.values(productGroups).forEach(group => {
+//       const baseItems = group.items.filter(item => 
+//         !item.isVariant && 
+//         !item.isSubVariant && 
+//         item.isBaseProduct !== false
+//       );
+      
+//       const variantItems = group.items.filter(item => 
+//         item.isVariant === true && 
+//         !item.isSubVariant
+//       );
+      
+//       const subVariantItems = group.items.filter(item => 
+//         item.isSubVariant === true
+//       );
+      
+//       const hasNestedVariants = group.variantDetails && group.variantDetails.length > 0;
+      
+//       const rows = [];
+//       const hasAnyVariants = variantItems.length > 0 || subVariantItems.length > 0 || hasNestedVariants;
+      
+//       // Base product row
+//       if (baseItems.length > 0) {
+//         let totalBaseQuantity = 0;
+//         let totalBasePrice = 0;
+//         let baseColor = null;
+//         let hasBaseColor = false;
+        
+//         baseItems.forEach(item => {
+//           const colorData = getColorDisplay(item);
+//           const price = item.discountPrice || item.regularPrice || 0;
+//           totalBaseQuantity += item.quantity || 0;
+//           totalBasePrice += price * (item.quantity || 0);
+          
+//           if (colorData.length > 0 && !hasBaseColor) {
+//             baseColor = colorData[0].color;
+//             hasBaseColor = true;
+//           }
+//         });
+        
+//         let variantTotalQuantity = 0;
+//         let variantTotalPrice = 0;
+        
+//         variantItems.forEach(v => {
+//           const price = v.variantDiscountPrice > 0 ? v.variantDiscountPrice : 
+//                        v.variantRegularPrice > 0 ? v.variantRegularPrice :
+//                        v.discountPrice || v.regularPrice || 0;
+//           variantTotalQuantity += v.quantity || 0;
+//           variantTotalPrice += price * (v.quantity || 0);
+//         });
+        
+//         subVariantItems.forEach(s => {
+//           const price = s.variantDiscountPrice > 0 ? s.variantDiscountPrice : 
+//                        s.variantRegularPrice > 0 ? s.variantRegularPrice :
+//                        s.discountPrice || s.regularPrice || 0;
+//           variantTotalQuantity += s.quantity || 0;
+//           variantTotalPrice += price * (s.quantity || 0);
+//         });
+        
+//         if (hasNestedVariants) {
+//           group.variantDetails.forEach(v => {
+//             if (v.subVariants && v.subVariants.length > 0) {
+//               v.subVariants.forEach(s => {
+//                 const price = s.subVariantDiscountPrice > 0 ? s.subVariantDiscountPrice :
+//                              s.subVariantRegularPrice > 0 ? s.subVariantRegularPrice :
+//                              v.variantRegularPrice || 0;
+//                 variantTotalQuantity += s.quantity || 0;
+//                 variantTotalPrice += price * (s.quantity || 0);
+//               });
+//             } else {
+//               const price = v.variantDiscountPrice > 0 ? v.variantDiscountPrice :
+//                            v.variantRegularPrice > 0 ? v.variantRegularPrice : 0;
+//               variantTotalQuantity += v.quantity || 0;
+//               variantTotalPrice += price * (v.quantity || 0);
+//             }
+//           });
+//         }
+        
+//         const finalQuantity = hasAnyVariants ? variantTotalQuantity : totalBaseQuantity;
+//         const finalTotal = hasAnyVariants ? variantTotalPrice : totalBasePrice;
+        
+//         rows.push({
+//           type: 'base',
+//           id: 'base',
+//           name: group.productName,
+//           displayName: group.productName,
+//           image: group.image,
+//           price: finalQuantity > 0 ? (finalTotal / finalQuantity) : 0,
+//           quantity: finalQuantity,
+//           total: finalTotal,
+//           unit: group.unit || 'pcs',
+//           color: baseColor,
+//           hasColor: hasBaseColor,
+//           isBase: true,
+//           isVariant: false,
+//           isSubVariant: false,
+//           indent: 0,
+//           badge: 'Product',
+//           parentName: null,
+//           grandParentName: null,
+//           variantId: null,
+//           subVariantId: null,
+//           originalPrice: null,
+//           hasDiscount: false,
+//           variantName: null,
+//           subVariantName: null,
+//           showPrice: !hasAnyVariants
+//         });
+//       }
+      
+//       // Variant rows
+//       variantItems.forEach(item => {
+//         const colorData = getColorDisplay(item);
+//         const hasColor = colorData.length > 0;
+//         const price = item.variantDiscountPrice > 0 ? item.variantDiscountPrice : 
+//                      item.variantRegularPrice > 0 ? item.variantRegularPrice :
+//                      item.discountPrice || item.regularPrice || 0;
+//         const quantity = item.quantity || 0;
+//         const total = price * quantity;
+//         const originalPrice = item.variantRegularPrice > 0 && item.variantDiscountPrice > 0 ? item.variantRegularPrice : null;
+//         const hasDiscount = originalPrice && originalPrice > price;
+        
+//         rows.push({
+//           type: 'variant',
+//           id: item.variantId || `variant-${rows.length}`,
+//           name: item.variantName || 'Variant',
+//           displayName: item.variantName || 'Variant',
+//           image: item.image || group.image,
+//           price: price,
+//           originalPrice: originalPrice,
+//           hasDiscount: hasDiscount,
+//           quantity: quantity,
+//           total: total,
+//           unit: group.unit || 'pcs',
+//           color: hasColor ? colorData[0].color : null,
+//           hasColor: hasColor,
+//           isBase: false,
+//           isVariant: true,
+//           isSubVariant: false,
+//           indent: 1,
+//           parentName: group.productName,
+//           badge: 'Variant',
+//           variantId: item.variantId,
+//           subVariantId: null,
+//           grandParentName: null,
+//           variantName: item.variantName,
+//           subVariantName: null,
+//           showPrice: true
+//         });
+//       });
+      
+//       // Sub-variant rows
+//       subVariantItems.forEach(item => {
+//         const colorData = getColorDisplay(item);
+//         const hasColor = colorData.length > 0;
+//         const price = item.variantDiscountPrice > 0 ? item.variantDiscountPrice : 
+//                      item.variantRegularPrice > 0 ? item.variantRegularPrice :
+//                      item.discountPrice || item.regularPrice || 0;
+//         const quantity = item.quantity || 0;
+//         const total = price * quantity;
+//         const originalPrice = item.variantRegularPrice > 0 && item.variantDiscountPrice > 0 ? item.variantRegularPrice : null;
+//         const hasDiscount = originalPrice && originalPrice > price;
+        
+//         let parentVariantName = item.variantName || 'Variant';
+//         const parentVariant = variantItems.find(v => v.variantId === item.variantId);
+//         if (parentVariant) {
+//           parentVariantName = parentVariant.variantName || 'Variant';
+//         }
+        
+//         rows.push({
+//           type: 'subVariant',
+//           id: item.subVariantId || `sub-${rows.length}`,
+//           name: item.subVariantName || 'Sub-Variant',
+//           displayName: item.subVariantName || 'Sub-Variant',
+//           image: item.image || group.image,
+//           price: price,
+//           originalPrice: originalPrice,
+//           hasDiscount: hasDiscount,
+//           quantity: quantity,
+//           total: total,
+//           unit: group.unit || 'pcs',
+//           color: hasColor ? colorData[0].color : null,
+//           hasColor: hasColor,
+//           isBase: false,
+//           isVariant: false,
+//           isSubVariant: true,
+//           indent: 2,
+//           parentName: parentVariantName,
+//           grandParentName: group.productName,
+//           badge: 'Sub',
+//           variantId: item.variantId,
+//           subVariantId: item.subVariantId,
+//           variantName: parentVariantName,
+//           subVariantName: item.subVariantName,
+//           showPrice: true
+//         });
+//       });
+      
+//       // Process nested variantDetails
+//       if (hasNestedVariants && rows.filter(r => r.isVariant || r.isSubVariant).length === 0) {
+//         group.variantDetails.forEach(variant => {
+//           const hasSubVariants = variant.subVariants && variant.subVariants.length > 0;
+          
+//           if (hasSubVariants) {
+//             rows.push({
+//               type: 'variant',
+//               id: variant.variantId || `variant-${rows.length}`,
+//               name: variant.variantName || 'Variant',
+//               displayName: variant.variantName || 'Variant',
+//               image: variant.image || group.image,
+//               price: 0,
+//               originalPrice: null,
+//               hasDiscount: false,
+//               quantity: 0,
+//               total: 0,
+//               unit: group.unit || 'pcs',
+//               color: variant.selectedColor || null,
+//               hasColor: !!variant.selectedColor,
+//               isBase: false,
+//               isVariant: true,
+//               isSubVariant: false,
+//               indent: 1,
+//               parentName: group.productName,
+//               badge: 'Variant',
+//               variantId: variant.variantId,
+//               subVariantId: null,
+//               grandParentName: null,
+//               variantName: variant.variantName,
+//               subVariantName: null,
+//               isHeader: true,
+//               showPrice: false
+//             });
+            
+//             variant.subVariants.forEach(sub => {
+//               const subPrice = sub.subVariantDiscountPrice > 0 ? sub.subVariantDiscountPrice :
+//                               sub.subVariantRegularPrice > 0 ? sub.subVariantRegularPrice :
+//                               variant.variantRegularPrice || 0;
+//               const subQuantity = sub.quantity || 0;
+//               const subTotal = subPrice * subQuantity;
+//               const subOriginalPrice = sub.subVariantRegularPrice > 0 && sub.subVariantDiscountPrice > 0 ? sub.subVariantRegularPrice : null;
+//               const subHasDiscount = subOriginalPrice && subOriginalPrice > subPrice;
+              
+//               rows.push({
+//                 type: 'subVariant',
+//                 id: sub.subVariantId || `sub-${rows.length}`,
+//                 name: sub.subVariantName || 'Sub-Variant',
+//                 displayName: sub.subVariantName || 'Sub-Variant',
+//                 image: sub.image || variant.image || group.image,
+//                 price: subPrice,
+//                 originalPrice: subOriginalPrice,
+//                 hasDiscount: subHasDiscount,
+//                 quantity: subQuantity,
+//                 total: subTotal,
+//                 unit: group.unit || 'pcs',
+//                 color: sub.selectedColor || variant.selectedColor || null,
+//                 hasColor: !!(sub.selectedColor || variant.selectedColor),
+//                 isBase: false,
+//                 isVariant: false,
+//                 isSubVariant: true,
+//                 indent: 2,
+//                 parentName: variant.variantName || 'Variant',
+//                 grandParentName: group.productName,
+//                 badge: 'Sub',
+//                 variantId: variant.variantId,
+//                 subVariantId: sub.subVariantId,
+//                 variantName: variant.variantName,
+//                 subVariantName: sub.subVariantName,
+//                 showPrice: true
+//               });
+//             });
+//           } else {
+//             const price = variant.variantDiscountPrice > 0 ? variant.variantDiscountPrice :
+//                          variant.variantRegularPrice > 0 ? variant.variantRegularPrice : 0;
+//             const quantity = variant.quantity || 1;
+//             const total = price * quantity;
+//             const originalPrice = variant.variantRegularPrice > 0 && variant.variantDiscountPrice > 0 ? variant.variantRegularPrice : null;
+//             const hasDiscount = originalPrice && originalPrice > price;
+            
+//             rows.push({
+//               type: 'variant',
+//               id: variant.variantId || `variant-${rows.length}`,
+//               name: variant.variantName || 'Variant',
+//               displayName: variant.variantName || 'Variant',
+//               image: variant.image || group.image,
+//               price: price,
+//               originalPrice: originalPrice,
+//               hasDiscount: hasDiscount,
+//               quantity: quantity,
+//               total: total,
+//               unit: group.unit || 'pcs',
+//               color: variant.selectedColor || null,
+//               hasColor: !!variant.selectedColor,
+//               isBase: false,
+//               isVariant: true,
+//               isSubVariant: false,
+//               indent: 1,
+//               parentName: group.productName,
+//               badge: 'Variant',
+//               variantId: variant.variantId,
+//               subVariantId: null,
+//               grandParentName: null,
+//               variantName: variant.variantName,
+//               subVariantName: null,
+//               showPrice: true
+//             });
+//           }
+//         });
+//       }
+      
+//       // Fallback
+//       if (rows.length === 0 && group.items.length > 0) {
+//         const firstItem = group.items[0];
+//         const colorData = getColorDisplay(firstItem);
+//         const hasColor = colorData.length > 0;
+//         const price = firstItem.discountPrice || firstItem.regularPrice || 0;
+//         const quantity = firstItem.quantity || 0;
+//         const total = price * quantity;
+        
+//         rows.push({
+//           type: 'base',
+//           id: 'base',
+//           name: group.productName,
+//           displayName: group.productName,
+//           image: group.image,
+//           price: price,
+//           quantity: quantity,
+//           total: total,
+//           unit: group.unit || 'pcs',
+//           color: hasColor ? colorData[0].color : null,
+//           hasColor: hasColor,
+//           isBase: true,
+//           isVariant: false,
+//           isSubVariant: false,
+//           indent: 0,
+//           badge: 'Product',
+//           parentName: null,
+//           grandParentName: null,
+//           variantId: null,
+//           subVariantId: null,
+//           originalPrice: null,
+//           hasDiscount: false,
+//           variantName: null,
+//           subVariantName: null,
+//           showPrice: true
+//         });
+//       }
+      
+//       result.push({
+//         productId: group.productId,
+//         productName: group.productName,
+//         image: group.image,
+//         hasVariants: group.hasVariants,
+//         hasSubVariants: group.hasSubVariants,
+//         rows: rows,
+//         totalQuantity: rows.reduce((sum, row) => sum + row.quantity, 0),
+//         subtotal: rows.reduce((sum, row) => sum + row.total, 0)
+//       });
+//     });
+    
+//     return result;
+//   };
 
 //   if (!isOpen || !order) return null;
 
@@ -1760,44 +2248,6 @@
 //     return parts.join(' • ');
 //   };
 
-//   const getGroupedItems = () => {
-//     if (!order.items) return [];
-//     const grouped = {};
-//     order.items.forEach(item => {
-//       const key = item.productId.toString();
-//       if (!grouped[key]) {
-//         grouped[key] = {
-//           ...item,
-//           colors: []
-//         };
-//       }
-//       if (item.colors && item.colors.length > 0) {
-//         item.colors.forEach(colorObj => {
-//           grouped[key].colors.push({
-//             color: colorObj.color,
-//             quantity: colorObj.quantity,
-//             price: colorObj.price || item.discountPrice || item.regularPrice
-//           });
-//         });
-//       } else if (item.selectedColor) {
-//         grouped[key].colors.push({
-//           color: item.selectedColor,
-//           quantity: item.quantity,
-//           price: item.discountPrice || item.regularPrice
-//         });
-//       } else {
-//         grouped[key].colors.push({
-//           color: null,
-//           quantity: item.quantity,
-//           price: item.discountPrice || item.regularPrice
-//         });
-//       }
-//     });
-//     return Object.values(grouped);
-//   };
-
-//   const groupedItems = getGroupedItems();
-
 //   const getStatusNotes = () => {
 //     if (!order.statusHistory || order.statusHistory.length === 0) {
 //       return [];
@@ -1826,6 +2276,7 @@
 //   };
 
 //   const statusNotes = getStatusNotes();
+//   const groupedItems = groupItemsForDisplay(order.items || []);
 
 //   return (
 //     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm overflow-y-auto p-4">
@@ -1833,9 +2284,9 @@
 //         initial={{ opacity: 0, y: 20 }}
 //         animate={{ opacity: 1, y: 0 }}
 //         exit={{ opacity: 0, y: 20 }}
-//         className="relative bg-white rounded-2xl border border-[#82947A]/30 shadow-2xl w-full max-w-4xl my-8 overflow-hidden"
+//         className="relative bg-white rounded-2xl border border-black/30 shadow-2xl w-full max-w-4xl my-8 overflow-hidden"
 //       >
-//         <div className="p-4 bg-gradient-to-r from-[#82947A] to-[#708268] text-white sticky top-0 z-10">
+//         <div className="p-4 bg-black  text-white sticky top-0 z-10">
 //           <div className="flex items-center justify-between">
 //             <div className="flex items-center gap-2">
 //               <FaFileInvoice className="w-5 h-5" />
@@ -1855,7 +2306,7 @@
 //                 onClose();
 //                 canChangeStatus && onStatusUpdate();
 //               }}
-//               className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs border transition-all ${statusInfo?.color || 'bg-[#E2E7EA] text-black border-[#82947A]/30'} ${canChangeStatus ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`}
+//               className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs border transition-all ${statusInfo?.color || 'bg-[#E2E7EA] text-black border-black/30'} ${canChangeStatus ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`}
 //               title={canChangeStatus ? 'Click to update status' : 'Status cannot be changed'}
 //             >
 //               {statusInfo?.icon && <statusInfo.icon className="w-3 h-3" />}
@@ -1867,7 +2318,7 @@
 //                 onClose();
 //                 onPaymentUpdate();
 //               }}
-//               className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs border transition-all ${paymentInfo?.color || 'bg-[#E2E7EA] text-black border-[#82947A]/30'} cursor-pointer hover:opacity-80`}
+//               className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs border transition-all ${paymentInfo?.color || 'bg-[#E2E7EA] text-black border-black/30'} cursor-pointer hover:opacity-80`}
 //               title="Click to update payment status"
 //             >
 //               <FaMoneyBillWave className="w-3 h-3" />
@@ -1877,7 +2328,7 @@
 //             <button
 //               onClick={handleDownload}
 //               disabled={downloading}
-//               className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs border bg-[#E2E7EA] text-[#82947A] border-[#82947A]/30 hover:bg-white transition-colors disabled:opacity-50"
+//               className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs border bg-[#E2E7EA] text-black border-black/30 hover:bg-white transition-colors disabled:opacity-50"
 //             >
 //               {downloading ? (
 //                 <FaSpinner className="w-3 h-3 animate-spin" />
@@ -1889,9 +2340,9 @@
 //           </div>
 
 //           {order.deviceInfo && (
-//             <div className="mb-5 bg-[#E2E7EA]/50 rounded-xl p-3 border border-[#82947A]/30">
+//             <div className="mb-5 bg-[#E2E7EA]/50 rounded-xl p-3 border border-black/30">
 //               <h3 className="font-semibold text-black text-sm mb-2 flex items-center gap-1.5">
-//                 <FaGlobe className="w-3.5 h-3.5 text-[#82947A]" />
+//                 <FaGlobe className="w-3.5 h-3.5 text-black" />
 //                 Device & Location Information
 //               </h3>
 //               <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
@@ -1935,12 +2386,12 @@
 //           )}
 
 //           {isDelivered && order.deliveredAt && (
-//             <div className="mb-5 bg-[#82947A]/10 border-l-4 border-[#82947A] rounded-xl p-3">
+//             <div className="mb-5 bg-black/10 border-l-4 border-black rounded-xl p-3">
 //               <div className="flex items-start gap-2">
-//                 <FaCheckDouble className="w-4 h-4 text-[#82947A] mt-0.5 flex-shrink-0" />
+//                 <FaCheckDouble className="w-4 h-4 text-black mt-0.5 flex-shrink-0" />
 //                 <div>
-//                   <h4 className="text-sm font-semibold text-[#82947A]">Order Delivered</h4>
-//                   <p className="text-xs text-[#82947A]/80 mt-1">
+//                   <h4 className="text-sm font-semibold text-black">Order Delivered</h4>
+//                   <p className="text-xs text-black/80 mt-1">
 //                     <span className="font-medium">Delivered on:</span> {new Date(order.deliveredAt).toLocaleDateString('en-BD', {
 //                       day: '2-digit',
 //                       month: 'long',
@@ -2033,16 +2484,16 @@
 //           )}
 
 //           {isCourierAssigned && order.deliveryService && (
-//             <div className="mb-5 bg-[#82947A]/10 border-l-4 border-[#82947A] rounded-xl p-3">
+//             <div className="mb-5 bg-black/10 border-l-4 border-black rounded-xl p-3">
 //               <div className="flex items-start gap-2">
-//                 <FaTruck className="w-4 h-4 text-[#82947A] mt-0.5 flex-shrink-0" />
+//                 <FaTruck className="w-4 h-4 text-black mt-0.5 flex-shrink-0" />
 //                 <div>
-//                   <h4 className="text-sm font-semibold text-[#82947A]">Courier Assigned</h4>
-//                   <p className="text-xs text-[#82947A]/80 mt-1">
+//                   <h4 className="text-sm font-semibold text-black">Courier Assigned</h4>
+//                   <p className="text-xs text-black/80 mt-1">
 //                     <span className="font-medium">Courier:</span> {order.deliveryService.courierName || 'N/A'}
 //                   </p>
 //                   {order.deliveryService.trackingNumber && (
-//                     <p className="text-xs text-[#82947A]/80 mt-1">
+//                     <p className="text-xs text-black/80 mt-1">
 //                       <span className="font-medium">Tracking:</span> {order.deliveryService.trackingNumber}
 //                     </p>
 //                   )}
@@ -2052,9 +2503,9 @@
 //           )}
 
 //           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
-//             <div className="bg-[#E2E7EA]/50 rounded-xl p-3 border border-[#82947A]/30">
+//             <div className="bg-[#E2E7EA]/50 rounded-xl p-3 border border-black/30">
 //               <h3 className="font-semibold text-black text-sm mb-2 flex items-center gap-1.5">
-//                 <FaUser className="w-3.5 h-3.5 text-[#82947A]" />
+//                 <FaUser className="w-3.5 h-3.5 text-black" />
 //                 Customer Information
 //               </h3>
 //               <div className="space-y-1 text-xs">
@@ -2067,9 +2518,9 @@
 //               </div>
 //             </div>
 
-//             <div className="bg-[#E2E7EA]/50 rounded-xl p-3 border border-[#82947A]/30">
+//             <div className="bg-[#E2E7EA]/50 rounded-xl p-3 border border-black/30">
 //               <h3 className="font-semibold text-black text-sm mb-2 flex items-center gap-1.5">
-//                 <FaMapMarkerAlt className="w-3.5 h-3.5 text-[#82947A]" />
+//                 <FaMapMarkerAlt className="w-3.5 h-3.5 text-black" />
 //                 Delivery Information
 //               </h3>
 //               <div className="space-y-1 text-xs">
@@ -2081,16 +2532,16 @@
 //                 )}
 //                 <p><span className="text-[#64748B]">Address:</span> <span className="text-black">{order.customerInfo?.address}</span></p>
 //                 {order.trackingNumber && (
-//                   <p><span className="text-[#64748B]">Tracking:</span> <span className="font-mono text-[#82947A]">{order.trackingNumber}</span></p>
+//                   <p><span className="text-[#64748B]">Tracking:</span> <span className="font-mono text-black">{order.trackingNumber}</span></p>
 //                 )}
 //                 {order.deliveryService?.trackingUrl && (
-//                   <div className="flex items-center justify-between mt-2 pt-2 border-t border-[#82947A]/20">
+//                   <div className="flex items-center justify-between mt-2 pt-2 border-t border-black/20">
 //                     <span className="text-[#64748B]">Track Link:</span>
 //                     <a
 //                       href={order.deliveryService.trackingUrl}
 //                       target="_blank"
 //                       rel="noopener noreferrer"
-//                       className="text-[#82947A] hover:underline flex items-center gap-1"
+//                       className="text-black hover:underline flex items-center gap-1"
 //                     >
 //                       <FaExternalLinkAlt className="w-3 h-3" />
 //                       Track on {order.deliveryService.courierName || 'Courier'}
@@ -2104,93 +2555,209 @@
 //             </div>
 //           </div>
 
+//           {/* ========== ORDER ITEMS TABLE - UPDATED ========== */}
 //           <div className="mb-5">
 //             <h3 className="font-semibold text-black text-sm mb-2 flex items-center gap-1.5">
-//               <FaBox className="w-3.5 h-3.5 text-[#82947A]" />
+//               <FaBox className="w-3.5 h-3.5 text-black" />
 //               Order Items
 //             </h3>
-//             <div className="overflow-x-auto">
-//               <table className="w-full text-xs">
-//                 <thead className="bg-[#E2E7EA]">
-//                   <tr>
-//                     <th className="px-2 py-1.5 text-left text-black">Product</th>
-//                     <th className="px-2 py-1.5 text-center text-black">Color</th>
-//                     <th className="px-2 py-1.5 text-center text-black">Qty</th>
-//                     <th className="px-2 py-1.5 text-right text-black">Price</th>
-//                     <th className="px-2 py-1.5 text-right text-black">Total</th>
-//                   </tr>
-//                 </thead>
-//                 <tbody>
-//                   {groupedItems.map((group, idx) => {
-//                     const hasMultipleColors = group.colors && group.colors.length > 1;
-                    
-//                     return group.colors.map((colorObj, colorIdx) => {
-//                       const isFirst = colorIdx === 0;
-//                       const price = colorObj.price || group.discountPrice || group.regularPrice;
-//                       const totalPrice = price * colorObj.quantity;
+            
+//             {groupedItems.length === 0 ? (
+//               <p className="text-sm text-[#64748B]">No items found</p>
+//             ) : (
+//               <div className="overflow-x-auto">
+//                 <table className="w-full text-xs">
+//                   <thead className="bg-[#E2E7EA]">
+//                     <tr>
+//                       <th className="px-2 py-1.5 text-left text-black">#</th>
+//                       <th className="px-2 py-1.5 text-left text-black">Product / Variant</th>
+//                       <th className="px-2 py-1.5 text-center text-black">Qty</th>
+//                       <th className="px-2 py-1.5 text-center text-black hidden sm:table-cell">Unit</th>
+//                       <th className="px-2 py-1.5 text-right text-black hidden sm:table-cell">Price</th>
+//                       <th className="px-2 py-1.5 text-right text-black">Total</th>
+//                     </tr>
+//                   </thead>
+//                   <tbody>
+//                     {groupedItems.map((productGroup, groupIndex) => {
+//                       const rows = productGroup.rows || [];
+//                       const hasVariants = productGroup.hasVariants;
                       
-//                       return (
-//                         <tr key={`${idx}-${colorIdx}`} className="border-t border-[#82947A]/20">
-//                           {isFirst && (
-//                             <td className="px-2 py-2" rowSpan={hasMultipleColors ? group.colors.length : 1}>
-//                               <div className="flex items-center gap-2">
-//                                 <img 
-//                                   src={group.image || 'https://via.placeholder.com/30'} 
-//                                   alt={group.productName}
-//                                   className="w-7 h-7 rounded object-cover border border-[#82947A]/30"
-//                                   onError={(e) => { e.target.src = 'https://via.placeholder.com/30?text=Product'; }}
-//                                 />
-//                                 <p className="font-medium text-xs text-black">{group.productName}</p>
+//                       if (rows.length === 0) return null;
+                      
+//                       let rowNumber = groupIndex + 1;
+                      
+//                       return rows.map((row, rowIndex) => {
+//                         const indent = row.indent || 0;
+//                         const paddingLeft = indent === 0 ? 'pl-1' : indent === 1 ? 'pl-4 sm:pl-5' : 'pl-7 sm:pl-9';
+                        
+//                         const showRowNumber = row.isBase ? rowNumber : '';
+                        
+//                         let badgeDisplay = null;
+//                         if (row.badge) {
+//                           badgeDisplay = (
+//                             <span className={`text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded ml-1 ${
+//                               row.badge === 'Product' ? 'bg-gray-100 text-gray-500' :
+//                               row.badge === 'Variant' ? 'bg-purple-50 text-purple-600' :
+//                               row.badge === 'Sub' ? 'bg-blue-50 text-blue-600' : ''
+//                             }`}>
+//                               {row.badge}
+//                             </span>
+//                           );
+//                         }
+                        
+//                         let discountDisplay = null;
+//                         if (row.hasDiscount && row.originalPrice && row.originalPrice > row.price && row.showPrice !== false && !row.isHeader) {
+//                           discountDisplay = (
+//                             <span className="text-[8px] sm:text-[9px] text-green-600 bg-green-50 px-1 py-0.5 rounded">
+//                               Save {Math.round(((row.originalPrice - row.price) / row.originalPrice) * 100)}%
+//                             </span>
+//                           );
+//                         }
+                        
+//                         const hasColor = row.hasColor && row.color;
+//                         const color = row.color;
+                        
+//                         const showPrice = row.showPrice !== false && !row.isHeader && !(row.isBase && hasVariants);
+//                         const price = row.price || 0;
+//                         const originalPrice = row.originalPrice || null;
+//                         const hasDiscount = row.hasDiscount || (originalPrice && originalPrice > price);
+//                         const quantity = row.quantity || 0;
+//                         const total = row.total || (price * quantity);
+                        
+//                         let displayName = row.displayName || row.name || 'Product';
+//                         let fullDisplay = displayName;
+                        
+//                         const isHeaderRow = row.isHeader === true;
+//                         const isBaseRow = row.isBase === true;
+//                         const isVariantRow = row.isVariant === true && !row.isHeader;
+//                         const isSubVariantRow = row.isSubVariant === true;
+                        
+//                         const rowImage = row.image || null;
+                        
+//                         return (
+//                           <tr 
+//                             key={`${groupIndex}-${rowIndex}`} 
+//                             className={`border-b border-gray-100 hover:bg-gray-50/50 transition-colors ${
+//                               rowIndex === 0 ? 'border-t border-gray-200' : ''
+//                             } ${isHeaderRow ? 'bg-gray-50/30' : ''}`}
+//                           >
+//                             <td className="py-1.5 sm:py-2 px-1.5 sm:px-2 text-gray-500 text-[8px] sm:text-xs align-middle">
+//                               {showRowNumber}
+//                             </td>
+//                             <td className={`py-1.5 sm:py-2 px-1.5 sm:px-2 ${paddingLeft} align-middle`}>
+//                               <div className="flex items-center gap-1.5 sm:gap-2">
+//                                 {rowImage ? (
+//                                   <img 
+//                                     src={rowImage} 
+//                                     alt={displayName}
+//                                     className={`rounded object-cover border border-gray-200 flex-shrink-0 ${
+//                                       indent === 0 ? 'w-6 h-6 sm:w-8 sm:h-8' : 
+//                                       indent === 1 ? 'w-5 h-5 sm:w-6 sm:h-6' : 
+//                                       'w-4 h-4 sm:w-5 sm:h-5'
+//                                     }`}
+//                                     onError={(e) => { 
+//                                       e.target.src = 'https://via.placeholder.com/32?text=No+Image'; 
+//                                     }}
+//                                   />
+//                                 ) : (
+//                                   indent > 0 && (
+//                                     <span className="text-gray-400 text-[10px] sm:text-xs flex-shrink-0">▸</span>
+//                                   )
+//                                 )}
+//                                 <div className="flex flex-wrap items-center gap-0.5 sm:gap-1">
+//                                   <span className={`break-words ${
+//                                     isHeaderRow ? 'font-bold text-purple-700' :
+//                                     isBaseRow ? 'font-semibold text-gray-900' : 
+//                                     isVariantRow ? 'font-medium text-gray-800' : 
+//                                     'text-gray-700'
+//                                   } ${isHeaderRow ? 'text-xs sm:text-sm' : 'text-[9px] sm:text-xs'}`}>
+//                                     {fullDisplay}
+//                                   </span>
+//                                   {badgeDisplay}
+//                                   {discountDisplay}
+//                                   {isHeaderRow && row.quantity === 0 && (
+//                                     <span className="text-[8px] text-gray-400 ml-1">(See sub variants below)</span>
+//                                   )}
+//                                   {isBaseRow && hasVariants && (
+//                                     <span className="text-[8px] text-gray-400 ml-1">(See variants below)</span>
+//                                   )}
+//                                 </div>
 //                               </div>
 //                             </td>
-//                           )}
-//                           <td className="px-2 py-2 text-center">
-//                             {colorObj.color ? (
-//                               <div className="flex items-center justify-center">
-//                                 <div 
-//                                   className="w-5 h-5 rounded-full border border-[#82947A]/30 shadow-sm"
-//                                   style={{ backgroundColor: colorObj.color }}
-//                                   title={colorObj.color}
-//                                 />
-//                               </div>
-//                             ) : (
-//                               <span className="text-xs text-[#64748B]">-</span>
-//                             )}
-//                           </td>
-//                           <td className="px-2 py-2 text-center text-black">{colorObj.quantity}</td>
-//                           <td className="px-2 py-2 text-right text-black">৳{price.toFixed(2)}</td>
-//                           <td className="px-2 py-2 text-right font-medium text-[#82947A]">৳{totalPrice.toFixed(2)}</td>
-//                         </tr>
-//                       );
-//                     });
-//                   })}
-//                 </tbody>
-//                 <tfoot className="border-t border-[#82947A]/30">
-//                   <tr><td colSpan="4" className="px-2 py-1 text-right font-medium text-black">Subtotal:</td><td className="px-2 py-1 text-right text-black">৳{order.subtotal?.toFixed(2)}</td></tr>
-//                   <tr><td colSpan="4" className="px-2 py-1 text-right font-medium text-black">Shipping:</td><td className="px-2 py-1 text-right text-black">৳{order.shippingCost?.toFixed(2)}</td></tr>
-//                   {order.discount > 0 && (
-//                     <tr><td colSpan="4" className="px-2 py-1 text-right font-medium text-green-600">Discount:</td><td className="px-2 py-1 text-right text-green-600">- ৳{order.discount.toFixed(2)}</td></tr>
-//                   )}
-//                   <tr className="text-sm font-bold">
-//                     <td colSpan="4" className="px-2 py-1 text-right text-black">Total:</td>
-//                     <td className="px-2 py-1 text-right text-[#82947A]">৳{order.total?.toFixed(2)}</td>
-//                   </tr>
-//                 </tfoot>
-//               </table>
-//             </div>
+//                             <td className="text-center py-1.5 sm:py-2 px-1.5 sm:px-2 text-gray-700 text-[9px] sm:text-xs font-medium align-middle">
+//                               {isHeaderRow ? '-' : quantity}
+//                             </td>
+//                             <td className="text-center py-1.5 sm:py-2 px-1.5 sm:px-2 text-gray-500 text-[8px] sm:text-xs hidden sm:table-cell align-middle">
+//                               {row.unit || 'pcs'}
+//                             </td>
+//                             <td className="text-right py-1.5 sm:py-2 px-1.5 sm:px-2 text-gray-700 text-[8px] sm:text-xs hidden sm:table-cell align-middle">
+//                               {isHeaderRow || !showPrice ? '-' : (
+//                                 hasDiscount ? (
+//                                   <>
+//                                     <span className="text-green-600 font-medium">৳{price.toFixed(2)}</span>
+//                                     <span className="text-gray-400 line-through ml-1 text-[7px] sm:text-[8px]">৳{originalPrice.toFixed(2)}</span>
+//                                   </>
+//                                 ) : (
+//                                   <>৳{price.toFixed(2)}</>
+//                                 )
+//                               )}
+//                             </td>
+//                             <td className="text-right py-1.5 sm:py-2 px-1.5 sm:px-2 font-medium text-gray-900 text-[9px] sm:text-xs align-middle">
+//                               {isHeaderRow ? '-' : `৳${total.toFixed(2)}`}
+//                             </td>
+//                           </tr>
+//                         );
+//                       });
+//                     })}
+//                   </tbody>
+//                   <tfoot className="border-t border-black/30">
+//                     <tr>
+//                       <td colSpan="5" className="px-2 py-1 text-right font-medium text-black">Subtotal:</td>
+//                       <td className="px-2 py-1 text-right text-black">৳{order.subtotal?.toFixed(2)}</td>
+//                     </tr>
+//                     <tr>
+//                       <td colSpan="5" className="px-2 py-1 text-right font-medium text-black">Shipping:</td>
+//                       <td className="px-2 py-1 text-right text-black">৳{order.shippingCost?.toFixed(2)}</td>
+//                     </tr>
+//                     {order.discount > 0 && (
+//                       <tr className="text-green-600">
+//                         <td colSpan="5" className="px-2 py-1 text-right font-medium">Discount:</td>
+//                         <td className="px-2 py-1 text-right font-medium">- ৳{order.discount.toFixed(2)}</td>
+//                       </tr>
+//                     )}
+//                     <tr className="text-sm font-bold">
+//                       <td colSpan="5" className="px-2 py-1 text-right text-black">Total:</td>
+//                       <td className="px-2 py-1 text-right text-black">৳{order.total?.toFixed(2)}</td>
+//                     </tr>
+//                   </tfoot>
+//                 </table>
+//               </div>
+//             )}
 //           </div>
 
-//           <div className="bg-[#E2E7EA]/50 rounded-xl p-3 border border-[#82947A]/30">
+//           {/* Additional Information */}
+//           <div className="bg-[#E2E7EA]/50 rounded-xl p-3 border border-black/30">
 //             <h3 className="font-semibold text-black text-sm mb-2 flex items-center gap-1.5">
-//               <FaInfoCircle className="w-3.5 h-3.5 text-[#82947A]" />
+//               <FaInfoCircle className="w-3.5 h-3.5 text-black" />
 //               Additional Information
 //             </h3>
+            
+//              {order.orderPlatform && (
+//     <div className="mb-2">
+//       <p className="text-xs">
+//         <span className="text-[#64748B]">Order Platform:</span>
+//         <span className="text-black font-medium ml-1 capitalize">
+//           {order.orderPlatform}
+//         </span>
+//       </p>
+//     </div>
+//   )}
             
 //             {order.couponCode && (
 //               <div className="mb-2">
 //                 <p className="text-xs">
 //                   <span className="text-[#64748B]">Coupon Applied:</span> 
-//                   <span className="text-[#82947A] font-medium ml-1">{order.couponCode}</span>
+//                   <span className="text-black font-medium ml-1">{order.couponCode}</span>
 //                 </p>
 //               </div>
 //             )}
@@ -2207,7 +2774,7 @@
 //             {statusNotes.length > 0 && (
 //               <div>
 //                 <p className="text-xs font-medium text-black mb-1.5 flex items-center gap-1">
-//                   <FaClipboardList className="w-3 h-3 text-[#82947A]" />
+//                   <FaClipboardList className="w-3 h-3 text-black" />
 //                   Status History Notes
 //                 </p>
 //                 <div className="space-y-1.5 max-h-[150px] overflow-y-auto pr-1">
@@ -2231,7 +2798,7 @@
 //                     }
                     
 //                     return (
-//                       <div key={index} className="bg-white rounded-lg p-2 border border-[#82947A]/20">
+//                       <div key={index} className="bg-white rounded-lg p-2 border border-black/20">
 //                         <div className="flex items-center justify-between gap-2">
 //                           <span className="text-xs font-medium text-black">
 //                             {statusLabel}
@@ -2261,9 +2828,8 @@
 //           </div>
 //         </div>
 
-//         <div className="p-4 border-t border-[#82947A]/30 bg-[#E2E7EA]/20 flex justify-end gap-2">
-         
-//           <button onClick={onClose} className="px-3 py-1.5 bg-gradient-to-r from-[#82947A] to-[#708268] text-white rounded-xl hover:shadow-lg hover:shadow-[#82947A]/25 transition-all text-sm">
+//         <div className="p-4 border-t border-black/30 bg-[#E2E7EA]/20 flex justify-end gap-2">
+//           <button onClick={onClose} className="px-3 py-1.5 bg-black text-white rounded-xl hover:shadow-lg hover:shadow-black/25 transition-all text-sm">
 //             Close
 //           </button>
 //         </div>
@@ -2283,6 +2849,9 @@
 //   const [localTotal, setLocalTotal] = useState(0);
 //   const [shippingCost, setShippingCost] = useState(0);
 //   const [hasChanges, setHasChanges] = useState(false);
+  
+//   // ========== EXPANDED SECTIONS FOR ORDER ITEMS ==========
+//   const [expandedOrderItems, setExpandedOrderItems] = useState({});
 
 //   // ========== CUSTOMER INFO STATE ==========
 //   const [formData, setFormData] = useState({
@@ -2312,14 +2881,16 @@
 //   const [searchResults, setSearchResults] = useState([]);
 //   const [searching, setSearching] = useState(false);
 //   const [selectedProduct, setSelectedProduct] = useState(null);
-//   const [selectedColorsWithQty, setSelectedColorsWithQty] = useState([]);
+//   const [selectedVariantsWithQty, setSelectedVariantsWithQty] = useState([]);
 //   const [showAddProduct, setShowAddProduct] = useState(false);
 //   const [addingProduct, setAddingProduct] = useState(false);
 //   const [removingItem, setRemovingItem] = useState(null);
 //   const [addQuantity, setAddQuantity] = useState(1);
+//   const [selectedColorsWithQty, setSelectedColorsWithQty] = useState([]);
   
-//   // ========== PRODUCT COLORS CACHE ==========
+//   // ========== PRODUCT COLORS & VARIANTS CACHE ==========
 //   const [productColorsCache, setProductColorsCache] = useState({});
+//   const [productVariantsCache, setProductVariantsCache] = useState({});
   
 //   // ========== CONFIRMATION MODAL STATE ==========
 //   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -2367,6 +2938,16 @@
 //   // ========== RECALCULATE TOTALS ==========
 //   const recalculateTotals = useCallback((items, discount) => {
 //     const subtotal = items.reduce((sum, item) => {
+//       // Handle variants and sub-variants
+//       if (item.variantId) {
+//         const price = item.variantDiscountPrice > 0 ? item.variantDiscountPrice : item.variantRegularPrice || item.regularPrice;
+//         return sum + (price * item.quantity);
+//       }
+//       // Handle colors
+//       if (item.selectedColor) {
+//         const price = item.discountPrice > 0 ? item.discountPrice : item.regularPrice;
+//         return sum + (price * item.quantity);
+//       }
 //       const price = item.discountPrice > 0 ? item.discountPrice : item.regularPrice;
 //       return sum + (price * item.quantity);
 //     }, 0);
@@ -2384,33 +2965,6 @@
 //     setShippingCost(shipping);
 //     setLocalTotal(total);
 //   }, [localItems, localDiscount, recalculateTotals]);
-
-//   // ========== HELPER: GET REMAINING STOCK FOR A PRODUCT COLOR ==========
-//   const getRemainingStock = useCallback((productId, currentItemId) => {
-//     const currentItem = localItems.find(i => i._id === currentItemId);
-//     if (!currentItem) return 0;
-
-//     // Calculate total quantity used by all other items of the same product
-//     const usedByOthers = localItems
-//       .filter(
-//         i =>
-//           i.productId === productId &&
-//           i._id !== currentItemId
-//       )
-//       .reduce((sum, i) => sum + Number(i.quantity || 0), 0);
-
-//     return Math.max(0, currentItem.stockQuantity - usedByOthers);
-//   }, [localItems]);
-
-//   // ========== HELPER: GET TOTAL QUANTITY USED FOR A PRODUCT ==========
-//   const getTotalUsedQuantity = useCallback((productId, excludeItemId = null) => {
-//     return localItems
-//       .filter(i => 
-//         i.productId === productId && 
-//         (excludeItemId ? i._id !== excludeItemId : true)
-//       )
-//       .reduce((sum, i) => sum + Number(i.quantity || 0), 0);
-//   }, [localItems]);
 
 //   // ========== FETCH PRODUCT COLORS ==========
 //   const fetchProductColors = useCallback(async (productId) => {
@@ -2436,148 +2990,29 @@
 //     }
 //   }, [productColorsCache]);
 
-//   // ========== FLATTEN ORDER ITEMS FOR EDIT MODAL ==========
-//   const flattenOrderItems = useCallback((items) => {
-//     const flattenedItems = [];
-    
-//     items.forEach(item => {
-//       // Check if item has colors array (from checkout)
-//       if (item.colors && item.colors.length > 0) {
-//         // Flatten each color into separate item
-//         item.colors.forEach(colorItem => {
-//           flattenedItems.push({
-//             ...item,
-//             // Generate a unique ID for each color variant
-//             _id: `${item._id || item.productId}_${colorItem.color}_${Date.now()}`,
-//             quantity: colorItem.quantity,
-//             selectedColor: colorItem.color,
-//             // Remove the colors array since we're flattening
-//             colors: []
-//           });
-//         });
-//       } else {
-//         // If no colors array, keep as is
-//         flattenedItems.push({
-//           ...item,
-//           _id: item._id || `temp_${Date.now()}_${Math.random()}`
-//         });
-//       }
-//     });
-    
-//     return flattenedItems;
-//   }, []);
-
-//   // ========== RESET MODAL STATE ==========
-//   const resetModal = useCallback(() => {
-//     setLocalItems([]);
-//     setLocalDiscount(0);
-//     setLocalSubtotal(0);
-//     setLocalTotal(0);
-//     setShippingCost(0);
-//     setHasChanges(false);
-//     setLocalOrder(null);
-//     setSelectedColorsWithQty([]);
-//     setShowAddProduct(false);
-//     setSearchQuery('');
-//     setSearchResults([]);
-//     setSelectedProduct(null);
-//     setAddQuantity(1);
-//     setProductColorsCache({});
-//   }, []);
-
-//   // ========== INITIALIZE LOCAL STATE FROM ORDER ==========
-//   useEffect(() => {
-//     if (order && isOpen) {
-//       // Don't re-initialize if we already have changes
-//       if (hasChanges) return;
-      
-//       // Flatten the order items to handle color-wise quantities
-//       const flattenedItems = flattenOrderItems(order.items);
-      
-//       setLocalOrder({ ...order });
-//       setLocalItems(flattenedItems);
-//       setLocalDiscount(order.discount || 0);
-      
-//       const { subtotal, shipping, total } = recalculateTotals(flattenedItems, order.discount || 0);
-//       setLocalSubtotal(subtotal);
-//       setShippingCost(shipping);
-//       setLocalTotal(total);
-      
-//       setHasChanges(false);
-      
-//       setFormData({
-//         fullName: order.customerInfo?.fullName || '',
-//         email: order.customerInfo?.email || '',
-//         phone: order.customerInfo?.phone || '',
-//         division: order.customerInfo?.division || '',
-//         address: order.customerInfo?.address || '',
-//         city: order.customerInfo?.city || '',
-//         zone: order.customerInfo?.zone || '',
-//         area: order.customerInfo?.area || '',
-//         deliveryNote: order.deliveryNote || '',
-//         discountNote: ''
-//       });
-      
-//       setSelectedColorsWithQty([]);
-//       setShowAddProduct(false);
-//       setSearchQuery('');
-//       setSearchResults([]);
-//       setSelectedProduct(null);
-//       setAddQuantity(1);
-      
-//       // Fetch colors for all products in the order
-//       const uniqueProductIds = [...new Set(flattenedItems.map(item => item.productId))];
-//       uniqueProductIds.forEach(productId => {
-//         fetchProductColors(productId);
-//       });
+//   // ========== FETCH PRODUCT VARIANT TYPES ==========
+//   const fetchProductVariantTypes = useCallback(async (productId) => {
+//     if (productVariantsCache[productId]) {
+//       return productVariantsCache[productId];
 //     }
-//   }, [order, isOpen, recalculateTotals, fetchProductColors, flattenOrderItems, hasChanges]);
-
-//   // Update totals when items or discount change
-//   useEffect(() => {
-//     updateTotals();
-//   }, [localItems, localDiscount, updateTotals]);
-
-//   // ========== SEARCH PRODUCTS ==========
-//   const searchProducts = useCallback(async (query) => {
-//     if (!query || query.length < 1) {
-//       setSearchResults([]);
-//       return;
-//     }
-
-//     setSearching(true);
+    
 //     try {
-//       const token = localStorage.getItem('token');
-//       const response = await fetch(
-//         `http://localhost:5000/api/orders/search-products?query=${encodeURIComponent(query)}&limit=10`,
-//         { headers: { 'Authorization': `Bearer ${token}` } }
-//       );
+//       const response = await fetch(`http://localhost:5000/api/products/${productId}`);
 //       const data = await response.json();
-//       if (data.success) {
-//         setSearchResults(data.data);
-//       } else {
-//         setSearchResults([]);
+//       if (data.success && data.data.product.hasVariants && data.data.product.variantTypes) {
+//         const variantTypes = data.data.product.variantTypes;
+//         setProductVariantsCache(prev => ({
+//           ...prev,
+//           [productId]: variantTypes
+//         }));
+//         return variantTypes;
 //       }
+//       return [];
 //     } catch (error) {
-//       console.error('Search products error:', error);
-//       setSearchResults([]);
-//     } finally {
-//       setSearching(false);
+//       console.error('Error fetching product variant types:', error);
+//       return [];
 //     }
-//   }, []);
-
-//   // Debounced search
-//   useEffect(() => {
-//     const timer = setTimeout(() => {
-//       if (searchQuery) {
-//         searchProducts(searchQuery);
-//       } else {
-//         setSearchResults([]);
-//       }
-//     }, 300);
-
-//     return () => clearTimeout(timer);
-//   }, [searchQuery, searchProducts]);
+//   }, [productVariantsCache]);
 
 //   // ========== FETCH LOCATIONS ==========
 //   useEffect(() => {
@@ -2642,6 +3077,737 @@
 //     }
 //   }, [formData.zone, formData.city, locationData]);
 
+//   // ========== FLATTEN ORDER ITEMS - NORMALIZES ALL SHAPES ==========
+//   const flattenOrderItems = useCallback((items) => {
+//     const flattenedItems = [];
+
+//     items.forEach(item => {
+//       const hasNestedVariantDetails = item.variantDetails && item.variantDetails.length > 0;
+
+//       if (hasNestedVariantDetails) {
+//         // ===== NESTED FORMAT: item.variantDetails[].subVariants[] =====
+//         item.variantDetails.forEach((variant, vIdx) => {
+//           const hasSub = variant.subVariants && variant.subVariants.length > 0;
+
+//           if (hasSub) {
+//             variant.subVariants.forEach((sub, sIdx) => {
+//               flattenedItems.push({
+//                 _id: sub._id || `${item._id || item.productId}_v${vIdx}_s${sIdx}`,
+//                 productId: item.productId,
+//                 productName: item.productName,
+//                 productSlug: item.productSlug || '',
+//                 image: item.image || '',
+//                 regularPrice: item.regularPrice,
+//                 discountPrice: item.discountPrice || 0,
+//                 costPerItem: item.costPerItem || 0,
+//                 buyingPrice: item.buyingPrice || 0,
+//                 unit: item.unit || 'pcs',
+//                 stockQuantity: sub.stockQuantity || variant.stockQuantity || item.stockQuantity || 0,
+//                 variantId: variant.variantId,
+//                 variantName: variant.variantName || 'Variant',
+//                 variantType: variant.variantType || variant.type || null,
+//                 subVariantId: sub.subVariantId,
+//                 subVariantName: sub.subVariantName || 'Sub-Variant',
+//                 variantRegularPrice: sub.subVariantRegularPrice || variant.variantRegularPrice || 0,
+//                 variantDiscountPrice: sub.subVariantDiscountPrice || variant.variantDiscountPrice || 0,
+//                 variantImage: sub.image || variant.image || item.image || '',
+//                 selectedColor: sub.selectedColor || variant.selectedColor || null,
+//                 quantity: sub.quantity || 0,
+//                 colors: []
+//               });
+//             });
+//           } else {
+//             flattenedItems.push({
+//               _id: variant._id || `${item._id || item.productId}_v${vIdx}`,
+//               productId: item.productId,
+//               productName: item.productName,
+//               productSlug: item.productSlug || '',
+//               image: item.image || '',
+//               regularPrice: item.regularPrice,
+//               discountPrice: item.discountPrice || 0,
+//               costPerItem: item.costPerItem || 0,
+//               buyingPrice: item.buyingPrice || 0,
+//               unit: item.unit || 'pcs',
+//               stockQuantity: variant.stockQuantity || item.stockQuantity || 0,
+//               variantId: variant.variantId,
+//               variantName: variant.variantName || 'Variant',
+//               variantType: variant.variantType || variant.type || null,
+//               subVariantId: null,
+//               subVariantName: null,
+//               variantRegularPrice: variant.variantRegularPrice || 0,
+//               variantDiscountPrice: variant.variantDiscountPrice || 0,
+//               variantImage: variant.image || item.image || '',
+//               selectedColor: variant.selectedColor || null,
+//               quantity: variant.quantity || 0,
+//               colors: []
+//             });
+//           }
+//         });
+
+//       } else if (item.variantId) {
+//         // ===== FLAT FORMAT (create-order / manual-order): variantId already on the item =====
+//         flattenedItems.push({
+//           ...item,
+//           _id: item._id || `temp_${Date.now()}_${Math.random()}`,
+//           colors: []
+//         });
+
+//       } else if (item.colors && item.colors.length > 0) {
+//         // ===== COLOR PRODUCT =====
+//         item.colors.forEach(colorItem => {
+//           flattenedItems.push({
+//             ...item,
+//             _id: `${item._id || item.productId}_${colorItem.color}_${Date.now()}_${Math.random()}`,
+//             quantity: colorItem.quantity,
+//             selectedColor: colorItem.color,
+//             colors: []
+//           });
+//         });
+
+//       } else {
+//         // ===== PLAIN PRODUCT =====
+//         flattenedItems.push({
+//           ...item,
+//           _id: item._id || `temp_${Date.now()}_${Math.random()}`
+//         });
+//       }
+//     });
+
+//     return flattenedItems;
+//   }, []);
+
+//   // ========== RESET MODAL STATE ==========
+//   const resetModal = useCallback(() => {
+//     setLocalItems([]);
+//     setLocalDiscount(0);
+//     setLocalSubtotal(0);
+//     setLocalTotal(0);
+//     setShippingCost(0);
+//     setHasChanges(false);
+//     setLocalOrder(null);
+//     setSelectedColorsWithQty([]);
+//     setSelectedVariantsWithQty([]);
+//     setShowAddProduct(false);
+//     setSearchQuery('');
+//     setSearchResults([]);
+//     setSelectedProduct(null);
+//     setAddQuantity(1);
+//     setProductColorsCache({});
+//     setExpandedOrderItems({});
+//   }, []);
+
+//   // ========== INITIALIZE LOCAL STATE FROM ORDER ==========
+//   useEffect(() => {
+//     if (order && isOpen) {
+//       // Don't re-initialize if we already have changes
+//       if (hasChanges) return;
+      
+//       // Flatten the order items - this now handles nested variantDetails too
+//       const flattenedItems = flattenOrderItems(order.items);
+      
+//       setLocalOrder({ ...order });
+//       setLocalItems(flattenedItems);
+//       setLocalDiscount(order.discount || 0);
+      
+//       const { subtotal, shipping, total } = recalculateTotals(flattenedItems, order.discount || 0);
+//       setLocalSubtotal(subtotal);
+//       setShippingCost(shipping);
+//       setLocalTotal(total);
+      
+//       setHasChanges(false);
+      
+//       setFormData({
+//         fullName: order.customerInfo?.fullName || '',
+//         email: order.customerInfo?.email || '',
+//         phone: order.customerInfo?.phone || '',
+//         division: order.customerInfo?.division || '',
+//         address: order.customerInfo?.address || '',
+//         city: order.customerInfo?.city || '',
+//         zone: order.customerInfo?.zone || '',
+//         area: order.customerInfo?.area || '',
+//         deliveryNote: order.deliveryNote || '',
+//         discountNote: ''
+//       });
+      
+//       setSelectedVariantsWithQty([]);
+//       setSelectedColorsWithQty([]);
+//       setShowAddProduct(false);
+//       setSearchQuery('');
+//       setSearchResults([]);
+//       setSelectedProduct(null);
+//       setAddQuantity(1);
+      
+//       // Fetch details for all products in the order
+//       const uniqueProductIds = [...new Set(flattenedItems.map(item => item.productId))];
+//       uniqueProductIds.forEach(productId => {
+//         fetchProductColors(productId);
+//         fetchProductVariantTypes(productId);
+//       });
+//     }
+//   }, [order, isOpen, recalculateTotals, fetchProductColors, fetchProductVariantTypes, flattenOrderItems, hasChanges]);
+
+//   // Update totals when items or discount change
+//   useEffect(() => {
+//     updateTotals();
+//   }, [localItems, localDiscount, updateTotals]);
+
+//   // ========== SEARCH PRODUCTS ==========
+//   const searchProducts = useCallback(async (query) => {
+//     if (!query || query.length < 1) {
+//       setSearchResults([]);
+//       return;
+//     }
+
+//     setSearching(true);
+//     try {
+//       const token = localStorage.getItem('token');
+//       const response = await fetch(
+//         `http://localhost:5000/api/orders/search-products?query=${encodeURIComponent(query)}&limit=10`,
+//         { headers: { 'Authorization': `Bearer ${token}` } }
+//       );
+//       const data = await response.json();
+//       if (data.success) {
+//         setSearchResults(data.data);
+//       } else {
+//         setSearchResults([]);
+//       }
+//     } catch (error) {
+//       console.error('Search products error:', error);
+//       setSearchResults([]);
+//     } finally {
+//       setSearching(false);
+//     }
+//   }, []);
+
+//   // Debounced search
+//   useEffect(() => {
+//     const timer = setTimeout(() => {
+//       if (searchQuery) {
+//         searchProducts(searchQuery);
+//       } else {
+//         setSearchResults([]);
+//       }
+//     }, 300);
+
+//     return () => clearTimeout(timer);
+//   }, [searchQuery, searchProducts]);
+
+//   // ========== HANDLE SELECT PRODUCT ==========
+//   const handleSelectProduct = async (product) => {
+//     setSelectedColorsWithQty([]);
+//     setSelectedVariantsWithQty([]);
+//     setAddQuantity(1);
+//     try {
+//       const response = await fetch(`http://localhost:5000/api/products/${product._id}`);
+//       const data = await response.json();
+//       setSelectedProduct(data.success ? data.data.product : product);
+//     } catch (error) {
+//       console.error('Error fetching product details:', error);
+//       setSelectedProduct(product);
+//     }
+//   };
+
+//   // ========== VARIANT FUNCTIONS ==========
+//   const toggleVariantSelection = (variantType, variant) => {
+//     const hasSubVariants = variant.subVariants && variant.subVariants.length > 0;
+    
+//     if (hasSubVariants) {
+//       const firstSubVariant = variant.subVariants[0];
+//       const exists = selectedVariantsWithQty.find(
+//         v => v.variantId === variant.id && v.subVariantId === firstSubVariant.id
+//       );
+//       if (exists) {
+//         setSelectedVariantsWithQty(prev => 
+//           prev.filter(v => !(v.variantId === variant.id && v.subVariantId === firstSubVariant.id))
+//         );
+//       } else {
+//         setSelectedVariantsWithQty(prev => [...prev, {
+//           variantId: variant.id,
+//           variantName: variant.name,
+//           variantType: variantType.type,
+//           subVariantId: firstSubVariant.id,
+//           subVariantName: firstSubVariant.name,
+//           regularPrice: firstSubVariant.regularPrice || 0,
+//           discountPrice: firstSubVariant.discountPrice || 0,
+//           image: firstSubVariant.images?.[0] || variant.images?.[0] || '',
+//           stockQuantity: firstSubVariant.stockQuantity || variant.stockQuantity || 0,
+//           quantity: 1
+//         }]);
+//       }
+//       setHasChanges(true);
+//       return;
+//     }
+    
+//     setSelectedVariantsWithQty(prev => {
+//       const exists = prev.find(v => v.variantId === variant.id && !v.subVariantId);
+//       if (exists) {
+//         return prev.filter(v => !(v.variantId === variant.id && !v.subVariantId));
+//       }
+//       return [...prev, {
+//         variantId: variant.id,
+//         variantName: variant.name,
+//         variantType: variantType.type,
+//         subVariantId: null,
+//         subVariantName: null,
+//         regularPrice: variant.regularPrice || 0,
+//         discountPrice: variant.discountPrice || 0,
+//         image: variant.images?.[0] || '',
+//         stockQuantity: variant.stockQuantity || 0,
+//         quantity: 1
+//       }];
+//     });
+//     setHasChanges(true);
+//   };
+
+//   const toggleSubVariantSelection = (variantType, variant, subVariant) => {
+//     setSelectedVariantsWithQty(prev => {
+//       const exists = prev.find(v => v.variantId === variant.id && v.subVariantId === subVariant.id);
+//       if (exists) {
+//         return prev.filter(v => !(v.variantId === variant.id && v.subVariantId === subVariant.id));
+//       }
+//       return [...prev, {
+//         variantId: variant.id,
+//         variantName: variant.name,
+//         variantType: variantType.type,
+//         subVariantId: subVariant.id,
+//         subVariantName: subVariant.name,
+//         regularPrice: subVariant.regularPrice || 0,
+//         discountPrice: subVariant.discountPrice || 0,
+//         image: subVariant.images?.[0] || '',
+//         stockQuantity: subVariant.stockQuantity || 0,
+//         quantity: 1
+//       }];
+//     });
+//     setHasChanges(true);
+//   };
+
+//   const updateNewVariantQty = (variantId, subVariantId, newQty) => {
+//     if (newQty < 1) return;
+//     setSelectedVariantsWithQty(prev => prev.map(v => {
+//       if (v.variantId === variantId && v.subVariantId === subVariantId) {
+//         const max = v.stockQuantity || 999;
+//         return { ...v, quantity: Math.min(newQty, max) };
+//       }
+//       return v;
+//     }));
+//   };
+
+//   // ========== COLOR FUNCTIONS ==========
+//   const toggleColorSelection = (color) => {
+//     setSelectedColorsWithQty(prev => {
+//       const exists = prev.find(c => c.color === color);
+//       if (exists) return prev.filter(c => c.color !== color);
+//       return [...prev, { color, quantity: 1 }];
+//     });
+//   };
+
+//   const updateSelectedColorQuantity = (color, newQuantity) => {
+//     if (newQuantity < 1) return;
+    
+//     const totalSelectedOthers = selectedColorsWithQty
+//       .filter(c => c.color !== color)
+//       .reduce((sum, c) => sum + Number(c.quantity || 0), 0);
+    
+//     if (selectedProduct && totalSelectedOthers + newQuantity > selectedProduct.stockQuantity) {
+//       toast.warning(`Total quantity cannot exceed available stock (${selectedProduct.stockQuantity})`);
+//       return;
+//     }
+    
+//     setSelectedColorsWithQty(prev => 
+//       prev.map(c => 
+//         c.color === color ? { ...c, quantity: newQuantity } : c
+//       )
+//     );
+//   };
+
+//   const handleColorQuantityInputChange = (color, value) => {
+//     if (value === '') {
+//       setSelectedColorsWithQty(prev => 
+//         prev.map(c => 
+//           c.color === color ? { ...c, quantity: '' } : c
+//         )
+//       );
+//       return;
+//     }
+    
+//     let qty = parseInt(value);
+//     if (isNaN(qty)) return;
+//     qty = Math.max(1, qty);
+    
+//     const totalSelectedOthers = selectedColorsWithQty
+//       .filter(c => c.color !== color)
+//       .reduce((sum, c) => sum + Number(c.quantity || 0), 0);
+    
+//     const maxAllowed = selectedProduct ? selectedProduct.stockQuantity - totalSelectedOthers : Infinity;
+    
+//     if (qty > maxAllowed) {
+//       toast.warning(`Only ${maxAllowed} more item(s) can be assigned to this color.`);
+//       qty = Math.max(1, maxAllowed);
+//     }
+    
+//     setSelectedColorsWithQty(prev => 
+//       prev.map(c => 
+//         c.color === color ? { ...c, quantity: qty } : c
+//       )
+//     );
+//   };
+
+//   // ========== ADD VARIANT TO ORDER GROUP ==========
+//   const addVariantToOrderGroup = (group, variant, variantTypeName) => {
+//     const hasSub = variant.subVariants && variant.subVariants.length > 0;
+//     if (hasSub) {
+//       addSubVariantToOrderGroup(group, variant.id, variant.subVariants[0], variant.name, variantTypeName);
+//       return;
+//     }
+    
+//     const newItem = {
+//       _id: `temp_${Date.now()}_${Math.random()}`,
+//       productId: group.productId,
+//       productName: group.productName,
+//       productSlug: group.productSlug || '',
+//       image: variant.images?.[0] || group.image,
+//       regularPrice: group.regularPrice,
+//       discountPrice: group.discountPrice,
+//       costPerItem: group.costPerItem || 0,
+//       buyingPrice: group.buyingPrice || 0,
+//       stockQuantity: variant.stockQuantity || group.stockQuantity,
+//       unit: group.unit,
+//       variantId: variant.id,
+//       variantName: variant.name,
+//       variantType: variantTypeName,
+//       subVariantId: null,
+//       subVariantName: null,
+//       variantRegularPrice: variant.regularPrice || 0,
+//       variantDiscountPrice: variant.discountPrice || 0,
+//       variantImage: variant.images?.[0] || '',
+//       selectedColor: null,
+//       quantity: 1,
+//       colors: []
+//     };
+//     setLocalItems(prev => [...prev, newItem]);
+//     setHasChanges(true);
+//     toast.success(`Added ${variant.name} to ${group.productName}`);
+//   };
+
+//   const addSubVariantToOrderGroup = (group, variantId, subVariant, parentVariantName, variantTypeName) => {
+//     const newItem = {
+//       _id: `temp_${Date.now()}_${Math.random()}`,
+//       productId: group.productId,
+//       productName: group.productName,
+//       productSlug: group.productSlug || '',
+//       image: subVariant.images?.[0] || group.image,
+//       regularPrice: group.regularPrice,
+//       discountPrice: group.discountPrice,
+//       costPerItem: group.costPerItem || 0,
+//       buyingPrice: group.buyingPrice || 0,
+//       stockQuantity: subVariant.stockQuantity || group.stockQuantity,
+//       unit: group.unit,
+//       variantId: variantId,
+//       variantName: parentVariantName,
+//       variantType: variantTypeName,
+//       subVariantId: subVariant.id,
+//       subVariantName: subVariant.name,
+//       variantRegularPrice: subVariant.regularPrice || 0,
+//       variantDiscountPrice: subVariant.discountPrice || 0,
+//       variantImage: subVariant.images?.[0] || '',
+//       selectedColor: subVariant.color || null,
+//       quantity: 1,
+//       colors: []
+//     };
+//     setLocalItems(prev => [...prev, newItem]);
+//     setHasChanges(true);
+//     toast.success(`Added ${subVariant.name} to ${group.productName}`);
+//   };
+
+//   // ========== UPDATE VARIANT ITEM QUANTITY ==========
+//   const updateVariantItemQuantity = (itemId, newQuantity) => {
+//     const item = localItems.find(i => i._id === itemId);
+//     if (!item) return;
+
+//     if (newQuantity < 1) {
+//       showConfirmDialog(
+//         'Remove Item',
+//         `Are you sure you want to remove "${item.productName}"${
+//           item.subVariantName ? ` - ${item.subVariantName}` : item.variantName ? ` - ${item.variantName}` : ''
+//         } from this order?`,
+//         () => {
+//           setLocalItems(prev => prev.filter(i => i._id !== itemId));
+//           setHasChanges(true);
+//           toast.success('Removed item from order');
+//         },
+//         'Remove', 'Cancel', 'danger'
+//       );
+//       return;
+//     }
+
+//     const maxAllowed = item.stockQuantity || 999;
+//     if (newQuantity > maxAllowed) {
+//       toast.warning(`Only ${maxAllowed} item(s) available for this variant.`);
+//       return;
+//     }
+
+//     setHasChanges(true);
+//     setLocalItems(prev => prev.map(i => i._id === itemId ? { ...i, quantity: newQuantity } : i));
+//   };
+
+//   const handleVariantItemQuantityInputChange = (itemId, value) => {
+//     const item = localItems.find(i => i._id === itemId);
+//     if (!item) return;
+
+//     if (value === '') {
+//       setLocalItems(prev => prev.map(i => i._id === itemId ? { ...i, quantity: '' } : i));
+//       return;
+//     }
+
+//     let qty = parseInt(value);
+//     if (isNaN(qty)) return;
+//     qty = Math.max(1, qty);
+
+//     const maxAllowed = item.stockQuantity || 999;
+//     qty = Math.min(qty, maxAllowed);
+
+//     setLocalItems(prev => prev.map(i => i._id === itemId ? { ...i, quantity: qty } : i));
+//     if (parseInt(value) > maxAllowed) {
+//       toast.warning(`Only ${maxAllowed} item(s) available for this variant.`);
+//     }
+//     setHasChanges(true);
+//   };
+
+//   // ========== ADD PRODUCT TO LOCAL ORDER ==========
+//   const handleAddProduct = async () => {
+//     if (!selectedProduct) {
+//       toast.error('Please select a product');
+//       return;
+//     }
+
+//     const hasVariants = selectedProduct.hasVariants && selectedProduct.variantTypes?.length > 0;
+//     const hasColors = !hasVariants && selectedProduct.colors && selectedProduct.colors.length > 0;
+
+//     if (hasVariants && selectedVariantsWithQty.length === 0) {
+//       toast.error('Please select at least one variant');
+//       return;
+//     }
+//     if (hasColors && selectedColorsWithQty.length === 0) {
+//       toast.error('Please select at least one color with quantity');
+//       return;
+//     }
+//     if (!hasVariants && !hasColors && addQuantity < 1) {
+//       toast.error('Please enter a valid quantity');
+//       return;
+//     }
+//     if (hasColors) {
+//       const invalidColors = selectedColorsWithQty.filter(c => !c.quantity || c.quantity < 1);
+//       if (invalidColors.length > 0) {
+//         toast.error('Please set valid quantities for all selected colors');
+//         return;
+//       }
+//       const totalSelectedQty = selectedColorsWithQty.reduce((sum, c) => sum + Number(c.quantity || 0), 0);
+//       if (totalSelectedQty > selectedProduct.stockQuantity) {
+//         toast.error(`Total quantity (${totalSelectedQty}) cannot exceed available stock (${selectedProduct.stockQuantity}).`);
+//         return;
+//       }
+//     }
+//     if (!hasVariants && !hasColors && addQuantity > selectedProduct.stockQuantity) {
+//       toast.error(`Only ${selectedProduct.stockQuantity} item(s) available in stock.`);
+//       return;
+//     }
+
+//     setAddingProduct(true);
+
+//     try {
+//       let productSlug = selectedProduct.slug;
+//       if (!productSlug && selectedProduct.productName) {
+//         productSlug = selectedProduct.productName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+//       }
+//       if (!productSlug) productSlug = 'unknown-product';
+
+//       // ========== VARIANTS ==========
+//       if (hasVariants) {
+//         const newItems = selectedVariantsWithQty.map(v => ({
+//           _id: `temp_${Date.now()}_${Math.random()}`,
+//           productId: selectedProduct._id,
+//           productName: selectedProduct.productName,
+//           productSlug,
+//           image: v.image || selectedProduct.images?.[0]?.url || '',
+//           regularPrice: selectedProduct.regularPrice,
+//           discountPrice: selectedProduct.discountPrice || 0,
+//           costPerItem: selectedProduct.costPerItem || 0,
+//           buyingPrice: selectedProduct.buyingPrice || 0,
+//           stockQuantity: v.stockQuantity || selectedProduct.stockQuantity,
+//           unit: selectedProduct.unit || 'pcs',
+//           variantId: v.variantId,
+//           variantName: v.variantName || 'Variant',
+//           variantType: v.variantType,
+//           subVariantId: v.subVariantId,
+//           subVariantName: v.subVariantName,
+//           variantRegularPrice: v.regularPrice || 0,
+//           variantDiscountPrice: v.discountPrice || 0,
+//           variantImage: v.image || '',
+//           selectedColor: null,
+//           quantity: v.quantity || 1,
+//           colors: []
+//         }));
+
+//         let blocked = false;
+//         setLocalItems(prev => {
+//           const updated = [...prev];
+//           const toAdd = [];
+//           newItems.forEach(newItem => {
+//             const existingIndex = updated.findIndex(i =>
+//               i.productId === newItem.productId &&
+//               i.variantId === newItem.variantId &&
+//               (i.subVariantId || null) === (newItem.subVariantId || null)
+//             );
+//             if (existingIndex !== -1) {
+//               const combinedQty = updated[existingIndex].quantity + newItem.quantity;
+//               if (combinedQty > newItem.stockQuantity) {
+//                 toast.warning(
+//                   `Cannot add more ${newItem.variantName}${newItem.subVariantName ? ` - ${newItem.subVariantName}` : ''}. ` +
+//                   `Stock limit (${newItem.stockQuantity}) would be exceeded.`
+//                 );
+//                 blocked = true;
+//                 return;
+//               }
+//               updated[existingIndex] = { ...updated[existingIndex], quantity: combinedQty };
+//             } else {
+//               toAdd.push(newItem);
+//             }
+//           });
+//           return [...updated, ...toAdd];
+//         });
+
+//         if (selectedProduct.variantTypes) {
+//           setProductVariantsCache(prev => ({ ...prev, [selectedProduct._id]: selectedProduct.variantTypes }));
+//         }
+
+//         setHasChanges(true);
+//         if (!blocked) toast.success(`Added ${newItems.length} variant(s) of ${selectedProduct.productName}`);
+
+//       // ========== COLORS ==========
+//       } else if (hasColors) {
+//         const colorsToAdd = selectedColorsWithQty;
+//         const newItems = [];
+//         for (const colorQty of colorsToAdd) {
+//           const { color, quantity } = colorQty;
+//           const existingTotal = localItems
+//             .filter(item => item.productId === selectedProduct._id)
+//             .reduce((sum, item) => sum + item.quantity, 0);
+//           if (existingTotal + quantity > selectedProduct.stockQuantity) {
+//             toast.warning(
+//               `Cannot add more ${selectedProduct.productName}${color ? ` (${color})` : ''}. ` +
+//               `Only ${selectedProduct.stockQuantity - existingTotal} more available.`
+//             );
+//             setAddingProduct(false);
+//             return;
+//           }
+//           newItems.push({
+//             _id: `temp_${Date.now()}_${Math.random()}`,
+//             productId: selectedProduct._id,
+//             productName: selectedProduct.productName,
+//             productSlug: selectedProduct.slug || '',
+//             image: selectedProduct.images?.[0]?.url || '',
+//             regularPrice: selectedProduct.regularPrice,
+//             discountPrice: selectedProduct.discountPrice || 0,
+//             costPerItem: selectedProduct.costPerItem || 0,
+//             buyingPrice: selectedProduct.buyingPrice || 0,
+//             quantity,
+//             stockQuantity: selectedProduct.stockQuantity,
+//             unit: selectedProduct.unit || 'pcs',
+//             selectedColor: color || null,
+//             colors: []
+//           });
+//         }
+
+//         setLocalItems(prevItems => {
+//           const existingMap = new Map();
+//           prevItems.forEach(item => {
+//             const key = `${item.productId}_${item.selectedColor || 'null'}`;
+//             existingMap.set(key, item);
+//           });
+//           const updatedItems = [...prevItems];
+//           const itemsToAdd = [];
+//           newItems.forEach(newItem => {
+//             const key = `${newItem.productId}_${newItem.selectedColor || 'null'}`;
+//             const existingItem = existingMap.get(key);
+//             if (existingItem) {
+//               const totalUsedByOthers = prevItems
+//                 .filter(item => item.productId === newItem.productId && item._id !== existingItem._id)
+//                 .reduce((sum, item) => sum + item.quantity, 0);
+//               const newTotal = totalUsedByOthers + existingItem.quantity + newItem.quantity;
+//               if (newTotal > newItem.stockQuantity) {
+//                 toast.warning(
+//                   `Cannot add more ${existingItem.productName}${existingItem.selectedColor ? ` (${existingItem.selectedColor})` : ''}. ` +
+//                   `Stock limit (${newItem.stockQuantity}) would be exceeded.`
+//                 );
+//                 return;
+//               }
+//               const index = updatedItems.findIndex(item => item._id === existingItem._id);
+//               if (index !== -1) {
+//                 updatedItems[index] = { ...existingItem, quantity: existingItem.quantity + newItem.quantity };
+//               }
+//             } else {
+//               itemsToAdd.push(newItem);
+//             }
+//           });
+//           return [...updatedItems, ...itemsToAdd];
+//         });
+
+//         if (selectedProduct.colors && selectedProduct.colors.length > 0) {
+//           setProductColorsCache(prev => ({ ...prev, [selectedProduct._id]: selectedProduct.colors }));
+//         }
+
+//         setHasChanges(true);
+//         toast.success(`Added ${selectedProduct.productName} to order`);
+
+//       // ========== PLAIN PRODUCT ==========
+//       } else {
+//         const existing = localItems.find(item => item.productId === selectedProduct._id && !item.selectedColor && !item.variantId);
+//         if (existing) {
+//           const newQty = existing.quantity + addQuantity;
+//           if (newQty > selectedProduct.stockQuantity) {
+//             toast.error(`Only ${selectedProduct.stockQuantity} item(s) available in stock.`);
+//             setAddingProduct(false);
+//             return;
+//           }
+//           setLocalItems(prev => prev.map(i => i._id === existing._id ? { ...i, quantity: newQty } : i));
+//         } else {
+//           setLocalItems(prev => [...prev, {
+//             _id: `temp_${Date.now()}_${Math.random()}`,
+//             productId: selectedProduct._id,
+//             productName: selectedProduct.productName,
+//             productSlug: selectedProduct.slug || '',
+//             image: selectedProduct.images?.[0]?.url || '',
+//             regularPrice: selectedProduct.regularPrice,
+//             discountPrice: selectedProduct.discountPrice || 0,
+//             costPerItem: selectedProduct.costPerItem || 0,
+//             buyingPrice: selectedProduct.buyingPrice || 0,
+//             quantity: addQuantity,
+//             stockQuantity: selectedProduct.stockQuantity,
+//             unit: selectedProduct.unit || 'pcs',
+//             selectedColor: null,
+//             colors: []
+//           }]);
+//         }
+//         setHasChanges(true);
+//         toast.success(`Added ${selectedProduct.productName} to order`);
+//       }
+
+//       setShowAddProduct(false);
+//       setSelectedProduct(null);
+//       setSearchQuery('');
+//       setSearchResults([]);
+//       setSelectedColorsWithQty([]);
+//       setSelectedVariantsWithQty([]);
+//       setAddQuantity(1);
+//     } catch (error) {
+//       console.error('Add product error:', error);
+//       toast.error('Failed to add product');
+//     } finally {
+//       setAddingProduct(false);
+//     }
+//   };
+
+//   // ========== HANDLE INPUT CHANGES ==========
 //   const handleInputChange = (e) => {
 //     const { name, value } = e.target;
 //     setFormData(prev => ({ ...prev, [name]: value }));
@@ -2661,385 +3827,7 @@
 //     }
 //   };
 
-//   // ========== TOGGLE COLOR SELECTION ==========
-//   const toggleColorSelection = (color) => {
-//     setHasChanges(true);
-//     setSelectedColorsWithQty(prev => {
-//       const exists = prev.find(c => c.color === color);
-//       if (exists) {
-//         return prev.filter(c => c.color !== color);
-//       } else {
-//         return [...prev, { color, quantity: 1 }];
-//       }
-//     });
-//   };
-
-//   // ========== UPDATE QUANTITY FOR A SELECTED COLOR (PRODUCT-LEVEL STOCK) ==========
-//   const updateSelectedColorQuantity = (color, newQuantity) => {
-//     if (newQuantity < 1) return;
-    
-//     // Calculate total quantity already selected for this product (excluding current color)
-//     const totalSelectedOthers = selectedColorsWithQty
-//       .filter(c => c.color !== color)
-//       .reduce((sum, c) => sum + Number(c.quantity || 0), 0);
-    
-//     const totalWithNew = totalSelectedOthers + newQuantity;
-    
-//     // Check if total exceeds stock
-//     if (selectedProduct && totalWithNew > selectedProduct.stockQuantity) {
-//       toast.warning(`Total quantity (${totalWithNew}) cannot exceed available stock (${selectedProduct.stockQuantity}).`);
-//       return;
-//     }
-    
-//     setHasChanges(true);
-//     setSelectedColorsWithQty(prev => 
-//       prev.map(c => 
-//         c.color === color ? { ...c, quantity: newQuantity } : c
-//       )
-//     );
-//   };
-
-//   // ========== HANDLE QUANTITY INPUT CHANGE FOR SELECTED COLORS (PRODUCT-LEVEL STOCK) ==========
-//   const handleColorQuantityInputChange = (color, value) => {
-//     if (value === '') {
-//       setSelectedColorsWithQty(prev => 
-//         prev.map(c => 
-//           c.color === color ? { ...c, quantity: '' } : c
-//         )
-//       );
-//       return;
-//     }
-    
-//     let qty = parseInt(value);
-//     if (isNaN(qty)) return;
-    
-//     qty = Math.max(1, qty);
-    
-//     // Calculate total quantity already selected for this product (excluding current color)
-//     const totalSelectedOthers = selectedColorsWithQty
-//       .filter(c => c.color !== color)
-//       .reduce((sum, c) => sum + Number(c.quantity || 0), 0);
-    
-//     const maxAllowed = selectedProduct ? selectedProduct.stockQuantity - totalSelectedOthers : Infinity;
-    
-//     if (qty > maxAllowed) {
-//       toast.warning(`Only ${maxAllowed} more item(s) can be assigned to this color.`);
-//       qty = Math.max(1, maxAllowed);
-//     }
-    
-//     setSelectedColorsWithQty(prev => 
-//       prev.map(c => 
-//         c.color === color ? { ...c, quantity: qty } : c
-//       )
-//     );
-//     setHasChanges(true);
-//   };
-
-//   // ========== GROUP ITEMS BY PRODUCT ==========
-//   const getGroupedItems = useCallback(() => {
-//     if (!localItems || localItems.length === 0) return [];
-    
-//     const grouped = {};
-//     localItems.forEach(item => {
-//       const key = item.productId.toString();
-//       if (!grouped[key]) {
-//         grouped[key] = {
-//           productId: item.productId,
-//           productName: item.productName,
-//           productSlug: item.productSlug || '',
-//           image: item.image || '',
-//           regularPrice: item.regularPrice,
-//           discountPrice: item.discountPrice || 0,
-//           costPerItem: item.costPerItem || 0,
-//           buyingPrice: item.buyingPrice || 0,
-//           unit: item.unit || 'pcs',
-//           stockQuantity: item.stockQuantity || 0,
-//           colors: [],
-//           totalQuantity: 0
-//         };
-//       }
-//       const hasColor = item.selectedColor && item.selectedColor !== 'null' && item.selectedColor !== '';
-//       grouped[key].colors.push({
-//         color: hasColor ? item.selectedColor : null,
-//         quantity: item.quantity,
-//         itemId: item._id,
-//         price: item.discountPrice > 0 ? item.discountPrice : item.regularPrice,
-//         stockQuantity: item.stockQuantity || 0,
-//         isTempItem: item._id?.startsWith('temp_'),
-//         productName: item.productName,
-//         image: item.image
-//       });
-//       grouped[key].totalQuantity += item.quantity;
-//     });
-//     return Object.values(grouped);
-//   }, [localItems]);
-
-//   const groupedItems = getGroupedItems();
-
-//   // ========== ADD PRODUCT TO LOCAL ORDER (WITH PRODUCT-LEVEL STOCK VALIDATION) ==========
-//   const handleAddProduct = async () => {
-//     if (!selectedProduct) {
-//       toast.error('Please select a product');
-//       return;
-//     }
-
-//     const hasColors = selectedProduct.colors && selectedProduct.colors.length > 0;
-    
-//     if (hasColors && selectedColorsWithQty.length === 0) {
-//       toast.error('Please select at least one color with quantity');
-//       return;
-//     }
-
-//     if (!hasColors && addQuantity < 1) {
-//       toast.error('Please enter a valid quantity');
-//       return;
-//     }
-
-//     // Validate all selected colors have valid quantities
-//     const invalidColors = selectedColorsWithQty.filter(c => !c.quantity || c.quantity < 1);
-//     if (invalidColors.length > 0) {
-//       toast.error(`Please set valid quantities for all selected colors`);
-//       return;
-//     }
-
-//     // ========== PRODUCT-LEVEL STOCK VALIDATION FOR COLORS ==========
-//     if (hasColors) {
-//       const totalSelectedQty = selectedColorsWithQty.reduce(
-//         (sum, c) => sum + Number(c.quantity || 0),
-//         0
-//       );
-
-//       if (totalSelectedQty > selectedProduct.stockQuantity) {
-//         toast.error(
-//           `Total quantity (${totalSelectedQty}) cannot exceed available stock (${selectedProduct.stockQuantity}).`
-//         );
-//         return;
-//       }
-//     }
-
-//     // Check if adding this product would exceed stock (considering existing items)
-//     if (!hasColors && addQuantity > selectedProduct.stockQuantity) {
-//       toast.error(`Only ${selectedProduct.stockQuantity} item(s) available in stock.`);
-//       return;
-//     }
-
-//     setAddingProduct(true);
-    
-//     try {
-//       const colorsToAdd = hasColors ? selectedColorsWithQty : [{ color: null, quantity: addQuantity }];
-//       const newItems = [];
-
-//       // Build the new items array
-//       for (const colorQty of colorsToAdd) {
-//         const color = colorQty.color;
-//         const quantity = colorQty.quantity;
-        
-//         // Check if adding this specific color would exceed stock (considering existing)
-//         const existingTotal = localItems
-//           .filter(item => item.productId === selectedProduct._id)
-//           .reduce((sum, item) => sum + item.quantity, 0);
-        
-//         if (existingTotal + quantity > selectedProduct.stockQuantity) {
-//           toast.warning(
-//             `Cannot add more ${selectedProduct.productName}${color ? ` (${color})` : ''}. ` +
-//             `Only ${selectedProduct.stockQuantity - existingTotal} more available.`
-//           );
-//           setAddingProduct(false);
-//           return;
-//         }
-        
-//         const newItem = {
-//           _id: `temp_${Date.now()}_${Math.random()}`,
-//           productId: selectedProduct._id,
-//           productName: selectedProduct.productName,
-//           productSlug: selectedProduct.slug || '',
-//           image: selectedProduct.images?.[0]?.url || '',
-//           regularPrice: selectedProduct.regularPrice,
-//           discountPrice: selectedProduct.discountPrice || 0,
-//           costPerItem: selectedProduct.costPerItem || 0,
-//           buyingPrice: selectedProduct.buyingPrice || 0,
-//           quantity: quantity,
-//           stockQuantity: selectedProduct.stockQuantity,
-//           unit: selectedProduct.unit || 'pcs',
-//           selectedColor: color || null,
-//           colors: []
-//         };
-//         newItems.push(newItem);
-//       }
-
-//       // Update local items with functional update
-//       setLocalItems(prevItems => {
-//         // Create a map of existing items by their unique key (productId + color)
-//         const existingMap = new Map();
-//         prevItems.forEach(item => {
-//           const key = `${item.productId}_${item.selectedColor || 'null'}`;
-//           existingMap.set(key, item);
-//         });
-
-//         // Update or add new items
-//         const updatedItems = [...prevItems];
-//         const itemsToAdd = [];
-
-//         newItems.forEach(newItem => {
-//           const key = `${newItem.productId}_${newItem.selectedColor || 'null'}`;
-//           const existingItem = existingMap.get(key);
-          
-//           if (existingItem) {
-//             // Check if adding would exceed stock (product-level)
-//             const totalUsedByOthers = prevItems
-//               .filter(item => 
-//                 item.productId === newItem.productId && 
-//                 item._id !== existingItem._id
-//               )
-//               .reduce((sum, item) => sum + item.quantity, 0);
-            
-//             const newTotal = totalUsedByOthers + existingItem.quantity + newItem.quantity;
-            
-//             if (newTotal > newItem.stockQuantity) {
-//               toast.warning(
-//                 `Cannot add more ${existingItem.productName}${existingItem.selectedColor ? ` (${existingItem.selectedColor})` : ''}. ` +
-//                 `Stock limit (${newItem.stockQuantity}) would be exceeded.`
-//               );
-//               return;
-//             }
-            
-//             // Update existing item quantity
-//             const index = updatedItems.findIndex(item => item._id === existingItem._id);
-//             if (index !== -1) {
-//               updatedItems[index] = {
-//                 ...existingItem,
-//                 quantity: existingItem.quantity + newItem.quantity
-//               };
-//             }
-//           } else {
-//             // Add new item
-//             itemsToAdd.push(newItem);
-//           }
-//         });
-
-//         return [...updatedItems, ...itemsToAdd];
-//       });
-
-//       // Cache the product colors
-//       if (selectedProduct.colors && selectedProduct.colors.length > 0) {
-//         setProductColorsCache(prev => ({
-//           ...prev,
-//           [selectedProduct._id]: selectedProduct.colors
-//         }));
-//       }
-
-//       setHasChanges(true);
-//       toast.success(`Added ${selectedProduct.productName} to order`);
-      
-//       // Reset selection
-//       setShowAddProduct(false);
-//       setSelectedProduct(null);
-//       setSearchQuery('');
-//       setSearchResults([]);
-//       setSelectedColorsWithQty([]);
-//       setAddQuantity(1);
-      
-//     } catch (error) {
-//       console.error('Add product error:', error);
-//       toast.error('Failed to add product');
-//     } finally {
-//       setAddingProduct(false);
-//     }
-//   };
-
-//   // ========== UPDATE QUANTITY FOR A SPECIFIC COLOR IN ORDER (PRODUCT-LEVEL STOCK) ==========
-//   const updateColorQuantity = (itemId, newQuantity) => {
-//     const item = localItems.find(i => i._id === itemId);
-
-//     if (!item) return;
-
-//     if (newQuantity < 1) {
-//       showConfirmDialog(
-//         'Remove Item',
-//         `Are you sure you want to remove "${item.productName}"${item.selectedColor ? ` (${item.selectedColor})` : ''} from this order?`,
-//         () => {
-//           setLocalItems(prev => prev.filter(i => i._id !== itemId));
-//           setHasChanges(true);
-//           toast.success(`Removed ${item.productName} from order`);
-//         },
-//         'Remove',
-//         'Cancel',
-//         'danger'
-//       );
-//       return;
-//     }
-
-//     // Check product-level stock
-//     const maxAllowed = getRemainingStock(item.productId, itemId);
-
-//     if (newQuantity > maxAllowed) {
-//       toast.warning(
-//         `Only ${maxAllowed} more item(s) can be assigned to this color. ` +
-//         `Other colors of this product already use ${getTotalUsedQuantity(item.productId, itemId)} items.`
-//       );
-//       return;
-//     }
-
-//     setHasChanges(true);
-//     setLocalItems(prev => prev.map(item => {
-//       if (item._id === itemId) {
-//         return { ...item, quantity: newQuantity };
-//       }
-//       return item;
-//     }));
-//   };
-
-//   // ========== HANDLE ORDER ITEM QUANTITY INPUT (PRODUCT-LEVEL STOCK) ==========
-//   const handleItemQuantityInputChange = (itemId, value) => {
-//     const item = localItems.find(i => i._id === itemId);
-
-//     if (!item) return;
-
-//     if (value === '') {
-//       setLocalItems(prev => prev.map(i => 
-//         i._id === itemId ? { ...i, quantity: '' } : i
-//       ));
-//       return;
-//     }
-
-//     let qty = parseInt(value);
-//     if (isNaN(qty)) return;
-
-//     qty = Math.max(1, qty);
-    
-//     // Apply product-level stock constraint
-//     const maxAllowed = getRemainingStock(item.productId, itemId);
-//     qty = Math.min(qty, maxAllowed);
-
-//     setLocalItems(prev => prev.map(i => 
-//       i._id === itemId ? { ...i, quantity: qty } : i
-//     ));
-
-//     if (parseInt(value) > maxAllowed) {
-//       toast.warning(`Only ${maxAllowed} more item(s) can be assigned to this color.`);
-//     }
-
-//     setHasChanges(true);
-//   };
-
-//   // ========== REMOVE ITEM WITH CONFIRMATION ==========
-//   const handleRemoveItem = (itemId, productName, colorName) => {
-//     const displayName = colorName ? `${productName} (${colorName})` : productName;
-//     showConfirmDialog(
-//       'Remove Item',
-//       `Are you sure you want to remove "${displayName}" from this order?`,
-//       () => {
-//         setLocalItems(prev => prev.filter(item => item._id !== itemId));
-//         setHasChanges(true);
-//         toast.success(`Removed ${displayName} from order`);
-//       },
-//       'Remove',
-//       'Cancel',
-//       'danger'
-//     );
-//   };
-
-//   // ========== UPDATE LOCAL DISCOUNT ==========
+//   // ========== DISCOUNT CHANGE ==========
 //   const handleDiscountChange = (e) => {
 //     const value = parseFloat(e.target.value) || 0;
 //     const maxDiscount = localSubtotal + shippingCost;
@@ -3051,7 +3839,6 @@
 //       setLocalDiscount(value);
 //     }
 //     setHasChanges(true);
-//     setFormData(prev => ({ ...prev, discountNote: '' }));
 //   };
 
 //   // ========== CONFIRMATION DIALOG ==========
@@ -3090,120 +3877,541 @@
 //     }
 //   };
 
-//   // ========== SAVE ALL CHANGES TO DATABASE WITH PRODUCT-LEVEL STOCK VALIDATION ==========
-//  // ========== SAVE ALL CHANGES - USING BULK UPDATE ==========
-// const handleSaveChanges = async () => {
-//   if (!hasChanges) {
-//     toast.info('No changes to save');
-//     return;
-//   }
-
-//   // Validate product-level stock
-//   const productGroups = {};
-//   localItems.forEach(item => {
-//     if (!productGroups[item.productId]) {
-//       productGroups[item.productId] = {
-//         productName: item.productName,
-//         stockQuantity: item.stockQuantity,
-//         totalQuantity: 0
-//       };
-//     }
-//     productGroups[item.productId].totalQuantity += item.quantity;
-//   });
-
-//   for (const [productId, group] of Object.entries(productGroups)) {
-//     if (group.totalQuantity > group.stockQuantity) {
-//       toast.error(
-//         `${group.productName}: Total quantity (${group.totalQuantity}) exceeds available stock (${group.stockQuantity}).`
-//       );
-//       setLoading(false);
+//   // ========== SAVE CHANGES ==========
+//   const handleSaveChanges = async () => {
+//     if (!hasChanges) {
+//       toast.info('No changes to save');
 //       return;
 //     }
-//   }
 
-//   setLoading(true);
-  
-//   try {
-//     const token = localStorage.getItem('token');
+//     setLoading(true);
     
-//     // ========== PROCESS ITEMS WITH SAFE DEFAULTS ==========
-//     const processedItems = localItems.map(item => {
-//       // Generate a slug from product name if not provided
-//       let productSlug = item.productSlug;
-//       if (!productSlug && item.productName) {
-//         productSlug = item.productName
-//           .toLowerCase()
-//           .replace(/[^a-z0-9]+/g, '-')
-//           .replace(/^-+|-+$/g, '');
+//     try {
+//       const token = localStorage.getItem('token');
+      
+//       // Product-level stock check — only for plain/color lines (no variantId)
+//       const productGroups = {};
+//       localItems.forEach(item => {
+//         if (item.variantId) return; // variant stock is checked separately below
+//         if (!productGroups[item.productId]) {
+//           productGroups[item.productId] = {
+//             productName: item.productName,
+//             stockQuantity: item.stockQuantity,
+//             totalQuantity: 0
+//           };
+//         }
+//         productGroups[item.productId].totalQuantity += item.quantity;
+//       });
+
+//       for (const [productId, group] of Object.entries(productGroups)) {
+//         if (group.totalQuantity > group.stockQuantity) {
+//           toast.error(`${group.productName}: Total quantity (${group.totalQuantity}) exceeds available stock (${group.stockQuantity}).`);
+//           setLoading(false);
+//           return;
+//         }
 //       }
-//       if (!productSlug) {
-//         productSlug = 'unknown-product';
+
+//       // Variant-level stock check — each variant/sub-variant line checked against its own stock
+//       for (const item of localItems) {
+//         if (item.variantId && item.quantity > (item.stockQuantity || 0)) {
+//           toast.error(
+//             `${item.productName} - ${item.subVariantName || item.variantName}: quantity (${item.quantity}) exceeds available stock (${item.stockQuantity}).`
+//           );
+//           setLoading(false);
+//           return;
+//         }
+//       }
+
+//       const processedItems = localItems.map(item => {
+//         let productSlug = item.productSlug;
+//         if (!productSlug && item.productName) {
+//           productSlug = item.productName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+//         }
+//         if (!productSlug) productSlug = 'unknown-product';
+
+//         return {
+//           productId: item.productId,
+//           productName: item.productName || 'Unknown Product',
+//           productSlug,
+//           image: item.image || '',
+//           regularPrice: item.regularPrice || 0,
+//           discountPrice: item.discountPrice || 0,
+//           costPerItem: item.costPerItem || 0,
+//           buyingPrice: item.buyingPrice || 0,
+//           quantity: item.quantity || 1,
+//           stockQuantity: item.stockQuantity || 0,
+//           unit: item.unit || 'pcs',
+//           selectedColor: item.selectedColor || null,
+//           colors: item.colors || [],
+//           variantId: item.variantId || null,
+//           variantName: item.variantName || null,
+//           variantType: item.variantType || null,
+//           subVariantId: item.subVariantId || null,
+//           subVariantName: item.subVariantName || null,
+//           variantRegularPrice: item.variantRegularPrice || 0,
+//           variantDiscountPrice: item.variantDiscountPrice || 0,
+//           variantImage: item.variantImage || ''
+//         };
+//       });
+
+//       const updateData = {
+//         customerInfo: {
+//           fullName: formData.fullName,
+//           email: formData.email,
+//           phone: formData.phone,
+//           division: formData.division,
+//           address: formData.address,
+//           city: formData.city,
+//           zone: formData.zone,
+//           area: formData.area
+//         },
+//         deliveryNote: formData.deliveryNote,
+//         discount: localDiscount,
+//         discountNote: formData.discountNote || 'Updated by admin',
+//         items: processedItems
+//       };
+
+//       const response = await fetch(`http://localhost:5000/api/orders/${order._id}/bulk-update`, {
+//         method: 'PUT',
+//         headers: {
+//           'Content-Type': 'application/json',
+//           'Authorization': `Bearer ${token}`
+//         },
+//         body: JSON.stringify(updateData)
+//       });
+
+//       const data = await response.json();
+      
+//       if (data.success) {
+//         toast.success('Order updated successfully!');
+//         setHasChanges(false);
+//         resetModal();
+//         onUpdate();
+//         onClose();
+//       } else {
+//         toast.error(data.error || 'Failed to update order');
 //       }
       
-//       return {
-//         productId: item.productId,
-//         productName: item.productName || 'Unknown Product',
-//         productSlug: productSlug,
-//         image: item.image || '',
-//         regularPrice: item.regularPrice || 0,
-//         discountPrice: item.discountPrice || 0,
-//         costPerItem: item.costPerItem || 0,
-//         buyingPrice: item.buyingPrice || 0,
-//         quantity: item.quantity || 1,
-//         stockQuantity: item.stockQuantity || 0,
-//         unit: item.unit || 'pcs',
-//         selectedColor: item.selectedColor || null,
-//         colors: item.colors || []
-//       };
-//     });
-
-//     // Prepare the data for bulk update
-//     const updateData = {
-//       customerInfo: {
-//         fullName: formData.fullName,
-//         email: formData.email,
-//         phone: formData.phone,
-//         division: formData.division,
-//         address: formData.address,
-//         city: formData.city,
-//         zone: formData.zone,
-//         area: formData.area
-//       },
-//       deliveryNote: formData.deliveryNote,
-//       discount: localDiscount,
-//       discountNote: formData.discountNote || 'Updated by admin',
-//       items: processedItems
-//     };
-
-//     // ========== SINGLE API CALL ==========
-//     const response = await fetch(`http://localhost:5000/api/orders/${order._id}/bulk-update`, {
-//       method: 'PUT',
-//       headers: {
-//         'Content-Type': 'application/json',
-//         'Authorization': `Bearer ${token}`
-//       },
-//       body: JSON.stringify(updateData)
-//     });
-
-//     const data = await response.json();
-    
-//     if (data.success) {
-//       toast.success('Order updated successfully!');
-//       setHasChanges(false);
-//       resetModal();
-//       onUpdate();
-//       onClose();
-//     } else {
-//       toast.error(data.error || 'Failed to update order');
+//     } catch (error) {
+//       console.error('Save changes error:', error);
+//       toast.error('Failed to save changes. Please try again.');
+//     } finally {
+//       setLoading(false);
 //     }
+//   };
+
+//   // ========== HELPERS FOR GROUPED ITEMS ==========
+//   const getGroupedItems = useCallback(() => {
+//     if (!localItems || localItems.length === 0) return [];
+
+//     const grouped = {};
+//     localItems.forEach(item => {
+//       const key = item.productId.toString();
+//       if (!grouped[key]) {
+//         grouped[key] = {
+//           productId: item.productId,
+//           productName: item.productName,
+//           productSlug: item.productSlug || '',
+//           image: item.image || '',
+//           regularPrice: item.regularPrice,
+//           discountPrice: item.discountPrice || 0,
+//           costPerItem: item.costPerItem || 0,
+//           buyingPrice: item.buyingPrice || 0,
+//           unit: item.unit || 'pcs',
+//           stockQuantity: item.stockQuantity || 0,
+//           hasVariants: false,
+//           colors: [],
+//           variantItems: [],
+//           totalQuantity: 0,
+//           variantTypes: item.variantTypes || []
+//         };
+//       }
+
+//       const isVariantItem = !!item.variantId;
+
+//       if (isVariantItem) {
+//         grouped[key].hasVariants = true;
+//         grouped[key].variantItems.push({
+//           itemId: item._id,
+//           variantId: item.variantId,
+//           variantName: item.variantName,
+//           variantType: item.variantType,
+//           subVariantId: item.subVariantId || null,
+//           subVariantName: item.subVariantName || null,
+//           variantRegularPrice: item.variantRegularPrice || item.regularPrice || 0,
+//           variantDiscountPrice: item.variantDiscountPrice || 0,
+//           variantImage: item.variantImage || item.image,
+//           selectedColor: item.selectedColor || null,
+//           quantity: item.quantity,
+//           stockQuantity: item.stockQuantity || 0,
+//           isSubVariant: !!item.subVariantId
+//         });
+//         if (item.variantTypes) {
+//           grouped[key].variantTypes = item.variantTypes;
+//         }
+//       } else {
+//         const hasColor = item.selectedColor && item.selectedColor !== 'null' && item.selectedColor !== '';
+//         grouped[key].colors.push({
+//           color: hasColor ? item.selectedColor : null,
+//           quantity: item.quantity,
+//           itemId: item._id,
+//           price: item.discountPrice > 0 ? item.discountPrice : item.regularPrice,
+//           stockQuantity: item.stockQuantity || 0,
+//           isTempItem: item._id?.startsWith('temp_'),
+//           productName: item.productName,
+//           image: item.image
+//         });
+//       }
+
+//       grouped[key].totalQuantity += item.quantity;
+//     });
+//     return Object.values(grouped);
+//   }, [localItems]);
+
+//   const groupedItems = getGroupedItems();
+
+//   // ========== GET AVAILABLE VARIANTS FOR GROUP ==========
+//   const getAvailableVariantsForGroup = (group) => {
+//     const variantTypes = productVariantsCache[group.productId];
+//     if (!variantTypes) return [];
+//     const usedVariantIds = group.variantItems.filter(v => !v.subVariantId).map(v => v.variantId);
+//     const available = [];
+//     variantTypes.forEach(vt => {
+//       vt.variants.forEach(v => {
+//         const hasSub = v.subVariants && v.subVariants.length > 0;
+//         if (!hasSub && !usedVariantIds.includes(v.id)) {
+//           available.push({ ...v, type: vt.type });
+//         }
+//         if (hasSub) {
+//           const anyUsed = group.variantItems.some(vi => vi.variantId === v.id);
+//           if (!anyUsed) {
+//             available.push({ ...v, type: vt.type });
+//           }
+//         }
+//       });
+//     });
+//     return available;
+//   };
+
+//   // ========== GET AVAILABLE SUB-VARIANTS FOR GROUP ==========
+//   const getAvailableSubVariantsForGroup = (group, variantId) => {
+//     const variantTypes = productVariantsCache[group.productId];
+//     if (!variantTypes) return [];
+//     let targetVariant = null;
+//     variantTypes.forEach(vt => {
+//       vt.variants.forEach(v => { if (v.id === variantId) targetVariant = v; });
+//     });
+//     if (!targetVariant || !targetVariant.subVariants) return [];
+//     const usedSubIds = group.variantItems
+//       .filter(v => v.variantId === variantId && v.subVariantId)
+//       .map(v => v.subVariantId);
+//     return targetVariant.subVariants.filter(sv => !usedSubIds.includes(sv.id));
+//   };
+
+//   // ========== GET VARIANTS WITH SUB-VARIANTS TO SHOW FOR ADDING ==========
+//   const getVariantsWithSubVariantsToShowForAdding = (group) => {
+//     const variantIdsUsedWithSub = [...new Set(
+//       group.variantItems.filter(v => v.subVariantId).map(v => v.variantId)
+//     )];
+//     const results = [];
+//     variantIdsUsedWithSub.forEach(vid => {
+//       const avail = getAvailableSubVariantsForGroup(group, vid);
+//       if (avail.length > 0) {
+//         const variantTypes = productVariantsCache[group.productId] || [];
+//         let parentVariant = null, parentType = null;
+//         variantTypes.forEach(vt => vt.variants.forEach(v => {
+//           if (v.id === vid) { parentVariant = v; parentType = vt.type; }
+//         }));
+//         results.push({ variantId: vid, subVariants: avail, parentVariant, parentType });
+//       }
+//     });
+//     return results;
+//   };
+
+//   // ========== BUILD ORDER ITEM ROWS ==========
+//   const buildOrderItemRows = () => {
+//     const allRows = [];
+
+//     groupedItems.forEach((group) => {
+//       const colorRows = group.colors || [];
+//       const variantRows = group.variantItems || [];
+//       const totalRowsInGroup = colorRows.length + variantRows.length;
+//       const totalUsed = group.totalQuantity;
+//       const isOverStock = !group.hasVariants && totalUsed > group.stockQuantity;
+
+//       let rowIndexInGroup = 0;
+
+//       // ----- plain / color rows -----
+//       colorRows.forEach((colorInfo) => {
+//         const isFirst = rowIndexInGroup === 0;
+//         const price = colorInfo.price || group.discountPrice || group.regularPrice;
+//         const totalPrice = price * colorInfo.quantity;
+//         const isTempItem = colorInfo.isTempItem;
+//         const hasColor = colorInfo.color !== null;
+//         const usedByOthers = group.colors
+//           .filter(c => c.itemId !== colorInfo.itemId)
+//           .reduce((sum, c) => sum + c.quantity, 0);
+//         const maxAllowed = group.stockQuantity - usedByOthers;
+
+//         allRows.push(
+//           <tr key={colorInfo.itemId} className={`border-t border-black/20 ${isTempItem ? 'bg-black/5' : ''} ${isOverStock ? 'bg-red-50' : ''}`}>
+//             {isFirst && (
+//               <td className="px-2 py-2" rowSpan={totalRowsInGroup}>
+//                 <div className="flex items-center gap-2">
+//                   <img
+//                     src={group.image || 'https://via.placeholder.com/30'}
+//                     alt={group.productName}
+//                     className="w-7 h-7 rounded object-cover border border-black/30 flex-shrink-0"
+//                     onError={(e) => { e.target.src = 'https://via.placeholder.com/30?text=Product'; }}
+//                   />
+//                   <div>
+//                     <p className="font-medium text-xs text-black truncate max-w-[120px]" title={group.productName}>
+//                       {group.productName}
+//                       {isTempItem && <span className="ml-1 text-[10px] text-green-500 font-normal">(new)</span>}
+//                       {isOverStock && <span className="ml-1 text-[10px] text-red-500 font-normal">(exceeds stock!)</span>}
+//                     </p>
+//                     {colorRows.length > 1 && <p className="text-[9px] text-[#64748B]">{colorRows.length} colors</p>}
+//                     <p className={`text-[9px] ${isOverStock ? 'text-red-500 font-medium' : 'text-[#64748B]'}`}>
+//                       Stock: {group.stockQuantity} | Used: {totalUsed}
+//                       {isOverStock && ` (${totalUsed - group.stockQuantity} over)`}
+//                     </p>
+//                   </div>
+//                 </div>
+//               </td>
+//             )}
+//             <td className="px-2 py-2 text-center">
+//               {hasColor ? (
+//                 <div className="flex items-center justify-center">
+//                   <div className="w-5 h-5 rounded-full border border-black/30 shadow-sm" style={{ backgroundColor: colorInfo.color }} title={colorInfo.color} />
+//                 </div>
+//               ) : <span className="text-xs text-[#64748B]">-</span>}
+//             </td>
+//             <td className="px-2 py-2 text-center">
+//               {canEditProducts && isEditable ? (
+//                 <div className="flex items-center justify-center gap-1">
+//                   <button onClick={() => updateColorQuantity(colorInfo.itemId, colorInfo.quantity - 1)} disabled={colorInfo.quantity <= 1} className="w-5 h-5 flex items-center justify-center rounded hover:bg-[#E2E7EA] disabled:opacity-50 text-[#64748B]">
+//                     <FaMinus className="w-2.5 h-2.5" />
+//                   </button>
+//                   <input
+//                     type="number" min="1" max={maxAllowed} value={colorInfo.quantity}
+//                     onChange={(e) => handleItemQuantityInputChange(colorInfo.itemId, e.target.value)}
+//                     className={`w-10 text-center text-xs font-medium border rounded focus:ring-2 focus:ring-black focus:border-transparent bg-white py-0.5 ${isOverStock ? 'border-red-500 text-red-600' : 'border-black/30 text-black'}`}
+//                   />
+//                   <button onClick={() => updateColorQuantity(colorInfo.itemId, colorInfo.quantity + 1)} disabled={colorInfo.quantity >= maxAllowed || maxAllowed <= 0} className="w-5 h-5 flex items-center justify-center rounded hover:bg-[#E2E7EA] disabled:opacity-50 text-[#64748B]">
+//                     <FaPlus className="w-2.5 h-2.5" />
+//                   </button>
+//                 </div>
+//               ) : <span className={`font-medium ${isOverStock ? 'text-red-600' : 'text-black'}`}>{colorInfo.quantity}</span>}
+//             </td>
+//             <td className="px-2 py-2 text-right text-black">৳{price.toFixed(2)}</td>
+//             <td className="px-2 py-2 text-right font-medium text-black">৳{totalPrice.toFixed(2)}</td>
+//             {canEditProducts && isEditable && (
+//               <td className="px-2 py-2 text-center">
+//                 <button onClick={() => handleRemoveItem(colorInfo.itemId, group.productName, colorInfo.color)} disabled={removingItem === colorInfo.itemId} className="p-1 text-red-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors disabled:opacity-50" title="Remove item">
+//                   {removingItem === colorInfo.itemId ? <FaSpinner className="w-3.5 h-3.5 animate-spin" /> : <FaTrash className="w-3.5 h-3.5" />}
+//                 </button>
+//               </td>
+//             )}
+//           </tr>
+//         );
+//         rowIndexInGroup++;
+//       });
+
+//       // ----- variant / sub-variant rows -----
+//       variantRows.forEach((v) => {
+//         const isFirst = rowIndexInGroup === 0;
+//         const price = v.variantDiscountPrice > 0 ? v.variantDiscountPrice : (v.variantRegularPrice || group.regularPrice || 0);
+//         const totalPrice = price * v.quantity;
+//         const isTempItem = v.itemId?.startsWith('temp_');
+//         const maxAllowed = v.stockQuantity || 999;
+
+//         allRows.push(
+//           <tr key={v.itemId} className={`border-t border-black/20 ${isTempItem ? 'bg-black/5' : ''}`}>
+//             {isFirst && (
+//               <td className="px-2 py-2" rowSpan={totalRowsInGroup}>
+//                 <div className="flex items-center gap-2">
+//                   <img
+//                     src={group.image || 'https://via.placeholder.com/30'}
+//                     alt={group.productName}
+//                     className="w-7 h-7 rounded object-cover border border-black/30 flex-shrink-0"
+//                     onError={(e) => { e.target.src = 'https://via.placeholder.com/30?text=Product'; }}
+//                   />
+//                   <div>
+//                     <p className="font-medium text-xs text-black truncate max-w-[120px]" title={group.productName}>
+//                       {group.productName}
+//                       <span className="ml-1 text-[9px] bg-blue-100 text-blue-700 px-1 py-0.5 rounded-full">
+//                         {variantRows.length} variant{variantRows.length > 1 ? 's' : ''}
+//                       </span>
+//                     </p>
+//                   </div>
+//                 </div>
+//               </td>
+//             )}
+//             <td className="px-2 py-2 text-center">
+//               <div className="flex items-center justify-center gap-1">
+//                 {v.isSubVariant && <span className="text-gray-400 text-[10px]">→</span>}
+//                 {v.selectedColor && (
+//                   <span className="inline-block w-3.5 h-3.5 rounded-full border border-gray-300" style={{ backgroundColor: v.selectedColor }} title={v.selectedColor} />
+//                 )}
+//                 <span className="text-[10px] text-gray-700 font-medium">
+//                   {v.isSubVariant ? v.subVariantName : v.variantName}
+//                 </span>
+//                 <span className={`text-[8px] px-1 py-0.5 rounded ${v.isSubVariant ? 'bg-blue-50 text-blue-600' : 'bg-purple-50 text-purple-600'}`}>
+//                   {v.isSubVariant ? 'Sub' : 'Variant'}
+//                 </span>
+//               </div>
+//               {v.isSubVariant && <p className="text-[8px] text-gray-400 mt-0.5">{v.variantName}</p>}
+//             </td>
+//             <td className="px-2 py-2 text-center">
+//               {canEditProducts && isEditable ? (
+//                 <div className="flex items-center justify-center gap-1">
+//                   <button onClick={() => updateVariantItemQuantity(v.itemId, v.quantity - 1)} disabled={v.quantity <= 1} className="w-5 h-5 flex items-center justify-center rounded hover:bg-[#E2E7EA] disabled:opacity-50 text-[#64748B]">
+//                     <FaMinus className="w-2.5 h-2.5" />
+//                   </button>
+//                   <input
+//                     type="number" min="1" max={maxAllowed} value={v.quantity}
+//                     onChange={(e) => handleVariantItemQuantityInputChange(v.itemId, e.target.value)}
+//                     className="w-10 text-center text-xs font-medium border border-black/30 rounded focus:ring-2 focus:ring-black focus:border-transparent bg-white py-0.5 text-black"
+//                   />
+//                   <button onClick={() => updateVariantItemQuantity(v.itemId, v.quantity + 1)} disabled={v.quantity >= maxAllowed} className="w-5 h-5 flex items-center justify-center rounded hover:bg-[#E2E7EA] disabled:opacity-50 text-[#64748B]">
+//                     <FaPlus className="w-2.5 h-2.5" />
+//                   </button>
+//                 </div>
+//               ) : <span className="font-medium text-black">{v.quantity}</span>}
+//               <p className="text-[8px] text-gray-400 mt-0.5">/ {maxAllowed}</p>
+//             </td>
+//             <td className="px-2 py-2 text-right text-black">৳{price.toFixed(2)}</td>
+//             <td className="px-2 py-2 text-right font-medium text-black">৳{totalPrice.toFixed(2)}</td>
+//             {canEditProducts && isEditable && (
+//               <td className="px-2 py-2 text-center">
+//                 <button onClick={() => updateVariantItemQuantity(v.itemId, 0)} className="p-1 text-red-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors" title="Remove item">
+//                   <FaTrash className="w-3.5 h-3.5" />
+//                 </button>
+//               </td>
+//             )}
+//           </tr>
+//         );
+//         rowIndexInGroup++;
+//       });
+
+//       // ----- "add more variants/sub-variants" row -----
+//       if (canEditProducts && isEditable && group.hasVariants) {
+//         const availableVariants = getAvailableVariantsForGroup(group);
+//         const subVariantGroups = getVariantsWithSubVariantsToShowForAdding(group);
+
+//         if (availableVariants.length > 0 || subVariantGroups.length > 0) {
+//           allRows.push(
+//             <tr key={`${group.productId}-add-more`} className="border-t border-dashed border-gray-300 bg-gray-50/40">
+//               <td></td>
+//               <td colSpan={canEditProducts && isEditable ? 5 : 4} className="px-2 py-2">
+//                 <div className="space-y-1.5">
+//                   {subVariantGroups.map(sg => (
+//                     <div key={sg.variantId} className="flex flex-wrap items-center gap-1">
+//                       <span className="text-[9px] text-gray-500">Add {sg.parentVariant?.name || 'variant'} sub-option:</span>
+//                       {sg.subVariants.map(sv => (
+//                         <button
+//                           key={sv.id}
+//                           type="button"
+//                           onClick={() => addSubVariantToOrderGroup(group, sg.variantId, sv, sg.parentVariant?.name || 'Variant', sg.parentType || 'Variant')}
+//                           className="text-[9px] px-2 py-1 rounded-full border border-gray-300 hover:border-black text-gray-700 hover:bg-white transition-all flex items-center gap-1 bg-white/70"
+//                         >
+//                           <FaPlus className="w-2 h-2" />
+//                           {sv.name}
+//                         </button>
+//                       ))}
+//                     </div>
+//                   ))}
+//                   {availableVariants.length > 0 && (
+//                     <div className="flex flex-wrap items-center gap-1">
+//                       <span className="text-[9px] text-gray-500">Add variant:</span>
+//                       {availableVariants.map(v => (
+//                         <button
+//                           key={v.id}
+//                           type="button"
+//                           onClick={() => addVariantToOrderGroup(group, v, v.type)}
+//                           className={`text-[9px] px-2 py-1 rounded-full border transition-all flex items-center gap-1 ${
+//                             v.subVariants && v.subVariants.length > 0
+//                               ? 'border-amber-300 bg-amber-50 text-amber-700 hover:border-amber-400'
+//                               : 'border-gray-300 hover:border-black text-gray-700 hover:bg-white bg-white/70'
+//                           }`}
+//                         >
+//                           <FaPlus className="w-2 h-2" />
+//                           {v.name}
+//                           {v.subVariants && v.subVariants.length > 0 && (
+//                             <span className="text-[8px] bg-amber-200 text-amber-700 px-1 py-0.5 rounded-full">{v.subVariants.length} sub</span>
+//                           )}
+//                         </button>
+//                       ))}
+//                     </div>
+//                   )}
+//                 </div>
+//               </td>
+//             </tr>
+//           );
+//         }
+//       }
+//     });
+
+//     return allRows;
+//   };
+
+//   // ========== HELPERS FOR QUANTITY UPDATES ==========
+//   const updateColorQuantity = (itemId, newQuantity) => {
+//     const item = localItems.find(i => i._id === itemId);
+//     if (!item) return;
+
+//     if (newQuantity < 1) {
+//       showConfirmDialog(
+//         'Remove Item',
+//         `Are you sure you want to remove "${item.productName}"${item.selectedColor ? ` (${item.selectedColor})` : ''} from this order?`,
+//         () => {
+//           setLocalItems(prev => prev.filter(i => i._id !== itemId));
+//           setHasChanges(true);
+//           toast.success(`Removed from order`);
+//         },
+//         'Remove',
+//         'Cancel',
+//         'danger'
+//       );
+//       return;
+//     }
+
+//     setLocalItems(prev => prev.map(i => i._id === itemId ? { ...i, quantity: newQuantity } : i));
+//     setHasChanges(true);
+//   };
+
+//   const handleItemQuantityInputChange = (itemId, value) => {
+//     const item = localItems.find(i => i._id === itemId);
+//     if (!item) return;
+
+//     if (value === '') {
+//       setLocalItems(prev => prev.map(i => i._id === itemId ? { ...i, quantity: '' } : i));
+//       return;
+//     }
+
+//     let qty = parseInt(value);
+//     if (isNaN(qty)) return;
+//     qty = Math.max(1, qty);
     
-//   } catch (error) {
-//     console.error('Save changes error:', error);
-//     toast.error('Failed to save changes. Please try again.');
-//   } finally {
-//     setLoading(false);
-//   }
-// };
+//     setLocalItems(prev => prev.map(i => i._id === itemId ? { ...i, quantity: qty } : i));
+//     setHasChanges(true);
+//   };
+
+//   const handleRemoveItem = (itemId, productName, colorName) => {
+//     const displayName = colorName ? `${productName} (${colorName})` : productName;
+//     showConfirmDialog(
+//       'Remove Item',
+//       `Are you sure you want to remove "${displayName}" from this order?`,
+//       () => {
+//         setLocalItems(prev => prev.filter(item => item._id !== itemId));
+//         setHasChanges(true);
+//         toast.success(`Removed ${displayName} from order`);
+//       },
+//       'Remove',
+//       'Cancel',
+//       'danger'
+//     );
+//   };
 
 //   if (!isOpen) return null;
 
@@ -3229,9 +4437,9 @@
 //           initial={{ opacity: 0, scale: 0.95 }}
 //           animate={{ opacity: 1, scale: 1 }}
 //           exit={{ opacity: 0, scale: 0.95 }}
-//           className="relative bg-white rounded-2xl border border-[#82947A]/30 shadow-2xl w-full max-w-4xl my-8 overflow-hidden"
+//           className="relative bg-white rounded-2xl border border-black/30 shadow-2xl w-full max-w-4xl my-8 overflow-hidden"
 //         >
-//           <div className="p-4 bg-gradient-to-r from-[#82947A] to-[#485442] text-white sticky top-0 z-10">
+//           <div className="p-4 bg-black text-white sticky top-0 z-10">
 //             <div className="flex items-center justify-between">
 //               <div className="flex items-center gap-2">
 //                 <FaEdit className="w-5 h-5" />
@@ -3269,7 +4477,7 @@
 //           </div>
 
 //           <div className="p-5 max-h-[60vh] overflow-y-auto">
-//             {/* ========== STATUS NOTE ========== */}
+//             {/* Status Note */}
 //             {!isEditable && (
 //               <div className="mb-4 bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded-xl">
 //                 <p className="text-xs text-yellow-700">
@@ -3279,8 +4487,8 @@
 //             )}
             
 //             {isEditable && (
-//               <div className="mb-4 bg-[#82947A]/10 border-l-4 border-[#82947A] p-3 rounded-xl">
-//                 <p className="text-xs text-[#82947A]">
+//               <div className="mb-4 bg-black/10 border-l-4 border-black p-3 rounded-xl">
+//                 <p className="text-xs text-black">
 //                   ✅ Order is <strong>{getStatusLabel(order?.orderStatus)}</strong>. 
 //                   <span className="block text-[11px] mt-1">
 //                     🔒 <strong>Full Name & Phone:</strong> Only Super Admin & Admin can edit
@@ -3295,7 +4503,7 @@
 //                     ⚡ All changes are local until you click "Save Changes"
 //                   </span>
 //                   <span className="block text-[11px] text-green-600 mt-1">
-//                     ✅ Editable statuses: Placed, Follow Up, Reminder, Accepted, Approved, Ready to Ship
+//                     ✅ Supports variants, sub-variants, and colors
 //                   </span>
 //                 </p>
 //               </div>
@@ -3304,7 +4512,6 @@
 //             {/* ========== CUSTOMER INFORMATION ========== */}
 //             <div className="space-y-4">
 //               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-//                 {/* ===== FULL NAME ===== */}
 //                 <div>
 //                   <label className="block text-xs font-medium text-black mb-1">
 //                     Full Name *
@@ -3312,7 +4519,7 @@
 //                       <span className="ml-1 text-[10px] text-[#64748B] font-normal">(read-only)</span>
 //                     )}
 //                     {canEditSensitiveInfo && isEditable && (
-//                       <span className="ml-1 text-[10px] text-[#82947A] font-normal">(editable)</span>
+//                       <span className="ml-1 text-[10px] text-black font-normal">(editable)</span>
 //                     )}
 //                   </label>
 //                   <input
@@ -3321,16 +4528,12 @@
 //                     value={formData.fullName}
 //                     onChange={handleInputChange}
 //                     readOnly={!canEditSensitiveInfo || !isEditable}
-//                     className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent ${
-//                       !canEditSensitiveInfo || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-[#82947A]/60'
-//                     } border-[#82947A]/30 text-black`}
+//                     className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent ${
+//                       !canEditSensitiveInfo || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-black/60'
+//                     } border-black/30 text-black`}
 //                   />
-//                   {!canEditSensitiveInfo && isEditable && (
-//                     <p className="text-[10px] text-[#64748B] mt-0.5">Only Super Admin & Admin can edit name</p>
-//                   )}
 //                 </div>
 
-//                 {/* ===== PHONE ===== */}
 //                 <div>
 //                   <label className="block text-xs font-medium text-black mb-1">
 //                     Phone *
@@ -3338,7 +4541,7 @@
 //                       <span className="ml-1 text-[10px] text-[#64748B] font-normal">(read-only)</span>
 //                     )}
 //                     {canEditSensitiveInfo && isEditable && (
-//                       <span className="ml-1 text-[10px] text-[#82947A] font-normal">(editable)</span>
+//                       <span className="ml-1 text-[10px] text-black font-normal">(editable)</span>
 //                     )}
 //                   </label>
 //                   <input
@@ -3347,21 +4550,17 @@
 //                     value={formData.phone}
 //                     onChange={handleInputChange}
 //                     readOnly={!canEditSensitiveInfo || !isEditable}
-//                     className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent ${
-//                       !canEditSensitiveInfo || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-[#82947A]/60'
-//                     } border-[#82947A]/30 text-black`}
+//                     className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent ${
+//                       !canEditSensitiveInfo || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-black/60'
+//                     } border-black/30 text-black`}
 //                   />
-//                   {!canEditSensitiveInfo && isEditable && (
-//                     <p className="text-[10px] text-[#64748B] mt-0.5">Only Super Admin & Admin can edit phone</p>
-//                   )}
 //                 </div>
 
-//                 {/* ===== EMAIL ===== */}
 //                 <div>
 //                   <label className="block text-xs font-medium text-black mb-1">
 //                     Email
 //                     {isSuperAdmin && isEditable && (
-//                       <span className="ml-1 text-[10px] text-[#82947A] font-normal">(editable)</span>
+//                       <span className="ml-1 text-[10px] text-black font-normal">(editable)</span>
 //                     )}
 //                     {!isSuperAdmin && isEditable && (
 //                       <span className="ml-1 text-[10px] text-[#64748B] font-normal">(read-only)</span>
@@ -3373,21 +4572,17 @@
 //                     value={formData.email}
 //                     onChange={handleInputChange}
 //                     readOnly={!isSuperAdmin || !isEditable}
-//                     className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent ${
-//                       !isSuperAdmin || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-[#82947A]/60'
-//                     } border-[#82947A]/30 text-black`}
+//                     className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent ${
+//                       !isSuperAdmin || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-black/60'
+//                     } border-black/30 text-black`}
 //                   />
-//                   {!isSuperAdmin && isEditable && (
-//                     <p className="text-[10px] text-[#64748B] mt-0.5">Only Super Admin can edit email</p>
-//                   )}
 //                 </div>
 
-//                 {/* ===== DIVISION ===== */}
 //                 <div>
 //                   <label className="block text-xs font-medium text-black mb-1">
 //                     Division *
 //                     {canEditAddress && isEditable && (
-//                       <span className="ml-1 text-[10px] text-[#82947A] font-normal">(editable)</span>
+//                       <span className="ml-1 text-[10px] text-black font-normal">(editable)</span>
 //                     )}
 //                   </label>
 //                   <SearchableSelect
@@ -3401,12 +4596,11 @@
 //                   />
 //                 </div>
 
-//                 {/* ===== DISTRICT/CITY ===== */}
 //                 <div>
 //                   <label className="block text-xs font-medium text-black mb-1">
 //                     District/City *
 //                     {canEditAddress && isEditable && (
-//                       <span className="ml-1 text-[10px] text-[#82947A] font-normal">(editable)</span>
+//                       <span className="ml-1 text-[10px] text-black font-normal">(editable)</span>
 //                     )}
 //                   </label>
 //                   <SearchableSelect
@@ -3420,12 +4614,11 @@
 //                   />
 //                 </div>
 
-//                 {/* ===== UPAZILA/THANA ===== */}
 //                 <div>
 //                   <label className="block text-xs font-medium text-black mb-1">
 //                     Upazila/Thana *
 //                     {canEditAddress && isEditable && (
-//                       <span className="ml-1 text-[10px] text-[#82947A] font-normal">(editable)</span>
+//                       <span className="ml-1 text-[10px] text-black font-normal">(editable)</span>
 //                     )}
 //                   </label>
 //                   <SearchableSelect
@@ -3439,12 +4632,11 @@
 //                   />
 //                 </div>
 
-//                 {/* ===== UNION/AREA ===== */}
 //                 <div>
 //                   <label className="block text-xs font-medium text-black mb-1">
 //                     Union/Area
 //                     {canEditAddress && isEditable && (
-//                       <span className="ml-1 text-[10px] text-[#82947A] font-normal">(editable)</span>
+//                       <span className="ml-1 text-[10px] text-black font-normal">(editable)</span>
 //                     )}
 //                   </label>
 //                   <SearchableSelect
@@ -3457,12 +4649,11 @@
 //                   />
 //                 </div>
 
-//                 {/* ===== ADDRESS ===== */}
 //                 <div className="md:col-span-2">
 //                   <label className="block text-xs font-medium text-black mb-1">
 //                     Address *
 //                     {canEditAddress && isEditable && (
-//                       <span className="ml-1 text-[10px] text-[#82947A] font-normal">(editable)</span>
+//                       <span className="ml-1 text-[10px] text-black font-normal">(editable)</span>
 //                     )}
 //                   </label>
 //                   <textarea
@@ -3471,27 +4662,27 @@
 //                     onChange={handleInputChange}
 //                     readOnly={!canEditAddress || !isEditable}
 //                     rows="2"
-//                     className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent ${
-//                       !canEditAddress || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-[#82947A]/60'
-//                     } border-[#82947A]/30 text-black`}
+//                     className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent ${
+//                       !canEditAddress || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-black/60'
+//                     } border-black/30 text-black`}
 //                   />
 //                 </div>
 //               </div>
 
 //               {/* ========== ORDER ITEMS ========== */}
-//               <div className="border-t border-[#82947A]/30 pt-4 mt-2">
+//               <div className="border-t border-black/30 pt-4 mt-2">
 //                 <div className="flex items-center justify-between mb-3">
 //                   <label className="text-sm font-medium text-black flex items-center gap-2">
-//                     <FaBox className="w-4 h-4 text-[#82947A]" />
+//                     <FaBox className="w-4 h-4 text-black" />
 //                     Order Items ({localItems.length})
 //                     {canEditProducts && isEditable && (
-//                       <span className="text-[10px] text-[#82947A] font-normal">(add/remove products)</span>
+//                       <span className="text-[10px] text-black font-normal">(add/remove items)</span>
 //                     )}
 //                   </label>
 //                   {canEditProducts && isEditable && (
 //                     <button
 //                       onClick={() => setShowAddProduct(!showAddProduct)}
-//                       className="px-3 py-1.5 bg-[#82947A]/10 text-[#82947A] rounded-xl hover:bg-[#82947A]/20 transition-colors text-sm flex items-center gap-1.5 border border-[#82947A]/30"
+//                       className="px-3 py-1.5 bg-black/10 text-black rounded-xl hover:bg-black/20 transition-colors text-sm flex items-center gap-1.5 border border-black/30"
 //                     >
 //                       <FaPlus className="w-3 h-3" />
 //                       Add Product
@@ -3501,7 +4692,7 @@
 
 //                 {/* ========== ADD PRODUCT SECTION ========== */}
 //                 {showAddProduct && canEditProducts && isEditable && (
-//                   <div className="mb-4 p-4 bg-[#E2E7EA]/30 rounded-xl border border-[#82947A]/30">
+//                   <div className="mb-4 p-4 bg-[#E2E7EA]/30 rounded-xl border border-black/30">
 //                     <h4 className="text-sm font-medium text-black mb-3">Add Product to Order</h4>
                     
 //                     <div className="relative mb-3">
@@ -3511,16 +4702,16 @@
 //                         value={searchQuery}
 //                         onChange={(e) => setSearchQuery(e.target.value)}
 //                         placeholder="Start typing product name, SKU, or barcode..."
-//                         className="w-full pl-10 pr-3 py-2 text-sm border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white text-black"
+//                         className="w-full pl-10 pr-3 py-2 text-sm border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black"
 //                         autoFocus
 //                       />
 //                       {searching && (
-//                         <FaSpinner className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-[#82947A]" />
+//                         <FaSpinner className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-black" />
 //                       )}
 //                       {searchQuery && !searching && (
 //                         <button
 //                           onClick={() => setSearchQuery('')}
-//                           className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-[#82947A]"
+//                           className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-black"
 //                         >
 //                           <FaTimes className="w-3 h-3" />
 //                         </button>
@@ -3528,202 +4719,376 @@
 //                     </div>
 
 //                     {searchQuery.length > 0 && (
-//                       <div className="mb-3 max-h-48 overflow-y-auto border border-[#82947A]/20 rounded-xl bg-white">
+//                       <div className="mb-3 max-h-48 overflow-y-auto border border-black/20 rounded-xl bg-white">
 //                         {searching ? (
 //                           <div className="flex items-center justify-center py-4">
-//                             <FaSpinner className="w-4 h-4 animate-spin text-[#82947A]" />
+//                             <FaSpinner className="w-4 h-4 animate-spin text-black" />
 //                             <span className="ml-2 text-xs text-[#64748B]">Searching...</span>
 //                           </div>
 //                         ) : searchResults.length > 0 ? (
 //                           searchResults.map((product) => (
 //                             <div
 //                               key={product._id}
-//                               onClick={() => {
-//                                 setSelectedProduct(product);
-//                                 setSelectedColorsWithQty([]);
-//                                 setAddQuantity(1);
-//                               }}
-//                               className={`p-2 border-b border-[#82947A]/10 cursor-pointer hover:bg-[#E2E7EA]/50 transition-colors flex items-center gap-3 ${
-//                                 selectedProduct?._id === product._id ? 'bg-[#82947A]/10 border-l-4 border-l-[#82947A]' : ''
+//                               onClick={() => handleSelectProduct(product)}
+//                               className={`p-2 border-b border-black/10 cursor-pointer hover:bg-[#E2E7EA]/50 transition-colors flex items-center gap-3 ${
+//                                 selectedProduct?._id === product._id ? 'bg-black/10 border-l-4 border-l-black' : ''
 //                               }`}
 //                             >
 //                               <img
 //                                 src={product.images?.[0]?.url || 'https://via.placeholder.com/40'}
 //                                 alt={product.productName}
-//                                 className="w-10 h-10 rounded-lg object-cover border border-[#82947A]/20 flex-shrink-0"
+//                                 className="w-10 h-10 rounded-lg object-cover border border-black/20 flex-shrink-0"
 //                                 onError={(e) => { e.target.src = 'https://via.placeholder.com/40?text=Product'; }}
 //                               />
 //                               <div className="flex-1 min-w-0">
 //                                 <p className="text-xs font-medium text-black truncate">{product.productName}</p>
 //                                 <div className="flex items-center gap-2 text-xs flex-wrap">
-//                                   <span className="text-[#82947A] font-bold">৳{(product.discountPrice || product.regularPrice).toFixed(2)}</span>
+//                                   <span className="text-black font-bold">৳{(product.discountPrice || product.regularPrice).toFixed(2)}</span>
 //                                   {product.discountPrice > 0 && (
 //                                     <span className="text-[#64748B] line-through">৳{product.regularPrice.toFixed(2)}</span>
 //                                   )}
 //                                   <span className="text-[#64748B]">Stock: {product.stockQuantity}</span>
+//                                   {product.hasVariants && (
+//                                     <span className="text-[10px] text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded-full">
+//                                       Has Variants
+//                                     </span>
+//                                   )}
 //                                   {product.colors && product.colors.length > 0 && (
-//                                     <span className="text-[10px] text-[#82947A] bg-[#82947A]/10 px-1.5 py-0.5 rounded-full">
+//                                     <span className="text-[10px] text-black bg-black/10 px-1.5 py-0.5 rounded-full">
 //                                       {product.colors.length} colors
 //                                     </span>
 //                                   )}
 //                                 </div>
 //                               </div>
 //                               {selectedProduct?._id === product._id && (
-//                                 <FaCheckCircle className="w-4 h-4 text-[#82947A]" />
+//                                 <FaCheckCircle className="w-4 h-4 text-black" />
 //                               )}
 //                             </div>
 //                           ))
 //                         ) : (
 //                           <div className="p-4 text-center">
 //                             <p className="text-xs text-[#64748B]">No products found matching "{searchQuery}"</p>
-//                             <p className="text-[10px] text-[#64748B]/60 mt-1">Try searching by name, SKU, or barcode</p>
 //                           </div>
 //                         )}
 //                       </div>
 //                     )}
 
+//                     {/* ========== SELECTED PRODUCT PANEL ========== */}
 //                     {selectedProduct && (
-//                       <div className="p-3 bg-white rounded-xl border border-[#82947A]/20">
+//                       <div className="p-3 bg-white rounded-xl border border-black/20">
 //                         <p className="text-xs font-medium text-black mb-2">
 //                           Selected: {selectedProduct.productName}
 //                           <span className="ml-2 text-[10px] text-[#64748B]">(Stock: {selectedProduct.stockQuantity})</span>
 //                         </p>
                         
-//                         {selectedProduct.colors && selectedProduct.colors.length > 0 ? (
+//                         {/* ===== VARIANTS SECTION ===== */}
+//                         {selectedProduct.hasVariants && selectedProduct.variantTypes?.length > 0 && (
 //                           <div className="space-y-3">
-//                             <p className="text-xs text-[#64748B]">Click on a color to select it, then set quantity:</p>
-                            
-//                             {selectedProduct.colors.map((color) => {
-//                               const selected = selectedColorsWithQty.find(c => c.color === color);
-//                               const isSelected = !!selected;
-//                               const quantity = selected?.quantity || 1;
-                              
-//                               // Calculate max allowed for this color based on product-level stock
-//                               const totalSelectedOthers = selectedColorsWithQty
-//                                 .filter(c => c.color !== color)
-//                                 .reduce((sum, c) => sum + Number(c.quantity || 0), 0);
-//                               const maxAllowed = selectedProduct.stockQuantity - totalSelectedOthers;
-                              
-//                               return (
-//                                 <div key={color} className={`flex items-center gap-3 p-2 rounded-lg border transition-all ${
-//                                   isSelected 
-//                                     ? 'bg-[#82947A]/5 border-[#82947A]' 
-//                                     : 'bg-[#E2E7EA]/30 border-[#82947A]/15 hover:border-[#82947A]/30'
-//                                 }`}>
-//                                   <div 
-//                                     className="w-8 h-8 rounded-full border-2 flex-shrink-0"
-//                                     style={{ 
-//                                       backgroundColor: color,
-//                                       borderColor: isSelected ? '#06B6D4' : '#E2E7EA'
-//                                     }}
-//                                   />
-//                                   <span className="text-xs font-medium text-black min-w-[60px]">{color}</span>
-                                  
-//                                   <button
-//                                     onClick={() => toggleColorSelection(color)}
-//                                     className={`px-3 py-1 text-xs rounded-lg transition-colors ${
-//                                       isSelected 
-//                                         ? 'bg-red-500 text-white hover:bg-red-600' 
-//                                         : 'bg-[#82947A] text-white hover:bg-[#0891B2]'
-//                                     }`}
-//                                   >
-//                                     {isSelected ? 'Deselect' : 'Select'}
-//                                   </button>
-                                  
-//                                   {isSelected && (
-//                                     <div className="flex items-center gap-1 ml-auto">
-//                                       <button
-//                                         onClick={() => updateSelectedColorQuantity(color, quantity - 1)}
-//                                         disabled={quantity <= 1}
-//                                         className="w-6 h-6 flex items-center justify-center rounded hover:bg-[#E2E7EA] disabled:opacity-50 text-[#64748B]"
-//                                       >
-//                                         <FaMinus className="w-2.5 h-2.5" />
-//                                       </button>
-//                                       <input
-//                                         type="number"
-//                                         min="1"
-//                                         max={maxAllowed}
-//                                         value={quantity}
-//                                         onChange={(e) => handleColorQuantityInputChange(color, e.target.value)}
-//                                         className="w-12 text-center text-sm font-medium text-black border border-[#82947A]/20 rounded-lg focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white py-1"
-//                                       />
-//                                       <button
-//                                         onClick={() => updateSelectedColorQuantity(color, quantity + 1)}
-//                                         disabled={quantity >= maxAllowed || maxAllowed <= 0}
-//                                         className="w-6 h-6 flex items-center justify-center rounded hover:bg-[#E2E7EA] disabled:opacity-50 text-[#64748B]"
-//                                       >
-//                                         <FaPlus className="w-2.5 h-2.5" />
-//                                       </button>
-//                                     </div>
-//                                   )}
+//                             {selectedProduct.variantTypes.map((vt) => (
+//                               <div key={vt.id || vt.type} className="space-y-2">
+//                                 <p className="text-xs font-medium text-gray-700">
+//                                   {vt.type.charAt(0).toUpperCase() + vt.type.slice(1)} Variants:
+//                                 </p>
+//                                 <div className="space-y-2">
+//                                   {vt.variants.map((v) => {
+//                                     const hasSub = v.subVariants && v.subVariants.length > 0;
+//                                     const isSelected = hasSub
+//                                       ? selectedVariantsWithQty.some(sv => sv.variantId === v.id && sv.subVariantId !== null)
+//                                       : selectedVariantsWithQty.some(sv => sv.variantId === v.id && !sv.subVariantId);
+
+//                                     return (
+//                                       <div key={v.id} className="border rounded-lg p-2 bg-white">
+//                                         <div className="flex items-center gap-2">
+//                                           {v.images?.[0] && (
+//                                             <img src={v.images[0]} className="w-8 h-8 rounded object-cover border border-gray-200" alt={v.name} />
+//                                           )}
+//                                           <span className="text-sm font-medium text-gray-800">{v.name}</span>
+//                                           <span className="text-xs text-gray-500 ml-auto">
+//                                             ৳{(v.discountPrice || v.regularPrice || 0).toFixed(2)}
+//                                           </span>
+//                                           <button
+//                                             onClick={() => toggleVariantSelection(vt, v)}
+//                                             className={`px-2 py-0.5 text-xs rounded ${isSelected ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-black text-white hover:bg-[#485442]'}`}
+//                                           >
+//                                             {isSelected ? 'Remove' : 'Add'}
+//                                           </button>
+//                                           {hasSub && (
+//                                             <span className="text-[10px] text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded-full">
+//                                               {v.subVariants.length} sub
+//                                             </span>
+//                                           )}
+//                                         </div>
+
+//                                         {hasSub && (
+//                                           <div className="mt-2 pl-3 space-y-1 border-l-2 border-gray-200">
+//                                             {v.subVariants.map((sv) => {
+//                                               const selectedSub = selectedVariantsWithQty.find(x => x.variantId === v.id && x.subVariantId === sv.id);
+//                                               const isSubSelected = !!selectedSub;
+//                                               return (
+//                                                 <div key={sv.id} className="flex items-center gap-2 py-1">
+//                                                   {sv.images?.[0] && (
+//                                                     <img src={sv.images[0]} className="w-5 h-5 rounded object-cover border border-gray-200" alt={sv.name} />
+//                                                   )}
+//                                                   <span className="text-xs text-gray-700">{sv.name}</span>
+//                                                   <span className="text-[10px] text-gray-500">
+//                                                     ৳{(sv.discountPrice || sv.regularPrice || 0).toFixed(2)}
+//                                                   </span>
+//                                                   <button
+//                                                     onClick={() => toggleSubVariantSelection(vt, v, sv)}
+//                                                     className={`px-1.5 py-0.5 text-[10px] rounded ${isSubSelected ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-black text-white hover:bg-[#485442]'}`}
+//                                                   >
+//                                                     {isSubSelected ? 'Remove' : 'Add'}
+//                                                   </button>
+//                                                   {isSubSelected && (
+//                                                     <div className="flex items-center gap-1">
+//                                                       <button
+//                                                         onClick={() => updateNewVariantQty(v.id, sv.id, Math.max(1, (selectedSub?.quantity || 1) - 1))}
+//                                                         className="w-5 h-5 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-100 disabled:opacity-50"
+//                                                         disabled={selectedSub?.quantity <= 1}
+//                                                       >
+//                                                         <FaMinus className="w-2.5 h-2.5" />
+//                                                       </button>
+//                                                       <input
+//                                                         type="number"
+//                                                         min="1"
+//                                                         max={sv.stockQuantity || 999}
+//                                                         value={selectedSub?.quantity || 1}
+//                                                         onChange={(e) => {
+//                                                           const val = parseInt(e.target.value);
+//                                                           if (!isNaN(val)) updateNewVariantQty(v.id, sv.id, Math.max(1, val));
+//                                                         }}
+//                                                         className="w-12 text-center text-[10px] py-0.5 bg-white focus:outline-none border border-gray-200 rounded"
+//                                                       />
+//                                                       <button
+//                                                         onClick={() => updateNewVariantQty(v.id, sv.id, Math.min(sv.stockQuantity || 999, (selectedSub?.quantity || 1) + 1))}
+//                                                         className="w-5 h-5 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-100 disabled:opacity-50"
+//                                                         disabled={selectedSub?.quantity >= (sv.stockQuantity || 999)}
+//                                                       >
+//                                                         <FaPlus className="w-2.5 h-2.5" />
+//                                                       </button>
+//                                                     </div>
+//                                                   )}
+//                                                 </div>
+//                                               );
+//                                             })}
+//                                           </div>
+//                                         )}
+
+//                                         {!hasSub && isSelected && (
+//                                           <div className="flex items-center gap-2 mt-2 pt-2 border-t border-gray-200">
+//                                             <span className="text-xs text-gray-500">Qty:</span>
+//                                             <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden bg-white">
+//                                               <button
+//                                                 onClick={() => {
+//                                                   const cur = selectedVariantsWithQty.find(s => s.variantId === v.id && !s.subVariantId)?.quantity || 1;
+//                                                   updateNewVariantQty(v.id, null, Math.max(1, cur - 1));
+//                                                 }}
+//                                                 className="w-6 h-6 flex items-center justify-center hover:bg-gray-100"
+//                                               >
+//                                                 <FaMinus className="w-3 h-3" />
+//                                               </button>
+//                                               <input
+//                                                 type="number"
+//                                                 min="1"
+//                                                 max={v.stockQuantity || 999}
+//                                                 value={selectedVariantsWithQty.find(s => s.variantId === v.id && !s.subVariantId)?.quantity || 1}
+//                                                 onChange={(e) => {
+//                                                   const val = parseInt(e.target.value);
+//                                                   if (!isNaN(val)) updateNewVariantQty(v.id, null, Math.max(1, val));
+//                                                 }}
+//                                                 className="w-10 text-center text-xs py-0.5 bg-white focus:outline-none border border-gray-200 rounded"
+//                                               />
+//                                               <button
+//                                                 onClick={() => {
+//                                                   const cur = selectedVariantsWithQty.find(s => s.variantId === v.id && !s.subVariantId)?.quantity || 1;
+//                                                   updateNewVariantQty(v.id, null, Math.min(v.stockQuantity || 999, cur + 1));
+//                                                 }}
+//                                                 className="w-6 h-6 flex items-center justify-center hover:bg-gray-100"
+//                                               >
+//                                                 <FaPlus className="w-3 h-3" />
+//                                               </button>
+//                                             </div>
+//                                             <span className="text-[10px] text-gray-400">max {v.stockQuantity || 0}</span>
+//                                           </div>
+//                                         )}
+//                                       </div>
+//                                     );
+//                                   })}
 //                                 </div>
-//                               );
-//                             })}
-                            
-//                             <div className="mt-2 text-[10px] text-[#64748B]">
-//                               {selectedColorsWithQty.length > 0 ? (
-//                                 <span className="text-[#82947A]">
-//                                   ✓ {selectedColorsWithQty.length} color{selectedColorsWithQty.length > 1 ? 's' : ''} selected
-//                                   {' | Total: '}
-//                                   {selectedColorsWithQty.reduce((sum, c) => sum + Number(c.quantity || 0), 0)} / {selectedProduct.stockQuantity}
-//                                 </span>
-//                               ) : (
-//                                 <span className="text-orange-500">Click "Select" on a color above to add it</span>
-//                               )}
+//                               </div>
+//                             ))}
+
+//                             {selectedVariantsWithQty.length > 0 && (
+//                               <div className="p-2 bg-blue-50 rounded-lg border border-blue-200">
+//                                 <div className="flex items-center justify-between text-xs">
+//                                   <span className="text-blue-700 font-medium">
+//                                     {selectedVariantsWithQty.length} variant(s) selected
+//                                   </span>
+//                                   <span className="text-blue-700 font-medium">
+//                                     Total: {selectedVariantsWithQty.reduce((s, v) => s + v.quantity, 0)} items • ৳
+//                                     {selectedVariantsWithQty.reduce((s, v) => s + ((v.discountPrice > 0 ? v.discountPrice : v.regularPrice) * v.quantity), 0).toFixed(2)}
+//                                   </span>
+//                                 </div>
+//                               </div>
+//                             )}
+//                           </div>
+//                         )}
+
+//                         {/* ===== COLORS SECTION ===== */}
+//                         {!selectedProduct.hasVariants && selectedProduct.colors && selectedProduct.colors.length > 0 && (
+//                           <div className="space-y-2">
+//                             <p className="text-xs font-medium text-gray-700">Select Colors:</p>
+//                             <div className="flex flex-wrap gap-2">
+//                               {selectedProduct.colors.map((color) => {
+//                                 const selected = selectedColorsWithQty.find(c => c.color === color);
+//                                 const isSelected = !!selected;
+//                                 const quantity = selected?.quantity || 1;
+                                
+//                                 return (
+//                                   <div key={color} className="flex items-center gap-2 p-2 rounded-lg border border-gray-200 bg-white">
+//                                     <div 
+//                                       className="w-6 h-6 rounded-full border border-gray-300 flex-shrink-0"
+//                                       style={{ backgroundColor: color }}
+//                                       title={color}
+//                                     />
+//                                     <button
+//                                       onClick={() => toggleColorSelection(color)}
+//                                       className={`px-2 py-0.5 text-xs rounded ${
+//                                         isSelected ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-black text-white hover:bg-[#485442]'
+//                                       }`}
+//                                     >
+//                                       {isSelected ? 'Remove' : 'Add'}
+//                                     </button>
+//                                     {isSelected && (
+//                                       <div className="flex items-center gap-1">
+//                                         <button
+//                                           onClick={() => {
+//                                             const currentQty = selectedColorsWithQty.find(c => c.color === color)?.quantity || 1;
+//                                             updateSelectedColorQuantity(color, Math.max(1, currentQty - 1));
+//                                           }}
+//                                           className="w-5 h-5 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-100 disabled:opacity-50"
+//                                           disabled={quantity <= 1}
+//                                         >
+//                                           <FaMinus className="w-3 h-3" />
+//                                         </button>
+//                                         <input
+//                                           type="text"
+//                                           inputMode="numeric"
+//                                           pattern="[0-9]*"
+//                                           value={quantity}
+//                                           onChange={(e) => handleColorQuantityInputChange(color, e.target.value)}
+//                                           onBlur={() => {
+//                                             const currentQty = selectedColorsWithQty.find(c => c.color === color)?.quantity;
+//                                             let numValue = typeof currentQty === 'string' ? parseInt(currentQty) : currentQty;
+//                                             if (isNaN(numValue) || numValue < 1) {
+//                                               updateSelectedColorQuantity(color, 1);
+//                                             } else if (numValue > (selectedProduct.stockQuantity || 999)) {
+//                                               updateSelectedColorQuantity(color, selectedProduct.stockQuantity || 999);
+//                                             }
+//                                           }}
+//                                           className="w-10 text-center text-xs py-0.5 bg-white focus:outline-none border border-gray-200 rounded"
+//                                         />
+//                                         <button
+//                                           onClick={() => {
+//                                             const currentQty = selectedColorsWithQty.find(c => c.color === color)?.quantity || 1;
+//                                             updateSelectedColorQuantity(color, Math.min(selectedProduct.stockQuantity || 999, currentQty + 1));
+//                                           }}
+//                                           className="w-5 h-5 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-100 disabled:opacity-50"
+//                                           disabled={quantity >= selectedProduct.stockQuantity}
+//                                         >
+//                                           <FaPlus className="w-3 h-3" />
+//                                         </button>
+//                                       </div>
+//                                     )}
+//                                   </div>
+//                                 );
+//                               })}
 //                             </div>
 //                           </div>
-//                         ) : (
+//                         )}
+                        
+//                         {/* ===== PLAIN PRODUCT ===== */}
+//                         {!selectedProduct.hasVariants && (!selectedProduct.colors || selectedProduct.colors.length === 0) && (
 //                           <div className="flex items-center gap-3">
-//                             <span className="text-xs text-[#64748B]">Quantity:</span>
-//                             <div className="flex items-center border border-[#82947A]/30 rounded-lg overflow-hidden">
+//                             <span className="text-xs text-gray-600">Quantity:</span>
+//                             <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden bg-white">
 //                               <button
 //                                 onClick={() => setAddQuantity(prev => Math.max(1, prev - 1))}
-//                                 className="px-2 py-1 hover:bg-[#E2E7EA] transition-colors"
+//                                 className="px-2 py-1 hover:bg-gray-100 transition-colors"
+//                                 disabled={addQuantity <= 1}
 //                               >
-//                                 <FaMinus className="w-2.5 h-2.5 text-[#64748B]" />
+//                                 <FaMinus className="w-3 h-3" />
 //                               </button>
 //                               <input
-//                                 type="number"
+//                                 type="text"
+//                                 inputMode="numeric"
+//                                 pattern="[0-9]*"
 //                                 value={addQuantity}
-//                                 onChange={(e) => setAddQuantity(Math.max(1, Math.min(selectedProduct.stockQuantity, parseInt(e.target.value) || 1)))}
-//                                 min="1"
-//                                 max={selectedProduct.stockQuantity}
-//                                 className="w-12 text-center text-xs py-1 bg-white focus:outline-none text-black"
+//                                 onChange={(e) => {
+//                                   const value = e.target.value;
+//                                   if (value === '') {
+//                                     setAddQuantity('');
+//                                     return;
+//                                   }
+//                                   if (/^\d+$/.test(value)) {
+//                                     const numValue = parseInt(value);
+//                                     if (numValue <= (selectedProduct.stockQuantity || 999)) {
+//                                       setAddQuantity(numValue);
+//                                     }
+//                                   }
+//                                 }}
+//                                 onBlur={() => {
+//                                   let numValue = typeof addQuantity === 'string' ? parseInt(addQuantity) : addQuantity;
+//                                   if (isNaN(numValue) || numValue < 1) {
+//                                     setAddQuantity(1);
+//                                   } else if (numValue > (selectedProduct.stockQuantity || 999)) {
+//                                     setAddQuantity(selectedProduct.stockQuantity || 999);
+//                                   }
+//                                 }}
+//                                 className="w-14 text-center text-sm py-1 bg-white focus:outline-none"
 //                               />
 //                               <button
-//                                 onClick={() => setAddQuantity(prev => Math.min(selectedProduct.stockQuantity, prev + 1))}
-//                                 disabled={addQuantity >= selectedProduct.stockQuantity}
-//                                 className="px-2 py-1 hover:bg-[#E2E7EA] disabled:opacity-50 transition-colors"
+//                                 onClick={() => {
+//                                   const currentQty = typeof addQuantity === 'string' ? parseInt(addQuantity) || 1 : addQuantity;
+//                                   setAddQuantity(Math.min(selectedProduct.stockQuantity || 999, currentQty + 1));
+//                                 }}
+//                                 className="px-2 py-1 hover:bg-gray-100 disabled:opacity-50 transition-colors"
+//                                 disabled={addQuantity >= (selectedProduct.stockQuantity || 999)}
 //                               >
-//                                 <FaPlus className="w-2.5 h-2.5 text-[#64748B]" />
+//                                 <FaPlus className="w-3 h-3" />
 //                               </button>
 //                             </div>
-//                             <span className="text-xs text-[#64748B]">/ {selectedProduct.stockQuantity} available</span>
+//                             <span className="text-xs text-gray-500">/ {selectedProduct.stockQuantity || 0}</span>
 //                           </div>
 //                         )}
 
 //                         <button
 //                           onClick={handleAddProduct}
-//                           disabled={addingProduct || (selectedProduct.colors?.length > 0 && selectedColorsWithQty.length === 0)}
-//                           className="mt-3 w-full px-4 py-2 bg-[#82947A] text-white rounded-lg hover:bg-[#485442] transition-colors text-sm disabled:opacity-50 flex items-center justify-center gap-2"
+//                           disabled={
+//                             addingProduct ||
+//                             (selectedProduct.hasVariants && selectedVariantsWithQty.length === 0) ||
+//                             (!selectedProduct.hasVariants && selectedProduct.colors?.length > 0 && selectedColorsWithQty.length === 0)
+//                           }
+//                           className="mt-3 w-full px-4 py-2 bg-black text-white rounded-lg hover:bg-[#485442] transition-colors text-sm disabled:opacity-50 flex items-center justify-center gap-2"
 //                         >
 //                           {addingProduct ? <FaSpinner className="w-3 h-3 animate-spin" /> : <FaPlus className="w-3 h-3" />}
-//                           Add to Order
+//                           {selectedProduct.hasVariants ? `Add ${selectedVariantsWithQty.length} Variant(s) to Order` : 'Add to Order'}
 //                         </button>
 //                       </div>
 //                     )}
 //                   </div>
 //                 )}
 
-//                 {/* ========== ITEMS LIST - GROUPED BY PRODUCT WITH COLORS ========== */}
+//                 {/* ===== ORDER ITEMS TABLE ===== */}
 //                 <div className="overflow-x-auto">
 //                   <table className="w-full text-xs">
 //                     <thead className="bg-[#E2E7EA]">
 //                       <tr>
 //                         <th className="px-2 py-1.5 text-left text-black">Product</th>
-//                         <th className="px-2 py-1.5 text-center text-black">Color</th>
-//                         <th className="px-2 py-1.5 text-center text-black">Qty</th>
-//                         <th className="px-2 py-1.5 text-right text-black">Price</th>
+//                         <th className="px-2 py-1.5 text-center text-black">Variant / Color</th>
+//                         {/* <th className="px-2 py-1.5 text-center text-black">Qty</th> */}
+//                         <th className="px-2 py-1.5 text-center text-black hidden sm:table-cell">Unit</th>
+//                         <th className="px-2 py-1.5 text-right text-black hidden sm:table-cell">Price</th>
 //                         <th className="px-2 py-1.5 text-right text-black">Total</th>
 //                         {canEditProducts && isEditable && <th className="px-2 py-1.5 text-center text-black">Action</th>}
 //                       </tr>
@@ -3731,152 +5096,33 @@
 //                     <tbody>
 //                       {groupedItems.length === 0 ? (
 //                         <tr>
-//                           <td colSpan={canEditProducts && isEditable ? 6 : 5} className="text-center py-4 text-[#64748B]">
+//                           <td colSpan={canEditProducts && isEditable ? 7 : 6} className="text-center py-4 text-[#64748B]">
 //                             No items in this order
 //                           </td>
 //                         </tr>
 //                       ) : (
-//                         groupedItems.map((group) => {
-//                           const hasMultipleColors = group.colors && group.colors.length > 1;
-//                           const totalUsed = group.colors.reduce((sum, c) => sum + c.quantity, 0);
-//                           const isOverStock = totalUsed > group.stockQuantity;
-                          
-//                           return group.colors.map((colorInfo, colorIdx) => {
-//                             const isFirst = colorIdx === 0;
-//                             const price = colorInfo.price || group.discountPrice || group.regularPrice;
-//                             const totalPrice = price * colorInfo.quantity;
-//                             const isTempItem = colorInfo.isTempItem;
-//                             const hasColor = colorInfo.color !== null;
-                            
-//                             // Calculate max allowed for this color based on product-level stock
-//                             const usedByOthers = group.colors
-//                               .filter(c => c.itemId !== colorInfo.itemId)
-//                               .reduce((sum, c) => sum + c.quantity, 0);
-//                             const maxAllowed = group.stockQuantity - usedByOthers;
-                            
-//                             return (
-//                               <tr key={colorInfo.itemId || `color-${colorIdx}`} className={`border-t border-[#82947A]/20 ${isTempItem ? 'bg-[#82947A]/5' : ''} ${isOverStock ? 'bg-red-50' : ''}`}>
-//                                 {isFirst && (
-//                                   <td className="px-2 py-2" rowSpan={hasMultipleColors ? group.colors.length : 1}>
-//                                     <div className="flex items-center gap-2">
-//                                       <img 
-//                                         src={group.image || 'https://via.placeholder.com/30'} 
-//                                         alt={group.productName}
-//                                         className="w-7 h-7 rounded object-cover border border-[#82947A]/30 flex-shrink-0"
-//                                         onError={(e) => { e.target.src = 'https://via.placeholder.com/30?text=Product'; }}
-//                                       />
-//                                       <div>
-//                                         <p className="font-medium text-xs text-black truncate max-w-[120px]" title={group.productName}>
-//                                           {group.productName}
-//                                           {isTempItem && (
-//                                             <span className="ml-1 text-[10px] text-green-500 font-normal">(new)</span>
-//                                           )}
-//                                           {isOverStock && (
-//                                             <span className="ml-1 text-[10px] text-red-500 font-normal">(exceeds stock!)</span>
-//                                           )}
-//                                         </p>
-//                                         {hasMultipleColors && (
-//                                           <p className="text-[9px] text-[#64748B]">{group.colors.length} colors</p>
-//                                         )}
-//                                         <p className={`text-[9px] ${isOverStock ? 'text-red-500 font-medium' : 'text-[#64748B]'}`}>
-//                                           Stock: {group.stockQuantity} | Used: {totalUsed}
-//                                           {isOverStock && ` (${totalUsed - group.stockQuantity} over)`}
-//                                         </p>
-//                                       </div>
-//                                     </div>
-//                                   </td>
-//                                 )}
-                                
-//                                 {/* ===== COLOR COLUMN ===== */}
-//                                 <td className="px-2 py-2 text-center">
-//                                   {hasColor ? (
-//                                     <div className="flex items-center justify-center">
-//                                       <div 
-//                                         className="w-5 h-5 rounded-full border border-[#82947A]/30 shadow-sm"
-//                                         style={{ backgroundColor: colorInfo.color }}
-//                                         title={colorInfo.color}
-//                                       />
-//                                     </div>
-//                                   ) : (
-//                                     <span className="text-xs text-[#64748B]">-</span>
-//                                   )}
-//                                 </td>
-                                
-//                                 <td className="px-2 py-2 text-center">
-//                                   {canEditProducts && isEditable ? (
-//                                     <div className="flex items-center justify-center gap-1">
-//                                       <button
-//                                         onClick={() => updateColorQuantity(colorInfo.itemId, colorInfo.quantity - 1)}
-//                                         disabled={colorInfo.quantity <= 1}
-//                                         className="w-5 h-5 flex items-center justify-center rounded hover:bg-[#E2E7EA] disabled:opacity-50 text-[#64748B]"
-//                                       >
-//                                         <FaMinus className="w-2.5 h-2.5" />
-//                                       </button>
-//                                       <input
-//                                         type="number"
-//                                         min="1"
-//                                         max={maxAllowed}
-//                                         value={colorInfo.quantity}
-//                                         onChange={(e) => handleItemQuantityInputChange(colorInfo.itemId, e.target.value)}
-//                                         className={`w-10 text-center text-xs font-medium border rounded focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white py-0.5 ${
-//                                           isOverStock ? 'border-red-500 text-red-600' : 'border-[#82947A]/30 text-black'
-//                                         }`}
-//                                       />
-//                                       <button
-//                                         onClick={() => updateColorQuantity(colorInfo.itemId, colorInfo.quantity + 1)}
-//                                         disabled={colorInfo.quantity >= maxAllowed || maxAllowed <= 0}
-//                                         className="w-5 h-5 flex items-center justify-center rounded hover:bg-[#E2E7EA] disabled:opacity-50 text-[#64748B]"
-//                                       >
-//                                         <FaPlus className="w-2.5 h-2.5" />
-//                                       </button>
-//                                     </div>
-//                                   ) : (
-//                                     <span className={`font-medium ${isOverStock ? 'text-red-600' : 'text-black'}`}>{colorInfo.quantity}</span>
-//                                   )}
-//                                 </td>
-//                                 <td className="px-2 py-2 text-right text-black">৳{price.toFixed(2)}</td>
-//                                 <td className="px-2 py-2 text-right font-medium text-[#82947A]">৳{totalPrice.toFixed(2)}</td>
-//                                 {canEditProducts && isEditable && (
-//                                   <td className="px-2 py-2 text-center">
-//                                     <button
-//                                       onClick={() => handleRemoveItem(colorInfo.itemId, group.productName, colorInfo.color)}
-//                                       disabled={removingItem === colorInfo.itemId}
-//                                       className="p-1 text-red-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors disabled:opacity-50"
-//                                       title="Remove item"
-//                                     >
-//                                       {removingItem === colorInfo.itemId ? (
-//                                         <FaSpinner className="w-3.5 h-3.5 animate-spin" />
-//                                       ) : (
-//                                         <FaTrash className="w-3.5 h-3.5" />
-//                                       )}
-//                                     </button>
-//                                   </td>
-//                                 )}
-//                               </tr>
-//                             );
-//                           });
-//                         })
+//                         buildOrderItemRows()
 //                       )}
 //                     </tbody>
-//                     <tfoot className="border-t border-[#82947A]/30 bg-[#E2E7EA]/30">
+//                     <tfoot className="border-t border-black/30 bg-[#E2E7EA]/30">
 //                       <tr>
-//                         <td colSpan={canEditProducts && isEditable ? 4 : 3} className="px-2 py-1 text-right font-medium text-black">Subtotal:</td>
+//                         <td colSpan={canEditProducts && isEditable ? 5 : 4} className="px-2 py-1 text-right font-medium text-black">Subtotal:</td>
 //                         <td className="px-2 py-1 text-right font-medium text-black">৳{localSubtotal.toFixed(2)}</td>
 //                         {canEditProducts && isEditable && <td></td>}
 //                       </tr>
 //                       <tr>
-//                         <td colSpan={canEditProducts && isEditable ? 4 : 3} className="px-2 py-1 text-right font-medium text-black">Shipping:</td>
+//                         <td colSpan={canEditProducts && isEditable ? 5 : 4} className="px-2 py-1 text-right font-medium text-black">Shipping:</td>
 //                         <td className="px-2 py-1 text-right text-black">৳{shippingCost.toFixed(2)}</td>
 //                         {canEditProducts && isEditable && <td></td>}
 //                       </tr>
 //                       <tr className="text-green-600">
-//                         <td colSpan={canEditProducts && isEditable ? 4 : 3} className="px-2 py-1 text-right font-medium">Discount:</td>
+//                         <td colSpan={canEditProducts && isEditable ? 5 : 4} className="px-2 py-1 text-right font-medium">Discount:</td>
 //                         <td className="px-2 py-1 text-right font-medium">- ৳{localDiscount.toFixed(2)}</td>
 //                         {canEditProducts && isEditable && <td></td>}
 //                       </tr>
-//                       <tr className="text-sm font-bold text-[#82947A]">
-//                         <td colSpan={canEditProducts && isEditable ? 4 : 3} className="px-2 py-1 text-right text-black">Total:</td>
-//                         <td className="px-2 py-1 text-right text-[#82947A]">৳{localTotal.toFixed(2)}</td>
+//                       <tr className="text-sm font-bold text-black">
+//                         <td colSpan={canEditProducts && isEditable ? 5 : 4} className="px-2 py-1 text-right text-black">Total:</td>
+//                         <td className="px-2 py-1 text-right text-black">৳{localTotal.toFixed(2)}</td>
 //                         {canEditProducts && isEditable && <td></td>}
 //                       </tr>
 //                     </tfoot>
@@ -3885,13 +5131,12 @@
 //               </div>
 
 //               {/* ========== DISCOUNT SECTION ========== */}
-//               <div className="border-t border-[#82947A]/30 pt-4 mt-2">
+//               <div className="border-t border-black/30 pt-4 mt-2">
 //                 <div className="flex items-center justify-between mb-2">
 //                   <label className="text-sm font-medium text-black flex items-center gap-2">
-             
 //                     Order Discount amount
 //                     {canEditDiscount && isEditable && (
-//                       <span className="text-[10px] text-[#82947A] font-normal">(editable)</span>
+//                       <span className="text-[10px] text-black font-normal">(editable)</span>
 //                     )}
 //                   </label>
 //                 </div>
@@ -3905,9 +5150,9 @@
 //                       disabled={!canEditDiscount || !isEditable}
 //                       min="0"
 //                       step="0.5"
-//                       className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent ${
-//                         !canEditDiscount || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-[#82947A]/60'
-//                       } border-[#82947A]/30 text-black`}
+//                       className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent ${
+//                         !canEditDiscount || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-black/60'
+//                       } border-black/30 text-black`}
 //                       placeholder="0.00"
 //                     />
 //                   </div>
@@ -3919,16 +5164,16 @@
 //                       onChange={handleInputChange}
 //                       disabled={!canEditDiscount || !isEditable}
 //                       placeholder="Discount reason (optional)"
-//                       className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent ${
-//                         !canEditDiscount || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-[#82947A]/60'
-//                       } border-[#82947A]/30 text-black`}
+//                       className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent ${
+//                         !canEditDiscount || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-black/60'
+//                       } border-black/30 text-black`}
 //                     />
 //                   </div>
 //                 </div>
-//                 <div className="mt-2 p-2 bg-[#E2E7EA]/30 rounded-lg border border-[#82947A]/20">
+//                 <div className="mt-2 p-2 bg-[#E2E7EA]/30 rounded-lg border border-black/20">
 //                   <div className="flex justify-between text-sm">
 //                     <span className="text-[#64748B]">After Discount:</span>
-//                     <span className="font-bold text-[#82947A]">৳{localTotal.toFixed(2)}</span>
+//                     <span className="font-bold text-black">৳{localTotal.toFixed(2)}</span>
 //                   </div>
 //                   {localDiscount > 0 && (
 //                     <div className="flex justify-between text-xs text-green-600">
@@ -3940,11 +5185,11 @@
 //               </div>
 
 //               {/* ========== DELIVERY NOTE ========== */}
-//               <div className="border-t border-[#82947A]/30 pt-4 mt-2">
+//               <div className="border-t border-black/30 pt-4 mt-2">
 //                 <label className="block text-xs font-medium text-black mb-1">
 //                   Delivery Note
 //                   {canEditDeliveryNote && isEditable && (
-//                     <span className="ml-1 text-[10px] text-[#82947A] font-normal">(editable)</span>
+//                     <span className="ml-1 text-[10px] text-black font-normal">(editable)</span>
 //                   )}
 //                 </label>
 //                 <textarea
@@ -3953,17 +5198,17 @@
 //                   onChange={handleInputChange}
 //                   readOnly={!canEditDeliveryNote || !isEditable}
 //                   rows="2"
-//                   className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent ${
-//                     !canEditDeliveryNote || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-[#82947A]/60'
-//                   } border-[#82947A]/30 text-black`}
+//                   className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent ${
+//                     !canEditDeliveryNote || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-black/60'
+//                   } border-black/30 text-black`}
 //                   placeholder="Add delivery notes or special instructions"
 //                 />
 //               </div>
 //             </div>
 //           </div>
 
-//           <div className="p-4 border-t border-[#82947A]/30 bg-[#E2E7EA]/20 flex gap-3">
-//             <button onClick={handleModalClose} className="flex-1 px-3 py-2 border border-[#82947A]/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
+//           <div className="p-4 border-t border-black/30 bg-[#E2E7EA]/20 flex gap-3">
+//             <button onClick={handleModalClose} className="flex-1 px-3 py-2 border border-black/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
 //               Cancel
 //             </button>
 //             <button
@@ -3971,7 +5216,7 @@
 //               disabled={loading || !isEditable}
 //               className={`flex-1 px-3 py-2 rounded-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm ${
 //                 hasChanges && isEditable
-//                   ? 'bg-gradient-to-r from-[#82947A] to-black text-white hover:shadow-lg hover:shadow-[#82947A]/25'
+//                   ? 'bg-gradient-to-r from-black to-black text-white hover:shadow-lg hover:shadow-black/25'
 //                   : 'bg-[#E2E7EA] text-[#64748B] cursor-not-allowed'
 //               }`}
 //             >
@@ -3989,12 +5234,12 @@
 //             initial={{ opacity: 0, scale: 0.95 }}
 //             animate={{ opacity: 1, scale: 1 }}
 //             exit={{ opacity: 0, scale: 0.95 }}
-//             className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-[#82947A]/20"
+//             className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-black/20"
 //           >
 //             <div className={`p-4 ${
 //               confirmConfig.type === 'danger' ? 'bg-gradient-to-r from-red-500 to-red-600' :
 //               confirmConfig.type === 'warning' ? 'bg-gradient-to-r from-yellow-500 to-yellow-600' :
-//               'bg-gradient-to-r from-[#82947A] to-black'
+//               'bg-gradient-to-r from-black to-black'
 //             } text-white`}>
 //               <div className="flex items-center gap-3">
 //                 {confirmConfig.type === 'danger' && <FaExclamationTriangle className="w-5 h-5" />}
@@ -4010,10 +5255,10 @@
 //               <p className="text-black text-sm">{confirmConfig.message}</p>
 //             </div>
 
-//             <div className="p-4 border-t border-[#82947A]/20 bg-[#E2E7EA]/20 flex gap-3">
+//             <div className="p-4 border-t border-black/20 bg-[#E2E7EA]/20 flex gap-3">
 //               <button
 //                 onClick={() => setShowConfirmModal(false)}
-//                 className="flex-1 px-4 py-2 border border-[#82947A]/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm"
+//                 className="flex-1 px-4 py-2 border border-black/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm"
 //               >
 //                 {confirmConfig.cancelText || 'Cancel'}
 //               </button>
@@ -4024,7 +5269,7 @@
 //                     ? 'bg-gradient-to-r from-red-500 to-red-600 hover:shadow-red-500/25' 
 //                     : confirmConfig.type === 'warning'
 //                     ? 'bg-gradient-to-r from-yellow-500 to-yellow-600 hover:shadow-yellow-500/25'
-//                     : 'bg-gradient-to-r from-[#82947A] to-black hover:shadow-[#82947A]/25'
+//                     : 'bg-gradient-to-r from-black to-black hover:shadow-black/25'
 //                 }`}
 //               >
 //                 {confirmConfig.confirmText || 'Confirm'}
@@ -4036,7 +5281,6 @@
 //     </>
 //   );
 // };
-
 // // ========== MAIN ADMIN ORDERS PAGE ==========
 // export default function AdminOrdersPage() {
 //   const router = useRouter();
@@ -4045,6 +5289,7 @@
 //   const [searchTerm, setSearchTerm] = useState('');
 //   const [statusFilter, setStatusFilter] = useState('');
 //   const [paymentFilter, setPaymentFilter] = useState('');
+//   const [platformFilter, setPlatformFilter] = useState(''); 
 //   const [currentPage, setCurrentPage] = useState(1);
 //   const [totalPages, setTotalPages] = useState(1);
 //   const [totalOrders, setTotalOrders] = useState(0);
@@ -4072,6 +5317,8 @@
 
 //   const [showCourierScoreModal, setShowCourierScoreModal] = useState(false);
 //   const [selectedOrderForScore, setSelectedOrderForScore] = useState(null);
+
+//    const [showPartialDeliveryModal, setShowPartialDeliveryModal] = useState(false);
   
 //   // Bulk selection states
 //   const [selectedOrdersList, setSelectedOrdersList] = useState([]);
@@ -4102,19 +5349,19 @@
 //   }, [selectAll, orders]);
 
 //   const statusTabs = [
-//     { value: 'all', label: 'All', count: stats?.totalOrders || 0, color: 'bg-[#82947A]' },
-//     { value: 'placed', label: 'Placed', count: stats?.placedOrders || 0, color: 'bg-[#82947A]' },
-//     { value: 'follow_up', label: 'Follow Up', count: stats?.followUpOrders || 0, color: 'bg-[#82947A]' },
+//     { value: 'all', label: 'All', count: stats?.totalOrders || 0, color: 'bg-black' },
+//     { value: 'placed', label: 'Placed', count: stats?.placedOrders || 0, color: 'bg-black' },
+//     { value: 'follow_up', label: 'Follow Up', count: stats?.followUpOrders || 0, color: 'bg-black' },
 //     { value: 'reminder', label: 'Reminder', count: stats?.reminderOrders || 0, color: 'bg-[#FFC107]' },
-//     { value: 'accepted', label: 'Accepted', count: stats?.acceptedOrders || 0, color: 'bg-[#82947A]' },
-//     { value: 'approved', label: 'Approved', count: stats?.approvedOrders || 0, color: 'bg-[#82947A]' },
+//     { value: 'accepted', label: 'Accepted', count: stats?.acceptedOrders || 0, color: 'bg-black' },
+//     { value: 'approved', label: 'Approved', count: stats?.approvedOrders || 0, color: 'bg-black' },
 //     { value: 'hold', label: 'On Hold', count: stats?.holdOrders || 0, color: 'bg-yellow-500' },
 //     { value: 'processing', label: 'Processing', count: stats?.processingOrders || 0, color: 'bg-blue-500' },
-//     { value: 'courier_assigned', label: 'Courier Assigned', count: stats?.courierAssignedOrders || 0, color: 'bg-[#82947A]' },
+//     { value: 'courier_assigned', label: 'Courier Assigned', count: stats?.courierAssignedOrders || 0, color: 'bg-black' },
 //     { value: 'partial_delivery', label: 'Partial Delivery', count: stats?.partialDeliveryOrders || 0, color: 'bg-yellow-500' },
-//     { value: 'ready_to_ship', label: 'Ready to Ship', count: stats?.readyToShipOrders || 0, color: 'bg-[#82947A]' },
+//     { value: 'ready_to_ship', label: 'Ready to Ship', count: stats?.readyToShipOrders || 0, color: 'bg-black' },
 //     { value: 'rejected', label: 'Rejected', count: stats?.rejectedOrders || 0, color: 'bg-orange-500' },
-//     { value: 'delivered', label: 'Delivered', count: stats?.deliveredOrders || 0, color: 'bg-[#82947A]' },
+//     { value: 'delivered', label: 'Delivered', count: stats?.deliveredOrders || 0, color: 'bg-black' },
 //     { value: 'returned', label: 'Returned', count: stats?.returnedOrders || 0, color: 'bg-purple-500' },
 //     { value: 'cancelled', label: 'Cancelled', count: stats?.cancelledOrders || 0, color: 'bg-red-500' }
 //   ];
@@ -4139,6 +5386,7 @@
 //     if (activeStatusTab !== 'all') queryParams.append('orderStatus', activeStatusTab);
 //     if (statusFilter) queryParams.append('orderStatus', statusFilter);
 //     if (paymentFilter) queryParams.append('paymentStatus', paymentFilter);
+//     if (platformFilter) queryParams.append('orderPlatform', platformFilter); 
 
 //     const response = await fetch(`http://localhost:5000/api/orders/admin/all?${queryParams}`, {
 //       headers: { 'Authorization': `Bearer ${token}` }
@@ -4168,7 +5416,7 @@
 //   } finally {
 //     setLoading(false);
 //   }
-// }, [currentPage, searchTerm, activeStatusTab, statusFilter, paymentFilter, sortBy, router]);
+// }, [currentPage, searchTerm, activeStatusTab, statusFilter, paymentFilter, platformFilter, sortBy, router]);
 
 //   const fetchStats = useCallback(async () => {
 //     try {
@@ -4473,7 +5721,7 @@
 
 //   const getStatusBadge = (status) => {
 //     const statusInfo = ORDER_STATUSES.find(s => s.value === status);
-//     if (!statusInfo) return <span className="px-1.5 py-0.5 rounded-full text-xs bg-[#E2E7EA] text-black border border-[#82947A]/30">{status}</span>;
+//     if (!statusInfo) return <span className="px-1.5 py-0.5 rounded-full text-xs bg-[#E2E7EA] text-black border border-black/30">{status}</span>;
 //     return (
 //       <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs border ${statusInfo.color}`}>
 //         <statusInfo.icon className="w-2.5 h-2.5" />
@@ -4485,7 +5733,7 @@
 //   const getPaymentBadge = (status) => {
 //     const paymentInfo = PAYMENT_STATUSES.find(p => p.value === status);
 //     return (
-//       <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs border ${paymentInfo?.color || 'bg-[#E2E7EA] text-black border-[#82947A]/30'}`}>
+//       <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs border ${paymentInfo?.color || 'bg-[#E2E7EA] text-black border-black/30'}`}>
 //         <FaMoneyBillWave className="w-2.5 h-2.5" />
 //         {paymentInfo?.label || status}
 //       </span>
@@ -4494,13 +5742,13 @@
 
 //   const getPaymentMethodBadge = (method) => {
 //     const methods = {
-//       'cod': { label: 'COD', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaMoneyBillWave },
-//       'online': { label: 'Online', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaCreditCard },
-//       'bkash': { label: 'bKash', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaMobileAlt },
-//       'nagad': { label: 'Nagad', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaMobileAlt }
+//       'cod': { label: 'COD', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaMoneyBillWave },
+//       'online': { label: 'Online', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaCreditCard },
+//       'bkash': { label: 'bKash', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaMobileAlt },
+//       'nagad': { label: 'Nagad', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaMobileAlt }
 //     };
     
-//     const info = methods[method] || { label: method || 'Unknown', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaMoneyBillWave };
+//     const info = methods[method] || { label: method || 'Unknown', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaMoneyBillWave };
 //     const Icon = info.icon;
     
 //     return (
@@ -4511,8 +5759,42 @@
 //     );
 //   };
 
+//   const getPlatformBadge = (platform) => {
+//   const platforms = {
+//     'website': {
+//       label: 'Website',
+//       color: 'bg-blue-50 text-blue-700 border-blue-200',
+//       icon: FaGlobe
+//     },
+//     'facebook': {
+//       label: 'Facebook',
+//       color: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+//       icon: FaExternalLinkAlt
+//     },
+//     'showroom': {
+//       label: 'Showroom',
+//       color: 'bg-amber-50 text-amber-700 border-amber-200',
+//       icon: FaStore
+//     }
+//   };
+
+//   const info = platforms[platform] || {
+//     label: platform || 'Website',
+//     color: 'bg-[#E2E7EA] text-black border-black/30',
+//     icon: FaGlobe
+//   };
+//   const Icon = info.icon;
+
+//   return (
+//     <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs border ${info.color}`}>
+//       <Icon className="w-2.5 h-2.5" />
+//       {info.label}
+//     </span>
+//   );
+// };
+
 //   const StatCard = ({ title, value, icon, color }) => (
-//     <div className="bg-white rounded-2xl p-4 shadow-sm border border-[#82947A]/20">
+//     <div className="bg-white rounded-2xl p-4 shadow-sm border border-black/20">
 //       <div className="flex items-center justify-between">
 //         <div>
 //           <p className="text-xs text-[#64748B] font-medium">{title}</p>
@@ -4533,7 +5815,7 @@
 //           {/* Header */}
 //           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
 //             <div className="flex items-center gap-3">
-//               <div className="w-10 h-10 bg-[#82947A] rounded-xl flex items-center justify-center shadow-lg shadow-[#82947A]/25">
+//               <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center shadow-lg shadow-black/25">
 //                 <FaBox className="w-5 h-5 text-white" />
 //               </div>
 //               <div>
@@ -4546,7 +5828,7 @@
 //             <div className="flex items-center gap-2">
 //               <button
 //                 onClick={exportToCSV}
-//                 className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#82947A] to-[#485442] text-white rounded-xl hover:shadow-lg hover:shadow-[#82947A]/25 transition-all text-sm font-medium shadow-sm"
+//                 className="flex items-center gap-2 px-4 py-2.5 bg-black text-white rounded-xl hover:shadow-lg hover:shadow-black/25 transition-all text-sm font-medium shadow-sm"
 //               >
 //                 <FaDownload className="w-4 h-4" />
 //                 Export CSV
@@ -4557,24 +5839,24 @@
 //           {/* Stats Cards */}
 //           {stats ? (
 //             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 mb-6">
-//               <StatCard title="Total Orders" value={stats.totalOrders} icon={<FaBox className="w-5 h-5 text-[#82947A]" />} color="bg-[#82947A]/10" />
+//               <StatCard title="Total Orders" value={stats.totalOrders} icon={<FaBox className="w-5 h-5 text-black" />} color="bg-black/10" />
 //               <StatCard title="Placed" value={stats.placedOrders || 0} icon={<FaClock className="w-5 h-5 text-black" />} color="bg-[#E2E7EA]" />
-//               <StatCard title="Follow Up" value={stats.followUpOrders || 0} icon={<FaHeadset className="w-5 h-5 text-[#82947A]" />} color="bg-[#82947A]/10" />
-//               <StatCard title="Accepted" value={stats.acceptedOrders || 0} icon={<FaCheckCircle className="w-5 h-5 text-[#82947A]" />} color="bg-[#82947A]/10" />
-//               <StatCard title="Approved" value={stats.approvedOrders || 0} icon={<FaCheckDouble className="w-5 h-5 text-[#82947A]" />} color="bg-[#82947A]/10" />
+//               <StatCard title="Follow Up" value={stats.followUpOrders || 0} icon={<FaHeadset className="w-5 h-5 text-black" />} color="bg-black/10" />
+//               <StatCard title="Accepted" value={stats.acceptedOrders || 0} icon={<FaCheckCircle className="w-5 h-5 text-black" />} color="bg-black/10" />
+//               <StatCard title="Approved" value={stats.approvedOrders || 0} icon={<FaCheckDouble className="w-5 h-5 text-black" />} color="bg-black/10" />
 //               <StatCard title="On Hold" value={stats.holdOrders || 0} icon={<FaClock className="w-5 h-5 text-yellow-600" />} color="bg-yellow-100" />
-//               <StatCard title="Processing" value={stats.processingOrders || 0} icon={<FaSpinner className="w-5 h-5 text-[#82947A]" />} color="bg-blue-100" />
-//               <StatCard title="Courier Assigned" value={stats.courierAssignedOrders || 0} icon={<FaTruck className="w-5 h-5 text-[#82947A]" />} color="bg-[#82947A]/10" />
+//               <StatCard title="Processing" value={stats.processingOrders || 0} icon={<FaSpinner className="w-5 h-5 text-black" />} color="bg-blue-100" />
+//               <StatCard title="Courier Assigned" value={stats.courierAssignedOrders || 0} icon={<FaTruck className="w-5 h-5 text-black" />} color="bg-black/10" />
 //               <StatCard title="Partial Delivery" value={stats.partialDeliveryOrders || 0} icon={<FaCheckDouble className="w-5 h-5 text-yellow-600" />} color="bg-yellow-100" />
-//               <StatCard title="Delivered" value={stats.deliveredOrders || 0} icon={<FaCheckDouble className="w-5 h-5 text-[#82947A]" />} color="bg-[#82947A]/10" />
+//               <StatCard title="Delivered" value={stats.deliveredOrders || 0} icon={<FaCheckDouble className="w-5 h-5 text-black" />} color="bg-black/10" />
 //               <StatCard title="Cancelled" value={stats.cancelledOrders || 0} icon={<FaBan className="w-5 h-5 text-red-500" />} color="bg-red-50" />
 //               <StatCard title="Returned" value={stats.returnedOrders || 0} icon={<FaUndo className="w-5 h-5 text-purple-500" />} color="bg-purple-50" />
-//               <StatCard title="Revenue" value={stats.totalRevenue} icon={<FaMoneyBillWave className="w-5 h-5 text-[#82947A]" />} color="bg-[#82947A]/10" />
+//               <StatCard title="Revenue" value={stats.totalRevenue} icon={<FaMoneyBillWave className="w-5 h-5 text-black" />} color="bg-black/10" />
 //             </div>
 //           ) : (
 //             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-13 gap-4 mb-6">
 //               {[...Array(13)].map((_, i) => (
-//                 <div key={i} className="bg-white rounded-2xl p-4 shadow-sm border border-[#82947A]/20 animate-pulse">
+//                 <div key={i} className="bg-white rounded-2xl p-4 shadow-sm border border-black/20 animate-pulse">
 //                   <div className="h-4 bg-[#E2E7EA] rounded w-1/2 mb-2"></div>
 //                   <div className="h-8 bg-[#E2E7EA] rounded w-3/4"></div>
 //                 </div>
@@ -4583,7 +5865,7 @@
 //           )}
 
 //           {/* Filters */}
-//           <div className="bg-white rounded-2xl border border-[#82947A]/30 p-4 mb-6 shadow-sm">
+//           <div className="bg-white rounded-2xl border border-black/30 p-4 mb-6 shadow-sm">
 //             <div className="flex flex-col md:flex-row gap-4">
 //               <div className="flex-1 relative">
 //                 <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#64748B] w-4 h-4" />
@@ -4595,7 +5877,7 @@
 //                     setSearchTerm(e.target.value);
 //                     setCurrentPage(1);
 //                   }}
-//                   className="w-full pl-10 pr-10 py-2 border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-[#E2E7EA]/20 hover:bg-white transition text-black placeholder:text-[#64748B]"
+//                   className="w-full pl-10 pr-10 py-2 border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-[#E2E7EA]/20 hover:bg-white transition text-black placeholder:text-[#64748B]"
 //                 />
 //                 {searchTerm && (
 //                   <button
@@ -4603,7 +5885,7 @@
 //                       setSearchTerm('');
 //                       setCurrentPage(1);
 //                     }}
-//                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#64748B] hover:text-[#82947A]"
+//                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#64748B] hover:text-black"
 //                   >
 //                     <FaTimes className="w-4 h-4" />
 //                   </button>
@@ -4615,7 +5897,7 @@
 //                   setStatusFilter(e.target.value);
 //                   setCurrentPage(1);
 //                 }}
-//                 className="px-4 py-2 border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-[#E2E7EA]/20 hover:bg-white transition text-black text-sm"
+//                 className="px-4 py-2 border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-[#E2E7EA]/20 hover:bg-white transition text-black text-sm"
 //               >
 //                 <option value="">All Order Status</option>
 //                 {ORDER_STATUSES.map(status => (
@@ -4629,7 +5911,7 @@
 //                   setPaymentFilter(e.target.value);
 //                   setCurrentPage(1);
 //                 }}
-//                 className="px-4 py-2 border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-[#E2E7EA]/20 hover:bg-white transition text-black text-sm"
+//                 className="px-4 py-2 border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-[#E2E7EA]/20 hover:bg-white transition text-black text-sm"
 //               >
 //                 <option value="">All Payment Status</option>
 //                 {PAYMENT_STATUSES.map(status => (
@@ -4643,19 +5925,32 @@
 //                   setSortBy(e.target.value);
 //                   setCurrentPage(1);
 //                 }}
-//                 className="px-4 py-2 border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-[#E2E7EA]/20 hover:bg-white transition text-black text-sm"
+//                 className="px-4 py-2 border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-[#E2E7EA]/20 hover:bg-white transition text-black text-sm"
 //               >
 //                 <option value="-createdAt">Newest First</option>
 //                 <option value="createdAt_asc">Oldest First</option>
 //                 <option value="-total">Highest Total</option>
 //                 <option value="total_asc">Lowest Total</option>
 //               </select>
+//               <select
+//   value={platformFilter}
+//   onChange={(e) => {
+//     setPlatformFilter(e.target.value);
+//     setCurrentPage(1);
+//   }}
+//   className="px-4 py-2 border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-[#E2E7EA]/20 hover:bg-white transition text-black text-sm"
+// >
+//   <option value="">All Platforms</option>
+//   <option value="website">🌐 Website</option>
+//   <option value="facebook">🔗 Facebook</option>
+//   <option value="showroom">🏬 Showroom</option>
+// </select>
 //             </div>
 //           </div>
 
 //           {/* Status Tabs */}
 //           <div className="mb-6">
-//             <div className="flex flex-wrap gap-2 border-b border-[#82947A]/30 pb-2">
+//             <div className="flex flex-wrap gap-2 border-b border-black/30 pb-2">
 //               {statusTabs.map((tab) => (
 //                 <button
 //                   key={tab.value}
@@ -4665,8 +5960,8 @@
 //                   }}
 //                   className={`px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 flex items-center gap-2 ${
 //                     activeStatusTab === tab.value
-//                       ? 'bg-gradient-to-r from-[#82947A] to-[#485442] text-white shadow-lg shadow-[#82947A]/25'
-//                       : 'bg-white text-[#64748B] hover:bg-[#E2E7EA] border border-[#82947A]/30'
+//                       ? 'bg-black text-white shadow-lg shadow-black/25'
+//                       : 'bg-white text-[#64748B] hover:bg-[#E2E7EA] border border-black/30'
 //                   }`}
 //                 >
 //                   <span className={`w-2 h-2 rounded-full ${tab.color}`}></span>
@@ -4684,10 +5979,10 @@
 //           </div>
 
 //           {/* Orders Table */}
-//           <div className="bg-white rounded-2xl border border-[#82947A]/30 shadow-sm overflow-hidden">
+//           <div className="bg-white rounded-2xl border border-black/30 shadow-sm overflow-hidden">
 //             {/* Bulk Delete Toolbar */}
 //             {isAdminOrSuperAdmin && (
-//               <div className="px-4 py-3 border-b border-[#82947A]/30 bg-[#E2E7EA]/30 flex flex-wrap items-center justify-between gap-3">
+//               <div className="px-4 py-3 border-b border-black/30 bg-[#E2E7EA]/30 flex flex-wrap items-center justify-between gap-3">
 //                 <div className="flex items-center gap-3">
 //                   {showCheckboxes ? (
 //                     <>
@@ -4714,7 +6009,7 @@
 //                   ) : (
 //                     <button
 //                       onClick={toggleBulkDeleteMode}
-//                       className="flex items-center gap-2 px-4 py-2 bg-[#E2E7EA] text-black rounded-xl hover:bg-[#82947A]/10 transition-all text-sm font-medium"
+//                       className="flex items-center gap-2 px-4 py-2 bg-[#E2E7EA] text-black rounded-xl hover:bg-black/10 transition-all text-sm font-medium"
 //                     >
 //                       <FaTrash className="w-4 h-4" />
 //                       Delete Multiple
@@ -4726,7 +6021,7 @@
 //                   <div className="flex items-center gap-2">
 //                     <button
 //                       onClick={() => setSelectAll(!selectAll)}
-//                       className="text-sm text-[#82947A] hover:underline"
+//                       className="text-sm text-black hover:underline"
 //                     >
 //                       {selectAll ? 'Deselect All' : 'Select All'}
 //                     </button>
@@ -4738,16 +6033,16 @@
 //             {/* Table Container */}
 //             <div className="w-full overflow-x-auto">
 //               <table className="w-full min-w-[1200px] lg:min-w-full">
-//                 <thead className="bg-[#E2E7EA]/50 border-b border-[#82947A]/30">
+//                 <thead className="bg-[#E2E7EA]/50 border-b border-black/30">
 //                   <tr>
 //                     {isAdminOrSuperAdmin && showCheckboxes && (
 //                       <th className="px-2 py-2 text-center sticky left-0 bg-[#E2E7EA]/50 z-10">
 //                         <button
 //                           onClick={() => setSelectAll(!selectAll)}
-//                           className="text-[#64748B] hover:text-[#82947A] transition-colors"
+//                           className="text-[#64748B] hover:text-black transition-colors"
 //                         >
 //                           {selectAll ? (
-//                             <FaCheckSquare className="w-4 h-4 text-[#82947A]" />
+//                             <FaCheckSquare className="w-4 h-4 text-black" />
 //                           ) : (
 //                             <FaSquare className="w-4 h-4" />
 //                           )}
@@ -4761,6 +6056,7 @@
 //                     <th className="px-2 py-2 text-center text-xs font-semibold text-[#64748B] whitespace-nowrap">Status</th>
 //                     <th className="px-2 py-2 text-center text-xs font-semibold text-[#64748B] whitespace-nowrap">Payment</th>
 //                     <th className="px-2 py-2 text-center text-xs font-semibold text-[#64748B] whitespace-nowrap">Method</th>
+//                     <th className="px-2 py-2 text-center text-xs font-semibold text-[#64748B] whitespace-nowrap">Platform</th>
 //                     <th className="px-2 py-2 text-center text-xs font-semibold text-[#64748B] whitespace-nowrap">Delivery</th>
 //                     <th className="px-2 py-2 text-left text-xs font-semibold text-[#64748B] whitespace-nowrap">Date</th>
 //                     <th className="px-2 py-2 text-center text-xs font-semibold text-[#64748B] whitespace-nowrap">Actions</th>
@@ -4768,9 +6064,9 @@
 //                 </thead>
 //                 <tbody>
 //                   {loading ? (
-//                     <tr><td colSpan={isAdminOrSuperAdmin && showCheckboxes ? 11 : 10} className="px-4 py-8 text-center"><div className="flex justify-center"><div className="w-6 h-6 border-3 border-[#82947A] border-t-transparent rounded-full animate-spin"></div></div></td></tr>
+//                     <tr><td colSpan={isAdminOrSuperAdmin && showCheckboxes ? 12 : 11} className="px-4 py-8 text-center"><div className="flex justify-center"><div className="w-6 h-6 border-3 border-black border-t-transparent rounded-full animate-spin"></div></div></td></tr>
 //                   ) : orders.length === 0 ? (
-//                     <tr><td colSpan={isAdminOrSuperAdmin && showCheckboxes ? 11 : 10} className="px-4 py-8 text-center text-[#64748B] text-sm">No orders found</td></tr>
+//                     <tr><td colSpan={isAdminOrSuperAdmin && showCheckboxes ? 12 : 11} className="px-4 py-8 text-center text-[#64748B] text-sm">No orders found</td></tr>
 //                   ) : (
 //                     orders.map((order) => {
 //                       const isSelected = selectedOrdersList.some(o => o._id === order._id);
@@ -4780,15 +6076,15 @@
 //                       const isTerminal = ['cancelled', 'delivered', 'returned', 'rejected'].includes(order.orderStatus);
                       
 //                       return (
-//                         <tr key={order._id} className="border-b border-[#82947A]/20 hover:bg-[#E2E7EA]/30 transition-colors">
+//                         <tr key={order._id} className="border-b border-black/20 hover:bg-[#E2E7EA]/30 transition-colors">
 //                           {isAdminOrSuperAdmin && showCheckboxes && (
 //                             <td className="px-2 py-2 text-center sticky left-0 bg-white z-10">
 //                               <button
 //                                 onClick={() => toggleOrderSelection(order)}
-//                                 className="text-[#64748B] hover:text-[#82947A] transition-colors"
+//                                 className="text-[#64748B] hover:text-black transition-colors"
 //                               >
 //                                 {isSelected ? (
-//                                   <FaCheckSquare className="w-4 h-4 text-[#82947A]" />
+//                                   <FaCheckSquare className="w-4 h-4 text-black" />
 //                                 ) : (
 //                                   <FaSquare className="w-4 h-4" />
 //                                 )}
@@ -4801,7 +6097,7 @@
 //                             <div className="text-[#64748B] text-xs truncate max-w-[150px]">{order.customerInfo?.email}</div>
 //                           </td>
 //                           <td className="px-2 py-2 text-xs text-black whitespace-nowrap">{order.customerInfo?.phone}</td>
-//                           <td className="px-2 py-2 text-xs text-right font-bold text-[#82947A] whitespace-nowrap">৳{order.total?.toFixed(2)}</td>
+//                           <td className="px-2 py-2 text-xs text-right font-bold text-black whitespace-nowrap">৳{order.total?.toFixed(2)}</td>
 //                           <td className="px-2 py-2 text-center">
 //                             <button 
 //                               onClick={() => { 
@@ -4823,6 +6119,7 @@
 //                             </button>
 //                           </td>
 //                           <td className="px-2 py-2 text-center">{getPaymentMethodBadge(order.paymentMethod)}</td>
+//                           <td className="px-2 py-2 text-center">{getPlatformBadge(order.orderPlatform)}</td>
                           
                           
 //                           {/* ========== DELIVERY COLUMN ========== */}
@@ -4840,7 +6137,7 @@
         
 //         <button
 //           onClick={() => refreshSingleOrderDelivery(order._id)}
-//           className="text-[10px] text-[#82947A] hover:text-[#0891B2] transition-colors"
+//           className="text-[10px] text-black hover:text-[#0891B2] transition-colors"
 //           disabled={refreshingOrders[order._id]}
 //           title="Refresh delivery status"
 //         >
@@ -4857,7 +6154,7 @@
 //               setSelectedOrder(order);
 //               handleTrackDelivery(order);
 //             }}
-//             className="text-[10px] text-[#82947A] hover:underline flex items-center gap-1"
+//             className="text-[10px] text-black hover:underline flex items-center gap-1"
 //             disabled={trackingLoading[order._id]}
 //           >
 //             {trackingLoading[order._id] ? (
@@ -4877,7 +6174,7 @@
 //           href={order.deliveryService.trackingUrl}
 //           target="_blank"
 //           rel="noopener noreferrer"
-//           className="text-[10px] text-[#64748B] hover:text-[#82947A] flex items-center gap-1"
+//           className="text-[10px] text-[#64748B] hover:text-black flex items-center gap-1"
 //           title={`Track on ${order.deliveryService.courierName}`}
 //         >
 //           <FaExternalLinkAlt className="w-2.5 h-2.5" />
@@ -4895,7 +6192,7 @@
 //         return (
 //           <button
 //             onClick={() => { setSelectedOrder(order); setShowDeliveryModal(true); }}
-//             className="inline-flex items-center gap-1 px-2 py-1 bg-[#82947A] text-white text-[10px] rounded hover:bg-[#485442] transition-colors whitespace-nowrap"
+//             className="inline-flex items-center gap-1 px-2 py-1 bg-black text-white text-[10px] rounded hover:bg-[#485442] transition-colors whitespace-nowrap"
 //           >
 //             <FaTruck className="w-3 h-3" />
 //             Create Delivery
@@ -4915,14 +6212,14 @@
 //                           </td>
 //                           <td className="px-2 py-2 text-center">
 //                             <div className="flex items-center justify-center gap-1 whitespace-nowrap">
-//                               <button onClick={() => { setSelectedOrder(order); setShowDetailsModal(true); }} className="p-1 text-[#82947A] hover:bg-[#E2E7EA] rounded transition-colors" title="View Details">
+//                               <button onClick={() => { setSelectedOrder(order); setShowDetailsModal(true); }} className="p-1 text-black hover:bg-[#E2E7EA] rounded transition-colors" title="View Details">
 //                                 <FaEye className="w-3.5 h-3.5" />
 //                               </button>
                               
 //                               <button
 //                                 onClick={() => handleDownloadInvoice(order)}
 //                                 disabled={downloadingOrders[order._id]}
-//                                 className="p-1 text-[#82947A] hover:bg-[#E2E7EA] rounded transition-colors disabled:opacity-50" title="Download Invoice"
+//                                 className="p-1 text-black hover:bg-[#E2E7EA] rounded transition-colors disabled:opacity-50" title="Download Invoice"
 //                               >
 //                                 {downloadingOrders[order._id] ? (
 //                                   <FaSpinner className="w-3.5 h-3.5 animate-spin" />
@@ -4965,14 +6262,14 @@
 
 //             {/* Pagination */}
 //             {totalPages > 1 && (
-//               <div className="px-3 py-2 border-t border-[#82947A]/30 flex flex-wrap items-center justify-between gap-3 bg-[#E2E7EA]/20">
+//               <div className="px-3 py-2 border-t border-black/30 flex flex-wrap items-center justify-between gap-3 bg-[#E2E7EA]/20">
 //                 <p className="text-xs text-[#64748B]">Showing {orders.length} of {totalOrders} orders</p>
 //                 <div className="flex gap-1">
-//                   <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="p-1.5 border border-[#82947A]/30 rounded-xl hover:bg-white disabled:opacity-50 transition text-black">
+//                   <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="p-1.5 border border-black/30 rounded-xl hover:bg-white disabled:opacity-50 transition text-black">
 //                     <FaChevronLeft className="w-3 h-3" />
 //                   </button>
 //                   <span className="px-2 py-1 text-xs text-black">Page {currentPage} of {totalPages}</span>
-//                   <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className="p-1.5 border border-[#82947A]/30 rounded-xl hover:bg-white disabled:opacity-50 transition text-black">
+//                   <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className="p-1.5 border border-black/30 rounded-xl hover:bg-white disabled:opacity-50 transition text-black">
 //                     <FaChevronRight className="w-3 h-3" />
 //                   </button>
 //                 </div>
@@ -4989,6 +6286,7 @@
 //         order={selectedOrder} 
 //         onUpdate={handleStatusUpdate}
 //         userRole={userRole}
+//         onPartialDelivery={() => setShowPartialDeliveryModal(true)}
 //       />
       
 //       <PaymentStatusModal isOpen={showPaymentModal} onClose={() => setShowPaymentModal(false)} order={selectedOrder} onUpdate={handlePaymentUpdate} />
@@ -5024,6 +6322,16 @@
 //         }}
 //       />
 
+//       <PartialDeliveryModal
+//   isOpen={showPartialDeliveryModal}
+//   onClose={() => setShowPartialDeliveryModal(false)}
+//   order={selectedOrder}
+//   onSaved={() => {
+//     fetchOrders();
+//     fetchStats();
+//   }}
+// />
+
 //       <TrackingModal
 //         isOpen={showTrackingModal}
 //         onClose={() => setShowTrackingModal(false)}
@@ -5045,6 +6353,10 @@
 //     </ProtectedRoute>
 //   );
 // }
+
+
+
+
 
 
 
@@ -5123,50 +6435,36 @@ import { generateInvoicePDF } from '@/utils/invoicePDF';
 import QuickDeliveryModal from '@/app/components/QuickDeliveryModal';
 import CourierScoreModal from '@/app/components/CourierScoreModal';
 import ProtectedRoute from '@/app/components/ProtectedRoute';
-
+import PartialDeliveryModal from '@/app/components/PartialDeliveryModal';
 
 
 // ========== ORDER STATUSES - UPDATED ==========
 const ORDER_STATUSES = [
-  // Initial statuses
-  { value: 'placed', label: 'Placed', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaClock, nextStatuses: ['follow_up', 'approved', 'hold', 'processing', 'cancelled'] },
-  { value: 'follow_up', label: 'Follow Up', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaHeadset, nextStatuses: ['accepted', 'rejected', 'cancelled', 'reminder'] },
-  { value: 'reminder', label: 'Reminder', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaClock, nextStatuses: ['accepted', 'rejected', 'cancelled'] },
-  
-  // Main statuses
-  { value: 'accepted', label: 'Accepted', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaCheckCircle, nextStatuses: ['approved', 'processing', 'hold', 'cancelled'] },
-  { value: 'approved', label: 'Approved', color: 'bg-[#82947A]/10 text-[#82947A] border-[#82947A]/30', icon: FaCheckDouble, nextStatuses: ['processing', 'hold', 'cancelled', 'courier_assigned'] },
-  
-  // HOLD status
+  { value: 'placed', label: 'Placed', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaClock, nextStatuses: ['follow_up', 'approved', 'hold', 'processing', 'cancelled'] },
+  { value: 'follow_up', label: 'Follow Up', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaHeadset, nextStatuses: ['accepted', 'rejected', 'cancelled', 'reminder'] },
+  { value: 'reminder', label: 'Reminder', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaClock, nextStatuses: ['accepted', 'rejected', 'cancelled'] },
+  { value: 'accepted', label: 'Accepted', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaCheckCircle, nextStatuses: ['approved', 'processing', 'hold', 'cancelled'] },
+  { value: 'approved', label: 'Approved', color: 'bg-black/10 text-black border-black/30', icon: FaCheckDouble, nextStatuses: ['processing', 'hold', 'cancelled', 'courier_assigned'] },
   { value: 'hold', label: 'On Hold', color: 'bg-yellow-50 text-yellow-600 border-yellow-200', icon: FaClock, nextStatuses: ['approved', 'processing', 'cancelled', 'courier_assigned'] },
-  
-  // PROCESSING
-  { value: 'processing', label: 'Processing', color: 'bg-blue-50 text-[#82947A] border-blue-200', icon: FaSpinner, nextStatuses: ['hold', 'cancelled', 'courier_assigned'] },
-  
-  // COURIER ASSIGNED
-  { value: 'courier_assigned', label: 'Courier Assigned', color: 'bg-[#82947A]/10 text-[#82947A] border-[#82947A]/30', icon: FaTruck, nextStatuses: ['ready_to_ship', 'partial_delivery', 'delivered', 'returned', 'cancelled'] },
-  
-  // PARTIAL DELIVERY
+  { value: 'processing', label: 'Processing', color: 'bg-blue-50 text-black border-blue-200', icon: FaSpinner, nextStatuses: ['hold', 'cancelled', 'courier_assigned'] },
+  { value: 'courier_assigned', label: 'Courier Assigned', color: 'bg-black/10 text-black border-black/30', icon: FaTruck, nextStatuses: ['ready_to_ship', 'partial_delivery', 'delivered', 'returned', 'cancelled'] },
   { value: 'partial_delivery', label: 'Partial Delivery', color: 'bg-yellow-100 text-yellow-800 border-yellow-300', icon: FaCheckDouble, nextStatuses: ['delivered', 'returned', 'cancelled'] },
-  
-  { value: 'ready_to_ship', label: 'Ready to Ship', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaBox, nextStatuses: ['partial_delivery', 'delivered', 'returned', 'cancelled'] },
-  
-  // Terminal statuses - NO nextStatuses allowed
+  { value: 'ready_to_ship', label: 'Ready to Ship', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaBox, nextStatuses: ['partial_delivery', 'delivered', 'returned', 'cancelled'] },
   { value: 'rejected', label: 'Rejected', color: 'bg-orange-50 text-orange-600 border-orange-200', icon: FaTimesCircle, nextStatuses: [] },
   { value: 'cancelled', label: 'Cancelled', color: 'bg-red-50 text-red-600 border-red-200', icon: FaBan, nextStatuses: [] },
   { value: 'delivered', label: 'Delivered', color: 'bg-green-50 text-green-600 border-green-200', icon: FaCheckDouble, nextStatuses: [] },
   { value: 'returned', label: 'Returned', color: 'bg-purple-50 text-purple-600 border-purple-200', icon: FaUndo, nextStatuses: [] },
-  
-  // Courier handled - not shown in manual dropdown
-  { value: 'shipped', label: 'Shipped', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaShippingFast, nextStatuses: [] },
-  { value: 'out_for_delivery', label: 'Out for Delivery', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaTruck, nextStatuses: [] },
+  { value: 'shipped', label: 'Shipped', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaShippingFast, nextStatuses: [] },
+  { value: 'out_for_delivery', label: 'Out for Delivery', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaTruck, nextStatuses: [] },
 ];
 
+// ========== PAYMENT STATUSES - UPDATED WITH PARTIAL ==========
 const PAYMENT_STATUSES = [
-  { value: 'pending', label: 'Pending', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30' },
-  { value: 'paid', label: 'Paid', color: 'bg-[#82947A]/10 text-[#82947A] border-[#82947A]/30' },
+  { value: 'pending', label: 'Pending', color: 'bg-[#E2E7EA] text-black border-black/30' },
+  { value: 'partial', label: 'Partial Paid', color: 'bg-yellow-100 text-yellow-700 border-yellow-300' },
+  { value: 'paid', label: 'Paid', color: 'bg-black/10 text-black border-black/30' },
   { value: 'failed', label: 'Failed', color: 'bg-red-50 text-red-600 border-red-200' },
-  { value: 'refunded', label: 'Refunded', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30' }
+  { value: 'refunded', label: 'Refunded', color: 'bg-[#E2E7EA] text-black border-black/30' }
 ];
 
 // ========== DELIVERY STATUSES ==========
@@ -5345,9 +6643,9 @@ const SearchableSelect = ({ name, value, onChange, options, placeholder, require
   return (
     <div className="relative" ref={dropdownRef}>
       <div
-        className={`w-full px-3 py-2 border rounded-xl focus-within:ring-2 focus-within:ring-[#82947A] focus-within:border-transparent cursor-pointer flex items-center justify-between transition-all text-sm ${
+        className={`w-full px-3 py-2 border rounded-xl focus-within:ring-2 focus-within:ring-black focus-within:border-transparent cursor-pointer flex items-center justify-between transition-all text-sm ${
           disabled ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white'
-        } ${error ? 'border-red-500' : 'border-[#82947A]/30 hover:border-[#82947A]/60'}`}
+        } ${error ? 'border-red-500' : 'border-black/30 hover:border-black/60'}`}
         onClick={() => !disabled && setIsOpen(!isOpen)}
       >
         <span className={`text-sm ${selectedOption ? 'text-black font-medium' : 'text-[#64748B]'}`}>
@@ -5361,7 +6659,7 @@ const SearchableSelect = ({ name, value, onChange, options, placeholder, require
                 e.stopPropagation();
                 handleClear();
               }}
-              className="text-[#64748B] hover:text-[#82947A]"
+              className="text-[#64748B] hover:text-black"
             >
               <FaTimes className="w-3 h-3" />
             </button>
@@ -5371,8 +6669,8 @@ const SearchableSelect = ({ name, value, onChange, options, placeholder, require
       </div>
 
       {isOpen && !disabled && (
-        <div className="absolute z-50 w-full mt-1 bg-white border border-[#82947A]/30 rounded-xl shadow-lg max-h-60 overflow-hidden">
-          <div className="p-2 border-b border-[#82947A]/20">
+        <div className="absolute z-50 w-full mt-1 bg-white border border-black/30 rounded-xl shadow-lg max-h-60 overflow-hidden">
+          <div className="p-2 border-b border-black/20">
             <div className="relative">
               <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#64748B] w-3.5 h-3.5" />
               <input
@@ -5380,7 +6678,7 @@ const SearchableSelect = ({ name, value, onChange, options, placeholder, require
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search..."
-                className="w-full pl-9 pr-3 py-1.5 border border-[#82947A]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#82947A] text-sm"
+                className="w-full pl-9 pr-3 py-1.5 border border-black/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-black text-sm"
                 onClick={(e) => e.stopPropagation()}
               />
             </div>
@@ -5446,7 +6744,7 @@ const DeleteConfirmModal = ({ isOpen, onClose, order, onDelete }) => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="relative bg-white rounded-2xl border border-[#82947A]/30 shadow-2xl w-full max-w-md overflow-hidden"
+        className="relative bg-white rounded-2xl border border-black/30 shadow-2xl w-full max-w-md overflow-hidden"
       >
         <div className="p-4 bg-gradient-to-r from-red-500 to-red-600 text-white">
           <div className="flex items-center gap-2">
@@ -5461,8 +6759,8 @@ const DeleteConfirmModal = ({ isOpen, onClose, order, onDelete }) => {
           <p className="text-xs text-red-500 mt-3">⚠️ This action cannot be undone!</p>
         </div>
 
-        <div className="p-4 border-t border-[#82947A]/30 bg-[#E2E7EA]/20 flex gap-3">
-          <button onClick={onClose} className="flex-1 px-3 py-2 border border-[#82947A]/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
+        <div className="p-4 border-t border-black/30 bg-[#E2E7EA]/20 flex gap-3">
+          <button onClick={onClose} className="flex-1 px-3 py-2 border border-black/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
             Cancel
           </button>
           <button onClick={handleDelete} disabled={loading} className="flex-1 px-3 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:shadow-lg hover:shadow-red-500/25 transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm">
@@ -5542,7 +6840,7 @@ const BulkDeleteModal = ({ isOpen, onClose, selectedOrders, onDelete }) => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="relative bg-white rounded-2xl border border-[#82947A]/30 shadow-2xl w-full max-w-md overflow-hidden"
+        className="relative bg-white rounded-2xl border border-black/30 shadow-2xl w-full max-w-md overflow-hidden"
       >
         <div className="p-4 bg-gradient-to-r from-red-500 to-red-600 text-white">
           <div className="flex items-center gap-2">
@@ -5558,15 +6856,15 @@ const BulkDeleteModal = ({ isOpen, onClose, selectedOrders, onDelete }) => {
           <p className="text-xs text-[#64748B] mb-2">This action cannot be undone!</p>
           <div className="bg-[#E2E7EA]/50 rounded-lg p-2 max-h-[150px] overflow-y-auto">
             {selectedOrders.map((order, index) => (
-              <p key={order._id} className="text-xs text-black py-0.5 border-b border-[#82947A]/10 last:border-0">
+              <p key={order._id} className="text-xs text-black py-0.5 border-b border-black/10 last:border-0">
                 #{order.orderNumber || order._id.slice(-8).toUpperCase()} - {order.customerInfo?.fullName}
               </p>
             ))}
           </div>
         </div>
 
-        <div className="p-4 border-t border-[#82947A]/30 bg-[#E2E7EA]/20 flex gap-3">
-          <button onClick={onClose} className="flex-1 px-3 py-2 border border-[#82947A]/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
+        <div className="p-4 border-t border-black/30 bg-[#E2E7EA]/20 flex gap-3">
+          <button onClick={onClose} className="flex-1 px-3 py-2 border border-black/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
             Cancel
           </button>
           <button onClick={handleBulkDelete} disabled={loading} className="flex-1 px-3 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:shadow-lg hover:shadow-red-500/25 transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm">
@@ -5600,9 +6898,9 @@ const TrackingModal = ({ isOpen, onClose, trackingInfo, order, onRefreshTracking
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="relative bg-white rounded-2xl border border-[#82947A]/30 shadow-2xl w-full max-w-md overflow-hidden"
+        className="relative bg-white rounded-2xl border border-black/30 shadow-2xl w-full max-w-md overflow-hidden"
       >
-        <div className="p-4 bg-gradient-to-r from-[#82947A] to-black text-white">
+        <div className="p-4 bg-gradient-to-r from-black to-black text-white">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <FaTruck className="w-5 h-5" />
@@ -5644,7 +6942,7 @@ const TrackingModal = ({ isOpen, onClose, trackingInfo, order, onRefreshTracking
                   <button
                     onClick={onRefreshTracking}
                     disabled={refreshLoading}
-                    className="text-[#82947A] hover:text-[#0891B2] transition-colors"
+                    className="text-black hover:text-[#0891B2] transition-colors"
                     title="Refresh tracking"
                   >
                     {refreshLoading ? (
@@ -5663,7 +6961,7 @@ const TrackingModal = ({ isOpen, onClose, trackingInfo, order, onRefreshTracking
                     href={displayData.trackingUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#82947A] hover:underline flex items-center gap-1"
+                    className="text-black hover:underline flex items-center gap-1"
                   >
                     <FaExternalLinkAlt className="w-3 h-3" />
                     Track on {displayData?.courierName || 'Courier'}
@@ -5676,13 +6974,13 @@ const TrackingModal = ({ isOpen, onClose, trackingInfo, order, onRefreshTracking
           {displayData?.history && displayData.history.length > 0 && (
             <div>
               <h3 className="text-sm font-semibold text-black mb-2 flex items-center gap-2">
-                <FaClock className="w-4 h-4 text-[#82947A]" />
+                <FaClock className="w-4 h-4 text-black" />
                 Tracking History
               </h3>
               <div className="space-y-2 max-h-[200px] overflow-y-auto">
                 {displayData.history.map((entry, index) => (
-                  <div key={index} className="flex items-start gap-3 text-xs border-b border-[#82947A]/10 pb-2 last:border-0">
-                    <div className="w-2 h-2 rounded-full bg-[#82947A] mt-1.5 flex-shrink-0"></div>
+                  <div key={index} className="flex items-start gap-3 text-xs border-b border-black/10 pb-2 last:border-0">
+                    <div className="w-2 h-2 rounded-full bg-black mt-1.5 flex-shrink-0"></div>
                     <div>
                       <p className="text-black">{entry.message || entry.status}</p>
                       <p className="text-[#64748B] text-[10px]">
@@ -5714,8 +7012,8 @@ const TrackingModal = ({ isOpen, onClose, trackingInfo, order, onRefreshTracking
           )}
         </div>
 
-        <div className="p-4 border-t border-[#82947A]/30 bg-[#E2E7EA]/20 flex justify-end">
-          <button onClick={onClose} className="px-4 py-2 bg-[#82947A] text-white rounded-xl hover:bg-[#0891B2] transition-colors text-sm">
+        <div className="p-4 border-t border-black/30 bg-[#E2E7EA]/20 flex justify-end">
+          <button onClick={onClose} className="px-4 py-2 bg-black text-white rounded-xl hover:bg-[#0891B2] transition-colors text-sm">
             Close
           </button>
         </div>
@@ -5725,7 +7023,7 @@ const TrackingModal = ({ isOpen, onClose, trackingInfo, order, onRefreshTracking
 };
 
 // ========== STATUS UPDATE MODAL - UPDATED ==========
-const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
+const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole, onPartialDelivery }) => {
   const [selectedStatus, setSelectedStatus] = useState('');
   const [trackingNumber, setTrackingNumber] = useState('');
   const [deliveryNote, setDeliveryNote] = useState('');
@@ -5785,7 +7083,6 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
   const currentStatusInfo = ORDER_STATUSES.find(s => s.value === order?.orderStatus);
   const selectedStatusInfo = ORDER_STATUSES.find(s => s.value === selectedStatus);
 
-  // ========== UPDATED: getAvailableNextStatuses ==========
   const getAvailableNextStatuses = () => {
     if (!order || !currentStatusInfo) return [];
     const currentStatus = order.orderStatus;
@@ -5799,11 +7096,11 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
       'hold': ['approved', 'processing', 'cancelled', 'courier_assigned'],
       'processing': ['hold', 'cancelled', 'courier_assigned'],
       'courier_assigned': ['ready_to_ship', 'partial_delivery', 'delivered', 'returned', 'cancelled'],
-      'partial_delivery': ['delivered', 'returned', 'cancelled'],
+      'delivered': ['partial_delivery'],
+      'partial_delivery': ['delivered', 'returned', 'cancelled', 'partial_delivery'],
       'ready_to_ship': ['delivered', 'partial_delivery', 'returned', 'cancelled'],
       'rejected': [],
       'cancelled': [],
-      'delivered': [],
       'returned': [],
       'shipped': [],
       'out_for_delivery': []
@@ -5822,7 +7119,6 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
     return nextStatuses;
   };
 
-  // ========== UPDATED: showCourierOption ==========
   const showCourierOption = () => {
     const sourceStatuses = ['approved', 'hold', 'processing', 'ready_to_ship'];
     const isSourceValid = sourceStatuses.includes(order?.orderStatus);
@@ -5830,12 +7126,12 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
     return isSourceValid && isTargetCourierAssign;
   };
 
-  // ========== UPDATED: canUpdateStatus ==========
   const canUpdateStatus = () => {
     if (!order) return false;
     const currentStatus = order.orderStatus;
     
-    const terminalStatuses = ['cancelled', 'delivered', 'returned', 'rejected'];
+    // ✅ Allow partial_delivery and delivered to still be changed
+    const terminalStatuses = ['cancelled', 'returned', 'rejected'];
     if (terminalStatuses.includes(currentStatus)) {
       return false;
     }
@@ -5864,7 +7160,6 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
   const isPartialDelivery = selectedStatus === 'partial_delivery';
 
   const canChange = availableNextStatuses.length > 0 && 
-                  order?.orderStatus !== 'delivered' && 
                   order?.orderStatus !== 'cancelled' &&
                   order?.orderStatus !== 'returned' &&
                   order?.orderStatus !== 'rejected' &&
@@ -5932,7 +7227,7 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
       return;
     }
 
-    if (selectedStatus === order.orderStatus) {
+    if (selectedStatus === order.orderStatus && selectedStatus !== 'partial_delivery') {
       toast.error('Please select a different status');
       return;
     }
@@ -5954,6 +7249,13 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
 
     if (isCourierAssign && (!weight || weight <= 0)) {
       toast.error('Please enter a valid weight');
+      return;
+    }
+
+    // ✅ Partial delivery redirects to dedicated modal
+    if (selectedStatus === 'partial_delivery') {
+      onClose();
+      onPartialDelivery?.();
       return;
     }
 
@@ -6021,31 +7323,35 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
 
   const getRoleColor = () => {
     const colorMap = {
-      super_admin: 'bg-gradient-to-r from-[#82947A] to-black',
-      admin: 'bg-gradient-to-r from-[#82947A] to-[#0891B2]',
-      moderator: 'bg-gradient-to-r from-black to-[#82947A]'
+      super_admin: 'bg-gradient-to-r from-black to-black',
+      admin: 'bg-gradient-to-r from-black to-[#0891B2]',
+      moderator: 'bg-gradient-to-r from-black to-black'
     };
-    return colorMap[userRole] || 'bg-gradient-to-r from-[#82947A] to-black';
+    return colorMap[userRole] || 'bg-gradient-to-r from-black to-black';
   };
 
   const getRoleBadgeColor = () => {
     const colorMap = {
-      super_admin: 'bg-[#82947A]/10 border-[#82947A]/30 text-[#82947A]',
-      admin: 'bg-[#82947A]/10 border-[#82947A]/30 text-[#82947A]',
-      moderator: 'bg-[#E2E7EA] border-[#82947A]/30 text-black'
+      super_admin: 'bg-black/10 border-black/30 text-black',
+      admin: 'bg-black/10 border-black/30 text-black',
+      moderator: 'bg-[#E2E7EA] border-black/30 text-black'
     };
-    return colorMap[userRole] || 'bg-[#E2E7EA] border-[#82947A]/30 text-black';
+    return colorMap[userRole] || 'bg-[#E2E7EA] border-black/30 text-black';
   };
 
   const getPermissionMessage = () => {
     const currentStatus = order?.orderStatus;
     
-    if (['cancelled', 'delivered', 'returned', 'rejected'].includes(currentStatus)) {
+    if (['cancelled', 'returned', 'rejected'].includes(currentStatus)) {
       return 'This order is final. No further changes allowed.';
     }
     
     if (currentStatus === 'partial_delivery') {
-      return 'This order has been partially delivered. You can mark as Delivered, Returned, or Cancelled.';
+      return 'This order has been partially delivered. You can re-edit the partial delivery, mark as Delivered, Returned, or Cancelled.';
+    }
+
+    if (currentStatus === 'delivered') {
+      return 'This order is delivered. You can revert to Partial Delivery to fix item statuses.';
     }
     
     if (currentStatus === 'courier_assigned' || currentStatus === 'processing') {
@@ -6072,7 +7378,7 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="relative bg-white rounded-2xl border border-[#82947A]/30 shadow-2xl w-full max-w-md overflow-hidden"
+        className="relative bg-white rounded-2xl border border-black/30 shadow-2xl w-full max-w-md overflow-hidden"
       >
         <div className={`p-4 text-white ${getRoleColor()}`}>
           <div className="flex items-center justify-between">
@@ -6104,14 +7410,26 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
 
           <div>
             <label className="block text-xs font-medium text-black mb-1">Current Status</label>
-            <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs border ${currentStatusInfo?.color || 'bg-[#E2E7EA] text-black border-[#82947A]/30'}`}>
+            <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs border ${currentStatusInfo?.color || 'bg-[#E2E7EA] text-black border-black/30'}`}>
               {currentStatusInfo?.icon && <currentStatusInfo.icon className="w-3 h-3" />}
               <span>{currentStatusInfo?.label || order?.orderStatus}</span>
             </div>
-            {!canChange && order?.orderStatus !== 'delivered' && order?.orderStatus !== 'cancelled' && order?.orderStatus !== 'courier_assigned' && !['processing', 'shipped', 'out_for_delivery'].includes(order?.orderStatus) && (
-              <p className="text-xs text-[#64748B] mt-1">⚠️ No further status changes allowed for this order</p>
-            )}
           </div>
+
+          {/* Partial delivery payment info */}
+          {order?.orderStatus === 'partial_delivery' && order?.paidAmount > 0 && (
+            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-2">
+              <p className="text-xs text-yellow-700 flex items-center gap-2">
+                <FaMoneyBillWave className="w-3.5 h-3.5" />
+                <span>
+                  <strong>Paid:</strong> ৳{(order.paidAmount || 0).toFixed(2)}
+                  {order.returnedAmount > 0 && (
+                    <> | <strong>Returned:</strong> ৳{(order.returnedAmount || 0).toFixed(2)}</>
+                  )}
+                </span>
+              </p>
+            </div>
+          )}
 
           {canChange && (
             <>
@@ -6126,7 +7444,7 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                       setRejectionReason('');
                     }
                   }}
-                  className="w-full px-3 py-1.5 text-sm border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white text-black"
+                  className="w-full px-3 py-1.5 text-sm border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black"
                 >
                   <option value={order.orderStatus}>Current: {currentStatusInfo?.label}</option>
                   {availableNextStatuses.map(statusValue => {
@@ -6141,19 +7459,29 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
               </div>
 
               {selectedStatus !== order.orderStatus && (
-                <div className="bg-[#E2E7EA]/50 rounded-xl p-2 border border-[#82947A]/30">
-                  <p className="text-xs text-[#82947A]">
+                <div className="bg-[#E2E7EA]/50 rounded-xl p-2 border border-black/30">
+                  <p className="text-xs text-black">
                     <span className="font-medium">Will change to:</span> {selectedStatusInfo?.label}
                   </p>
                 </div>
               )}
 
-              {/* ========== COURIER ASSIGNMENT SECTION ========== */}
+              {/* Partial delivery info */}
+              {isPartialDelivery && (
+                <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3">
+                  <p className="text-xs text-yellow-700 flex items-center gap-2">
+                    <FaInfoCircle className="w-3.5 h-3.5" />
+                    <span>Clicking <strong>Update Status</strong> will open the Partial Delivery editor where you can mark each product/variant as delivered or returned.</span>
+                  </p>
+                </div>
+              )}
+
+              {/* Courier option */}
               {showCourierOption() && (
-                <div className="bg-[#82947A]/10 border border-[#82947A]/30 rounded-xl p-3 space-y-3">
+                <div className="bg-black/10 border border-black/30 rounded-xl p-3 space-y-3">
                   <div>
                     <div className="flex items-center gap-2 mb-2">
-                      <FaTruck className="w-4 h-4 text-[#82947A]" />
+                      <FaTruck className="w-4 h-4 text-black" />
                       <label className="text-xs font-medium text-black">
                         Select Courier Service <span className="text-red-500">*</span>
                       </label>
@@ -6161,7 +7489,7 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                     
                     {loadingCouriers ? (
                       <div className="flex items-center justify-center py-2">
-                        <FaSpinner className="w-4 h-4 animate-spin text-[#82947A]" />
+                        <FaSpinner className="w-4 h-4 animate-spin text-black" />
                         <span className="ml-2 text-xs text-[#64748B]">Loading couriers...</span>
                       </div>
                     ) : connectedCouriers.length === 0 ? (
@@ -6173,7 +7501,7 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                       <select
                         value={courierService}
                         onChange={(e) => setCourierService(e.target.value)}
-                        className="w-full px-3 py-1.5 text-sm border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white text-black"
+                        className="w-full px-3 py-1.5 text-sm border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black"
                         required
                       >
                         <option value="">Select a courier...</option>
@@ -6183,13 +7511,6 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                           </option>
                         ))}
                       </select>
-                    )}
-                    
-                    {connectedCouriers.length > 0 && (
-                      <p className="text-xs text-[#82947A] mt-1">
-                        <FaCheckCircle className="inline w-3 h-3 mr-1" />
-                        {connectedCouriers.length} courier service(s) connected
-                      </p>
                     )}
                   </div>
 
@@ -6205,16 +7526,10 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                         onChange={(e) => setWeight(parseFloat(e.target.value) || 0)}
                         min="0.1"
                         step="0.1"
-                        className="w-full pl-10 pr-3 py-1.5 text-sm border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white text-black"
+                        className="w-full pl-10 pr-3 py-1.5 text-sm border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black"
                         placeholder="Enter package weight"
                       />
                     </div>
-                    <p className="text-[10px] text-[#64748B] mt-1">
-                      Calculated from order items: {order?.items?.reduce((sum, item) => {
-                        const w = item.weight || item.itemWeight || 0.5;
-                        return sum + (w * (item.quantity || 1));
-                      }, 0).toFixed(1)} kg
-                    </p>
                   </div>
 
                   <div>
@@ -6227,30 +7542,15 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                         value={deliveryNote}
                         onChange={(e) => setDeliveryNote(e.target.value)}
                         rows="2"
-                        className="w-full pl-10 pr-3 py-1.5 text-sm border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white text-black placeholder:text-[#64748B] resize-none"
+                        className="w-full pl-10 pr-3 py-1.5 text-sm border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black placeholder:text-[#64748B] resize-none"
                         placeholder="Add any delivery notes or special instructions..."
                       />
                     </div>
                   </div>
-
-                  <div className="text-[10px] text-[#64748B] bg-blue-50 p-2 rounded-lg border border-blue-200">
-                    <FaInfoCircle className="inline w-3 h-3 text-blue-500 mr-1" />
-                    <span>This will create a delivery order with the selected courier service.</span>
-                  </div>
                 </div>
               )}
 
-              {/* ========== INFO BOX FOR COURIER ASSIGNED → DELIVERED/RETURNED ========== */}
-              {order?.orderStatus === 'courier_assigned' && (selectedStatus === 'delivered' || selectedStatus === 'returned' || selectedStatus === 'partial_delivery') && (
-                <div className="bg-blue-50 border border-blue-200 rounded-xl p-3">
-                  <p className="text-xs text-[#82947A] flex items-center gap-2">
-                    <FaInfoCircle className="w-3.5 h-3.5" />
-                    This order is currently with courier. Marking as {selectedStatusInfo?.label} will update the order status.
-                  </p>
-                </div>
-              )}
-
-              {/* ========== TERMINAL STATUS WARNING ========== */}
+              {/* Terminal warning */}
               {(selectedStatus === 'delivered' || selectedStatus === 'returned' || selectedStatus === 'cancelled' || selectedStatus === 'rejected') && (
                 <div className="bg-red-50 border border-red-200 rounded-xl p-2">
                   <p className="text-[10px] text-red-600 flex items-center gap-1.5">
@@ -6273,10 +7573,8 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                     onChange={(e) => setCancellationReason(e.target.value)}
                     rows="3"
                     placeholder="Please provide a reason for cancellation..."
-                    className="w-full px-3 py-1.5 text-sm border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white text-black placeholder:text-[#64748B]"
-                    required
+                    className="w-full px-3 py-1.5 text-sm border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black placeholder:text-[#64748B]"
                   />
-                  <p className="text-xs text-red-600 mt-1">This reason will be saved with the order</p>
                 </div>
               )}
 
@@ -6293,14 +7591,12 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                     onChange={(e) => setRejectionReason(e.target.value)}
                     rows="3"
                     placeholder="Please provide a reason for rejection..."
-                    className="w-full px-3 py-1.5 text-sm border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white text-black placeholder:text-[#64748B]"
-                    required
+                    className="w-full px-3 py-1.5 text-sm border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black placeholder:text-[#64748B]"
                   />
-                  <p className="text-xs text-orange-600 mt-1">This reason will be saved with the order</p>
                 </div>
               )}
 
-              {!isCourierAssign && (
+              {!isCourierAssign && !isPartialDelivery && (
                 <div>
                   <label className="block text-xs font-medium text-black mb-1">Order Delivery Note (Optional)</label>
                   <textarea
@@ -6308,14 +7604,14 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                     onChange={(e) => setDeliveryNote(e.target.value)}
                     rows="2"
                     placeholder="Add any delivery notes or special instructions"
-                    className="w-full px-3 py-1.5 text-sm border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white text-black placeholder:text-[#64748B]"
+                    className="w-full px-3 py-1.5 text-sm border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black placeholder:text-[#64748B]"
                   />
                 </div>
               )}
 
               {isDelivered && order.paymentStatus !== 'paid' && (
-                <div className="bg-[#82947A]/10 border border-[#82947A]/30 rounded-xl p-2">
-                  <p className="text-xs text-[#82947A] flex items-center gap-2">
+                <div className="bg-black/10 border border-black/30 rounded-xl p-2">
+                  <p className="text-xs text-black flex items-center gap-2">
                     <FaCheckCircle className="w-3 h-3" />
                     Payment status will be automatically updated to "Paid"
                   </p>
@@ -6325,10 +7621,10 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
           )}
 
           {!canChange && order?.orderStatus === 'delivered' && (
-            <div className="bg-[#82947A]/10 border border-[#82947A]/30 rounded-xl p-3">
-              <p className="text-xs text-[#82947A] flex items-center gap-2">
+            <div className="bg-green-50 border border-green-200 rounded-xl p-3">
+              <p className="text-xs text-green-700 flex items-center gap-2">
                 <FaCheckDouble className="w-4 h-4" />
-                This order has been delivered. No further changes allowed.
+                Order is delivered. Use <strong>Revert to Partial Delivery</strong> to fix item statuses.
               </p>
             </div>
           )}
@@ -6359,39 +7655,23 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
               </p>
             </div>
           )}
-
-          {!canChange && order?.orderStatus === 'courier_assigned' && (
-            <div className="bg-[#82947A]/10 border border-[#82947A]/30 rounded-xl p-3">
-              <p className="text-xs text-[#82947A] flex items-center gap-2">
-                <FaTruck className="w-4 h-4" />
-                This order has been assigned to courier.
-              </p>
-            </div>
-          )}
-
-          {!canChange && ['processing', 'shipped', 'out_for_delivery'].includes(order?.orderStatus) && (
-            <div className="bg-[#82947A]/10 border border-[#82947A]/30 rounded-xl p-3">
-              <p className="text-xs text-[#82947A] flex items-center gap-2">
-                <FaShippingFast className="w-4 h-4" />
-                This order is being handled by the courier service.
-              </p>
-            </div>
-          )}
         </div>
 
-        <div className="p-4 border-t border-[#82947A]/30 bg-[#E2E7EA]/20 flex gap-3">
-          <button onClick={onClose} className="flex-1 px-3 py-2 border border-[#82947A]/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
+        <div className="p-4 border-t border-black/30 bg-[#E2E7EA]/20 flex gap-3">
+          <button onClick={onClose} className="flex-1 px-3 py-2 border border-black/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
             Cancel
           </button>
           <button
             onClick={handleSubmit}
-            disabled={loading || !canChange || selectedStatus === order?.orderStatus}
-            className="flex-1 px-3 py-2 bg-gradient-to-r from-[#82947A] to-black text-white rounded-xl hover:shadow-lg hover:shadow-[#82947A]/25 transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm"
+            disabled={loading || !canChange || (selectedStatus === order?.orderStatus && selectedStatus !== 'partial_delivery')}
+            className="flex-1 px-3 py-2 bg-gradient-to-r from-black to-black text-white rounded-xl hover:shadow-lg hover:shadow-black/25 transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm"
           >
             {loading ? <FaSpinner className="w-3 h-3 animate-spin" /> : 
-              isCourierAssign ? <FaTruck className="w-3 h-3" /> : <FaCheckCircle className="w-3 h-3" />
+              isCourierAssign ? <FaTruck className="w-3 h-3" /> : 
+              isPartialDelivery ? <FaCheckDouble className="w-3 h-3" /> :
+              <FaCheckCircle className="w-3 h-3" />
             }
-            {isCourierAssign ? 'Create Delivery' : 'Update Status'}
+            {isCourierAssign ? 'Create Delivery' : isPartialDelivery ? 'Continue to Partial Delivery' : 'Update Status'}
           </button>
         </div>
       </motion.div>
@@ -6399,172 +7679,7 @@ const StatusUpdateModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
   );
 };
 
-// ========== PAYMENT STATUS MODAL ==========
-// const PaymentStatusModal = ({ isOpen, onClose, order, onUpdate }) => {
-//   const [selectedStatus, setSelectedStatus] = useState('');
-//   const [loading, setLoading] = useState(false);
-
-//   useEffect(() => {
-//     if (order) {
-//       setSelectedStatus(order.paymentStatus);
-//     }
-//   }, [order]);
-
-//   const handleSubmit = async () => {
-//     if (!selectedStatus) {
-//       toast.error('Please select a payment status');
-//       return;
-//     }
-
-//     if (selectedStatus === order.paymentStatus) {
-//       toast.error('Please select a different status');
-//       return;
-//     }
-
-//     setLoading(true);
-//     try {
-//       const token = localStorage.getItem('token');
-//       const response = await fetch(`http://localhost:5000/api/orders/${order._id}/payment`, {
-//         method: 'PUT',
-//         headers: {
-//           'Content-Type': 'application/json',
-//           'Authorization': `Bearer ${token}`
-//         },
-//         body: JSON.stringify({ paymentStatus: selectedStatus })
-//       });
-
-//       const data = await response.json();
-//       if (data.success) {
-//         toast.success(`Payment status updated to ${selectedStatus}`);
-//         onUpdate();
-//         onClose();
-//       } else {
-//         toast.error(data.error || 'Failed to update payment status');
-//       }
-//     } catch (error) {
-//       console.error('Payment status update error:', error);
-//       toast.error('Network error');
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const currentPaymentInfo = PAYMENT_STATUSES.find(p => p.value === order?.paymentStatus);
-  
-//   const getAvailableStatuses = () => {
-//     const currentStatus = order?.paymentStatus;
-//     const orderStatus = order?.orderStatus;
-//     const paymentMethod = order?.paymentMethod;
-    
-//     switch (currentStatus) {
-//       case 'pending':
-//         return PAYMENT_STATUSES.filter(status => 
-//           status.value === 'paid' || status.value === 'failed'
-//         );
-//       case 'failed':
-//         return PAYMENT_STATUSES.filter(status => 
-//           status.value === 'paid'
-//         );
-//       case 'paid':
-//         if (paymentMethod === 'cod') {
-//           if (orderStatus === 'cancelled') {
-//             return PAYMENT_STATUSES.filter(status => 
-//               status.value === 'refunded'
-//             );
-//           }
-//           return [];
-//         } else {
-//           return PAYMENT_STATUSES.filter(status => 
-//             status.value === 'refunded'
-//           );
-//         }
-//       case 'refunded':
-//         return [];
-//       default:
-//         return [];
-//     }
-//   };
-
-//   const availableStatuses = getAvailableStatuses();
-//   const canChange = availableStatuses.length > 0;
-
-//   if (!isOpen) return null;
-
-//   return (
-//     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-//       <motion.div 
-//         initial={{ opacity: 0, scale: 0.95 }}
-//         animate={{ opacity: 1, scale: 1 }}
-//         exit={{ opacity: 0, scale: 0.95 }}
-//         className="relative bg-white rounded-2xl border border-[#82947A]/30 shadow-2xl w-full max-w-md overflow-hidden"
-//       >
-//         <div className="p-4 bg-gradient-to-r from-[#82947A] to-black text-white">
-//           <div className="flex items-center justify-between">
-//             <div className="flex items-center gap-2">
-//               <FaMoneyBillWave className="w-5 h-5" />
-//               <h2 className="text-lg font-bold" style={{ fontFamily: '"Playfair Display"' }}>Update Payment Status</h2>
-//             </div>
-//             <button onClick={onClose} className="p-1 hover:bg-white/20 rounded-lg transition-colors">
-//               <FaTimes className="w-4 h-4" />
-//             </button>
-//           </div>
-//           <p className="text-xs text-white/80 mt-1">Order #{order?.orderNumber || order?._id?.slice(-8).toUpperCase()}</p>
-//         </div>
-
-//         <div className="p-4 space-y-3">
-//           <div>
-//             <label className="block text-xs font-medium text-black mb-1">Current Payment Status</label>
-//             <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs border ${currentPaymentInfo?.color || 'bg-[#E2E7EA] text-black border-[#82947A]/30'}`}>
-//               <FaMoneyBillWave className="w-3 h-3" />
-//               <span>{currentPaymentInfo?.label || order?.paymentStatus}</span>
-//             </div>
-//             <div className="mt-1 text-xs text-[#64748B]">
-//               Order Status: <span className="font-medium text-black">{order?.orderStatus}</span> | 
-//               Payment Method: <span className="font-medium text-black">{order?.paymentMethod === 'cod' ? 'COD' : 'Online'}</span>
-//             </div>
-//           </div>
-
-//           <div>
-//             <label className="block text-xs font-medium text-black mb-1">Change Payment Status To</label>
-//             {canChange ? (
-//               <select
-//                 value={selectedStatus}
-//                 onChange={(e) => setSelectedStatus(e.target.value)}
-//                 className="w-full px-3 py-1.5 text-sm border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white text-black"
-//               >
-//                 <option value={order.paymentStatus}>Current: {currentPaymentInfo?.label}</option>
-//                 {availableStatuses.map(status => (
-//                   <option key={status.value} value={status.value}>
-//                     → {status.label}
-//                   </option>
-//                 ))}
-//               </select>
-//             ) : (
-//               <div className="px-3 py-1.5 text-sm bg-[#E2E7EA] text-[#64748B] rounded-xl border border-[#82947A]/30">
-//                 No further changes allowed
-//               </div>
-//             )}
-//           </div>
-//         </div>
-
-//         <div className="p-4 border-t border-[#82947A]/30 bg-[#E2E7EA]/20 flex gap-3">
-//           <button onClick={onClose} className="flex-1 px-3 py-2 border border-[#82947A]/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
-//             Cancel
-//           </button>
-//           <button
-//             onClick={handleSubmit}
-//             disabled={loading || !canChange || selectedStatus === order?.paymentStatus}
-//             className="flex-1 px-3 py-2 bg-gradient-to-r from-[#82947A] to-black text-white rounded-xl hover:shadow-lg hover:shadow-[#82947A]/25 transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm"
-//           >
-//             {loading ? <FaSpinner className="w-3 h-3 animate-spin" /> : <FaSave className="w-3 h-3" />}
-//             Update Payment
-//           </button>
-//         </div>
-//       </motion.div>
-//     </div>
-//   );
-// };
-
+// ========== PAYMENT STATUS MODAL - UPDATED ==========
 const PaymentStatusModal = ({ isOpen, onClose, order, onUpdate }) => {
   const [selectedStatus, setSelectedStatus] = useState('');
   const [loading, setLoading] = useState(false);
@@ -6580,45 +7695,46 @@ const PaymentStatusModal = ({ isOpen, onClose, order, onUpdate }) => {
     const orderStatus = order?.orderStatus;
     const paymentMethod = order?.paymentMethod;
     
-    // ✅ If order is cancelled, no payment changes allowed
-    if (orderStatus === 'cancelled') {
-      return [];
+    if (orderStatus === 'cancelled') return [];
+    
+    // ✅ Partial delivery — allow admin override
+    if (orderStatus === 'partial_delivery') {
+      switch (currentStatus) {
+        case 'pending':
+          return PAYMENT_STATUSES.filter(s => ['paid', 'partial', 'failed'].includes(s.value));
+        case 'partial':
+          return PAYMENT_STATUSES.filter(s => ['paid', 'refunded'].includes(s.value));
+        case 'paid':
+          return PAYMENT_STATUSES.filter(s => s.value === 'refunded');
+        case 'failed':
+          return PAYMENT_STATUSES.filter(s => ['paid', 'partial'].includes(s.value));
+        case 'refunded':
+          return [];
+        default:
+          return [];
+      }
     }
     
-    // If order is delivered, only allow refund for non-COD orders
     if (orderStatus === 'delivered') {
-      if (paymentMethod === 'cod') {
-        return []; // COD already auto-paid, no changes allowed
-      } else {
-        // Online payment - can only refund
-        return PAYMENT_STATUSES.filter(status => 
-          status.value === 'refunded'
-        );
-      }
+      if (paymentMethod === 'cod') return [];
+      return PAYMENT_STATUSES.filter(s => s.value === 'refunded');
     }
     
     switch (currentStatus) {
       case 'pending':
-        return PAYMENT_STATUSES.filter(status => 
-          status.value === 'paid' || status.value === 'failed'
-        );
+        return PAYMENT_STATUSES.filter(s => ['paid', 'partial', 'failed'].includes(s.value));
       case 'failed':
-        return PAYMENT_STATUSES.filter(status => 
-          status.value === 'paid'
-        );
+        return PAYMENT_STATUSES.filter(s => ['paid', 'partial'].includes(s.value));
+      case 'partial':
+        return PAYMENT_STATUSES.filter(s => ['paid', 'refunded'].includes(s.value));
       case 'paid':
         if (paymentMethod === 'cod') {
           if (orderStatus === 'cancelled') {
-            return PAYMENT_STATUSES.filter(status => 
-              status.value === 'refunded'
-            );
+            return PAYMENT_STATUSES.filter(s => s.value === 'refunded');
           }
           return [];
-        } else {
-          return PAYMENT_STATUSES.filter(status => 
-            status.value === 'refunded'
-          );
         }
+        return PAYMENT_STATUSES.filter(s => s.value === 'refunded');
       case 'refunded':
         return [];
       default:
@@ -6677,9 +7793,9 @@ const PaymentStatusModal = ({ isOpen, onClose, order, onUpdate }) => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="relative bg-white rounded-2xl border border-[#82947A]/30 shadow-2xl w-full max-w-md overflow-hidden"
+        className="relative bg-white rounded-2xl border border-black/30 shadow-2xl w-full max-w-md overflow-hidden"
       >
-        <div className="p-4 bg-gradient-to-r from-[#82947A] to-black text-white">
+        <div className="p-4 bg-gradient-to-r from-black to-black text-white">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <FaMoneyBillWave className="w-5 h-5" />
@@ -6695,7 +7811,7 @@ const PaymentStatusModal = ({ isOpen, onClose, order, onUpdate }) => {
         <div className="p-4 space-y-3">
           <div>
             <label className="block text-xs font-medium text-black mb-1">Current Payment Status</label>
-            <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs border ${currentPaymentInfo?.color || 'bg-[#E2E7EA] text-black border-[#82947A]/30'}`}>
+            <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs border ${currentPaymentInfo?.color || 'bg-[#E2E7EA] text-black border-black/30'}`}>
               <FaMoneyBillWave className="w-3 h-3" />
               <span>{currentPaymentInfo?.label || order?.paymentStatus}</span>
             </div>
@@ -6705,7 +7821,18 @@ const PaymentStatusModal = ({ isOpen, onClose, order, onUpdate }) => {
             </div>
           </div>
 
-          {/* ✅ Warning message for cancelled orders */}
+          {/* Paid / Returned amount */}
+          {(order?.paidAmount > 0 || order?.returnedAmount > 0) && (
+            <div className="bg-green-50 border border-green-200 rounded-xl p-2">
+              <p className="text-xs text-green-700 flex flex-wrap gap-2 items-center">
+                <FaMoneyBillWave className="w-3 h-3" />
+                {order?.paidAmount > 0 && <span><strong>Paid:</strong> ৳{order.paidAmount.toFixed(2)}</span>}
+                {order?.returnedAmount > 0 && <span className="text-purple-700"><strong>Returned:</strong> ৳{order.returnedAmount.toFixed(2)}</span>}
+                <span className="text-[#64748B] ml-auto">Total: ৳{(order?.total || 0).toFixed(2)}</span>
+              </p>
+            </div>
+          )}
+
           {order?.orderStatus === 'cancelled' && (
             <div className="bg-red-50 border border-red-200 rounded-xl p-3">
               <p className="text-xs text-red-600 flex items-center gap-2">
@@ -6721,7 +7848,7 @@ const PaymentStatusModal = ({ isOpen, onClose, order, onUpdate }) => {
               <select
                 value={selectedStatus}
                 onChange={(e) => setSelectedStatus(e.target.value)}
-                className="w-full px-3 py-1.5 text-sm border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white text-black"
+                className="w-full px-3 py-1.5 text-sm border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black"
               >
                 <option value={order.paymentStatus}>Current: {currentPaymentInfo?.label}</option>
                 {availableStatuses.map(status => (
@@ -6731,7 +7858,7 @@ const PaymentStatusModal = ({ isOpen, onClose, order, onUpdate }) => {
                 ))}
               </select>
             ) : (
-              <div className="px-3 py-1.5 text-sm bg-[#E2E7EA] text-[#64748B] rounded-xl border border-[#82947A]/30">
+              <div className="px-3 py-1.5 text-sm bg-[#E2E7EA] text-[#64748B] rounded-xl border border-black/30">
                 {order?.orderStatus === 'cancelled' 
                   ? 'Payment cannot be changed for cancelled orders' 
                   : 'No further changes allowed'}
@@ -6740,14 +7867,14 @@ const PaymentStatusModal = ({ isOpen, onClose, order, onUpdate }) => {
           </div>
         </div>
 
-        <div className="p-4 border-t border-[#82947A]/30 bg-[#E2E7EA]/20 flex gap-3">
-          <button onClick={onClose} className="flex-1 px-3 py-2 border border-[#82947A]/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
+        <div className="p-4 border-t border-black/30 bg-[#E2E7EA]/20 flex gap-3">
+          <button onClick={onClose} className="flex-1 px-3 py-2 border border-black/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
             Cancel
           </button>
           <button
             onClick={handleSubmit}
             disabled={loading || !canChange || selectedStatus === order?.paymentStatus || order?.orderStatus === 'cancelled'}
-            className="flex-1 px-3 py-2 bg-gradient-to-r from-[#82947A] to-black text-white rounded-xl hover:shadow-lg hover:shadow-[#82947A]/25 transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm"
+            className="flex-1 px-3 py-2 bg-gradient-to-r from-black to-black text-white rounded-xl hover:shadow-lg hover:shadow-black/25 transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm"
           >
             {loading ? <FaSpinner className="w-3 h-3 animate-spin" /> : <FaSave className="w-3 h-3" />}
             Update Payment
@@ -6759,617 +7886,25 @@ const PaymentStatusModal = ({ isOpen, onClose, order, onUpdate }) => {
 };
 
 // ========== ORDER DETAILS MODAL ==========
-// const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUpdate, onDownloadInvoice }) => {
-//   const [downloading, setDownloading] = useState(false);
-
-//   if (!isOpen || !order) return null;
-
-//   const statusInfo = ORDER_STATUSES.find(s => s.value === order.orderStatus);
-//   const paymentInfo = PAYMENT_STATUSES.find(p => p.value === order.paymentStatus);
-  
-//   // Check if status can be changed
-//   const terminalStatuses = ['cancelled', 'delivered', 'returned', 'rejected'];
-//   const canChangeStatus = !terminalStatuses.includes(order.orderStatus) && 
-//                           order.orderStatus !== 'courier_assigned' &&
-//                           !['processing', 'shipped', 'out_for_delivery'].includes(order.orderStatus);
-  
-//   const isCancelled = order.orderStatus === 'cancelled';
-//   const isDelivered = order.orderStatus === 'delivered';
-//   const isCourierAssigned = order.orderStatus === 'courier_assigned';
-//   const isRejected = order.orderStatus === 'rejected';
-//   const isReturned = order.orderStatus === 'returned';
-//   const isPartialDelivery = order.orderStatus === 'partial_delivery';
-
-//   const handleDownload = async () => {
-//     setDownloading(true);
-//     try {
-//       await onDownloadInvoice(order);
-//       toast.success('Invoice downloaded successfully!');
-//     } catch (error) {
-//       console.error('Download error:', error);
-//       toast.error('Failed to download invoice');
-//     } finally {
-//       setDownloading(false);
-//     }
-//   };
-
-//   const getDeviceIcon = (deviceType) => {
-//     switch(deviceType?.toLowerCase()) {
-//       case 'mobile': return <FaMobile className="w-3.5 h-3.5" />;
-//       case 'tablet': return <FaTablet className="w-3.5 h-3.5" />;
-//       case 'desktop': return <FaDesktop className="w-3.5 h-3.5" />;
-//       default: return <FaLaptop className="w-3.5 h-3.5" />;
-//     }
-//   };
-
-//   const getDeviceInfo = (deviceInfo) => {
-//     if (!deviceInfo) return null;
-//     const parts = [];
-//     if (deviceInfo.deviceType) parts.push(deviceInfo.deviceType);
-//     if (deviceInfo.browser) parts.push(deviceInfo.browser);
-//     if (deviceInfo.os) parts.push(deviceInfo.os);
-//     return parts.join(' • ');
-//   };
-
-//   const getGroupedItems = () => {
-//     if (!order.items) return [];
-//     const grouped = {};
-//     order.items.forEach(item => {
-//       const key = item.productId.toString();
-//       if (!grouped[key]) {
-//         grouped[key] = {
-//           ...item,
-//           colors: []
-//         };
-//       }
-//       if (item.colors && item.colors.length > 0) {
-//         item.colors.forEach(colorObj => {
-//           grouped[key].colors.push({
-//             color: colorObj.color,
-//             quantity: colorObj.quantity,
-//             price: colorObj.price || item.discountPrice || item.regularPrice
-//           });
-//         });
-//       } else if (item.selectedColor) {
-//         grouped[key].colors.push({
-//           color: item.selectedColor,
-//           quantity: item.quantity,
-//           price: item.discountPrice || item.regularPrice
-//         });
-//       } else {
-//         grouped[key].colors.push({
-//           color: null,
-//           quantity: item.quantity,
-//           price: item.discountPrice || item.regularPrice
-//         });
-//       }
-//     });
-//     return Object.values(grouped);
-//   };
-
-//   const groupedItems = getGroupedItems();
-
-//   const getStatusNotes = () => {
-//     if (!order.statusHistory || order.statusHistory.length === 0) {
-//       return [];
-//     }
-//     const notes = order.statusHistory
-//       .filter(entry => entry.note && entry.note.trim() !== '')
-//       .map(entry => {
-//         let userEmail = null;
-//         let userName = null;
-//         if (entry.updatedBy) {
-//           if (typeof entry.updatedBy === 'object') {
-//             userEmail = entry.updatedBy.email || null;
-//             userName = entry.updatedBy.contactPerson || entry.updatedBy.name || null;
-//           }
-//         }
-//         return {
-//           status: entry.status,
-//           note: entry.note,
-//           timestamp: entry.timestamp,
-//           updatedByRole: entry.updatedByRole || 'system',
-//           updatedByEmail: userEmail,
-//           updatedByName: userName
-//         };
-//       });
-//     return notes;
-//   };
-
-//   const statusNotes = getStatusNotes();
-
-//   return (
-//     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm overflow-y-auto p-4">
-//       <motion.div 
-//         initial={{ opacity: 0, y: 20 }}
-//         animate={{ opacity: 1, y: 0 }}
-//         exit={{ opacity: 0, y: 20 }}
-//         className="relative bg-white rounded-2xl border border-[#82947A]/30 shadow-2xl w-full max-w-4xl my-8 overflow-hidden"
-//       >
-//         <div className="p-4 bg-gradient-to-r from-[#82947A] to-[#708268] text-white sticky top-0 z-10">
-//           <div className="flex items-center justify-between">
-//             <div className="flex items-center gap-2">
-//               <FaFileInvoice className="w-5 h-5" />
-//               <h2 className="text-lg font-bold" style={{ fontFamily: '"Playfair Display"' }}>Order Details</h2>
-//             </div>
-//             <button onClick={onClose} className="p-1 hover:bg-white/20 rounded-lg transition-colors">
-//               <FaTimes className="w-4 h-4" />
-//             </button>
-//           </div>
-//           <p className="text-xs text-white/80 mt-1">Order #{order.orderNumber || order._id.slice(-8).toUpperCase()}</p>
-//         </div>
-
-//         <div className="p-5 max-h-[60vh] overflow-y-auto">
-//           <div className="flex flex-wrap gap-2 mb-5">
-//             <button
-//               onClick={() => {
-//                 onClose();
-//                 canChangeStatus && onStatusUpdate();
-//               }}
-//               className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs border transition-all ${statusInfo?.color || 'bg-[#E2E7EA] text-black border-[#82947A]/30'} ${canChangeStatus ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`}
-//               title={canChangeStatus ? 'Click to update status' : 'Status cannot be changed'}
-//             >
-//               {statusInfo?.icon && <statusInfo.icon className="w-3 h-3" />}
-//               <span className="font-medium">Order: {statusInfo?.label || order.orderStatus}</span>
-//               {canChangeStatus && <FaEdit className="w-2.5 h-2.5 ml-1" />}
-//             </button>
-//             <button
-//               onClick={() => {
-//                 onClose();
-//                 onPaymentUpdate();
-//               }}
-//               className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs border transition-all ${paymentInfo?.color || 'bg-[#E2E7EA] text-black border-[#82947A]/30'} cursor-pointer hover:opacity-80`}
-//               title="Click to update payment status"
-//             >
-//               <FaMoneyBillWave className="w-3 h-3" />
-//               <span className="font-medium">Payment: {paymentInfo?.label || order.paymentStatus}</span>
-//               <FaEdit className="w-2.5 h-2.5 ml-1" />
-//             </button>
-//             <button
-//               onClick={handleDownload}
-//               disabled={downloading}
-//               className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs border bg-[#E2E7EA] text-[#82947A] border-[#82947A]/30 hover:bg-white transition-colors disabled:opacity-50"
-//             >
-//               {downloading ? (
-//                 <FaSpinner className="w-3 h-3 animate-spin" />
-//               ) : (
-//                 <FaDownload className="w-3 h-3" />
-//               )}
-//               Invoice
-//             </button>
-//           </div>
-
-//           {order.deviceInfo && (
-//             <div className="mb-5 bg-[#E2E7EA]/50 rounded-xl p-3 border border-[#82947A]/30">
-//               <h3 className="font-semibold text-black text-sm mb-2 flex items-center gap-1.5">
-//                 <FaGlobe className="w-3.5 h-3.5 text-[#82947A]" />
-//                 Device & Location Information
-//               </h3>
-//               <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
-//                 <div className="flex items-center gap-2">
-//                   <span className="text-[#64748B]">IP Address:</span>
-//                   <span className="font-mono text-black">{order.deviceInfo.ipAddress || 'N/A'}</span>
-//                 </div>
-//                 <div className="flex items-center gap-2">
-//                   <span className="text-[#64748B]">Device:</span>
-//                   <span className="flex items-center gap-1 text-black">
-//                     {getDeviceIcon(order.deviceInfo.deviceType)}
-//                     {getDeviceInfo(order.deviceInfo) || 'N/A'}
-//                   </span>
-//                 </div>
-//                 <div className="flex items-center gap-2">
-//                   <span className="text-[#64748B]">Browser:</span>
-//                   <span className="text-black">{order.deviceInfo.browser || 'N/A'} {order.deviceInfo.browserVersion || ''}</span>
-//                 </div>
-//                 <div className="flex items-center gap-2">
-//                   <span className="text-[#64748B]">OS:</span>
-//                   <span className="text-black">{order.deviceInfo.os || 'N/A'} {order.deviceInfo.osVersion || ''}</span>
-//                 </div>
-//                 <div className="flex items-center gap-2">
-//                   <span className="text-[#64748B]">Screen:</span>
-//                   <span className="text-black">{order.deviceInfo.screenResolution || 'N/A'}</span>
-//                 </div>
-//                 <div className="flex items-center gap-2">
-//                   <span className="text-[#64748B]">Connection:</span>
-//                   <span className="text-black">{order.deviceInfo.connectionType || 'N/A'}</span>
-//                 </div>
-//                 <div className="flex items-center gap-2">
-//                   <span className="text-[#64748B]">Timezone:</span>
-//                   <span className="text-black">{order.deviceInfo.timezone || 'N/A'}</span>
-//                 </div>
-//                 <div className="flex items-center gap-2">
-//                   <span className="text-[#64748B]">Language:</span>
-//                   <span className="text-black">{order.deviceInfo.language || 'N/A'}</span>
-//                 </div>
-//               </div>
-//             </div>
-//           )}
-
-//           {isDelivered && order.deliveredAt && (
-//             <div className="mb-5 bg-[#82947A]/10 border-l-4 border-[#82947A] rounded-xl p-3">
-//               <div className="flex items-start gap-2">
-//                 <FaCheckDouble className="w-4 h-4 text-[#82947A] mt-0.5 flex-shrink-0" />
-//                 <div>
-//                   <h4 className="text-sm font-semibold text-[#82947A]">Order Delivered</h4>
-//                   <p className="text-xs text-[#82947A]/80 mt-1">
-//                     <span className="font-medium">Delivered on:</span> {new Date(order.deliveredAt).toLocaleDateString('en-BD', {
-//                       day: '2-digit',
-//                       month: 'long',
-//                       year: 'numeric',
-//                       hour: '2-digit',
-//                       minute: '2-digit'
-//                     })}
-//                   </p>
-//                 </div>
-//               </div>
-//             </div>
-//           )}
-
-//           {isPartialDelivery && (
-//             <div className="mb-5 bg-yellow-50 border-l-4 border-yellow-500 rounded-xl p-3">
-//               <div className="flex items-start gap-2">
-//                 <FaCheckDouble className="w-4 h-4 text-yellow-500 mt-0.5 flex-shrink-0" />
-//                 <div>
-//                   <h4 className="text-sm font-semibold text-yellow-700">Partial Delivery</h4>
-//                   <p className="text-xs text-yellow-600 mt-1">
-//                     Only part of this order has been delivered.
-//                   </p>
-//                 </div>
-//               </div>
-//             </div>
-//           )}
-
-//           {isCancelled && order.cancellationReason && (
-//             <div className="mb-5 bg-red-50 border-l-4 border-red-500 rounded-xl p-3">
-//               <div className="flex items-start gap-2">
-//                 <FaExclamationTriangle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
-//                 <div>
-//                   <h4 className="text-sm font-semibold text-red-700">Order Cancelled</h4>
-//                   <p className="text-xs text-red-600 mt-1">
-//                     <span className="font-medium">Reason:</span> {order.cancellationReason}
-//                   </p>
-//                   {order.cancelledAt && (
-//                     <p className="text-xs text-red-500 mt-1">
-//                       <span className="font-medium">Cancelled on:</span> {new Date(order.cancelledAt).toLocaleDateString('en-BD', {
-//                         day: '2-digit',
-//                         month: 'short',
-//                         year: 'numeric',
-//                         hour: '2-digit',
-//                         minute: '2-digit'
-//                       })}
-//                     </p>
-//                   )}
-//                 </div>
-//               </div>
-//             </div>
-//           )}
-
-//           {isRejected && order.rejectionReason && (
-//             <div className="mb-5 bg-orange-50 border-l-4 border-orange-500 rounded-xl p-3">
-//               <div className="flex items-start gap-2">
-//                 <FaTimesCircle className="w-4 h-4 text-orange-500 mt-0.5 flex-shrink-0" />
-//                 <div>
-//                   <h4 className="text-sm font-semibold text-orange-700">Order Rejected</h4>
-//                   <p className="text-xs text-orange-600 mt-1">
-//                     <span className="font-medium">Reason:</span> {order.rejectionReason}
-//                   </p>
-//                   {order.cancelledAt && (
-//                     <p className="text-xs text-orange-500 mt-1">
-//                       <span className="font-medium">Rejected on:</span> {new Date(order.cancelledAt).toLocaleDateString('en-BD', {
-//                         day: '2-digit',
-//                         month: 'short',
-//                         year: 'numeric',
-//                         hour: '2-digit',
-//                         minute: '2-digit'
-//                       })}
-//                     </p>
-//                   )}
-//                 </div>
-//               </div>
-//             </div>
-//           )}
-
-//           {isReturned && (
-//             <div className="mb-5 bg-purple-50 border-l-4 border-purple-500 rounded-xl p-3">
-//               <div className="flex items-start gap-2">
-//                 <FaUndo className="w-4 h-4 text-purple-500 mt-0.5 flex-shrink-0" />
-//                 <div>
-//                   <h4 className="text-sm font-semibold text-purple-700">Order Returned</h4>
-//                   <p className="text-xs text-purple-600 mt-1">
-//                     This order has been returned.
-//                   </p>
-//                 </div>
-//               </div>
-//             </div>
-//           )}
-
-//           {isCourierAssigned && order.deliveryService && (
-//             <div className="mb-5 bg-[#82947A]/10 border-l-4 border-[#82947A] rounded-xl p-3">
-//               <div className="flex items-start gap-2">
-//                 <FaTruck className="w-4 h-4 text-[#82947A] mt-0.5 flex-shrink-0" />
-//                 <div>
-//                   <h4 className="text-sm font-semibold text-[#82947A]">Courier Assigned</h4>
-//                   <p className="text-xs text-[#82947A]/80 mt-1">
-//                     <span className="font-medium">Courier:</span> {order.deliveryService.courierName || 'N/A'}
-//                   </p>
-//                   {order.deliveryService.trackingNumber && (
-//                     <p className="text-xs text-[#82947A]/80 mt-1">
-//                       <span className="font-medium">Tracking:</span> {order.deliveryService.trackingNumber}
-//                     </p>
-//                   )}
-//                 </div>
-//               </div>
-//             </div>
-//           )}
-
-//           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
-//             <div className="bg-[#E2E7EA]/50 rounded-xl p-3 border border-[#82947A]/30">
-//               <h3 className="font-semibold text-black text-sm mb-2 flex items-center gap-1.5">
-//                 <FaUser className="w-3.5 h-3.5 text-[#82947A]" />
-//                 Customer Information
-//               </h3>
-//               <div className="space-y-1 text-xs">
-//                 <p><span className="text-[#64748B]">Name:</span> <span className="text-black font-medium">{order.customerInfo?.fullName}</span></p>
-//                 <p><span className="text-[#64748B]">Email:</span> <span className="text-black">{order.customerInfo?.email}</span></p>
-//                 <p><span className="text-[#64748B]">Phone:</span> <span className="text-black">{order.customerInfo?.phone}</span></p>
-//                 {order.customerInfo?.note && (
-//                   <p><span className="text-[#64748B]">Note:</span> <span className="text-black">{order.customerInfo.note}</span></p>
-//                 )}
-//               </div>
-//             </div>
-
-//             <div className="bg-[#E2E7EA]/50 rounded-xl p-3 border border-[#82947A]/30">
-//               <h3 className="font-semibold text-black text-sm mb-2 flex items-center gap-1.5">
-//                 <FaMapMarkerAlt className="w-3.5 h-3.5 text-[#82947A]" />
-//                 Delivery Information
-//               </h3>
-//               <div className="space-y-1 text-xs">
-//                 <p><span className="text-[#64748B]">Division:</span> <span className="font-medium text-black">{order.customerInfo?.division || 'N/A'}</span></p>
-//                 <p><span className="text-[#64748B]">District/City:</span> <span className="font-medium text-black">{order.customerInfo?.city || 'N/A'}</span></p>
-//                 <p><span className="text-[#64748B]">Upazila/Thana:</span> <span className="font-medium text-black">{order.customerInfo?.zone || 'N/A'}</span></p>
-//                 {order.customerInfo?.area && (
-//                   <p><span className="text-[#64748B]">Union/Area:</span> <span className="font-medium text-black">{order.customerInfo.area}</span></p>
-//                 )}
-//                 <p><span className="text-[#64748B]">Address:</span> <span className="text-black">{order.customerInfo?.address}</span></p>
-//                 {order.trackingNumber && (
-//                   <p><span className="text-[#64748B]">Tracking:</span> <span className="font-mono text-[#82947A]">{order.trackingNumber}</span></p>
-//                 )}
-//                 {order.deliveryService?.trackingUrl && (
-//                   <div className="flex items-center justify-between mt-2 pt-2 border-t border-[#82947A]/20">
-//                     <span className="text-[#64748B]">Track Link:</span>
-//                     <a
-//                       href={order.deliveryService.trackingUrl}
-//                       target="_blank"
-//                       rel="noopener noreferrer"
-//                       className="text-[#82947A] hover:underline flex items-center gap-1"
-//                     >
-//                       <FaExternalLinkAlt className="w-3 h-3" />
-//                       Track on {order.deliveryService.courierName || 'Courier'}
-//                     </a>
-//                   </div>
-//                 )}
-//                 {order.deliveryNote && (
-//                   <p><span className="text-[#64748B]">Order Note:</span> <span className="text-black">{order.deliveryNote}</span></p>
-//                 )}
-//               </div>
-//             </div>
-//           </div>
-
-//           <div className="mb-5">
-//             <h3 className="font-semibold text-black text-sm mb-2 flex items-center gap-1.5">
-//               <FaBox className="w-3.5 h-3.5 text-[#82947A]" />
-//               Order Items
-//             </h3>
-//             <div className="overflow-x-auto">
-//               <table className="w-full text-xs">
-//                 <thead className="bg-[#E2E7EA]">
-//                   <tr>
-//                     <th className="px-2 py-1.5 text-left text-black">Product</th>
-//                     <th className="px-2 py-1.5 text-center text-black">Color</th>
-//                     <th className="px-2 py-1.5 text-center text-black">Qty</th>
-//                     <th className="px-2 py-1.5 text-right text-black">Price</th>
-//                     <th className="px-2 py-1.5 text-right text-black">Total</th>
-//                   </tr>
-//                 </thead>
-//                 <tbody>
-//                   {groupedItems.map((group, idx) => {
-//                     const hasMultipleColors = group.colors && group.colors.length > 1;
-                    
-//                     return group.colors.map((colorObj, colorIdx) => {
-//                       const isFirst = colorIdx === 0;
-//                       const price = colorObj.price || group.discountPrice || group.regularPrice;
-//                       const totalPrice = price * colorObj.quantity;
-                      
-//                       return (
-//                         <tr key={`${idx}-${colorIdx}`} className="border-t border-[#82947A]/20">
-//                           {isFirst && (
-//                             <td className="px-2 py-2" rowSpan={hasMultipleColors ? group.colors.length : 1}>
-//                               <div className="flex items-center gap-2">
-//                                 <img 
-//                                   src={group.image || 'https://via.placeholder.com/30'} 
-//                                   alt={group.productName}
-//                                   className="w-7 h-7 rounded object-cover border border-[#82947A]/30"
-//                                   onError={(e) => { e.target.src = 'https://via.placeholder.com/30?text=Product'; }}
-//                                 />
-//                                 <p className="font-medium text-xs text-black">{group.productName}</p>
-//                               </div>
-//                             </td>
-//                           )}
-//                           <td className="px-2 py-2 text-center">
-//                             {colorObj.color ? (
-//                               <div className="flex items-center justify-center">
-//                                 <div 
-//                                   className="w-5 h-5 rounded-full border border-[#82947A]/30 shadow-sm"
-//                                   style={{ backgroundColor: colorObj.color }}
-//                                   title={colorObj.color}
-//                                 />
-//                               </div>
-//                             ) : (
-//                               <span className="text-xs text-[#64748B]">-</span>
-//                             )}
-//                           </td>
-//                           <td className="px-2 py-2 text-center text-black">{colorObj.quantity}</td>
-//                           <td className="px-2 py-2 text-right text-black">৳{price.toFixed(2)}</td>
-//                           <td className="px-2 py-2 text-right font-medium text-[#82947A]">৳{totalPrice.toFixed(2)}</td>
-//                         </tr>
-//                       );
-//                     });
-//                   })}
-//                 </tbody>
-//                 <tfoot className="border-t border-[#82947A]/30">
-//                   <tr><td colSpan="4" className="px-2 py-1 text-right font-medium text-black">Subtotal:</td><td className="px-2 py-1 text-right text-black">৳{order.subtotal?.toFixed(2)}</td></tr>
-//                   <tr><td colSpan="4" className="px-2 py-1 text-right font-medium text-black">Shipping:</td><td className="px-2 py-1 text-right text-black">৳{order.shippingCost?.toFixed(2)}</td></tr>
-//                   {order.discount > 0 && (
-//                     <tr><td colSpan="4" className="px-2 py-1 text-right font-medium text-green-600">Discount:</td><td className="px-2 py-1 text-right text-green-600">- ৳{order.discount.toFixed(2)}</td></tr>
-//                   )}
-//                   <tr className="text-sm font-bold">
-//                     <td colSpan="4" className="px-2 py-1 text-right text-black">Total:</td>
-//                     <td className="px-2 py-1 text-right text-[#82947A]">৳{order.total?.toFixed(2)}</td>
-//                   </tr>
-//                 </tfoot>
-//               </table>
-//             </div>
-//           </div>
-
-//           <div className="bg-[#E2E7EA]/50 rounded-xl p-3 border border-[#82947A]/30">
-//             <h3 className="font-semibold text-black text-sm mb-2 flex items-center gap-1.5">
-//               <FaInfoCircle className="w-3.5 h-3.5 text-[#82947A]" />
-//               Additional Information
-//             </h3>
-            
-//             {order.couponCode && (
-//               <div className="mb-2">
-//                 <p className="text-xs">
-//                   <span className="text-[#64748B]">Coupon Applied:</span> 
-//                   <span className="text-[#82947A] font-medium ml-1">{order.couponCode}</span>
-//                 </p>
-//               </div>
-//             )}
-
-//             {order.deliveryNote && (
-//               <div className="mb-2">
-//                 <p className="text-xs">
-//                   <span className="text-[#64748B]">Order Note:</span>
-//                   <span className="text-black font-medium ml-1 whitespace-pre-wrap">{order.deliveryNote}</span>
-//                 </p>
-//               </div>
-//             )}
-
-//             {statusNotes.length > 0 && (
-//               <div>
-//                 <p className="text-xs font-medium text-black mb-1.5 flex items-center gap-1">
-//                   <FaClipboardList className="w-3 h-3 text-[#82947A]" />
-//                   Status History Notes
-//                 </p>
-//                 <div className="space-y-1.5 max-h-[150px] overflow-y-auto pr-1">
-//                   {statusNotes.map((note, index) => {
-//                     const statusLabel = ORDER_STATUSES.find(s => s.value === note.status)?.label || note.status;
-//                     const formattedDate = note.timestamp ? new Date(note.timestamp).toLocaleString('en-BD', {
-//                       day: '2-digit',
-//                       month: 'short',
-//                       year: 'numeric',
-//                       hour: '2-digit',
-//                       minute: '2-digit'
-//                     }) : '';
-                    
-//                     let updatedByDisplay = 'System';
-//                     if (note.updatedByEmail) {
-//                       updatedByDisplay = note.updatedByEmail;
-//                     } else if (note.updatedByName) {
-//                       updatedByDisplay = note.updatedByName;
-//                     } else if (note.updatedByRole && note.updatedByRole !== 'system') {
-//                       updatedByDisplay = note.updatedByRole;
-//                     }
-                    
-//                     return (
-//                       <div key={index} className="bg-white rounded-lg p-2 border border-[#82947A]/20">
-//                         <div className="flex items-center justify-between gap-2">
-//                           <span className="text-xs font-medium text-black">
-//                             {statusLabel}
-//                           </span>
-//                           <span className="text-[10px] text-[#64748B]">
-//                             {formattedDate}
-//                           </span>
-//                         </div>
-//                         <p className="text-xs text-[#64748B] mt-0.5 break-words">
-//                           {note.note}
-//                         </p>
-//                         {updatedByDisplay && (
-//                           <span className="text-[10px] text-[#64748B]/60 mt-0.5 block">
-//                             Updated by: {updatedByDisplay}
-//                           </span>
-//                         )}
-//                       </div>
-//                     );
-//                   })}
-//                 </div>
-//               </div>
-//             )}
-
-//             {!order.couponCode && !order.deliveryNote && statusNotes.length === 0 && (
-//               <p className="text-xs text-[#64748B]">No additional information available</p>
-//             )}
-//           </div>
-//         </div>
-
-//         <div className="p-4 border-t border-[#82947A]/30 bg-[#E2E7EA]/20 flex justify-end gap-2">
-         
-//           <button onClick={onClose} className="px-3 py-1.5 bg-gradient-to-r from-[#82947A] to-[#708268] text-white rounded-xl hover:shadow-lg hover:shadow-[#82947A]/25 transition-all text-sm">
-//             Close
-//           </button>
-//         </div>
-//       </motion.div>
-//     </div>
-//   );
-// };
-
-
-// ========== ORDER DETAILS MODAL ==========
-const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUpdate, onDownloadInvoice }) => {
+const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUpdate, onDownloadInvoice, onOpenPartialDelivery }) => {
   const [downloading, setDownloading] = useState(false);
 
-  // ========== HELPER: Get color name ==========
   const getColorName = (color) => {
     const colorMap = {
-      '#000000': 'Black',
-      '#FFFFFF': 'White',
-      '#FF0000': 'Red',
-      '#00FF00': 'Green',
-      '#0000FF': 'Blue',
-      '#FFFF00': 'Yellow',
-      '#FF00FF': 'Magenta',
-      '#00FFFF': 'Cyan',
-      '#FFA500': 'Orange',
-      '#800080': 'Purple',
-      '#008000': 'Dark Green',
-      '#FFC0CB': 'Pink',
-      '#A52A2A': 'Brown',
-      '#808080': 'Gray',
-      '#C0C0C0': 'Silver',
-      '#4A90E2': 'Blue',
-      '#FF6B6B': 'Red',
-      '#4ECDC4': 'Teal',
-      '#45B7D1': 'Sky Blue',
-      '#96CEB4': 'Mint',
-      '#FFEAA7': 'Cream',
-      '#DDA0DD': 'Plum',
-      '#98D8C8': 'Seafoam',
-      '#F7DC6F': 'Gold',
-      '#BB8FCE': 'Lavender'
+      '#000000': 'Black', '#FFFFFF': 'White', '#FF0000': 'Red',
+      '#00FF00': 'Green', '#0000FF': 'Blue', '#FFFF00': 'Yellow',
+      '#FF00FF': 'Magenta', '#00FFFF': 'Cyan', '#FFA500': 'Orange',
+      '#800080': 'Purple', '#008000': 'Dark Green', '#FFC0CB': 'Pink',
+      '#A52A2A': 'Brown', '#808080': 'Gray', '#C0C0C0': 'Silver',
     };
     return colorMap[color] || color;
   };
 
-  // ========== GET COLOR DISPLAY ==========
   const getColorDisplay = (item) => {
     if (item.colors && Array.isArray(item.colors) && item.colors.length > 0) {
       const hasValidColors = item.colors.some(c => 
-        c.color && 
-        c.color !== 'null' && 
-        c.color !== '' && 
-        c.color !== 'undefined'
+        c.color && c.color !== 'null' && c.color !== '' && c.color !== 'undefined'
       );
-      
       if (hasValidColors) {
         return item.colors
           .filter(c => c.color && c.color !== 'null' && c.color !== '' && c.color !== 'undefined')
@@ -7395,7 +7930,6 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
     return [];
   };
 
-  // ========== GROUP ITEMS WITH PROPER HIERARCHY ==========
   const groupItemsForDisplay = (items) => {
     if (!items || items.length === 0) return [];
     
@@ -7640,7 +8174,7 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
         });
       });
       
-      // Process nested variantDetails
+      // Nested variantDetails
       if (hasNestedVariants && rows.filter(r => r.isVariant || r.isSubVariant).length === 0) {
         group.variantDetails.forEach(variant => {
           const hasSubVariants = variant.subVariants && variant.subVariants.length > 0;
@@ -7809,11 +8343,8 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
   const statusInfo = ORDER_STATUSES.find(s => s.value === order.orderStatus);
   const paymentInfo = PAYMENT_STATUSES.find(p => p.value === order.paymentStatus);
   
-  // Check if status can be changed
-  const terminalStatuses = ['cancelled', 'delivered', 'returned', 'rejected'];
-  const canChangeStatus = !terminalStatuses.includes(order.orderStatus) && 
-                          order.orderStatus !== 'courier_assigned' &&
-                          !['processing', 'shipped', 'out_for_delivery'].includes(order.orderStatus);
+  const canChangeStatus = !['cancelled', 'returned', 'rejected'].includes(order.orderStatus) &&
+                          !['shipped', 'out_for_delivery'].includes(order.orderStatus);
   
   const isCancelled = order.orderStatus === 'cancelled';
   const isDelivered = order.orderStatus === 'delivered';
@@ -7854,19 +8385,15 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
   };
 
   const getStatusNotes = () => {
-    if (!order.statusHistory || order.statusHistory.length === 0) {
-      return [];
-    }
-    const notes = order.statusHistory
+    if (!order.statusHistory || order.statusHistory.length === 0) return [];
+    return order.statusHistory
       .filter(entry => entry.note && entry.note.trim() !== '')
       .map(entry => {
         let userEmail = null;
         let userName = null;
-        if (entry.updatedBy) {
-          if (typeof entry.updatedBy === 'object') {
-            userEmail = entry.updatedBy.email || null;
-            userName = entry.updatedBy.contactPerson || entry.updatedBy.name || null;
-          }
+        if (entry.updatedBy && typeof entry.updatedBy === 'object') {
+          userEmail = entry.updatedBy.email || null;
+          userName = entry.updatedBy.contactPerson || entry.updatedBy.name || null;
         }
         return {
           status: entry.status,
@@ -7877,7 +8404,6 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
           updatedByName: userName
         };
       });
-    return notes;
   };
 
   const statusNotes = getStatusNotes();
@@ -7889,9 +8415,9 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 20 }}
-        className="relative bg-white rounded-2xl border border-[#82947A]/30 shadow-2xl w-full max-w-4xl my-8 overflow-hidden"
+        className="relative bg-white rounded-2xl border border-black/30 shadow-2xl w-full max-w-4xl my-8 overflow-hidden"
       >
-        <div className="p-4 bg-gradient-to-r from-[#82947A] to-[#708268] text-white sticky top-0 z-10">
+        <div className="p-4 bg-black text-white sticky top-0 z-10">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <FaFileInvoice className="w-5 h-5" />
@@ -7911,7 +8437,7 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
                 onClose();
                 canChangeStatus && onStatusUpdate();
               }}
-              className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs border transition-all ${statusInfo?.color || 'bg-[#E2E7EA] text-black border-[#82947A]/30'} ${canChangeStatus ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`}
+              className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs border transition-all ${statusInfo?.color || 'bg-[#E2E7EA] text-black border-black/30'} ${canChangeStatus ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`}
               title={canChangeStatus ? 'Click to update status' : 'Status cannot be changed'}
             >
               {statusInfo?.icon && <statusInfo.icon className="w-3 h-3" />}
@@ -7923,31 +8449,43 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
                 onClose();
                 onPaymentUpdate();
               }}
-              className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs border transition-all ${paymentInfo?.color || 'bg-[#E2E7EA] text-black border-[#82947A]/30'} cursor-pointer hover:opacity-80`}
+              className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs border transition-all ${paymentInfo?.color || 'bg-[#E2E7EA] text-black border-black/30'} cursor-pointer hover:opacity-80`}
               title="Click to update payment status"
             >
               <FaMoneyBillWave className="w-3 h-3" />
               <span className="font-medium">Payment: {paymentInfo?.label || order.paymentStatus}</span>
+              {order.paidAmount > 0 && (
+                <span className="text-[10px] opacity-80">(৳{order.paidAmount.toFixed(2)})</span>
+              )}
               <FaEdit className="w-2.5 h-2.5 ml-1" />
             </button>
             <button
               onClick={handleDownload}
               disabled={downloading}
-              className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs border bg-[#E2E7EA] text-[#82947A] border-[#82947A]/30 hover:bg-white transition-colors disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs border bg-[#E2E7EA] text-black border-black/30 hover:bg-white transition-colors disabled:opacity-50"
             >
-              {downloading ? (
-                <FaSpinner className="w-3 h-3 animate-spin" />
-              ) : (
-                <FaDownload className="w-3 h-3" />
-              )}
+              {downloading ? <FaSpinner className="w-3 h-3 animate-spin" /> : <FaDownload className="w-3 h-3" />}
               Invoice
             </button>
+            {/* Edit Partial Delivery button */}
+            {isPartialDelivery && onOpenPartialDelivery && (
+              <button
+                onClick={() => {
+                  onClose();
+                  onOpenPartialDelivery();
+                }}
+                className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs border bg-yellow-100 text-yellow-800 border-yellow-300 hover:bg-yellow-200 transition-colors"
+              >
+                <FaEdit className="w-3 h-3" />
+                Edit Partial Delivery
+              </button>
+            )}
           </div>
 
           {order.deviceInfo && (
-            <div className="mb-5 bg-[#E2E7EA]/50 rounded-xl p-3 border border-[#82947A]/30">
+            <div className="mb-5 bg-[#E2E7EA]/50 rounded-xl p-3 border border-black/30">
               <h3 className="font-semibold text-black text-sm mb-2 flex items-center gap-1.5">
-                <FaGlobe className="w-3.5 h-3.5 text-[#82947A]" />
+                <FaGlobe className="w-3.5 h-3.5 text-black" />
                 Device & Location Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
@@ -7970,39 +8508,20 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
                   <span className="text-[#64748B]">OS:</span>
                   <span className="text-black">{order.deviceInfo.os || 'N/A'} {order.deviceInfo.osVersion || ''}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-[#64748B]">Screen:</span>
-                  <span className="text-black">{order.deviceInfo.screenResolution || 'N/A'}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-[#64748B]">Connection:</span>
-                  <span className="text-black">{order.deviceInfo.connectionType || 'N/A'}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-[#64748B]">Timezone:</span>
-                  <span className="text-black">{order.deviceInfo.timezone || 'N/A'}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-[#64748B]">Language:</span>
-                  <span className="text-black">{order.deviceInfo.language || 'N/A'}</span>
-                </div>
               </div>
             </div>
           )}
 
+          {/* Delivered banner */}
           {isDelivered && order.deliveredAt && (
-            <div className="mb-5 bg-[#82947A]/10 border-l-4 border-[#82947A] rounded-xl p-3">
+            <div className="mb-5 bg-black/10 border-l-4 border-black rounded-xl p-3">
               <div className="flex items-start gap-2">
-                <FaCheckDouble className="w-4 h-4 text-[#82947A] mt-0.5 flex-shrink-0" />
+                <FaCheckDouble className="w-4 h-4 text-black mt-0.5 flex-shrink-0" />
                 <div>
-                  <h4 className="text-sm font-semibold text-[#82947A]">Order Delivered</h4>
-                  <p className="text-xs text-[#82947A]/80 mt-1">
+                  <h4 className="text-sm font-semibold text-black">Order Delivered</h4>
+                  <p className="text-xs text-black/80 mt-1">
                     <span className="font-medium">Delivered on:</span> {new Date(order.deliveredAt).toLocaleDateString('en-BD', {
-                      day: '2-digit',
-                      month: 'long',
-                      year: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit'
+                      day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
                     })}
                   </p>
                 </div>
@@ -8010,15 +8529,32 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
             </div>
           )}
 
+          {/* Partial delivery banner */}
           {isPartialDelivery && (
             <div className="mb-5 bg-yellow-50 border-l-4 border-yellow-500 rounded-xl p-3">
               <div className="flex items-start gap-2">
                 <FaCheckDouble className="w-4 h-4 text-yellow-500 mt-0.5 flex-shrink-0" />
-                <div>
+                <div className="flex-1">
                   <h4 className="text-sm font-semibold text-yellow-700">Partial Delivery</h4>
                   <p className="text-xs text-yellow-600 mt-1">
                     Only part of this order has been delivered.
                   </p>
+                  {(order.paidAmount > 0 || order.returnedAmount > 0) && (
+                    <div className="mt-2 flex flex-wrap gap-3 text-xs">
+                      {order.paidAmount > 0 && (
+                        <span className="text-green-700 bg-green-50 px-2 py-0.5 rounded-full">
+                          <FaMoneyBillWave className="inline w-2.5 h-2.5 mr-0.5" />
+                          Paid: ৳{order.paidAmount.toFixed(2)}
+                        </span>
+                      )}
+                      {order.returnedAmount > 0 && (
+                        <span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full">
+                          <FaUndo className="inline w-2.5 h-2.5 mr-0.5" />
+                          Returned: ৳{order.returnedAmount.toFixed(2)}
+                        </span>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -8033,17 +8569,6 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
                   <p className="text-xs text-red-600 mt-1">
                     <span className="font-medium">Reason:</span> {order.cancellationReason}
                   </p>
-                  {order.cancelledAt && (
-                    <p className="text-xs text-red-500 mt-1">
-                      <span className="font-medium">Cancelled on:</span> {new Date(order.cancelledAt).toLocaleDateString('en-BD', {
-                        day: '2-digit',
-                        month: 'short',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
-                    </p>
-                  )}
                 </div>
               </div>
             </div>
@@ -8058,17 +8583,6 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
                   <p className="text-xs text-orange-600 mt-1">
                     <span className="font-medium">Reason:</span> {order.rejectionReason}
                   </p>
-                  {order.cancelledAt && (
-                    <p className="text-xs text-orange-500 mt-1">
-                      <span className="font-medium">Rejected on:</span> {new Date(order.cancelledAt).toLocaleDateString('en-BD', {
-                        day: '2-digit',
-                        month: 'short',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
-                    </p>
-                  )}
                 </div>
               </div>
             </div>
@@ -8089,16 +8603,16 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
           )}
 
           {isCourierAssigned && order.deliveryService && (
-            <div className="mb-5 bg-[#82947A]/10 border-l-4 border-[#82947A] rounded-xl p-3">
+            <div className="mb-5 bg-black/10 border-l-4 border-black rounded-xl p-3">
               <div className="flex items-start gap-2">
-                <FaTruck className="w-4 h-4 text-[#82947A] mt-0.5 flex-shrink-0" />
+                <FaTruck className="w-4 h-4 text-black mt-0.5 flex-shrink-0" />
                 <div>
-                  <h4 className="text-sm font-semibold text-[#82947A]">Courier Assigned</h4>
-                  <p className="text-xs text-[#82947A]/80 mt-1">
+                  <h4 className="text-sm font-semibold text-black">Courier Assigned</h4>
+                  <p className="text-xs text-black/80 mt-1">
                     <span className="font-medium">Courier:</span> {order.deliveryService.courierName || 'N/A'}
                   </p>
                   {order.deliveryService.trackingNumber && (
-                    <p className="text-xs text-[#82947A]/80 mt-1">
+                    <p className="text-xs text-black/80 mt-1">
                       <span className="font-medium">Tracking:</span> {order.deliveryService.trackingNumber}
                     </p>
                   )}
@@ -8108,9 +8622,9 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
-            <div className="bg-[#E2E7EA]/50 rounded-xl p-3 border border-[#82947A]/30">
+            <div className="bg-[#E2E7EA]/50 rounded-xl p-3 border border-black/30">
               <h3 className="font-semibold text-black text-sm mb-2 flex items-center gap-1.5">
-                <FaUser className="w-3.5 h-3.5 text-[#82947A]" />
+                <FaUser className="w-3.5 h-3.5 text-black" />
                 Customer Information
               </h3>
               <div className="space-y-1 text-xs">
@@ -8123,9 +8637,9 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
               </div>
             </div>
 
-            <div className="bg-[#E2E7EA]/50 rounded-xl p-3 border border-[#82947A]/30">
+            <div className="bg-[#E2E7EA]/50 rounded-xl p-3 border border-black/30">
               <h3 className="font-semibold text-black text-sm mb-2 flex items-center gap-1.5">
-                <FaMapMarkerAlt className="w-3.5 h-3.5 text-[#82947A]" />
+                <FaMapMarkerAlt className="w-3.5 h-3.5 text-black" />
                 Delivery Information
               </h3>
               <div className="space-y-1 text-xs">
@@ -8136,34 +8650,14 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
                   <p><span className="text-[#64748B]">Union/Area:</span> <span className="font-medium text-black">{order.customerInfo.area}</span></p>
                 )}
                 <p><span className="text-[#64748B]">Address:</span> <span className="text-black">{order.customerInfo?.address}</span></p>
-                {order.trackingNumber && (
-                  <p><span className="text-[#64748B]">Tracking:</span> <span className="font-mono text-[#82947A]">{order.trackingNumber}</span></p>
-                )}
-                {order.deliveryService?.trackingUrl && (
-                  <div className="flex items-center justify-between mt-2 pt-2 border-t border-[#82947A]/20">
-                    <span className="text-[#64748B]">Track Link:</span>
-                    <a
-                      href={order.deliveryService.trackingUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#82947A] hover:underline flex items-center gap-1"
-                    >
-                      <FaExternalLinkAlt className="w-3 h-3" />
-                      Track on {order.deliveryService.courierName || 'Courier'}
-                    </a>
-                  </div>
-                )}
-                {order.deliveryNote && (
-                  <p><span className="text-[#64748B]">Order Note:</span> <span className="text-black">{order.deliveryNote}</span></p>
-                )}
               </div>
             </div>
           </div>
 
-          {/* ========== ORDER ITEMS TABLE - UPDATED ========== */}
+          {/* ========== ORDER ITEMS TABLE ========== */}
           <div className="mb-5">
             <h3 className="font-semibold text-black text-sm mb-2 flex items-center gap-1.5">
-              <FaBox className="w-3.5 h-3.5 text-[#82947A]" />
+              <FaBox className="w-3.5 h-3.5 text-black" />
               Order Items
             </h3>
             
@@ -8186,128 +8680,60 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
                     {groupedItems.map((productGroup, groupIndex) => {
                       const rows = productGroup.rows || [];
                       const hasVariants = productGroup.hasVariants;
-                      
                       if (rows.length === 0) return null;
-                      
                       let rowNumber = groupIndex + 1;
                       
                       return rows.map((row, rowIndex) => {
                         const indent = row.indent || 0;
                         const paddingLeft = indent === 0 ? 'pl-1' : indent === 1 ? 'pl-4 sm:pl-5' : 'pl-7 sm:pl-9';
-                        
                         const showRowNumber = row.isBase ? rowNumber : '';
-                        
-                        let badgeDisplay = null;
-                        if (row.badge) {
-                          badgeDisplay = (
-                            <span className={`text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded ml-1 ${
-                              row.badge === 'Product' ? 'bg-gray-100 text-gray-500' :
-                              row.badge === 'Variant' ? 'bg-purple-50 text-purple-600' :
-                              row.badge === 'Sub' ? 'bg-blue-50 text-blue-600' : ''
-                            }`}>
-                              {row.badge}
-                            </span>
-                          );
-                        }
-                        
-                        let discountDisplay = null;
-                        if (row.hasDiscount && row.originalPrice && row.originalPrice > row.price && row.showPrice !== false && !row.isHeader) {
-                          discountDisplay = (
-                            <span className="text-[8px] sm:text-[9px] text-green-600 bg-green-50 px-1 py-0.5 rounded">
-                              Save {Math.round(((row.originalPrice - row.price) / row.originalPrice) * 100)}%
-                            </span>
-                          );
-                        }
-                        
-                        const hasColor = row.hasColor && row.color;
-                        const color = row.color;
                         
                         const showPrice = row.showPrice !== false && !row.isHeader && !(row.isBase && hasVariants);
                         const price = row.price || 0;
-                        const originalPrice = row.originalPrice || null;
-                        const hasDiscount = row.hasDiscount || (originalPrice && originalPrice > price);
                         const quantity = row.quantity || 0;
                         const total = row.total || (price * quantity);
-                        
-                        let displayName = row.displayName || row.name || 'Product';
-                        let fullDisplay = displayName;
-                        
                         const isHeaderRow = row.isHeader === true;
-                        const isBaseRow = row.isBase === true;
-                        const isVariantRow = row.isVariant === true && !row.isHeader;
-                        const isSubVariantRow = row.isSubVariant === true;
-                        
                         const rowImage = row.image || null;
                         
                         return (
-                          <tr 
-                            key={`${groupIndex}-${rowIndex}`} 
-                            className={`border-b border-gray-100 hover:bg-gray-50/50 transition-colors ${
-                              rowIndex === 0 ? 'border-t border-gray-200' : ''
-                            } ${isHeaderRow ? 'bg-gray-50/30' : ''}`}
-                          >
-                            <td className="py-1.5 sm:py-2 px-1.5 sm:px-2 text-gray-500 text-[8px] sm:text-xs align-middle">
-                              {showRowNumber}
-                            </td>
-                            <td className={`py-1.5 sm:py-2 px-1.5 sm:px-2 ${paddingLeft} align-middle`}>
-                              <div className="flex items-center gap-1.5 sm:gap-2">
+                          <tr key={`${groupIndex}-${rowIndex}`} className={`border-b border-gray-100 hover:bg-gray-50/50 ${rowIndex === 0 ? 'border-t border-gray-200' : ''}`}>
+                            <td className="py-1.5 px-1.5 text-gray-500 text-[8px] sm:text-xs align-middle">{showRowNumber}</td>
+                            <td className={`py-1.5 px-1.5 ${paddingLeft} align-middle`}>
+                              <div className="flex items-center gap-1.5">
                                 {rowImage ? (
                                   <img 
                                     src={rowImage} 
-                                    alt={displayName}
+                                    alt={row.name}
                                     className={`rounded object-cover border border-gray-200 flex-shrink-0 ${
                                       indent === 0 ? 'w-6 h-6 sm:w-8 sm:h-8' : 
                                       indent === 1 ? 'w-5 h-5 sm:w-6 sm:h-6' : 
                                       'w-4 h-4 sm:w-5 sm:h-5'
                                     }`}
-                                    onError={(e) => { 
-                                      e.target.src = 'https://via.placeholder.com/32?text=No+Image'; 
-                                    }}
+                                    onError={(e) => { e.target.src = 'https://via.placeholder.com/32?text=No+Image'; }}
                                   />
                                 ) : (
-                                  indent > 0 && (
-                                    <span className="text-gray-400 text-[10px] sm:text-xs flex-shrink-0">▸</span>
-                                  )
+                                  indent > 0 && <span className="text-gray-400 text-[10px] sm:text-xs flex-shrink-0">▸</span>
                                 )}
                                 <div className="flex flex-wrap items-center gap-0.5 sm:gap-1">
-                                  <span className={`break-words ${
-                                    isHeaderRow ? 'font-bold text-purple-700' :
-                                    isBaseRow ? 'font-semibold text-gray-900' : 
-                                    isVariantRow ? 'font-medium text-gray-800' : 
-                                    'text-gray-700'
-                                  } ${isHeaderRow ? 'text-xs sm:text-sm' : 'text-[9px] sm:text-xs'}`}>
-                                    {fullDisplay}
+                                  <span className={`break-words ${isHeaderRow ? 'font-bold text-purple-700' : row.isBase ? 'font-semibold text-gray-900' : row.isVariant ? 'font-medium text-gray-800' : 'text-gray-700'} ${isHeaderRow ? 'text-xs sm:text-sm' : 'text-[9px] sm:text-xs'}`}>
+                                    {row.displayName || row.name || 'Product'}
                                   </span>
-                                  {badgeDisplay}
-                                  {discountDisplay}
-                                  {isHeaderRow && row.quantity === 0 && (
-                                    <span className="text-[8px] text-gray-400 ml-1">(See sub variants below)</span>
-                                  )}
-                                  {isBaseRow && hasVariants && (
-                                    <span className="text-[8px] text-gray-400 ml-1">(See variants below)</span>
+                                  {row.badge && (
+                                    <span className={`text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded ml-1 ${row.badge === 'Product' ? 'bg-gray-100 text-gray-500' : row.badge === 'Variant' ? 'bg-purple-50 text-purple-600' : 'bg-blue-50 text-blue-600'}`}>
+                                      {row.badge}
+                                    </span>
                                   )}
                                 </div>
                               </div>
                             </td>
-                            <td className="text-center py-1.5 sm:py-2 px-1.5 sm:px-2 text-gray-700 text-[9px] sm:text-xs font-medium align-middle">
+                            <td className="text-center py-1.5 px-1.5 text-gray-700 text-[9px] sm:text-xs font-medium align-middle">
                               {isHeaderRow ? '-' : quantity}
                             </td>
-                            <td className="text-center py-1.5 sm:py-2 px-1.5 sm:px-2 text-gray-500 text-[8px] sm:text-xs hidden sm:table-cell align-middle">
-                              {row.unit || 'pcs'}
+                            <td className="text-center py-1.5 px-1.5 text-gray-500 text-[8px] sm:text-xs hidden sm:table-cell align-middle">{row.unit || 'pcs'}</td>
+                            <td className="text-right py-1.5 px-1.5 text-gray-700 text-[8px] sm:text-xs hidden sm:table-cell align-middle">
+                              {isHeaderRow || !showPrice ? '-' : `৳${price.toFixed(2)}`}
                             </td>
-                            <td className="text-right py-1.5 sm:py-2 px-1.5 sm:px-2 text-gray-700 text-[8px] sm:text-xs hidden sm:table-cell align-middle">
-                              {isHeaderRow || !showPrice ? '-' : (
-                                hasDiscount ? (
-                                  <>
-                                    <span className="text-green-600 font-medium">৳{price.toFixed(2)}</span>
-                                    <span className="text-gray-400 line-through ml-1 text-[7px] sm:text-[8px]">৳{originalPrice.toFixed(2)}</span>
-                                  </>
-                                ) : (
-                                  <>৳{price.toFixed(2)}</>
-                                )
-                              )}
-                            </td>
-                            <td className="text-right py-1.5 sm:py-2 px-1.5 sm:px-2 font-medium text-gray-900 text-[9px] sm:text-xs align-middle">
+                            <td className="text-right py-1.5 px-1.5 font-medium text-gray-900 text-[9px] sm:text-xs align-middle">
                               {isHeaderRow ? '-' : `৳${total.toFixed(2)}`}
                             </td>
                           </tr>
@@ -8315,7 +8741,7 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
                       });
                     })}
                   </tbody>
-                  <tfoot className="border-t border-[#82947A]/30">
+                  <tfoot className="border-t border-black/30">
                     <tr>
                       <td colSpan="5" className="px-2 py-1 text-right font-medium text-black">Subtotal:</td>
                       <td className="px-2 py-1 text-right text-black">৳{order.subtotal?.toFixed(2)}</td>
@@ -8332,26 +8758,155 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
                     )}
                     <tr className="text-sm font-bold">
                       <td colSpan="5" className="px-2 py-1 text-right text-black">Total:</td>
-                      <td className="px-2 py-1 text-right text-[#82947A]">৳{order.total?.toFixed(2)}</td>
+                      <td className="px-2 py-1 text-right text-black">৳{order.total?.toFixed(2)}</td>
                     </tr>
+                    {/* ✅ NEW: Paid amount row */}
+                    {order.paidAmount > 0 && (
+                      <tr className="text-green-600 font-bold">
+                        <td colSpan="5" className="px-2 py-1 text-right">
+                          <FaMoneyBillWave className="inline w-3 h-3 mr-1" />
+                          Paid:
+                        </td>
+                        <td className="px-2 py-1 text-right">৳{order.paidAmount.toFixed(2)}</td>
+                      </tr>
+                    )}
+                    {order.returnedAmount > 0 && (
+                      <tr className="text-purple-600 font-bold">
+                        <td colSpan="5" className="px-2 py-1 text-right">
+                          <FaUndo className="inline w-3 h-3 mr-1" />
+                          Returned Value:
+                        </td>
+                        <td className="px-2 py-1 text-right">৳{order.returnedAmount.toFixed(2)}</td>
+                      </tr>
+                    )}
                   </tfoot>
                 </table>
               </div>
             )}
           </div>
 
-          {/* Additional Information */}
-          <div className="bg-[#E2E7EA]/50 rounded-xl p-3 border border-[#82947A]/30">
+          {/* ========== ✅ DELIVERY STATUS PER ITEM ========== */}
+          {order.deliveryItems && order.deliveryItems.length > 0 && (
+            <div className="mb-5">
+              <h3 className="font-semibold text-black text-sm mb-2 flex items-center gap-1.5">
+                <FaTruck className="w-3.5 h-3.5 text-black" />
+                Delivery Status (Per Item)
+              </h3>
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs">
+                  <thead className="bg-[#E2E7EA]">
+                    <tr>
+                      <th className="px-2 py-1.5 text-left text-black">Product / Variant</th>
+                      <th className="px-2 py-1.5 text-center text-black">Ordered</th>
+                      <th className="px-2 py-1.5 text-center text-green-700">Delivered</th>
+                      <th className="px-2 py-1.5 text-center text-purple-700">Returned</th>
+                      <th className="px-2 py-1.5 text-center text-yellow-700">Pending</th>
+                      <th className="px-2 py-1.5 text-center text-black">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {order.deliveryItems.map((di, idx) => {
+                      const label = [di.productName, di.variantName, di.subVariantName]
+                        .filter(Boolean).join(' / ');
+                      const statusColor =
+                        di.deliveryStatus === 'delivered' ? 'bg-green-100 text-green-700 border-green-300'
+                        : di.deliveryStatus === 'returned' ? 'bg-purple-100 text-purple-700 border-purple-300'
+                        : di.deliveryStatus === 'partial' ? 'bg-yellow-100 text-yellow-700 border-yellow-300'
+                        : 'bg-gray-100 text-gray-600 border-gray-300';
+                      const statusLabel =
+                        di.deliveryStatus === 'delivered' ? 'Delivered'
+                        : di.deliveryStatus === 'returned' ? 'Returned'
+                        : di.deliveryStatus === 'partial' ? 'Partial'
+                        : 'Pending';
+                      const deliveredAmt = (di.deliveredQuantity || 0) * (di.unitPrice || 0);
+                      const returnedAmt = (di.returnedQuantity || 0) * (di.unitPrice || 0);
+
+                      return (
+                        <tr key={di._id || idx} className="border-b border-gray-100">
+                          <td className="px-2 py-1.5 text-black">
+                            <div className="flex items-center gap-1.5">
+                              {di.image && (
+                                <img
+                                  src={di.image}
+                                  alt={di.productName}
+                                  className="w-6 h-6 rounded object-cover border border-gray-200 flex-shrink-0"
+                                  onError={(e) => { e.target.src = 'https://via.placeholder.com/24?text=?'; }}
+                                />
+                              )}
+                              <div>
+                                <div className="font-medium text-[11px]">{label}</div>
+                                {di.selectedColor && (
+                                  <div className="text-[9px] text-gray-500 flex items-center gap-1">
+                                    <span className="inline-block w-3 h-3 rounded-full border border-gray-300" style={{ backgroundColor: di.selectedColor }} />
+                                    {di.selectedColor}
+                                  </div>
+                                )}
+                                {deliveredAmt > 0 && (
+                                  <div className="text-[9px] text-green-600">+৳{deliveredAmt.toFixed(2)}</div>
+                                )}
+                                {returnedAmt > 0 && (
+                                  <div className="text-[9px] text-purple-600">-৳{returnedAmt.toFixed(2)}</div>
+                                )}
+                              </div>
+                            </div>
+                          </td>
+                          <td className="text-center text-black font-medium px-2 py-1.5">{di.orderedQuantity}</td>
+                          <td className="text-center text-green-700 font-medium px-2 py-1.5">{di.deliveredQuantity || 0}</td>
+                          <td className="text-center text-purple-700 font-medium px-2 py-1.5">{di.returnedQuantity || 0}</td>
+                          <td className="text-center text-yellow-700 font-medium px-2 py-1.5">{di.pendingQuantity || 0}</td>
+                          <td className="text-center px-2 py-1.5">
+                            <span className={`text-[10px] px-1.5 py-0.5 rounded-full border font-medium ${statusColor}`}>
+                              {statusLabel}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Delivery summary */}
+              {(order.paidAmount > 0 || order.returnedAmount > 0) && (
+                <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded-xl flex flex-wrap items-center gap-2 text-xs">
+                  <FaMoneyBillWave className="w-3.5 h-3.5 text-green-600" />
+                  <span className="text-green-700">
+                    <strong>Collected:</strong> ৳{(order.paidAmount || 0).toFixed(2)}
+                  </span>
+                  {order.returnedAmount > 0 && (
+                    <span className="text-purple-700">
+                      <strong>Returned value:</strong> ৳{(order.returnedAmount || 0).toFixed(2)}
+                    </span>
+                  )}
+                  <span className="text-[#64748B] ml-auto">
+                    Total: ৳{(order.total || 0).toFixed(2)}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Additional Info */}
+          <div className="bg-[#E2E7EA]/50 rounded-xl p-3 border border-black/30">
             <h3 className="font-semibold text-black text-sm mb-2 flex items-center gap-1.5">
-              <FaInfoCircle className="w-3.5 h-3.5 text-[#82947A]" />
+              <FaInfoCircle className="w-3.5 h-3.5 text-black" />
               Additional Information
             </h3>
+            
+            {order.orderPlatform && (
+              <div className="mb-2">
+                <p className="text-xs">
+                  <span className="text-[#64748B]">Order Platform:</span>
+                  <span className="text-black font-medium ml-1 capitalize">{order.orderPlatform}</span>
+                </p>
+              </div>
+            )}
             
             {order.couponCode && (
               <div className="mb-2">
                 <p className="text-xs">
                   <span className="text-[#64748B]">Coupon Applied:</span> 
-                  <span className="text-[#82947A] font-medium ml-1">{order.couponCode}</span>
+                  <span className="text-black font-medium ml-1">{order.couponCode}</span>
                 </p>
               </div>
             )}
@@ -8368,42 +8923,28 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
             {statusNotes.length > 0 && (
               <div>
                 <p className="text-xs font-medium text-black mb-1.5 flex items-center gap-1">
-                  <FaClipboardList className="w-3 h-3 text-[#82947A]" />
+                  <FaClipboardList className="w-3 h-3 text-black" />
                   Status History Notes
                 </p>
-                <div className="space-y-1.5 max-h-[150px] overflow-y-auto pr-1">
+                <div className="space-y-1.5 max-h-[200px] overflow-y-auto pr-1">
                   {statusNotes.map((note, index) => {
                     const statusLabel = ORDER_STATUSES.find(s => s.value === note.status)?.label || note.status;
                     const formattedDate = note.timestamp ? new Date(note.timestamp).toLocaleString('en-BD', {
-                      day: '2-digit',
-                      month: 'short',
-                      year: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit'
+                      day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
                     }) : '';
                     
                     let updatedByDisplay = 'System';
-                    if (note.updatedByEmail) {
-                      updatedByDisplay = note.updatedByEmail;
-                    } else if (note.updatedByName) {
-                      updatedByDisplay = note.updatedByName;
-                    } else if (note.updatedByRole && note.updatedByRole !== 'system') {
-                      updatedByDisplay = note.updatedByRole;
-                    }
+                    if (note.updatedByEmail) updatedByDisplay = note.updatedByEmail;
+                    else if (note.updatedByName) updatedByDisplay = note.updatedByName;
+                    else if (note.updatedByRole && note.updatedByRole !== 'system') updatedByDisplay = note.updatedByRole;
                     
                     return (
-                      <div key={index} className="bg-white rounded-lg p-2 border border-[#82947A]/20">
+                      <div key={index} className="bg-white rounded-lg p-2 border border-black/20">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-xs font-medium text-black">
-                            {statusLabel}
-                          </span>
-                          <span className="text-[10px] text-[#64748B]">
-                            {formattedDate}
-                          </span>
+                          <span className="text-xs font-medium text-black">{statusLabel}</span>
+                          <span className="text-[10px] text-[#64748B]">{formattedDate}</span>
                         </div>
-                        <p className="text-xs text-[#64748B] mt-0.5 break-words">
-                          {note.note}
-                        </p>
+                        <p className="text-xs text-[#64748B] mt-0.5 break-words">{note.note}</p>
                         {updatedByDisplay && (
                           <span className="text-[10px] text-[#64748B]/60 mt-0.5 block">
                             Updated by: {updatedByDisplay}
@@ -8415,15 +8956,11 @@ const OrderDetailsModal = ({ isOpen, onClose, order, onStatusUpdate, onPaymentUp
                 </div>
               </div>
             )}
-
-            {!order.couponCode && !order.deliveryNote && statusNotes.length === 0 && (
-              <p className="text-xs text-[#64748B]">No additional information available</p>
-            )}
           </div>
         </div>
 
-        <div className="p-4 border-t border-[#82947A]/30 bg-[#E2E7EA]/20 flex justify-end gap-2">
-          <button onClick={onClose} className="px-3 py-1.5 bg-gradient-to-r from-[#82947A] to-[#708268] text-white rounded-xl hover:shadow-lg hover:shadow-[#82947A]/25 transition-all text-sm">
+        <div className="p-4 border-t border-black/30 bg-[#E2E7EA]/20 flex justify-end gap-2">
+          <button onClick={onClose} className="px-3 py-1.5 bg-black text-white rounded-xl hover:shadow-lg hover:shadow-black/25 transition-all text-sm">
             Close
           </button>
         </div>
@@ -9748,14 +10285,14 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
         const maxAllowed = group.stockQuantity - usedByOthers;
 
         allRows.push(
-          <tr key={colorInfo.itemId} className={`border-t border-[#82947A]/20 ${isTempItem ? 'bg-[#82947A]/5' : ''} ${isOverStock ? 'bg-red-50' : ''}`}>
+          <tr key={colorInfo.itemId} className={`border-t border-black/20 ${isTempItem ? 'bg-black/5' : ''} ${isOverStock ? 'bg-red-50' : ''}`}>
             {isFirst && (
               <td className="px-2 py-2" rowSpan={totalRowsInGroup}>
                 <div className="flex items-center gap-2">
                   <img
                     src={group.image || 'https://via.placeholder.com/30'}
                     alt={group.productName}
-                    className="w-7 h-7 rounded object-cover border border-[#82947A]/30 flex-shrink-0"
+                    className="w-7 h-7 rounded object-cover border border-black/30 flex-shrink-0"
                     onError={(e) => { e.target.src = 'https://via.placeholder.com/30?text=Product'; }}
                   />
                   <div>
@@ -9776,7 +10313,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
             <td className="px-2 py-2 text-center">
               {hasColor ? (
                 <div className="flex items-center justify-center">
-                  <div className="w-5 h-5 rounded-full border border-[#82947A]/30 shadow-sm" style={{ backgroundColor: colorInfo.color }} title={colorInfo.color} />
+                  <div className="w-5 h-5 rounded-full border border-black/30 shadow-sm" style={{ backgroundColor: colorInfo.color }} title={colorInfo.color} />
                 </div>
               ) : <span className="text-xs text-[#64748B]">-</span>}
             </td>
@@ -9789,7 +10326,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                   <input
                     type="number" min="1" max={maxAllowed} value={colorInfo.quantity}
                     onChange={(e) => handleItemQuantityInputChange(colorInfo.itemId, e.target.value)}
-                    className={`w-10 text-center text-xs font-medium border rounded focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white py-0.5 ${isOverStock ? 'border-red-500 text-red-600' : 'border-[#82947A]/30 text-black'}`}
+                    className={`w-10 text-center text-xs font-medium border rounded focus:ring-2 focus:ring-black focus:border-transparent bg-white py-0.5 ${isOverStock ? 'border-red-500 text-red-600' : 'border-black/30 text-black'}`}
                   />
                   <button onClick={() => updateColorQuantity(colorInfo.itemId, colorInfo.quantity + 1)} disabled={colorInfo.quantity >= maxAllowed || maxAllowed <= 0} className="w-5 h-5 flex items-center justify-center rounded hover:bg-[#E2E7EA] disabled:opacity-50 text-[#64748B]">
                     <FaPlus className="w-2.5 h-2.5" />
@@ -9798,7 +10335,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
               ) : <span className={`font-medium ${isOverStock ? 'text-red-600' : 'text-black'}`}>{colorInfo.quantity}</span>}
             </td>
             <td className="px-2 py-2 text-right text-black">৳{price.toFixed(2)}</td>
-            <td className="px-2 py-2 text-right font-medium text-[#82947A]">৳{totalPrice.toFixed(2)}</td>
+            <td className="px-2 py-2 text-right font-medium text-black">৳{totalPrice.toFixed(2)}</td>
             {canEditProducts && isEditable && (
               <td className="px-2 py-2 text-center">
                 <button onClick={() => handleRemoveItem(colorInfo.itemId, group.productName, colorInfo.color)} disabled={removingItem === colorInfo.itemId} className="p-1 text-red-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors disabled:opacity-50" title="Remove item">
@@ -9820,14 +10357,14 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
         const maxAllowed = v.stockQuantity || 999;
 
         allRows.push(
-          <tr key={v.itemId} className={`border-t border-[#82947A]/20 ${isTempItem ? 'bg-[#82947A]/5' : ''}`}>
+          <tr key={v.itemId} className={`border-t border-black/20 ${isTempItem ? 'bg-black/5' : ''}`}>
             {isFirst && (
               <td className="px-2 py-2" rowSpan={totalRowsInGroup}>
                 <div className="flex items-center gap-2">
                   <img
                     src={group.image || 'https://via.placeholder.com/30'}
                     alt={group.productName}
-                    className="w-7 h-7 rounded object-cover border border-[#82947A]/30 flex-shrink-0"
+                    className="w-7 h-7 rounded object-cover border border-black/30 flex-shrink-0"
                     onError={(e) => { e.target.src = 'https://via.placeholder.com/30?text=Product'; }}
                   />
                   <div>
@@ -9865,7 +10402,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                   <input
                     type="number" min="1" max={maxAllowed} value={v.quantity}
                     onChange={(e) => handleVariantItemQuantityInputChange(v.itemId, e.target.value)}
-                    className="w-10 text-center text-xs font-medium border border-[#82947A]/30 rounded focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white py-0.5 text-black"
+                    className="w-10 text-center text-xs font-medium border border-black/30 rounded focus:ring-2 focus:ring-black focus:border-transparent bg-white py-0.5 text-black"
                   />
                   <button onClick={() => updateVariantItemQuantity(v.itemId, v.quantity + 1)} disabled={v.quantity >= maxAllowed} className="w-5 h-5 flex items-center justify-center rounded hover:bg-[#E2E7EA] disabled:opacity-50 text-[#64748B]">
                     <FaPlus className="w-2.5 h-2.5" />
@@ -9875,7 +10412,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
               <p className="text-[8px] text-gray-400 mt-0.5">/ {maxAllowed}</p>
             </td>
             <td className="px-2 py-2 text-right text-black">৳{price.toFixed(2)}</td>
-            <td className="px-2 py-2 text-right font-medium text-[#82947A]">৳{totalPrice.toFixed(2)}</td>
+            <td className="px-2 py-2 text-right font-medium text-black">৳{totalPrice.toFixed(2)}</td>
             {canEditProducts && isEditable && (
               <td className="px-2 py-2 text-center">
                 <button onClick={() => updateVariantItemQuantity(v.itemId, 0)} className="p-1 text-red-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors" title="Remove item">
@@ -9907,7 +10444,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                           key={sv.id}
                           type="button"
                           onClick={() => addSubVariantToOrderGroup(group, sg.variantId, sv, sg.parentVariant?.name || 'Variant', sg.parentType || 'Variant')}
-                          className="text-[9px] px-2 py-1 rounded-full border border-gray-300 hover:border-[#82947A] text-gray-700 hover:bg-white transition-all flex items-center gap-1 bg-white/70"
+                          className="text-[9px] px-2 py-1 rounded-full border border-gray-300 hover:border-black text-gray-700 hover:bg-white transition-all flex items-center gap-1 bg-white/70"
                         >
                           <FaPlus className="w-2 h-2" />
                           {sv.name}
@@ -9926,7 +10463,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                           className={`text-[9px] px-2 py-1 rounded-full border transition-all flex items-center gap-1 ${
                             v.subVariants && v.subVariants.length > 0
                               ? 'border-amber-300 bg-amber-50 text-amber-700 hover:border-amber-400'
-                              : 'border-gray-300 hover:border-[#82947A] text-gray-700 hover:bg-white bg-white/70'
+                              : 'border-gray-300 hover:border-black text-gray-700 hover:bg-white bg-white/70'
                           }`}
                         >
                           <FaPlus className="w-2 h-2" />
@@ -10031,9 +10568,9 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
-          className="relative bg-white rounded-2xl border border-[#82947A]/30 shadow-2xl w-full max-w-4xl my-8 overflow-hidden"
+          className="relative bg-white rounded-2xl border border-black/30 shadow-2xl w-full max-w-4xl my-8 overflow-hidden"
         >
-          <div className="p-4 bg-gradient-to-r from-[#82947A] to-[#485442] text-white sticky top-0 z-10">
+          <div className="p-4 bg-black text-white sticky top-0 z-10">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <FaEdit className="w-5 h-5" />
@@ -10081,8 +10618,8 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
             )}
             
             {isEditable && (
-              <div className="mb-4 bg-[#82947A]/10 border-l-4 border-[#82947A] p-3 rounded-xl">
-                <p className="text-xs text-[#82947A]">
+              <div className="mb-4 bg-black/10 border-l-4 border-black p-3 rounded-xl">
+                <p className="text-xs text-black">
                   ✅ Order is <strong>{getStatusLabel(order?.orderStatus)}</strong>. 
                   <span className="block text-[11px] mt-1">
                     🔒 <strong>Full Name & Phone:</strong> Only Super Admin & Admin can edit
@@ -10113,7 +10650,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                       <span className="ml-1 text-[10px] text-[#64748B] font-normal">(read-only)</span>
                     )}
                     {canEditSensitiveInfo && isEditable && (
-                      <span className="ml-1 text-[10px] text-[#82947A] font-normal">(editable)</span>
+                      <span className="ml-1 text-[10px] text-black font-normal">(editable)</span>
                     )}
                   </label>
                   <input
@@ -10122,9 +10659,9 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                     value={formData.fullName}
                     onChange={handleInputChange}
                     readOnly={!canEditSensitiveInfo || !isEditable}
-                    className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent ${
-                      !canEditSensitiveInfo || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-[#82947A]/60'
-                    } border-[#82947A]/30 text-black`}
+                    className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent ${
+                      !canEditSensitiveInfo || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-black/60'
+                    } border-black/30 text-black`}
                   />
                 </div>
 
@@ -10135,7 +10672,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                       <span className="ml-1 text-[10px] text-[#64748B] font-normal">(read-only)</span>
                     )}
                     {canEditSensitiveInfo && isEditable && (
-                      <span className="ml-1 text-[10px] text-[#82947A] font-normal">(editable)</span>
+                      <span className="ml-1 text-[10px] text-black font-normal">(editable)</span>
                     )}
                   </label>
                   <input
@@ -10144,9 +10681,9 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                     value={formData.phone}
                     onChange={handleInputChange}
                     readOnly={!canEditSensitiveInfo || !isEditable}
-                    className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent ${
-                      !canEditSensitiveInfo || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-[#82947A]/60'
-                    } border-[#82947A]/30 text-black`}
+                    className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent ${
+                      !canEditSensitiveInfo || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-black/60'
+                    } border-black/30 text-black`}
                   />
                 </div>
 
@@ -10154,7 +10691,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                   <label className="block text-xs font-medium text-black mb-1">
                     Email
                     {isSuperAdmin && isEditable && (
-                      <span className="ml-1 text-[10px] text-[#82947A] font-normal">(editable)</span>
+                      <span className="ml-1 text-[10px] text-black font-normal">(editable)</span>
                     )}
                     {!isSuperAdmin && isEditable && (
                       <span className="ml-1 text-[10px] text-[#64748B] font-normal">(read-only)</span>
@@ -10166,9 +10703,9 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                     value={formData.email}
                     onChange={handleInputChange}
                     readOnly={!isSuperAdmin || !isEditable}
-                    className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent ${
-                      !isSuperAdmin || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-[#82947A]/60'
-                    } border-[#82947A]/30 text-black`}
+                    className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent ${
+                      !isSuperAdmin || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-black/60'
+                    } border-black/30 text-black`}
                   />
                 </div>
 
@@ -10176,7 +10713,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                   <label className="block text-xs font-medium text-black mb-1">
                     Division *
                     {canEditAddress && isEditable && (
-                      <span className="ml-1 text-[10px] text-[#82947A] font-normal">(editable)</span>
+                      <span className="ml-1 text-[10px] text-black font-normal">(editable)</span>
                     )}
                   </label>
                   <SearchableSelect
@@ -10194,7 +10731,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                   <label className="block text-xs font-medium text-black mb-1">
                     District/City *
                     {canEditAddress && isEditable && (
-                      <span className="ml-1 text-[10px] text-[#82947A] font-normal">(editable)</span>
+                      <span className="ml-1 text-[10px] text-black font-normal">(editable)</span>
                     )}
                   </label>
                   <SearchableSelect
@@ -10212,7 +10749,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                   <label className="block text-xs font-medium text-black mb-1">
                     Upazila/Thana *
                     {canEditAddress && isEditable && (
-                      <span className="ml-1 text-[10px] text-[#82947A] font-normal">(editable)</span>
+                      <span className="ml-1 text-[10px] text-black font-normal">(editable)</span>
                     )}
                   </label>
                   <SearchableSelect
@@ -10230,7 +10767,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                   <label className="block text-xs font-medium text-black mb-1">
                     Union/Area
                     {canEditAddress && isEditable && (
-                      <span className="ml-1 text-[10px] text-[#82947A] font-normal">(editable)</span>
+                      <span className="ml-1 text-[10px] text-black font-normal">(editable)</span>
                     )}
                   </label>
                   <SearchableSelect
@@ -10247,7 +10784,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                   <label className="block text-xs font-medium text-black mb-1">
                     Address *
                     {canEditAddress && isEditable && (
-                      <span className="ml-1 text-[10px] text-[#82947A] font-normal">(editable)</span>
+                      <span className="ml-1 text-[10px] text-black font-normal">(editable)</span>
                     )}
                   </label>
                   <textarea
@@ -10256,27 +10793,27 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                     onChange={handleInputChange}
                     readOnly={!canEditAddress || !isEditable}
                     rows="2"
-                    className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent ${
-                      !canEditAddress || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-[#82947A]/60'
-                    } border-[#82947A]/30 text-black`}
+                    className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent ${
+                      !canEditAddress || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-black/60'
+                    } border-black/30 text-black`}
                   />
                 </div>
               </div>
 
               {/* ========== ORDER ITEMS ========== */}
-              <div className="border-t border-[#82947A]/30 pt-4 mt-2">
+              <div className="border-t border-black/30 pt-4 mt-2">
                 <div className="flex items-center justify-between mb-3">
                   <label className="text-sm font-medium text-black flex items-center gap-2">
-                    <FaBox className="w-4 h-4 text-[#82947A]" />
+                    <FaBox className="w-4 h-4 text-black" />
                     Order Items ({localItems.length})
                     {canEditProducts && isEditable && (
-                      <span className="text-[10px] text-[#82947A] font-normal">(add/remove items)</span>
+                      <span className="text-[10px] text-black font-normal">(add/remove items)</span>
                     )}
                   </label>
                   {canEditProducts && isEditable && (
                     <button
                       onClick={() => setShowAddProduct(!showAddProduct)}
-                      className="px-3 py-1.5 bg-[#82947A]/10 text-[#82947A] rounded-xl hover:bg-[#82947A]/20 transition-colors text-sm flex items-center gap-1.5 border border-[#82947A]/30"
+                      className="px-3 py-1.5 bg-black/10 text-black rounded-xl hover:bg-black/20 transition-colors text-sm flex items-center gap-1.5 border border-black/30"
                     >
                       <FaPlus className="w-3 h-3" />
                       Add Product
@@ -10286,7 +10823,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
 
                 {/* ========== ADD PRODUCT SECTION ========== */}
                 {showAddProduct && canEditProducts && isEditable && (
-                  <div className="mb-4 p-4 bg-[#E2E7EA]/30 rounded-xl border border-[#82947A]/30">
+                  <div className="mb-4 p-4 bg-[#E2E7EA]/30 rounded-xl border border-black/30">
                     <h4 className="text-sm font-medium text-black mb-3">Add Product to Order</h4>
                     
                     <div className="relative mb-3">
@@ -10296,16 +10833,16 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Start typing product name, SKU, or barcode..."
-                        className="w-full pl-10 pr-3 py-2 text-sm border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-white text-black"
+                        className="w-full pl-10 pr-3 py-2 text-sm border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black"
                         autoFocus
                       />
                       {searching && (
-                        <FaSpinner className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-[#82947A]" />
+                        <FaSpinner className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-black" />
                       )}
                       {searchQuery && !searching && (
                         <button
                           onClick={() => setSearchQuery('')}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-[#82947A]"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-black"
                         >
                           <FaTimes className="w-3 h-3" />
                         </button>
@@ -10313,10 +10850,10 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                     </div>
 
                     {searchQuery.length > 0 && (
-                      <div className="mb-3 max-h-48 overflow-y-auto border border-[#82947A]/20 rounded-xl bg-white">
+                      <div className="mb-3 max-h-48 overflow-y-auto border border-black/20 rounded-xl bg-white">
                         {searching ? (
                           <div className="flex items-center justify-center py-4">
-                            <FaSpinner className="w-4 h-4 animate-spin text-[#82947A]" />
+                            <FaSpinner className="w-4 h-4 animate-spin text-black" />
                             <span className="ml-2 text-xs text-[#64748B]">Searching...</span>
                           </div>
                         ) : searchResults.length > 0 ? (
@@ -10324,20 +10861,20 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                             <div
                               key={product._id}
                               onClick={() => handleSelectProduct(product)}
-                              className={`p-2 border-b border-[#82947A]/10 cursor-pointer hover:bg-[#E2E7EA]/50 transition-colors flex items-center gap-3 ${
-                                selectedProduct?._id === product._id ? 'bg-[#82947A]/10 border-l-4 border-l-[#82947A]' : ''
+                              className={`p-2 border-b border-black/10 cursor-pointer hover:bg-[#E2E7EA]/50 transition-colors flex items-center gap-3 ${
+                                selectedProduct?._id === product._id ? 'bg-black/10 border-l-4 border-l-black' : ''
                               }`}
                             >
                               <img
                                 src={product.images?.[0]?.url || 'https://via.placeholder.com/40'}
                                 alt={product.productName}
-                                className="w-10 h-10 rounded-lg object-cover border border-[#82947A]/20 flex-shrink-0"
+                                className="w-10 h-10 rounded-lg object-cover border border-black/20 flex-shrink-0"
                                 onError={(e) => { e.target.src = 'https://via.placeholder.com/40?text=Product'; }}
                               />
                               <div className="flex-1 min-w-0">
                                 <p className="text-xs font-medium text-black truncate">{product.productName}</p>
                                 <div className="flex items-center gap-2 text-xs flex-wrap">
-                                  <span className="text-[#82947A] font-bold">৳{(product.discountPrice || product.regularPrice).toFixed(2)}</span>
+                                  <span className="text-black font-bold">৳{(product.discountPrice || product.regularPrice).toFixed(2)}</span>
                                   {product.discountPrice > 0 && (
                                     <span className="text-[#64748B] line-through">৳{product.regularPrice.toFixed(2)}</span>
                                   )}
@@ -10348,14 +10885,14 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                                     </span>
                                   )}
                                   {product.colors && product.colors.length > 0 && (
-                                    <span className="text-[10px] text-[#82947A] bg-[#82947A]/10 px-1.5 py-0.5 rounded-full">
+                                    <span className="text-[10px] text-black bg-black/10 px-1.5 py-0.5 rounded-full">
                                       {product.colors.length} colors
                                     </span>
                                   )}
                                 </div>
                               </div>
                               {selectedProduct?._id === product._id && (
-                                <FaCheckCircle className="w-4 h-4 text-[#82947A]" />
+                                <FaCheckCircle className="w-4 h-4 text-black" />
                               )}
                             </div>
                           ))
@@ -10369,7 +10906,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
 
                     {/* ========== SELECTED PRODUCT PANEL ========== */}
                     {selectedProduct && (
-                      <div className="p-3 bg-white rounded-xl border border-[#82947A]/20">
+                      <div className="p-3 bg-white rounded-xl border border-black/20">
                         <p className="text-xs font-medium text-black mb-2">
                           Selected: {selectedProduct.productName}
                           <span className="ml-2 text-[10px] text-[#64748B]">(Stock: {selectedProduct.stockQuantity})</span>
@@ -10402,7 +10939,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                                           </span>
                                           <button
                                             onClick={() => toggleVariantSelection(vt, v)}
-                                            className={`px-2 py-0.5 text-xs rounded ${isSelected ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-[#82947A] text-white hover:bg-[#485442]'}`}
+                                            className={`px-2 py-0.5 text-xs rounded ${isSelected ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-black text-white hover:bg-[#485442]'}`}
                                           >
                                             {isSelected ? 'Remove' : 'Add'}
                                           </button>
@@ -10429,7 +10966,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                                                   </span>
                                                   <button
                                                     onClick={() => toggleSubVariantSelection(vt, v, sv)}
-                                                    className={`px-1.5 py-0.5 text-[10px] rounded ${isSubSelected ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-[#82947A] text-white hover:bg-[#485442]'}`}
+                                                    className={`px-1.5 py-0.5 text-[10px] rounded ${isSubSelected ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-black text-white hover:bg-[#485442]'}`}
                                                   >
                                                     {isSubSelected ? 'Remove' : 'Add'}
                                                   </button>
@@ -10548,7 +11085,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                                     <button
                                       onClick={() => toggleColorSelection(color)}
                                       className={`px-2 py-0.5 text-xs rounded ${
-                                        isSelected ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-[#82947A] text-white hover:bg-[#485442]'
+                                        isSelected ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-black text-white hover:bg-[#485442]'
                                       }`}
                                     >
                                       {isSelected ? 'Remove' : 'Add'}
@@ -10663,7 +11200,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                             (selectedProduct.hasVariants && selectedVariantsWithQty.length === 0) ||
                             (!selectedProduct.hasVariants && selectedProduct.colors?.length > 0 && selectedColorsWithQty.length === 0)
                           }
-                          className="mt-3 w-full px-4 py-2 bg-[#82947A] text-white rounded-lg hover:bg-[#485442] transition-colors text-sm disabled:opacity-50 flex items-center justify-center gap-2"
+                          className="mt-3 w-full px-4 py-2 bg-black text-white rounded-lg hover:bg-[#485442] transition-colors text-sm disabled:opacity-50 flex items-center justify-center gap-2"
                         >
                           {addingProduct ? <FaSpinner className="w-3 h-3 animate-spin" /> : <FaPlus className="w-3 h-3" />}
                           {selectedProduct.hasVariants ? `Add ${selectedVariantsWithQty.length} Variant(s) to Order` : 'Add to Order'}
@@ -10698,7 +11235,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                         buildOrderItemRows()
                       )}
                     </tbody>
-                    <tfoot className="border-t border-[#82947A]/30 bg-[#E2E7EA]/30">
+                    <tfoot className="border-t border-black/30 bg-[#E2E7EA]/30">
                       <tr>
                         <td colSpan={canEditProducts && isEditable ? 5 : 4} className="px-2 py-1 text-right font-medium text-black">Subtotal:</td>
                         <td className="px-2 py-1 text-right font-medium text-black">৳{localSubtotal.toFixed(2)}</td>
@@ -10714,9 +11251,9 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                         <td className="px-2 py-1 text-right font-medium">- ৳{localDiscount.toFixed(2)}</td>
                         {canEditProducts && isEditable && <td></td>}
                       </tr>
-                      <tr className="text-sm font-bold text-[#82947A]">
+                      <tr className="text-sm font-bold text-black">
                         <td colSpan={canEditProducts && isEditable ? 5 : 4} className="px-2 py-1 text-right text-black">Total:</td>
-                        <td className="px-2 py-1 text-right text-[#82947A]">৳{localTotal.toFixed(2)}</td>
+                        <td className="px-2 py-1 text-right text-black">৳{localTotal.toFixed(2)}</td>
                         {canEditProducts && isEditable && <td></td>}
                       </tr>
                     </tfoot>
@@ -10725,12 +11262,12 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
               </div>
 
               {/* ========== DISCOUNT SECTION ========== */}
-              <div className="border-t border-[#82947A]/30 pt-4 mt-2">
+              <div className="border-t border-black/30 pt-4 mt-2">
                 <div className="flex items-center justify-between mb-2">
                   <label className="text-sm font-medium text-black flex items-center gap-2">
                     Order Discount amount
                     {canEditDiscount && isEditable && (
-                      <span className="text-[10px] text-[#82947A] font-normal">(editable)</span>
+                      <span className="text-[10px] text-black font-normal">(editable)</span>
                     )}
                   </label>
                 </div>
@@ -10744,9 +11281,9 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                       disabled={!canEditDiscount || !isEditable}
                       min="0"
                       step="0.5"
-                      className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent ${
-                        !canEditDiscount || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-[#82947A]/60'
-                      } border-[#82947A]/30 text-black`}
+                      className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent ${
+                        !canEditDiscount || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-black/60'
+                      } border-black/30 text-black`}
                       placeholder="0.00"
                     />
                   </div>
@@ -10758,16 +11295,16 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                       onChange={handleInputChange}
                       disabled={!canEditDiscount || !isEditable}
                       placeholder="Discount reason (optional)"
-                      className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent ${
-                        !canEditDiscount || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-[#82947A]/60'
-                      } border-[#82947A]/30 text-black`}
+                      className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent ${
+                        !canEditDiscount || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-black/60'
+                      } border-black/30 text-black`}
                     />
                   </div>
                 </div>
-                <div className="mt-2 p-2 bg-[#E2E7EA]/30 rounded-lg border border-[#82947A]/20">
+                <div className="mt-2 p-2 bg-[#E2E7EA]/30 rounded-lg border border-black/20">
                   <div className="flex justify-between text-sm">
                     <span className="text-[#64748B]">After Discount:</span>
-                    <span className="font-bold text-[#82947A]">৳{localTotal.toFixed(2)}</span>
+                    <span className="font-bold text-black">৳{localTotal.toFixed(2)}</span>
                   </div>
                   {localDiscount > 0 && (
                     <div className="flex justify-between text-xs text-green-600">
@@ -10779,11 +11316,11 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
               </div>
 
               {/* ========== DELIVERY NOTE ========== */}
-              <div className="border-t border-[#82947A]/30 pt-4 mt-2">
+              <div className="border-t border-black/30 pt-4 mt-2">
                 <label className="block text-xs font-medium text-black mb-1">
                   Delivery Note
                   {canEditDeliveryNote && isEditable && (
-                    <span className="ml-1 text-[10px] text-[#82947A] font-normal">(editable)</span>
+                    <span className="ml-1 text-[10px] text-black font-normal">(editable)</span>
                   )}
                 </label>
                 <textarea
@@ -10792,17 +11329,17 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                   onChange={handleInputChange}
                   readOnly={!canEditDeliveryNote || !isEditable}
                   rows="2"
-                  className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent ${
-                    !canEditDeliveryNote || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-[#82947A]/60'
-                  } border-[#82947A]/30 text-black`}
+                  className={`w-full px-3 py-1.5 text-sm border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent ${
+                    !canEditDeliveryNote || !isEditable ? 'bg-[#E2E7EA] cursor-not-allowed' : 'bg-white hover:border-black/60'
+                  } border-black/30 text-black`}
                   placeholder="Add delivery notes or special instructions"
                 />
               </div>
             </div>
           </div>
 
-          <div className="p-4 border-t border-[#82947A]/30 bg-[#E2E7EA]/20 flex gap-3">
-            <button onClick={handleModalClose} className="flex-1 px-3 py-2 border border-[#82947A]/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
+          <div className="p-4 border-t border-black/30 bg-[#E2E7EA]/20 flex gap-3">
+            <button onClick={handleModalClose} className="flex-1 px-3 py-2 border border-black/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm">
               Cancel
             </button>
             <button
@@ -10810,7 +11347,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
               disabled={loading || !isEditable}
               className={`flex-1 px-3 py-2 rounded-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm ${
                 hasChanges && isEditable
-                  ? 'bg-gradient-to-r from-[#82947A] to-black text-white hover:shadow-lg hover:shadow-[#82947A]/25'
+                  ? 'bg-gradient-to-r from-black to-black text-white hover:shadow-lg hover:shadow-black/25'
                   : 'bg-[#E2E7EA] text-[#64748B] cursor-not-allowed'
               }`}
             >
@@ -10828,12 +11365,12 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-[#82947A]/20"
+            className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-black/20"
           >
             <div className={`p-4 ${
               confirmConfig.type === 'danger' ? 'bg-gradient-to-r from-red-500 to-red-600' :
               confirmConfig.type === 'warning' ? 'bg-gradient-to-r from-yellow-500 to-yellow-600' :
-              'bg-gradient-to-r from-[#82947A] to-black'
+              'bg-gradient-to-r from-black to-black'
             } text-white`}>
               <div className="flex items-center gap-3">
                 {confirmConfig.type === 'danger' && <FaExclamationTriangle className="w-5 h-5" />}
@@ -10849,10 +11386,10 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
               <p className="text-black text-sm">{confirmConfig.message}</p>
             </div>
 
-            <div className="p-4 border-t border-[#82947A]/20 bg-[#E2E7EA]/20 flex gap-3">
+            <div className="p-4 border-t border-black/20 bg-[#E2E7EA]/20 flex gap-3">
               <button
                 onClick={() => setShowConfirmModal(false)}
-                className="flex-1 px-4 py-2 border border-[#82947A]/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm"
+                className="flex-1 px-4 py-2 border border-black/30 text-[#64748B] rounded-xl hover:bg-white transition-colors text-sm"
               >
                 {confirmConfig.cancelText || 'Cancel'}
               </button>
@@ -10863,7 +11400,7 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
                     ? 'bg-gradient-to-r from-red-500 to-red-600 hover:shadow-red-500/25' 
                     : confirmConfig.type === 'warning'
                     ? 'bg-gradient-to-r from-yellow-500 to-yellow-600 hover:shadow-yellow-500/25'
-                    : 'bg-gradient-to-r from-[#82947A] to-black hover:shadow-[#82947A]/25'
+                    : 'bg-gradient-to-r from-black to-black hover:shadow-black/25'
                 }`}
               >
                 {confirmConfig.confirmText || 'Confirm'}
@@ -10875,6 +11412,8 @@ const EditOrderModal = ({ isOpen, onClose, order, onUpdate, userRole }) => {
     </>
   );
 };
+
+
 // ========== MAIN ADMIN ORDERS PAGE ==========
 export default function AdminOrdersPage() {
   const router = useRouter();
@@ -10883,6 +11422,7 @@ export default function AdminOrdersPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [paymentFilter, setPaymentFilter] = useState('');
+  const [platformFilter, setPlatformFilter] = useState(''); 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalOrders, setTotalOrders] = useState(0);
@@ -10899,7 +11439,6 @@ export default function AdminOrdersPage() {
   const [downloadingOrders, setDownloadingOrders] = useState({});
   const [userRole, setUserRole] = useState('');
   
-  // Delivery related states
   const [showDeliveryModal, setShowDeliveryModal] = useState(false);
   const [showTrackingModal, setShowTrackingModal] = useState(false);
   const [trackingInfo, setTrackingInfo] = useState(null);
@@ -10910,14 +11449,14 @@ export default function AdminOrdersPage() {
 
   const [showCourierScoreModal, setShowCourierScoreModal] = useState(false);
   const [selectedOrderForScore, setSelectedOrderForScore] = useState(null);
+
+  const [showPartialDeliveryModal, setShowPartialDeliveryModal] = useState(false);
   
-  // Bulk selection states
   const [selectedOrdersList, setSelectedOrdersList] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [showCheckboxes, setShowCheckboxes] = useState(false);
   const isAdminOrSuperAdmin = userRole === 'super_admin' || userRole === 'admin';
 
-  // Get user role
   useEffect(() => {
     const userData = localStorage.getItem('user');
     if (userData) {
@@ -10930,7 +11469,6 @@ export default function AdminOrdersPage() {
     }
   }, []);
 
-  // Handle select all
   useEffect(() => {
     if (selectAll) {
       setSelectedOrdersList(orders);
@@ -10940,73 +11478,64 @@ export default function AdminOrdersPage() {
   }, [selectAll, orders]);
 
   const statusTabs = [
-    { value: 'all', label: 'All', count: stats?.totalOrders || 0, color: 'bg-[#82947A]' },
-    { value: 'placed', label: 'Placed', count: stats?.placedOrders || 0, color: 'bg-[#82947A]' },
-    { value: 'follow_up', label: 'Follow Up', count: stats?.followUpOrders || 0, color: 'bg-[#82947A]' },
+    { value: 'all', label: 'All', count: stats?.totalOrders || 0, color: 'bg-black' },
+    { value: 'placed', label: 'Placed', count: stats?.placedOrders || 0, color: 'bg-black' },
+    { value: 'follow_up', label: 'Follow Up', count: stats?.followUpOrders || 0, color: 'bg-black' },
     { value: 'reminder', label: 'Reminder', count: stats?.reminderOrders || 0, color: 'bg-[#FFC107]' },
-    { value: 'accepted', label: 'Accepted', count: stats?.acceptedOrders || 0, color: 'bg-[#82947A]' },
-    { value: 'approved', label: 'Approved', count: stats?.approvedOrders || 0, color: 'bg-[#82947A]' },
+    { value: 'accepted', label: 'Accepted', count: stats?.acceptedOrders || 0, color: 'bg-black' },
+    { value: 'approved', label: 'Approved', count: stats?.approvedOrders || 0, color: 'bg-black' },
     { value: 'hold', label: 'On Hold', count: stats?.holdOrders || 0, color: 'bg-yellow-500' },
     { value: 'processing', label: 'Processing', count: stats?.processingOrders || 0, color: 'bg-blue-500' },
-    { value: 'courier_assigned', label: 'Courier Assigned', count: stats?.courierAssignedOrders || 0, color: 'bg-[#82947A]' },
+    { value: 'courier_assigned', label: 'Courier Assigned', count: stats?.courierAssignedOrders || 0, color: 'bg-black' },
     { value: 'partial_delivery', label: 'Partial Delivery', count: stats?.partialDeliveryOrders || 0, color: 'bg-yellow-500' },
-    { value: 'ready_to_ship', label: 'Ready to Ship', count: stats?.readyToShipOrders || 0, color: 'bg-[#82947A]' },
+    { value: 'ready_to_ship', label: 'Ready to Ship', count: stats?.readyToShipOrders || 0, color: 'bg-black' },
     { value: 'rejected', label: 'Rejected', count: stats?.rejectedOrders || 0, color: 'bg-orange-500' },
-    { value: 'delivered', label: 'Delivered', count: stats?.deliveredOrders || 0, color: 'bg-[#82947A]' },
+    { value: 'delivered', label: 'Delivered', count: stats?.deliveredOrders || 0, color: 'bg-black' },
     { value: 'returned', label: 'Returned', count: stats?.returnedOrders || 0, color: 'bg-purple-500' },
     { value: 'cancelled', label: 'Cancelled', count: stats?.cancelledOrders || 0, color: 'bg-red-500' }
   ];
 
-// In AdminOrdersPage component - Ensure fetchOrders gets delivery status
+  const fetchOrders = useCallback(async () => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        router.push('/login');
+        return;
+      }
 
-const fetchOrders = useCallback(async () => {
-  setLoading(true);
-  try {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      router.push('/login');
-      return;
-    }
-
-    const queryParams = new URLSearchParams({
-      page: currentPage,
-      limit: 20,
-      sort: sortBy
-    });
-    if (searchTerm) queryParams.append('search', searchTerm);
-    if (activeStatusTab !== 'all') queryParams.append('orderStatus', activeStatusTab);
-    if (statusFilter) queryParams.append('orderStatus', statusFilter);
-    if (paymentFilter) queryParams.append('paymentStatus', paymentFilter);
-
-    const response = await fetch(`http://localhost:5000/api/orders/admin/all?${queryParams}`, {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-
-    const data = await response.json();
-    if (data.success) {
-      console.log('📦 Orders received:', data.data);
-      // ✅ Log delivery status for debugging
-      data.data.forEach(order => {
-        if (order.deliveryService) {
-          console.log(`📦 Order ${order.orderNumber} deliveryStatus:`, order.deliveryService.deliveryStatus);
-        }
+      const queryParams = new URLSearchParams({
+        page: currentPage,
+        limit: 20,
+        sort: sortBy
       });
-      
-      setOrders(data.data);
-      setTotalPages(data.pagination.pages);
-      setTotalOrders(data.pagination.total);
-      setSelectAll(false);
-      setSelectedOrdersList([]);
-    } else {
-      toast.error(data.error || 'Failed to fetch orders');
+      if (searchTerm) queryParams.append('search', searchTerm);
+      if (activeStatusTab !== 'all') queryParams.append('orderStatus', activeStatusTab);
+      if (statusFilter) queryParams.append('orderStatus', statusFilter);
+      if (paymentFilter) queryParams.append('paymentStatus', paymentFilter);
+      if (platformFilter) queryParams.append('orderPlatform', platformFilter); 
+
+      const response = await fetch(`http://localhost:5000/api/orders/admin/all?${queryParams}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setOrders(data.data);
+        setTotalPages(data.pagination.pages);
+        setTotalOrders(data.pagination.total);
+        setSelectAll(false);
+        setSelectedOrdersList([]);
+      } else {
+        toast.error(data.error || 'Failed to fetch orders');
+      }
+    } catch (error) {
+      console.error('Fetch orders error:', error);
+      toast.error('Network error');
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.error('Fetch orders error:', error);
-    toast.error('Network error');
-  } finally {
-    setLoading(false);
-  }
-}, [currentPage, searchTerm, activeStatusTab, statusFilter, paymentFilter, sortBy, router]);
+  }, [currentPage, searchTerm, activeStatusTab, statusFilter, paymentFilter, platformFilter, sortBy, router]);
 
   const fetchStats = useCallback(async () => {
     try {
@@ -11028,108 +11557,86 @@ const fetchOrders = useCallback(async () => {
     fetchStats();
   }, [fetchOrders, fetchStats]);
 
-  // ========== AUTO-REFRESH DELIVERY STATUSES ==========
-// In AdminOrdersPage component - Updated auto-refresh
-
-useEffect(() => {
-  const autoRefreshInterval = setInterval(() => {
-    // ✅ Only refresh orders that are in courier_assigned status
-    const ordersToRefresh = orders.filter(order => 
-      order.deliveryService?.trackingNumber && 
-      order.orderStatus === 'courier_assigned' &&
-      order.deliveryService.deliveryStatus !== 'delivered' &&
-      order.deliveryService.deliveryStatus !== 'cancelled' &&
-      order.deliveryService.deliveryStatus !== 'returned'
-    );
-    
-    console.log('🔄 Auto-refreshing delivery statuses for:', ordersToRefresh.length, 'orders');
-    
-    if (ordersToRefresh.length > 0 && ordersToRefresh.length < 10) {
-      ordersToRefresh.forEach(order => {
-        refreshSingleOrderDelivery(order._id);
-      });
-    }
-  }, 60000); // ✅ Changed to 1 minute for testing
-  
-  return () => clearInterval(autoRefreshInterval);
-}, [orders]);
-
-// In AdminOrdersPage component - Fix refreshSingleOrderDelivery
-
-// In AdminOrdersPage component - Updated refreshSingleOrderDelivery
-
-const refreshSingleOrderDelivery = async (orderId) => {
-  setRefreshingOrders(prev => ({ ...prev, [orderId]: true }));
-  
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/orders/${orderId}/tracking`,
-      {
-        headers: { 'Authorization': `Bearer ${token}` }
-      }
-    );
-    
-    const data = await response.json();
-    console.log('📦 Tracking response:', data);
-    
-    if (data.success) {
-      // ✅ Get the delivery status from the response
-      const newDeliveryStatus = data.data?.deliveryStatus || 
-                                data.data?.trackingStatus || 
-                                data.data?.status || 
-                                'pending';
-      
-      console.log('📌 New delivery status from tracking:', newDeliveryStatus);
-      
-      // ✅ Update the order in the state
-      setOrders(prevOrders => 
-        prevOrders.map(order => {
-          if (order._id === orderId) {
-            let newOrderStatus = order.orderStatus;
-            
-            // ✅ If delivered, update order status
-            if (newDeliveryStatus === 'delivered' && order.orderStatus !== 'delivered') {
-              newOrderStatus = 'delivered';
-              toast.success(`✅ Order ${order.orderNumber || order._id.slice(-8).toUpperCase()} delivered!`);
-            }
-            
-            // ✅ If courier_assigned, keep it as courier_assigned
-            if (order.orderStatus === 'courier_assigned' && newDeliveryStatus !== 'delivered') {
-              newOrderStatus = 'courier_assigned';
-            }
-            
-            return {
-              ...order,
-              orderStatus: newOrderStatus,
-              deliveryService: {
-                ...order.deliveryService,
-                deliveryStatus: newDeliveryStatus,
-                history: data.data?.history || order.deliveryService?.deliveryStatusHistory || [],
-                ...data.data
-              }
-            };
-          }
-          return order;
-        })
+  // Auto-refresh delivery statuses
+  useEffect(() => {
+    const autoRefreshInterval = setInterval(() => {
+      const ordersToRefresh = orders.filter(order => 
+        order.deliveryService?.trackingNumber && 
+        order.orderStatus === 'courier_assigned' &&
+        order.deliveryService.deliveryStatus !== 'delivered' &&
+        order.deliveryService.deliveryStatus !== 'cancelled' &&
+        order.deliveryService.deliveryStatus !== 'returned'
       );
       
-      setDeliveryStatuses(prev => ({
-        ...prev,
-        [orderId]: newDeliveryStatus
-      }));
+      if (ordersToRefresh.length > 0 && ordersToRefresh.length < 10) {
+        ordersToRefresh.forEach(order => {
+          refreshSingleOrderDelivery(order._id);
+        });
+      }
+    }, 60000);
+    
+    return () => clearInterval(autoRefreshInterval);
+  }, [orders]);
+
+  const refreshSingleOrderDelivery = async (orderId) => {
+    setRefreshingOrders(prev => ({ ...prev, [orderId]: true }));
+    
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/orders/${orderId}/tracking`,
+        { headers: { 'Authorization': `Bearer ${token}` } }
+      );
       
-      toast.success('Delivery status refreshed');
-    } else {
-      toast.warning(data.error || 'Failed to refresh delivery status');
+      const data = await response.json();
+      
+      if (data.success) {
+        const newDeliveryStatus = data.data?.deliveryStatus || 
+                                  data.data?.trackingStatus || 
+                                  data.data?.status || 
+                                  'pending';
+        
+        setOrders(prevOrders => 
+          prevOrders.map(order => {
+            if (order._id === orderId) {
+              let newOrderStatus = order.orderStatus;
+              
+              if (newDeliveryStatus === 'delivered' && order.orderStatus !== 'delivered') {
+                newOrderStatus = 'delivered';
+                toast.success(`✅ Order ${order.orderNumber || order._id.slice(-8).toUpperCase()} delivered!`);
+              }
+              
+              if (order.orderStatus === 'courier_assigned' && newDeliveryStatus !== 'delivered') {
+                newOrderStatus = 'courier_assigned';
+              }
+              
+              return {
+                ...order,
+                orderStatus: newOrderStatus,
+                deliveryService: {
+                  ...order.deliveryService,
+                  deliveryStatus: newDeliveryStatus,
+                  history: data.data?.history || order.deliveryService?.deliveryStatusHistory || [],
+                  ...data.data
+                }
+              };
+            }
+            return order;
+          })
+        );
+        
+        setDeliveryStatuses(prev => ({ ...prev, [orderId]: newDeliveryStatus }));
+        toast.success('Delivery status refreshed');
+      } else {
+        toast.warning(data.error || 'Failed to refresh delivery status');
+      }
+    } catch (error) {
+      console.error('Refresh delivery status error:', error);
+      toast.error('Failed to refresh delivery status');
+    } finally {
+      setRefreshingOrders(prev => ({ ...prev, [orderId]: false }));
     }
-  } catch (error) {
-    console.error('Refresh delivery status error:', error);
-    toast.error('Failed to refresh delivery status');
-  } finally {
-    setRefreshingOrders(prev => ({ ...prev, [orderId]: false }));
-  }
-};
+  };
 
   const toggleOrderSelection = (order) => {
     setSelectedOrdersList(prev => {
@@ -11182,6 +11689,11 @@ const refreshSingleOrderDelivery = async (orderId) => {
     fetchStats();
   };
 
+  const handlePartialDeliverySaved = () => {
+    fetchOrders();
+    fetchStats();
+  };
+
   const handleDownloadInvoice = async (order) => {
     setDownloadingOrders(prev => ({ ...prev, [order._id]: true }));
     try {
@@ -11224,9 +11736,7 @@ const refreshSingleOrderDelivery = async (orderId) => {
       const token = localStorage.getItem('token');
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/orders/${order._id}/tracking`,
-        {
-          headers: { 'Authorization': `Bearer ${token}` }
-        }
+        { headers: { 'Authorization': `Bearer ${token}` } }
       );
 
       const data = await response.json();
@@ -11274,16 +11784,12 @@ const refreshSingleOrderDelivery = async (orderId) => {
 
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString('en-BD', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+      day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
     });
   };
 
   const exportToCSV = () => {
-    const headers = ['Order ID', 'Customer', 'Phone', 'Division', 'City', 'Upazila/Thana', 'Total', 'Status', 'Payment Status', 'Payment Method', 'Date'];
+    const headers = ['Order ID', 'Customer', 'Phone', 'Division', 'City', 'Upazila/Thana', 'Total', 'Paid', 'Status', 'Payment Status', 'Payment Method', 'Date'];
     const rows = orders.map(order => [
       order.orderNumber || order._id.slice(-8).toUpperCase(),
       order.customerInfo?.fullName || '',
@@ -11292,6 +11798,7 @@ const refreshSingleOrderDelivery = async (orderId) => {
       order.customerInfo?.city || '',
       order.customerInfo?.zone || '',
       order.total || 0,
+      order.paidAmount || 0,
       ORDER_STATUSES.find(s => s.value === order.orderStatus)?.label || order.orderStatus,
       PAYMENT_STATUSES.find(p => p.value === order.paymentStatus)?.label || order.paymentStatus,
       order.paymentMethod === 'cod' ? 'COD' : order.paymentMethod === 'online' ? 'Online' : order.paymentMethod,
@@ -11311,7 +11818,7 @@ const refreshSingleOrderDelivery = async (orderId) => {
 
   const getStatusBadge = (status) => {
     const statusInfo = ORDER_STATUSES.find(s => s.value === status);
-    if (!statusInfo) return <span className="px-1.5 py-0.5 rounded-full text-xs bg-[#E2E7EA] text-black border border-[#82947A]/30">{status}</span>;
+    if (!statusInfo) return <span className="px-1.5 py-0.5 rounded-full text-xs bg-[#E2E7EA] text-black border border-black/30">{status}</span>;
     return (
       <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs border ${statusInfo.color}`}>
         <statusInfo.icon className="w-2.5 h-2.5" />
@@ -11323,7 +11830,7 @@ const refreshSingleOrderDelivery = async (orderId) => {
   const getPaymentBadge = (status) => {
     const paymentInfo = PAYMENT_STATUSES.find(p => p.value === status);
     return (
-      <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs border ${paymentInfo?.color || 'bg-[#E2E7EA] text-black border-[#82947A]/30'}`}>
+      <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs border ${paymentInfo?.color || 'bg-[#E2E7EA] text-black border-black/30'}`}>
         <FaMoneyBillWave className="w-2.5 h-2.5" />
         {paymentInfo?.label || status}
       </span>
@@ -11332,13 +11839,13 @@ const refreshSingleOrderDelivery = async (orderId) => {
 
   const getPaymentMethodBadge = (method) => {
     const methods = {
-      'cod': { label: 'COD', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaMoneyBillWave },
-      'online': { label: 'Online', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaCreditCard },
-      'bkash': { label: 'bKash', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaMobileAlt },
-      'nagad': { label: 'Nagad', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaMobileAlt }
+      'cod': { label: 'COD', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaMoneyBillWave },
+      'online': { label: 'Online', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaCreditCard },
+      'bkash': { label: 'bKash', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaMobileAlt },
+      'nagad': { label: 'Nagad', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaMobileAlt }
     };
     
-    const info = methods[method] || { label: method || 'Unknown', color: 'bg-[#E2E7EA] text-black border-[#82947A]/30', icon: FaMoneyBillWave };
+    const info = methods[method] || { label: method || 'Unknown', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaMoneyBillWave };
     const Icon = info.icon;
     
     return (
@@ -11349,8 +11856,26 @@ const refreshSingleOrderDelivery = async (orderId) => {
     );
   };
 
+  const getPlatformBadge = (platform) => {
+    const platforms = {
+      'website': { label: 'Website', color: 'bg-blue-50 text-blue-700 border-blue-200', icon: FaGlobe },
+      'facebook': { label: 'Facebook', color: 'bg-indigo-50 text-indigo-700 border-indigo-200', icon: FaExternalLinkAlt },
+      'showroom': { label: 'Showroom', color: 'bg-amber-50 text-amber-700 border-amber-200', icon: FaStore }
+    };
+
+    const info = platforms[platform] || { label: platform || 'Website', color: 'bg-[#E2E7EA] text-black border-black/30', icon: FaGlobe };
+    const Icon = info.icon;
+
+    return (
+      <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs border ${info.color}`}>
+        <Icon className="w-2.5 h-2.5" />
+        {info.label}
+      </span>
+    );
+  };
+
   const StatCard = ({ title, value, icon, color }) => (
-    <div className="bg-white rounded-2xl p-4 shadow-sm border border-[#82947A]/20">
+    <div className="bg-white rounded-2xl p-4 shadow-sm border border-black/20">
       <div className="flex items-center justify-between">
         <div>
           <p className="text-xs text-[#64748B] font-medium">{title}</p>
@@ -11371,7 +11896,7 @@ const refreshSingleOrderDelivery = async (orderId) => {
           {/* Header */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-[#82947A] rounded-xl flex items-center justify-center shadow-lg shadow-[#82947A]/25">
+              <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center shadow-lg shadow-black/25">
                 <FaBox className="w-5 h-5 text-white" />
               </div>
               <div>
@@ -11384,7 +11909,7 @@ const refreshSingleOrderDelivery = async (orderId) => {
             <div className="flex items-center gap-2">
               <button
                 onClick={exportToCSV}
-                className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#82947A] to-[#485442] text-white rounded-xl hover:shadow-lg hover:shadow-[#82947A]/25 transition-all text-sm font-medium shadow-sm"
+                className="flex items-center gap-2 px-4 py-2.5 bg-black text-white rounded-xl hover:shadow-lg hover:shadow-black/25 transition-all text-sm font-medium shadow-sm"
               >
                 <FaDownload className="w-4 h-4" />
                 Export CSV
@@ -11395,24 +11920,24 @@ const refreshSingleOrderDelivery = async (orderId) => {
           {/* Stats Cards */}
           {stats ? (
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 mb-6">
-              <StatCard title="Total Orders" value={stats.totalOrders} icon={<FaBox className="w-5 h-5 text-[#82947A]" />} color="bg-[#82947A]/10" />
+              <StatCard title="Total Orders" value={stats.totalOrders} icon={<FaBox className="w-5 h-5 text-black" />} color="bg-black/10" />
               <StatCard title="Placed" value={stats.placedOrders || 0} icon={<FaClock className="w-5 h-5 text-black" />} color="bg-[#E2E7EA]" />
-              <StatCard title="Follow Up" value={stats.followUpOrders || 0} icon={<FaHeadset className="w-5 h-5 text-[#82947A]" />} color="bg-[#82947A]/10" />
-              <StatCard title="Accepted" value={stats.acceptedOrders || 0} icon={<FaCheckCircle className="w-5 h-5 text-[#82947A]" />} color="bg-[#82947A]/10" />
-              <StatCard title="Approved" value={stats.approvedOrders || 0} icon={<FaCheckDouble className="w-5 h-5 text-[#82947A]" />} color="bg-[#82947A]/10" />
+              <StatCard title="Follow Up" value={stats.followUpOrders || 0} icon={<FaHeadset className="w-5 h-5 text-black" />} color="bg-black/10" />
+              <StatCard title="Accepted" value={stats.acceptedOrders || 0} icon={<FaCheckCircle className="w-5 h-5 text-black" />} color="bg-black/10" />
+              <StatCard title="Approved" value={stats.approvedOrders || 0} icon={<FaCheckDouble className="w-5 h-5 text-black" />} color="bg-black/10" />
               <StatCard title="On Hold" value={stats.holdOrders || 0} icon={<FaClock className="w-5 h-5 text-yellow-600" />} color="bg-yellow-100" />
-              <StatCard title="Processing" value={stats.processingOrders || 0} icon={<FaSpinner className="w-5 h-5 text-[#82947A]" />} color="bg-blue-100" />
-              <StatCard title="Courier Assigned" value={stats.courierAssignedOrders || 0} icon={<FaTruck className="w-5 h-5 text-[#82947A]" />} color="bg-[#82947A]/10" />
+              <StatCard title="Processing" value={stats.processingOrders || 0} icon={<FaSpinner className="w-5 h-5 text-black" />} color="bg-blue-100" />
+              <StatCard title="Courier Assigned" value={stats.courierAssignedOrders || 0} icon={<FaTruck className="w-5 h-5 text-black" />} color="bg-black/10" />
               <StatCard title="Partial Delivery" value={stats.partialDeliveryOrders || 0} icon={<FaCheckDouble className="w-5 h-5 text-yellow-600" />} color="bg-yellow-100" />
-              <StatCard title="Delivered" value={stats.deliveredOrders || 0} icon={<FaCheckDouble className="w-5 h-5 text-[#82947A]" />} color="bg-[#82947A]/10" />
+              <StatCard title="Delivered" value={stats.deliveredOrders || 0} icon={<FaCheckDouble className="w-5 h-5 text-black" />} color="bg-black/10" />
               <StatCard title="Cancelled" value={stats.cancelledOrders || 0} icon={<FaBan className="w-5 h-5 text-red-500" />} color="bg-red-50" />
               <StatCard title="Returned" value={stats.returnedOrders || 0} icon={<FaUndo className="w-5 h-5 text-purple-500" />} color="bg-purple-50" />
-              <StatCard title="Revenue" value={stats.totalRevenue} icon={<FaMoneyBillWave className="w-5 h-5 text-[#82947A]" />} color="bg-[#82947A]/10" />
+              <StatCard title="Revenue" value={stats.totalRevenue} icon={<FaMoneyBillWave className="w-5 h-5 text-black" />} color="bg-black/10" />
             </div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-13 gap-4 mb-6">
               {[...Array(13)].map((_, i) => (
-                <div key={i} className="bg-white rounded-2xl p-4 shadow-sm border border-[#82947A]/20 animate-pulse">
+                <div key={i} className="bg-white rounded-2xl p-4 shadow-sm border border-black/20 animate-pulse">
                   <div className="h-4 bg-[#E2E7EA] rounded w-1/2 mb-2"></div>
                   <div className="h-8 bg-[#E2E7EA] rounded w-3/4"></div>
                 </div>
@@ -11421,7 +11946,7 @@ const refreshSingleOrderDelivery = async (orderId) => {
           )}
 
           {/* Filters */}
-          <div className="bg-white rounded-2xl border border-[#82947A]/30 p-4 mb-6 shadow-sm">
+          <div className="bg-white rounded-2xl border border-black/30 p-4 mb-6 shadow-sm">
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1 relative">
                 <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#64748B] w-4 h-4" />
@@ -11433,7 +11958,7 @@ const refreshSingleOrderDelivery = async (orderId) => {
                     setSearchTerm(e.target.value);
                     setCurrentPage(1);
                   }}
-                  className="w-full pl-10 pr-10 py-2 border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-[#E2E7EA]/20 hover:bg-white transition text-black placeholder:text-[#64748B]"
+                  className="w-full pl-10 pr-10 py-2 border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-[#E2E7EA]/20 hover:bg-white transition text-black placeholder:text-[#64748B]"
                 />
                 {searchTerm && (
                   <button
@@ -11441,7 +11966,7 @@ const refreshSingleOrderDelivery = async (orderId) => {
                       setSearchTerm('');
                       setCurrentPage(1);
                     }}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#64748B] hover:text-[#82947A]"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#64748B] hover:text-black"
                   >
                     <FaTimes className="w-4 h-4" />
                   </button>
@@ -11453,7 +11978,7 @@ const refreshSingleOrderDelivery = async (orderId) => {
                   setStatusFilter(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="px-4 py-2 border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-[#E2E7EA]/20 hover:bg-white transition text-black text-sm"
+                className="px-4 py-2 border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-[#E2E7EA]/20 hover:bg-white transition text-black text-sm"
               >
                 <option value="">All Order Status</option>
                 {ORDER_STATUSES.map(status => (
@@ -11467,7 +11992,7 @@ const refreshSingleOrderDelivery = async (orderId) => {
                   setPaymentFilter(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="px-4 py-2 border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-[#E2E7EA]/20 hover:bg-white transition text-black text-sm"
+                className="px-4 py-2 border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-[#E2E7EA]/20 hover:bg-white transition text-black text-sm"
               >
                 <option value="">All Payment Status</option>
                 {PAYMENT_STATUSES.map(status => (
@@ -11481,19 +12006,32 @@ const refreshSingleOrderDelivery = async (orderId) => {
                   setSortBy(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="px-4 py-2 border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-[#E2E7EA]/20 hover:bg-white transition text-black text-sm"
+                className="px-4 py-2 border border-black/30 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-[#E2E7EA]/20 hover:bg-white transition text-black text-sm"
               >
                 <option value="-createdAt">Newest First</option>
                 <option value="createdAt_asc">Oldest First</option>
                 <option value="-total">Highest Total</option>
                 <option value="total_asc">Lowest Total</option>
               </select>
+              <select
+                value={platformFilter}
+                onChange={(e) => {
+                  setPlatformFilter(e.target.value);
+                  setCurrentPage(1);
+                }}
+                className="px-4 py-2 border border-[#82947A]/30 rounded-xl focus:ring-2 focus:ring-[#82947A] focus:border-transparent bg-[#E2E7EA]/20 hover:bg-white transition text-black text-sm"
+              >
+                <option value="">All Platforms</option>
+                <option value="website">🌐 Website</option>
+                <option value="facebook">🔗 Facebook</option>
+                <option value="showroom">🏬 Showroom</option>
+              </select>
             </div>
           </div>
 
           {/* Status Tabs */}
           <div className="mb-6">
-            <div className="flex flex-wrap gap-2 border-b border-[#82947A]/30 pb-2">
+            <div className="flex flex-wrap gap-2 border-b border-black/30 pb-2">
               {statusTabs.map((tab) => (
                 <button
                   key={tab.value}
@@ -11503,8 +12041,8 @@ const refreshSingleOrderDelivery = async (orderId) => {
                   }}
                   className={`px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 flex items-center gap-2 ${
                     activeStatusTab === tab.value
-                      ? 'bg-gradient-to-r from-[#82947A] to-[#485442] text-white shadow-lg shadow-[#82947A]/25'
-                      : 'bg-white text-[#64748B] hover:bg-[#E2E7EA] border border-[#82947A]/30'
+                      ? 'bg-black text-white shadow-lg shadow-black/25'
+                      : 'bg-white text-[#64748B] hover:bg-[#E2E7EA] border border-black/30'
                   }`}
                 >
                   <span className={`w-2 h-2 rounded-full ${tab.color}`}></span>
@@ -11522,10 +12060,9 @@ const refreshSingleOrderDelivery = async (orderId) => {
           </div>
 
           {/* Orders Table */}
-          <div className="bg-white rounded-2xl border border-[#82947A]/30 shadow-sm overflow-hidden">
-            {/* Bulk Delete Toolbar */}
+          <div className="bg-white rounded-2xl border border-black/30 shadow-sm overflow-hidden">
             {isAdminOrSuperAdmin && (
-              <div className="px-4 py-3 border-b border-[#82947A]/30 bg-[#E2E7EA]/30 flex flex-wrap items-center justify-between gap-3">
+              <div className="px-4 py-3 border-b border-black/30 bg-[#E2E7EA]/30 flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   {showCheckboxes ? (
                     <>
@@ -11552,7 +12089,7 @@ const refreshSingleOrderDelivery = async (orderId) => {
                   ) : (
                     <button
                       onClick={toggleBulkDeleteMode}
-                      className="flex items-center gap-2 px-4 py-2 bg-[#E2E7EA] text-black rounded-xl hover:bg-[#82947A]/10 transition-all text-sm font-medium"
+                      className="flex items-center gap-2 px-4 py-2 bg-[#E2E7EA] text-black rounded-xl hover:bg-black/10 transition-all text-sm font-medium"
                     >
                       <FaTrash className="w-4 h-4" />
                       Delete Multiple
@@ -11564,7 +12101,7 @@ const refreshSingleOrderDelivery = async (orderId) => {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => setSelectAll(!selectAll)}
-                      className="text-sm text-[#82947A] hover:underline"
+                      className="text-sm text-black hover:underline"
                     >
                       {selectAll ? 'Deselect All' : 'Select All'}
                     </button>
@@ -11573,32 +12110,28 @@ const refreshSingleOrderDelivery = async (orderId) => {
               </div>
             )}
             
-            {/* Table Container */}
             <div className="w-full overflow-x-auto">
               <table className="w-full min-w-[1200px] lg:min-w-full">
-                <thead className="bg-[#E2E7EA]/50 border-b border-[#82947A]/30">
+                <thead className="bg-[#E2E7EA]/50 border-b border-black/30">
                   <tr>
                     {isAdminOrSuperAdmin && showCheckboxes && (
                       <th className="px-2 py-2 text-center sticky left-0 bg-[#E2E7EA]/50 z-10">
                         <button
                           onClick={() => setSelectAll(!selectAll)}
-                          className="text-[#64748B] hover:text-[#82947A] transition-colors"
+                          className="text-[#64748B] hover:text-black transition-colors"
                         >
-                          {selectAll ? (
-                            <FaCheckSquare className="w-4 h-4 text-[#82947A]" />
-                          ) : (
-                            <FaSquare className="w-4 h-4" />
-                          )}
+                          {selectAll ? <FaCheckSquare className="w-4 h-4 text-black" /> : <FaSquare className="w-4 h-4" />}
                         </button>
                       </th>
                     )}
                     <th className="px-2 py-2 text-left text-xs font-semibold text-[#64748B] whitespace-nowrap">Order ID</th>
                     <th className="px-2 py-2 text-left text-xs font-semibold text-[#64748B] whitespace-nowrap">Customer</th>
                     <th className="px-2 py-2 text-left text-xs font-semibold text-[#64748B] whitespace-nowrap">Phone</th>
-                    <th className="px-2 py-2 text-right text-xs font-semibold text-[#64748B] whitespace-nowrap">Total</th>
+                    <th className="px-2 py-2 text-right text-xs font-semibold text-[#64748B] whitespace-nowrap">Total / Paid</th>
                     <th className="px-2 py-2 text-center text-xs font-semibold text-[#64748B] whitespace-nowrap">Status</th>
                     <th className="px-2 py-2 text-center text-xs font-semibold text-[#64748B] whitespace-nowrap">Payment</th>
                     <th className="px-2 py-2 text-center text-xs font-semibold text-[#64748B] whitespace-nowrap">Method</th>
+                    <th className="px-2 py-2 text-center text-xs font-semibold text-[#64748B] whitespace-nowrap">Platform</th>
                     <th className="px-2 py-2 text-center text-xs font-semibold text-[#64748B] whitespace-nowrap">Delivery</th>
                     <th className="px-2 py-2 text-left text-xs font-semibold text-[#64748B] whitespace-nowrap">Date</th>
                     <th className="px-2 py-2 text-center text-xs font-semibold text-[#64748B] whitespace-nowrap">Actions</th>
@@ -11606,30 +12139,26 @@ const refreshSingleOrderDelivery = async (orderId) => {
                 </thead>
                 <tbody>
                   {loading ? (
-                    <tr><td colSpan={isAdminOrSuperAdmin && showCheckboxes ? 11 : 10} className="px-4 py-8 text-center"><div className="flex justify-center"><div className="w-6 h-6 border-3 border-[#82947A] border-t-transparent rounded-full animate-spin"></div></div></td></tr>
+                    <tr><td colSpan={isAdminOrSuperAdmin && showCheckboxes ? 12 : 11} className="px-4 py-8 text-center"><div className="flex justify-center"><div className="w-6 h-6 border-3 border-black border-t-transparent rounded-full animate-spin"></div></div></td></tr>
                   ) : orders.length === 0 ? (
-                    <tr><td colSpan={isAdminOrSuperAdmin && showCheckboxes ? 11 : 10} className="px-4 py-8 text-center text-[#64748B] text-sm">No orders found</td></tr>
+                    <tr><td colSpan={isAdminOrSuperAdmin && showCheckboxes ? 12 : 11} className="px-4 py-8 text-center text-[#64748B] text-sm">No orders found</td></tr>
                   ) : (
                     orders.map((order) => {
                       const isSelected = selectedOrdersList.some(o => o._id === order._id);
                       const hasDelivery = order.deliveryService?.courierOrderId;
                       const isCancelled = order.orderStatus === 'cancelled';
-                      const canCreateDelivery = order.orderStatus === 'ready_to_ship' && !hasDelivery && !isCancelled;
                       const isTerminal = ['cancelled', 'delivered', 'returned', 'rejected'].includes(order.orderStatus);
+                      const showPaid = (order.paymentStatus === 'partial' || order.paymentStatus === 'paid') && order.paidAmount > 0;
                       
                       return (
-                        <tr key={order._id} className="border-b border-[#82947A]/20 hover:bg-[#E2E7EA]/30 transition-colors">
+                        <tr key={order._id} className="border-b border-black/20 hover:bg-[#E2E7EA]/30 transition-colors">
                           {isAdminOrSuperAdmin && showCheckboxes && (
                             <td className="px-2 py-2 text-center sticky left-0 bg-white z-10">
                               <button
                                 onClick={() => toggleOrderSelection(order)}
-                                className="text-[#64748B] hover:text-[#82947A] transition-colors"
+                                className="text-[#64748B] hover:text-black transition-colors"
                               >
-                                {isSelected ? (
-                                  <FaCheckSquare className="w-4 h-4 text-[#82947A]" />
-                                ) : (
-                                  <FaSquare className="w-4 h-4" />
-                                )}
+                                {isSelected ? <FaCheckSquare className="w-4 h-4 text-black" /> : <FaSquare className="w-4 h-4" />}
                               </button>
                             </td>
                           )}
@@ -11639,13 +12168,25 @@ const refreshSingleOrderDelivery = async (orderId) => {
                             <div className="text-[#64748B] text-xs truncate max-w-[150px]">{order.customerInfo?.email}</div>
                           </td>
                           <td className="px-2 py-2 text-xs text-black whitespace-nowrap">{order.customerInfo?.phone}</td>
-                          <td className="px-2 py-2 text-xs text-right font-bold text-[#82947A] whitespace-nowrap">৳{order.total?.toFixed(2)}</td>
+                          
+                          {/* ✅ Total / Paid column */}
+                          <td className="px-2 py-2 text-xs text-right whitespace-nowrap">
+                            <div className="font-bold text-black">৳{order.total?.toFixed(2)}</div>
+                            {showPaid && (
+                              <div className={`text-[10px] font-medium ${order.paymentStatus === 'partial' ? 'text-yellow-600' : 'text-green-600'}`}>
+                                Paid: ৳{order.paidAmount.toFixed(2)}
+                              </div>
+                            )}
+                            {order.returnedAmount > 0 && (
+                              <div className="text-[10px] text-purple-600 font-medium">
+                                Ret: ৳{order.returnedAmount.toFixed(2)}
+                              </div>
+                            )}
+                          </td>
+                          
                           <td className="px-2 py-2 text-center">
                             <button 
-                              onClick={() => { 
-                                setSelectedOrder(order); 
-                                setShowStatusModal(true); 
-                              }} 
+                              onClick={() => { setSelectedOrder(order); setShowStatusModal(true); }} 
                               className="hover:opacity-80 transition-opacity"
                               disabled={isTerminal}
                             >
@@ -11661,127 +12202,86 @@ const refreshSingleOrderDelivery = async (orderId) => {
                             </button>
                           </td>
                           <td className="px-2 py-2 text-center">{getPaymentMethodBadge(order.paymentMethod)}</td>
+                          <td className="px-2 py-2 text-center">{getPlatformBadge(order.orderPlatform)}</td>
                           
-                          
-                          {/* ========== DELIVERY COLUMN ========== */}
-<td className="px-2 py-2 text-center">
-  {hasDelivery ? (
-    <div className="flex flex-col items-center gap-0.5 min-w-[100px]">
-      <span className="text-xs font-medium text-black">
-        {order.deliveryService.courierName}
-      </span>
-      
-      <div className="flex items-center gap-1">
-        <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] ${getStatusColor(order.deliveryService.deliveryStatus)}`}>
-          {getStatusDisplay(order.deliveryService.deliveryStatus)}
-        </span>
-        
-        <button
-          onClick={() => refreshSingleOrderDelivery(order._id)}
-          className="text-[10px] text-[#82947A] hover:text-[#0891B2] transition-colors"
-          disabled={refreshingOrders[order._id]}
-          title="Refresh delivery status"
-        >
-          {refreshingOrders[order._id] ? (
-            <FaSpinner className="w-2.5 h-2.5 animate-spin" />
-          ) : (
-            <FaSync className="w-2.5 h-2.5" />
-          )}
-        </button>
-        
-        {order.deliveryService.trackingNumber && (
-          <button
-            onClick={() => {
-              setSelectedOrder(order);
-              handleTrackDelivery(order);
-            }}
-            className="text-[10px] text-[#82947A] hover:underline flex items-center gap-1"
-            disabled={trackingLoading[order._id]}
-          >
-            {trackingLoading[order._id] ? (
-              <FaSpinner className="w-3 h-3 animate-spin" />
-            ) : (
-              <>
-                <FaSearch className="w-2.5 h-2.5" />
-                Track
-              </>
-            )}
-          </button>
-        )}
-      </div>
-      
-      {order.deliveryService.trackingUrl && (
-        <a
-          href={order.deliveryService.trackingUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[10px] text-[#64748B] hover:text-[#82947A] flex items-center gap-1"
-          title={`Track on ${order.deliveryService.courierName}`}
-        >
-          <FaExternalLinkAlt className="w-2.5 h-2.5" />
-          <span>Track on {order.deliveryService.courierName}</span>
-        </a>
-      )}
-    </div>
-  ) : (
-    (() => {
-      // ========== STATUSES THAT CAN CREATE DELIVERY ==========
-      const canCreateDeliveryStatuses = ['approved', 'processing', 'hold', 'ready_to_ship', 'accepted'];
-      const canCreate = canCreateDeliveryStatuses.includes(order.orderStatus) && !isCancelled;
-      
-      if (canCreate) {
-        return (
-          <button
-            onClick={() => { setSelectedOrder(order); setShowDeliveryModal(true); }}
-            className="inline-flex items-center gap-1 px-2 py-1 bg-[#82947A] text-white text-[10px] rounded hover:bg-[#485442] transition-colors whitespace-nowrap"
-          >
-            <FaTruck className="w-3 h-3" />
-            Create Delivery
-          </button>
-        );
-      } else if (isCancelled) {
-        return <span className="text-xs text-gray-400">Cancelled</span>;
-      } else {
-        return <span className="text-xs text-gray-400 whitespace-nowrap">Not available</span>;
-      }
-    })()
-  )}
-</td>
-                          
-                          <td className="px-2 py-2 text-xs text-[#64748B] whitespace-nowrap">
-                            {formatDate(order.createdAt)}
+                          <td className="px-2 py-2 text-center">
+                            {hasDelivery ? (
+                              <div className="flex flex-col items-center gap-0.5 min-w-[100px]">
+                                <span className="text-xs font-medium text-black">{order.deliveryService.courierName}</span>
+                                <div className="flex items-center gap-1">
+                                  <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] ${getStatusColor(order.deliveryService.deliveryStatus)}`}>
+                                    {getStatusDisplay(order.deliveryService.deliveryStatus)}
+                                  </span>
+                                  <button
+                                    onClick={() => refreshSingleOrderDelivery(order._id)}
+                                    className="text-[10px] text-black hover:text-[#0891B2] transition-colors"
+                                    disabled={refreshingOrders[order._id]}
+                                    title="Refresh delivery status"
+                                  >
+                                    {refreshingOrders[order._id] ? <FaSpinner className="w-2.5 h-2.5 animate-spin" /> : <FaSync className="w-2.5 h-2.5" />}
+                                  </button>
+                                  {order.deliveryService.trackingNumber && (
+                                    <button
+                                      onClick={() => { setSelectedOrder(order); handleTrackDelivery(order); }}
+                                      className="text-[10px] text-black hover:underline flex items-center gap-1"
+                                      disabled={trackingLoading[order._id]}
+                                    >
+                                      {trackingLoading[order._id] ? <FaSpinner className="w-3 h-3 animate-spin" /> : <><FaSearch className="w-2.5 h-2.5" />Track</>}
+                                    </button>
+                                  )}
+                                </div>
+                              </div>
+                            ) : (
+                              (() => {
+                                const canCreateDeliveryStatuses = ['approved', 'processing', 'hold', 'ready_to_ship', 'accepted'];
+                                const canCreate = canCreateDeliveryStatuses.includes(order.orderStatus) && !isCancelled;
+                                
+                                if (canCreate) {
+                                  return (
+                                    <button
+                                      onClick={() => { setSelectedOrder(order); setShowDeliveryModal(true); }}
+                                      className="inline-flex items-center gap-1 px-2 py-1 bg-black text-white text-[10px] rounded hover:bg-[#485442] transition-colors whitespace-nowrap"
+                                    >
+                                      <FaTruck className="w-3 h-3" />
+                                      Create Delivery
+                                    </button>
+                                  );
+                                } else if (isCancelled) {
+                                  return <span className="text-xs text-gray-400">Cancelled</span>;
+                                } else {
+                                  return <span className="text-xs text-gray-400 whitespace-nowrap">Not available</span>;
+                                }
+                              })()
+                            )}
                           </td>
+                          
+                          <td className="px-2 py-2 text-xs text-[#64748B] whitespace-nowrap">{formatDate(order.createdAt)}</td>
                           <td className="px-2 py-2 text-center">
                             <div className="flex items-center justify-center gap-1 whitespace-nowrap">
-                              <button onClick={() => { setSelectedOrder(order); setShowDetailsModal(true); }} className="p-1 text-[#82947A] hover:bg-[#E2E7EA] rounded transition-colors" title="View Details">
+                              <button onClick={() => { setSelectedOrder(order); setShowDetailsModal(true); }} className="p-1 text-black hover:bg-[#E2E7EA] rounded transition-colors" title="View Details">
                                 <FaEye className="w-3.5 h-3.5" />
                               </button>
                               
                               <button
                                 onClick={() => handleDownloadInvoice(order)}
                                 disabled={downloadingOrders[order._id]}
-                                className="p-1 text-[#82947A] hover:bg-[#E2E7EA] rounded transition-colors disabled:opacity-50" title="Download Invoice"
+                                className="p-1 text-black hover:bg-[#E2E7EA] rounded transition-colors disabled:opacity-50" title="Download Invoice"
                               >
-                                {downloadingOrders[order._id] ? (
-                                  <FaSpinner className="w-3.5 h-3.5 animate-spin" />
-                                ) : (
-                                  <FaDownload className="w-3.5 h-3.5" />
-                                )}
+                                {downloadingOrders[order._id] ? <FaSpinner className="w-3.5 h-3.5 animate-spin" /> : <FaDownload className="w-3.5 h-3.5" />}
                               </button>
+                              
                               <button onClick={() => { setSelectedOrder(order); setShowEditModal(true); }} className="p-1 text-black hover:bg-[#E2E7EA] rounded transition-colors" title="Edit Order">
                                 <FaEdit className="w-3.5 h-3.5" />
                               </button>
 
                               <button
-                                onClick={() => {
-                                  setSelectedOrderForScore(order);
-                                  setShowCourierScoreModal(true);
-                                }}
+                                onClick={() => { setSelectedOrderForScore(order); setShowCourierScoreModal(true); }}
                                 className="p-1 text-purple-600 hover:bg-purple-50 rounded transition-colors"
                                 title="View Courier Score"
                               >
                                 <FaChartLine className="w-3.5 h-3.5" />
                               </button>
+                              
                               {isAdminOrSuperAdmin && !showCheckboxes && (
                                 <button 
                                   onClick={() => { setSelectedOrder(order); setShowDeleteModal(true); }} 
@@ -11803,14 +12303,14 @@ const refreshSingleOrderDelivery = async (orderId) => {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="px-3 py-2 border-t border-[#82947A]/30 flex flex-wrap items-center justify-between gap-3 bg-[#E2E7EA]/20">
+              <div className="px-3 py-2 border-t border-black/30 flex flex-wrap items-center justify-between gap-3 bg-[#E2E7EA]/20">
                 <p className="text-xs text-[#64748B]">Showing {orders.length} of {totalOrders} orders</p>
                 <div className="flex gap-1">
-                  <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="p-1.5 border border-[#82947A]/30 rounded-xl hover:bg-white disabled:opacity-50 transition text-black">
+                  <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="p-1.5 border border-black/30 rounded-xl hover:bg-white disabled:opacity-50 transition text-black">
                     <FaChevronLeft className="w-3 h-3" />
                   </button>
                   <span className="px-2 py-1 text-xs text-black">Page {currentPage} of {totalPages}</span>
-                  <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className="p-1.5 border border-[#82947A]/30 rounded-xl hover:bg-white disabled:opacity-50 transition text-black">
+                  <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className="p-1.5 border border-black/30 rounded-xl hover:bg-white disabled:opacity-50 transition text-black">
                     <FaChevronRight className="w-3 h-3" />
                   </button>
                 </div>
@@ -11827,6 +12327,7 @@ const refreshSingleOrderDelivery = async (orderId) => {
         order={selectedOrder} 
         onUpdate={handleStatusUpdate}
         userRole={userRole}
+        onPartialDelivery={() => setShowPartialDeliveryModal(true)}
       />
       
       <PaymentStatusModal isOpen={showPaymentModal} onClose={() => setShowPaymentModal(false)} order={selectedOrder} onUpdate={handlePaymentUpdate} />
@@ -11838,6 +12339,7 @@ const refreshSingleOrderDelivery = async (orderId) => {
         onStatusUpdate={() => { setShowDetailsModal(false); setShowStatusModal(true); }} 
         onPaymentUpdate={() => { setShowDetailsModal(false); setShowPaymentModal(true); }}
         onDownloadInvoice={handleDownloadInvoice}
+        onOpenPartialDelivery={() => setShowPartialDeliveryModal(true)}
       />
       
       <EditOrderModal isOpen={showEditModal} onClose={() => setShowEditModal(false)} order={selectedOrder} onUpdate={handleEditOrder} userRole={userRole} />
@@ -11860,6 +12362,13 @@ const refreshSingleOrderDelivery = async (orderId) => {
           fetchOrders();
           fetchStats();
         }}
+      />
+
+      <PartialDeliveryModal
+        isOpen={showPartialDeliveryModal}
+        onClose={() => setShowPartialDeliveryModal(false)}
+        order={selectedOrder}
+        onSaved={handlePartialDeliverySaved}
       />
 
       <TrackingModal
