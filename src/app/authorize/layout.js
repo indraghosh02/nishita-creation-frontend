@@ -64,7 +64,9 @@ import {
   Mail,
   GiftIcon,
   Video,
-  BookOpen
+  BookOpen,
+   Boxes,          // for Inventory parent
+  PackageCheck,
 } from 'lucide-react';
 import DynamicLogo from '../components/DynamicLogo';
 import { FaChartLine } from 'react-icons/fa';
@@ -82,7 +84,8 @@ export default function AuthorizeLayout({ children }) {
     ordersGroup: true,
     productsGroup: true,
     pixelGroup: true,
-    usersGroup: true
+    usersGroup: true,
+     inventoryGroup: true,
   });
   const pathname = usePathname();
   const router = useRouter();
@@ -183,6 +186,10 @@ export default function AuthorizeLayout({ children }) {
     
     if (href === '/authorize/role-management') {
       return currentPath === '/authorize/role-management';
+    }
+
+      if (href === '/authorize/returned-items') {
+      return currentPath === '/authorize/returned-items' || currentPath.startsWith('/authorize/returned-items/');
     }
 
     // Delivery
@@ -299,7 +306,9 @@ if (href === '/authorize/video-management') {
       'reviews': 'manage_reviews',
       'settings': 'settings',
       'create_order': 'create_order',
-      'why_choose_us': 'manage_why_choose_us'
+      'why_choose_us': 'manage_why_choose_us',
+      'inventory': 'inventory',
+      'returned_items': 'returned_items',
     };
     
     if (typeof menuItem === 'string') {
@@ -549,6 +558,21 @@ accessKey: 'barcode-scanner'
           href: '/authorize/about-management', 
           icon: Building2,
           accessKey: 'about_management'
+        }
+      ]
+    },
+
+        {
+      name: 'Inventory',
+      isGroup: true,
+      accessKey: 'inventory',
+      icon: Boxes,
+      children: [
+        {
+          name: 'Returned Items',
+          href: '/authorize/returned-items',
+          icon: PackageCheck,
+          accessKey: 'returned_items'
         }
       ]
     },

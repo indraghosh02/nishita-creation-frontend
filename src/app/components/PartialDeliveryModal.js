@@ -1,3 +1,4 @@
+
 // 'use client';
 
 // import { useState, useEffect } from 'react';
@@ -5,15 +6,16 @@
 // import { toast } from 'sonner';
 // import {
 //   FaTruck, FaTimes, FaSpinner, FaCheckCircle, FaUndo,
-//   FaClock, FaBox, FaPlus, FaMinus, FaInfoCircle, FaSave
+//   FaClock, FaPlus, FaMinus, FaInfoCircle, FaSave, FaMoneyBillWave
 // } from 'react-icons/fa';
 
-// // ========== Row component for one delivery item ==========
+// // ========== Row component ==========
 // function DeliveryItemRow({ item, onChange }) {
 //   const total = item.orderedQuantity || 0;
 //   const delivered = item.deliveredQuantity || 0;
 //   const returned = item.returnedQuantity || 0;
 //   const pending = total - delivered - returned;
+//   const unitPrice = item.unitPrice || 0;
 
 //   const label = [item.productName, item.variantName, item.subVariantName]
 //     .filter(Boolean)
@@ -33,15 +35,10 @@
 //     onChange({ deliveredQuantity: d, returnedQuantity: r, pendingQuantity: p });
 //   };
 
-//   // Quick action: mark all as delivered
 //   const markAllDelivered = () =>
 //     onChange({ deliveredQuantity: total, returnedQuantity: 0, pendingQuantity: 0 });
-
-//   // Quick action: mark all as returned
 //   const markAllReturned = () =>
 //     onChange({ deliveredQuantity: 0, returnedQuantity: total, pendingQuantity: 0 });
-
-//   // Quick action: reset to pending
 //   const markAllPending = () =>
 //     onChange({ deliveredQuantity: 0, returnedQuantity: 0, pendingQuantity: total });
 
@@ -57,6 +54,9 @@
 //     : pending === total ? 'Pending'
 //     : 'Partial';
 
+//   const rowDeliveredAmount = delivered * unitPrice;
+//   const rowReturnedAmount = returned * unitPrice;
+
 //   return (
 //     <div className="border border-black/20 rounded-xl p-3 bg-white">
 //       <div className="flex items-start justify-between gap-2 mb-2">
@@ -71,7 +71,9 @@
 //           )}
 //           <div className="min-w-0">
 //             <p className="text-xs font-semibold text-black truncate">{label}</p>
-//             <p className="text-[10px] text-[#64748B]">Ordered: {total}</p>
+//             <p className="text-[10px] text-[#64748B]">
+//               Ordered: {total} × ৳{unitPrice.toFixed(2)} = ৳{(total * unitPrice).toFixed(2)}
+//             </p>
 //           </div>
 //         </div>
 //         <span className={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusColor} flex-shrink-0`}>
@@ -79,108 +81,73 @@
 //         </span>
 //       </div>
 
-//       {/* Quick actions */}
 //       <div className="flex flex-wrap gap-1 mb-2">
-//         <button
-//           type="button"
-//           onClick={markAllDelivered}
-//           className="text-[10px] px-2 py-0.5 rounded-full bg-green-50 text-green-700 border border-green-200 hover:bg-green-100"
-//         >
+//         <button type="button" onClick={markAllDelivered} className="text-[10px] px-2 py-0.5 rounded-full bg-green-50 text-green-700 border border-green-200 hover:bg-green-100">
 //           <FaCheckCircle className="inline w-2.5 h-2.5 mr-0.5" /> All Delivered
 //         </button>
-//         <button
-//           type="button"
-//           onClick={markAllReturned}
-//           className="text-[10px] px-2 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200 hover:bg-purple-100"
-//         >
+//         <button type="button" onClick={markAllReturned} className="text-[10px] px-2 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200 hover:bg-purple-100">
 //           <FaUndo className="inline w-2.5 h-2.5 mr-0.5" /> All Returned
 //         </button>
-//         <button
-//           type="button"
-//           onClick={markAllPending}
-//           className="text-[10px] px-2 py-0.5 rounded-full bg-gray-50 text-gray-600 border border-gray-200 hover:bg-gray-100"
-//         >
+//         <button type="button" onClick={markAllPending} className="text-[10px] px-2 py-0.5 rounded-full bg-gray-50 text-gray-600 border border-gray-200 hover:bg-gray-100">
 //           <FaClock className="inline w-2.5 h-2.5 mr-0.5" /> All Pending
 //         </button>
 //       </div>
 
-//       {/* Quantity steppers */}
 //       <div className="grid grid-cols-3 gap-2">
-//         {/* Delivered */}
 //         <div>
-//           <label className="block text-[10px] font-medium text-green-700 mb-1">
-//             Delivered
-//           </label>
+//           <label className="block text-[10px] font-medium text-green-700 mb-1">Delivered</label>
 //           <div className="flex items-center border border-green-300 rounded-lg overflow-hidden bg-white">
-//             <button
-//               type="button"
-//               onClick={() => setDelivered(delivered - 1)}
-//               disabled={delivered <= 0}
-//               className="w-6 h-6 flex items-center justify-center hover:bg-green-50 disabled:opacity-40"
-//             >
+//             <button type="button" onClick={() => setDelivered(delivered - 1)} disabled={delivered <= 0} className="w-6 h-6 flex items-center justify-center hover:bg-green-50 disabled:opacity-40">
 //               <FaMinus className="w-2.5 h-2.5 text-green-700" />
 //             </button>
 //             <input
-//               type="number"
-//               min="0"
-//               max={total}
-//               value={delivered}
+//               type="number" min="0" max={total} value={delivered}
 //               onChange={(e) => setDelivered(parseInt(e.target.value) || 0)}
 //               className="w-full text-center text-xs py-0.5 focus:outline-none text-black"
 //             />
-//             <button
-//               type="button"
-//               onClick={() => setDelivered(delivered + 1)}
-//               disabled={delivered + returned >= total}
-//               className="w-6 h-6 flex items-center justify-center hover:bg-green-50 disabled:opacity-40"
-//             >
+//             <button type="button" onClick={() => setDelivered(delivered + 1)} disabled={delivered + returned >= total} className="w-6 h-6 flex items-center justify-center hover:bg-green-50 disabled:opacity-40">
 //               <FaPlus className="w-2.5 h-2.5 text-green-700" />
 //             </button>
 //           </div>
 //         </div>
 
-//         {/* Returned */}
 //         <div>
-//           <label className="block text-[10px] font-medium text-purple-700 mb-1">
-//             Returned
-//           </label>
+//           <label className="block text-[10px] font-medium text-purple-700 mb-1">Returned</label>
 //           <div className="flex items-center border border-purple-300 rounded-lg overflow-hidden bg-white">
-//             <button
-//               type="button"
-//               onClick={() => setReturned(returned - 1)}
-//               disabled={returned <= 0}
-//               className="w-6 h-6 flex items-center justify-center hover:bg-purple-50 disabled:opacity-40"
-//             >
+//             <button type="button" onClick={() => setReturned(returned - 1)} disabled={returned <= 0} className="w-6 h-6 flex items-center justify-center hover:bg-purple-50 disabled:opacity-40">
 //               <FaMinus className="w-2.5 h-2.5 text-purple-700" />
 //             </button>
 //             <input
-//               type="number"
-//               min="0"
-//               max={total}
-//               value={returned}
+//               type="number" min="0" max={total} value={returned}
 //               onChange={(e) => setReturned(parseInt(e.target.value) || 0)}
 //               className="w-full text-center text-xs py-0.5 focus:outline-none text-black"
 //             />
-//             <button
-//               type="button"
-//               onClick={() => setReturned(returned + 1)}
-//               disabled={delivered + returned >= total}
-//               className="w-6 h-6 flex items-center justify-center hover:bg-purple-50 disabled:opacity-40"
-//             >
+//             <button type="button" onClick={() => setReturned(returned + 1)} disabled={delivered + returned >= total} className="w-6 h-6 flex items-center justify-center hover:bg-purple-50 disabled:opacity-40">
 //               <FaPlus className="w-2.5 h-2.5 text-purple-700" />
 //             </button>
 //           </div>
 //         </div>
 
-//         {/* Pending (read-only) */}
 //         <div>
-//           <label className="block text-[10px] font-medium text-gray-500 mb-1">
-//             Pending
-//           </label>
+//           <label className="block text-[10px] font-medium text-gray-500 mb-1">Pending</label>
 //           <div className="flex items-center justify-center border border-gray-300 rounded-lg bg-gray-50 h-[26px]">
 //             <span className="text-xs font-medium text-gray-600">{pending}</span>
 //           </div>
 //         </div>
+//       </div>
+
+//       {/* Row amounts */}
+//       <div className="mt-2 pt-2 border-t border-gray-100 flex flex-wrap gap-2 text-[10px]">
+//         {rowDeliveredAmount > 0 && (
+//           <span className="text-green-700 bg-green-50 px-1.5 py-0.5 rounded">
+//             Collect: ৳{rowDeliveredAmount.toFixed(2)}
+//           </span>
+//         )}
+//         {rowReturnedAmount > 0 && (
+//           <span className="text-purple-700 bg-purple-50 px-1.5 py-0.5 rounded">
+//             Returned: ৳{rowReturnedAmount.toFixed(2)}
+//           </span>
+//         )}
 //       </div>
 //     </div>
 //   );
@@ -193,7 +160,6 @@
 //   const [saving, setSaving] = useState(false);
 //   const [note, setNote] = useState('');
 
-//   // Load delivery items when modal opens
 //   useEffect(() => {
 //     if (isOpen && order?._id) {
 //       loadItems();
@@ -229,7 +195,6 @@
 //   };
 
 //   const handleSave = async () => {
-//     // Validate all items
 //     for (const it of items) {
 //       const total = (it.deliveredQuantity || 0) + (it.returnedQuantity || 0) + (it.pendingQuantity || 0);
 //       if (total !== it.orderedQuantity) {
@@ -279,11 +244,39 @@
 //     }
 //   };
 
-//   // Summary counts
+//   // ===== Totals =====
 //   const totalDelivered = items.reduce((s, i) => s + (i.deliveredQuantity || 0), 0);
 //   const totalReturned = items.reduce((s, i) => s + (i.returnedQuantity || 0), 0);
 //   const totalPending = items.reduce((s, i) => s + (i.pendingQuantity || 0), 0);
 //   const totalOrdered = items.reduce((s, i) => s + (i.orderedQuantity || 0), 0);
+
+//   // ===== Amounts =====
+//   const deliveredAmount = items.reduce(
+//     (s, i) => s + (i.deliveredQuantity || 0) * (i.unitPrice || 0),
+//     0
+//   );
+//   const returnedAmount = items.reduce(
+//     (s, i) => s + (i.returnedQuantity || 0) * (i.unitPrice || 0),
+//     0
+//   );
+
+//   const subtotal = order?.subtotal || 0;
+//   const shipping = order?.shippingCost || 0;
+//   const discount = order?.discount || 0;
+
+//   const deliveredRatio = subtotal > 0 ? Math.min(1, deliveredAmount / subtotal) : 0;
+//   const applicableShipping = deliveredAmount > 0 ? shipping : 0;
+//   const applicableDiscount = Math.round(discount * deliveredRatio * 100) / 100;
+
+//   let previewPaidAmount = deliveredAmount + applicableShipping - applicableDiscount;
+//   if (previewPaidAmount < 0) previewPaidAmount = 0;
+//   if (previewPaidAmount > (order?.total || 0)) previewPaidAmount = order?.total || 0;
+//   previewPaidAmount = Math.round(previewPaidAmount * 100) / 100;
+
+//   let previewStatus = 'pending';
+//   if (previewPaidAmount <= 0) previewStatus = 'pending';
+//   else if (previewPaidAmount >= (order?.total || 0) - 0.01) previewStatus = 'paid';
+//   else previewStatus = 'partial';
 
 //   if (!isOpen) return null;
 
@@ -313,7 +306,7 @@
 //           </p>
 //         </div>
 
-//         {/* Summary */}
+//         {/* Quantity summary */}
 //         <div className="px-4 pt-3">
 //           <div className="grid grid-cols-4 gap-2 text-center">
 //             <div className="bg-gray-50 rounded-lg py-1.5 border border-gray-200">
@@ -335,17 +328,48 @@
 //           </div>
 //         </div>
 
-//         {/* Body */}
-//         <div className="p-4 space-y-3 max-h-[55vh] overflow-y-auto">
+//         {/* Amount summary */}
+//         <div className="px-4 pt-3">
+//           <div className="bg-gradient-to-r from-[#E2E7EA] to-white border border-black/20 rounded-xl p-3">
+//             <div className="grid grid-cols-3 gap-2 text-center">
+//               <div>
+//                 <p className="text-[10px] text-[#64748B]">Delivered Value</p>
+//                 <p className="text-sm font-bold text-green-700">৳{deliveredAmount.toFixed(2)}</p>
+//               </div>
+//               <div>
+//                 <p className="text-[10px] text-[#64748B]">Returned Value</p>
+//                 <p className="text-sm font-bold text-purple-700">৳{returnedAmount.toFixed(2)}</p>
+//               </div>
+//               <div>
+//                 <p className="text-[10px] text-[#64748B]">Will Collect</p>
+//                 <p className="text-sm font-bold text-black">৳{previewPaidAmount.toFixed(2)}</p>
+//               </div>
+//             </div>
+//             <div className="mt-2 pt-2 border-t border-black/10 flex items-center justify-between text-[10px]">
+//               <span className="text-[#64748B]">
+//                 <FaMoneyBillWave className="inline w-2.5 h-2.5 mr-1" />
+//                 Payment will be marked:
+//               </span>
+//               <span className={`font-semibold px-2 py-0.5 rounded-full ${
+//                 previewStatus === 'paid' ? 'bg-green-100 text-green-700'
+//                 : previewStatus === 'partial' ? 'bg-yellow-100 text-yellow-700'
+//                 : 'bg-gray-100 text-gray-700'
+//               }`}>
+//                 {previewStatus.toUpperCase()}
+//               </span>
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* Items */}
+//         <div className="p-4 space-y-3 max-h-[45vh] overflow-y-auto">
 //           {loading ? (
 //             <div className="flex items-center justify-center py-10">
 //               <FaSpinner className="w-5 h-5 animate-spin text-black" />
 //               <span className="ml-2 text-sm text-gray-500">Loading items...</span>
 //             </div>
 //           ) : items.length === 0 ? (
-//             <div className="text-center py-10 text-sm text-gray-500">
-//               No items found
-//             </div>
+//             <div className="text-center py-10 text-sm text-gray-500">No items found</div>
 //           ) : (
 //             items.map((it) => (
 //               <DeliveryItemRow
@@ -356,7 +380,6 @@
 //             ))
 //           )}
 
-//           {/* Note */}
 //           <div className="pt-2">
 //             <label className="block text-xs font-medium text-black mb-1">
 //               Overall Note (optional)
@@ -374,17 +397,14 @@
 //             <FaInfoCircle className="w-3 h-3 text-blue-500 mt-0.5 flex-shrink-0" />
 //             <span>
 //               For each item: <strong>Delivered + Returned + Pending must equal Ordered</strong>.
-//               The order status will be auto-set based on the totals.
+//               Payment will be auto-updated based on delivered items.
 //             </span>
 //           </div>
 //         </div>
 
 //         {/* Footer */}
 //         <div className="p-4 border-t border-black/30 bg-[#E2E7EA]/20 flex gap-3">
-//           <button
-//             onClick={onClose}
-//             className="flex-1 px-3 py-2 border border-black/30 text-[#64748B] rounded-xl hover:bg-white text-sm"
-//           >
+//           <button onClick={onClose} className="flex-1 px-3 py-2 border border-black/30 text-[#64748B] rounded-xl hover:bg-white text-sm">
 //             Cancel
 //           </button>
 //           <button
@@ -400,6 +420,7 @@
 //     </div>
 //   );
 // }
+
 
 'use client';
 
@@ -556,7 +577,13 @@ function DeliveryItemRow({ item, onChange }) {
 }
 
 // ========== Main Modal ==========
-export default function PartialDeliveryModal({ isOpen, onClose, order, onSaved }) {
+export default function PartialDeliveryModal({
+  isOpen,
+  onClose,
+  order,
+  onSaved,
+  overrideStatus = false,   // ✅ NEW: unlock any-status conversion when true
+}) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -572,8 +599,10 @@ export default function PartialDeliveryModal({ isOpen, onClose, order, onSaved }
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
+      // ✅ Append overrideStatus query when true
+      const qs = overrideStatus ? '?overrideStatus=true' : '';
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/orders/${order._id}/partial-delivery-items`,
+        `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/orders/${order._id}/partial-delivery-items${qs}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const data = await res.json();
@@ -627,6 +656,7 @@ export default function PartialDeliveryModal({ isOpen, onClose, order, onSaved }
               note: it.note || '',
             })),
             note,
+            overrideStatus,   // ✅ Forward flag to backend
           }),
         }
       );
@@ -706,6 +736,11 @@ export default function PartialDeliveryModal({ isOpen, onClose, order, onSaved }
           <p className="text-xs text-white/80 mt-1">
             Order #{order?.orderNumber || order?._id?.slice(-8).toUpperCase()}
           </p>
+          {overrideStatus && (
+            <p className="text-[10px] text-white/90 mt-1 bg-white/20 inline-block px-2 py-0.5 rounded-full">
+              ⚡ Admin Override Mode
+            </p>
+          )}
         </div>
 
         {/* Quantity summary */}
