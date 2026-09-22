@@ -1,1604 +1,544 @@
 
-// // app/authorize/about-management/page.jsx
+
 // 'use client';
 
 // import { useState, useEffect, useRef } from 'react';
-// import { useRouter } from 'next/navigation';
 // import Link from 'next/link';
-// import { 
-//   Save, 
-//   RotateCcw, 
-//   Loader2,
-//   Plus,
-//   Trash2,
-//   GripVertical,
-//   ArrowLeft,
-//   Upload,
-//   X
+// import {
+//   Save, RotateCcw, Loader2, Plus, Trash2, Upload, X, ArrowUp, ArrowDown,
 // } from 'lucide-react';
-// import { 
-//   FaHeart, 
-//   FaLeaf, 
-//   FaShippingFast, 
-//   FaShieldAlt, 
-//   FaStar, 
-//   FaUsers, 
-//   FaAward, 
-//   FaGlobe,
-//   FaArrowRight,
-//   FaCheckCircle,
-//   FaGift,
-//   FaSmile,
-//   FaRocket,
-//   FaStore,
-//   FaTrophy,
-//   FaGem,
-//   FaHands,
-//   FaSeedling,
-//   FaCalendarAlt,
-//   FaMapMarkerAlt,
-//   FaChevronLeft,
-//   FaChevronRight,
-//   FaImage,
-//   FaTruck
-// } from 'react-icons/fa';
-// import { GiLipstick, GiSparkles } from 'react-icons/gi';
 // import ProtectedRoute from '@/app/components/ProtectedRoute';
 // import { toast } from 'sonner';
 
-// // ============================================================
-// // ICON OPTIONS
-// // ============================================================
+// const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
-// const STAT_ICON_OPTIONS = [
-//   { value: 'FaAward', label: 'Award' },
-//   { value: 'FaUsers', label: 'Users' },
-//   { value: 'GiLipstick', label: 'Lipstick' },
-//   { value: 'FaStar', label: 'Star' }
+// const SECTIONS = [
+//   { id: 'hero',          label: 'Hero' },
+//   { id: 'brandStory',    label: 'Brand Story' },
+//   { id: 'journey',       label: 'Journey' },
+//   { id: 'craftsmanship', label: 'Craftsmanship' },
+//   { id: 'artisan',       label: 'Artisan' },
+//   { id: 'gallery',       label: 'Gallery' },
+//   { id: 'cta',           label: 'CTA' },
 // ];
 
-// const WHY_CHOOSE_ICON_OPTIONS = [
-//   { value: 'FaLeaf', label: 'Leaf' },
-//   { value: 'FaHeart', label: 'Heart' },
-//   { value: 'FaShieldAlt', label: 'Shield' },
-//   { value: 'FaTruck', label: 'Truck' },
-//   { value: 'FaStar', label: 'Star' },
-//   { value: 'FaUsers', label: 'Users' },
-//   { value: 'FaAward', label: 'Award' },
-//   { value: 'GiSparkles', label: 'Sparkles' }
-// ];
-
-// const TRUST_ICON_OPTIONS = [
-//   { value: 'FaCheckCircle', label: 'Check Circle' },
-//   { value: 'FaShippingFast', label: 'Shipping Fast' },
-//   { value: 'FaGift', label: 'Gift' },
-//   { value: 'FaSmile', label: 'Smile' },
-//   { value: 'FaStar', label: 'Star' },
-//   { value: 'FaUsers', label: 'Users' },
-//   { value: 'FaAward', label: 'Award' }
+// const ICON_OPTIONS = [
+//   'FaLeaf','FaHeart','FaUsers','FaStar','FaAward','FaShieldAlt','FaTruck',
+//   'FaCheckCircle','FaShippingFast','FaGift','FaSmile','FaGem','FaHands',
+//   'FaSeedling','FaGlobe','FaCalendarAlt','FaMapMarkerAlt','GiLipstick','GiSparkles',
 // ];
 
 // // ============================================================
-// // IMAGE UPLOAD COMPONENT
+// // IMAGE UPLOAD
 // // ============================================================
 
-// const ImageUpload = ({ imageUrl, onImageChange, onImageRemove, label = 'Image', aspectRatio = '16/9', className = '' }) => {
-//   const fileInputRef = useRef(null);
-//   const [isUploading, setIsUploading] = useState(false);
+// function ImageUpload({ imageUrl, onImageChange, onImageRemove, label = 'Image', aspectRatio = '1/1', size = 180 }) {
+//   const ref = useRef(null);
+//   const [uploading, setUploading] = useState(false);
 //   const [preview, setPreview] = useState(imageUrl || '');
 //   const [error, setError] = useState('');
 
-//   useEffect(() => {
-//     setPreview(imageUrl || '');
-//   }, [imageUrl]);
+//   useEffect(() => { setPreview(imageUrl || ''); }, [imageUrl]);
 
-//   const validateImage = (file) => {
-//     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-//     if (!allowedTypes.includes(file.type)) {
-//       return { valid: false, message: 'Only JPG, PNG, and WebP formats are allowed.' };
-//     }
-//     if (file.size > 5 * 1024 * 1024) {
-//       return { valid: false, message: 'Image size must be less than 5MB.' };
-//     }
-//     return { valid: true };
+//   const validate = (f) => {
+//     if (!['image/jpeg', 'image/jpg', 'image/png', 'image/webp'].includes(f.type)) return 'Only JPG/PNG/WebP.';
+//     if (f.size > 5 * 1024 * 1024) return 'Max 5MB.';
+//     return '';
 //   };
 
-//   const compressImageSmart = async (file) => {
-//     return new Promise((resolve, reject) => {
-//       const reader = new FileReader();
-//       reader.readAsDataURL(file);
-      
-//       reader.onload = (event) => {
-//         const img = new window.Image();
-//         img.src = event.target.result;
-        
-//         img.onload = () => {
-//           const canvas = document.createElement('canvas');
-//           canvas.width = img.width;
-//           canvas.height = img.height;
-          
-//           const ctx = canvas.getContext('2d');
-//           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          
-//           let quality = 0.4;
-//           if (file.size > 5 * 1024 * 1024) quality = 0.25;
-//           else if (file.size > 2 * 1024 * 1024) quality = 0.3;
-//           else if (file.size > 1 * 1024 * 1024) quality = 0.35;
-//           else if (file.size > 500 * 1024) quality = 0.45;
-//           else quality = 0.55;
-          
-//           canvas.toBlob(
-//             (blob) => {
-//               const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, '.jpg'), {
-//                 type: 'image/jpeg',
-//                 lastModified: Date.now(),
-//               });
-//               resolve(compressedFile);
-//             },
-//             'image/jpeg',
-//             quality
-//           );
-//         };
-//         img.onerror = () => reject(new Error('Failed to load image'));
+//   const compress = (file) => new Promise((resolve, reject) => {
+//     const reader = new FileReader();
+//     reader.readAsDataURL(file);
+//     reader.onload = (e) => {
+//       const img = new window.Image();
+//       img.src = e.target.result;
+//       img.onload = () => {
+//         const c = document.createElement('canvas');
+//         c.width = img.width; c.height = img.height;
+//         c.getContext('2d').drawImage(img, 0, 0);
+//         const q = file.size > 3e6 ? 0.3 : file.size > 1e6 ? 0.4 : 0.55;
+//         c.toBlob((b) => resolve(new File([b], file.name.replace(/\.[^/.]+$/, '.jpg'), { type: 'image/jpeg' })), 'image/jpeg', q);
 //       };
-//       reader.onerror = () => reject(new Error('Failed to read file'));
-//     });
+//       img.onerror = reject;
+//     };
+//     reader.onerror = reject;
+//   });
+
+//   const upload = async (file) => {
+//     const comp = await compress(file);
+//     const fd = new FormData();
+//     fd.append('file', comp);
+//     fd.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || 'smart-gadget');
+//     const res = await fetch(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`, { method: 'POST', body: fd });
+//     const data = await res.json();
+//     if (!data.secure_url) throw new Error(data.error?.message || 'Upload failed');
+//     return data.secure_url;
 //   };
 
-//   const uploadToCloudinary = async (file) => {
-//     const compressedFile = await compressImageSmart(file);
-    
-//     const formData = new FormData();
-//     formData.append('file', compressedFile);
-//     formData.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || 'smart-gadget');
-    
-//     try {
-//       const response = await fetch(
-//         `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-//         {
-//           method: 'POST',
-//           body: formData,
-//         }
-//       );
-      
-//       const data = await response.json();
-//       if (data.secure_url) {
-//         return {
-//           url: data.secure_url,
-//           publicId: data.public_id,
-//         };
-//       } else {
-//         throw new Error(data.error?.message || 'Upload failed');
-//       }
-//     } catch (error) {
-//       console.error('Cloudinary upload error:', error);
-//       throw error;
-//     }
-//   };
-
-//   const handleFileSelect = async (e) => {
-//     const file = e.target.files[0];
+//   const handle = async (e) => {
+//     const file = e.target.files?.[0];
 //     if (!file) return;
-
-//     const validation = validateImage(file);
-//     if (!validation.valid) {
-//       setError(validation.message);
-//       toast.error(validation.message);
-//       return;
-//     }
-
-//     setError('');
-//     setIsUploading(true);
-    
+//     const err = validate(file);
+//     if (err) { setError(err); toast.error(err); return; }
+//     setError(''); setUploading(true);
 //     try {
-//       const reader = new FileReader();
-//       reader.onload = (event) => {
-//         setPreview(event.target.result);
-//       };
-//       reader.readAsDataURL(file);
-      
-//       const result = await uploadToCloudinary(file);
-      
-//       if (result && result.url) {
-//         onImageChange(result.url);
-//         toast.success('Image uploaded successfully!');
-//       } else {
-//         throw new Error('Upload failed');
-//       }
-//     } catch (error) {
-//       console.error('Upload error:', error);
-//       setError('Failed to upload image');
-//       toast.error('Failed to upload image');
-//       setPreview('');
-//     } finally {
-//       setIsUploading(false);
-//     }
+//       const r = new FileReader();
+//       r.onload = (ev) => setPreview(ev.target.result);
+//       r.readAsDataURL(file);
+//       const url = await upload(file);
+//       onImageChange(url);
+//       toast.success('Uploaded');
+//     } catch (e) {
+//       console.error(e); setError('Upload failed'); toast.error('Upload failed'); setPreview('');
+//     } finally { setUploading(false); }
 //   };
 
-//   const handleRemove = () => {
-//     setPreview('');
-//     onImageRemove();
-//     if (fileInputRef.current) fileInputRef.current.value = '';
+//   const remove = () => {
+//     setPreview(''); onImageRemove();
+//     if (ref.current) ref.current.value = '';
 //   };
 
 //   return (
-//     <div className={`space-y-2 ${className}`}>
-//       <label className="block text-sm font-medium text-gray-700">{label}</label>
-      
+//     <div className="space-y-1">
+//       {label && <label className="block text-xs font-medium text-gray-700">{label}</label>}
 //       {preview ? (
 //         <div className="relative inline-block">
-//           <div className={`rounded-lg overflow-hidden border-2 border-pink-500/30 bg-gray-100`}
-//                style={{ width: '200px', aspectRatio: aspectRatio }}>
-//             <img 
-//               src={preview} 
-//               alt={label} 
-//               className="w-full h-full object-cover"
-//             />
+//           <div className="overflow-hidden rounded-md border border-black bg-gray-100" style={{ width: size, aspectRatio }}>
+//             <img src={preview} alt={label} className="h-full w-full object-cover" />
 //           </div>
-//           {isUploading && (
-//             <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg">
-//               <Loader2 className="w-6 h-6 text-white animate-spin" />
+//           {uploading && (
+//             <div className="absolute inset-0 flex items-center justify-center rounded-md bg-black/60">
+//               <Loader2 className="h-5 w-5 animate-spin text-white" />
 //             </div>
 //           )}
-//           <button
-//             type="button"
-//             onClick={handleRemove}
-//             className="absolute -top-2 -right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
-//           >
-//             <X className="w-3 h-3" />
+//           <button type="button" onClick={remove} className="absolute -right-2 -top-2 rounded-full bg-black p-1 text-white hover:bg-gray-800">
+//             <X className="h-3 w-3" />
 //           </button>
 //         </div>
 //       ) : (
-//         <div className="flex items-center gap-3">
-//           <button
-//             type="button"
-//             onClick={() => fileInputRef.current?.click()}
-//             disabled={isUploading}
-//             className="flex items-center gap-2 px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors text-sm disabled:opacity-50"
-//           >
-//             {isUploading ? (
-//               <Loader2 className="w-4 h-4 animate-spin" />
-//             ) : (
-//               <Upload className="w-4 h-4" />
-//             )}
-//             {isUploading ? 'Uploading...' : 'Upload Image'}
-//           </button>
-//           <input
-//             ref={fileInputRef}
-//             type="file"
-//             accept="image/jpeg,image/jpg,image/png,image/webp"
-//             className="hidden"
-//             onChange={handleFileSelect}
-//             disabled={isUploading}
-//           />
-//           <span className="text-xs text-gray-400">JPG, PNG, WebP (max 5MB)</span>
-//         </div>
+//         <button type="button" onClick={() => ref.current?.click()} disabled={uploading}
+//           className="flex items-center gap-2 rounded-md bg-black px-3 py-2 text-xs text-white hover:bg-gray-800 disabled:opacity-50">
+//           {uploading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Upload className="h-3 w-3" />}
+//           {uploading ? 'Uploading…' : 'Upload'}
+//         </button>
 //       )}
-//       {error && <p className="text-xs text-red-500">{error}</p>}
+//       <input ref={ref} type="file" accept="image/jpeg,image/jpg,image/png,image/webp" className="hidden" onChange={handle} disabled={uploading} />
+//       {error && <p className="text-xs text-red-600">{error}</p>}
 //     </div>
 //   );
-// };
+// }
 
 // // ============================================================
-// // DEFAULT DATA
+// // REUSABLE INPUTS
 // // ============================================================
 
-// const DEFAULT_ABOUT_DATA = {
-//   hero: {
-//     image: '',
-//     overlayImage: '',
-//     secondaryImage: '',
-//     badge: 'About Us',
-//     title: 'Redefining Beauty',
-//     highlightedText: 'for Everyone',
-//     description: 'We believe beauty is for everyone. Our mission is to bring you the finest beauty products with expert care, fast delivery, and a touch of luxury.',
-//     buttonText: 'Explore Products',
-//     buttonLink: '/products',
-//     secondaryButtonText: 'Get in Touch',
-//     secondaryButtonLink: '/contact'
-//   },
-//   stats: {
-//     backgroundImage: '',
-//     items: [
-//       { id: 1, icon: 'FaAward', value: '50+', label: 'Premium Brands', displayOrder: 0, isActive: true },
-//       { id: 2, icon: 'FaUsers', value: '5K+', label: 'Happy Customers', displayOrder: 1, isActive: true },
-//       { id: 3, icon: 'GiLipstick', value: '500+', label: 'Products', displayOrder: 2, isActive: true },
-//       { id: 4, icon: 'FaStar', value: '98%', label: 'Satisfaction Rate', displayOrder: 3, isActive: true }
-//     ]
-//   },
-//   story: {
-//     badge: 'Our Story',
-//     title: 'A Journey of Beauty & Trust',
-//     paragraphs: [
-//       'BeautyBucket was founded with a simple yet powerful vision: to make premium beauty products accessible to everyone in Bangladesh.',
-//       'We carefully curate each product in our collection, ensuring only the highest quality, authentic, and effective products make it to our shelves.',
-//       'Our commitment to quality, transparency, and customer satisfaction has made us a beloved brand among thousands of customers across the country.'
-//     ],
-//     trustIndicators: [
-//       { id: 1, icon: 'FaCheckCircle', label: 'Quality Assured' },
-//       { id: 2, icon: 'FaShippingFast', label: 'Fast Delivery' },
-//       { id: 3, icon: 'FaGift', label: 'Shipping Across the Country' },
-//       { id: 4, icon: 'FaSmile', label: '100% Satisfaction' }
-//     ],
-//     images: [
-//       { id: 1, src: '', alt: 'Happy customer', displayOrder: 0, isActive: true },
-//       { id: 2, src: '', alt: 'Beauty products display', displayOrder: 1, isActive: true },
-//       { id: 3, src: '', alt: 'Product curation', displayOrder: 2, isActive: true },
-//       { id: 4, src: '', alt: 'Beauty team', displayOrder: 3, isActive: true }
-//     ]
-//   },
-//   whyChooseUs: {
-//     backgroundImage: '',
-//     badge: 'Why Choose Us',
-//     title: 'Beauty Is Power, A Smile Is Its Word',
-//     description: 'We believe that true beauty starts from within. Our carefully selected products are designed to help you feel confident, radiant, and completely yourself.',
-//     buttonText: 'Explore More',
-//     buttonLink: '/products',
-//     cards: [
-//       { id: 1, icon: 'FaLeaf', title: '100% Organic', description: 'Carefully selected products made with ingredients you can trust.' },
-//       { id: 2, icon: 'FaHeart', title: 'Improve Health', description: 'Beauty essentials designed to support your everyday self-care.' },
-//       { id: 3, icon: 'FaShieldAlt', title: '100% Authentic', description: 'Every product is verified for authenticity and quality.' },
-//       { id: 4, icon: 'FaTruck', title: 'Fast Delivery', description: 'Quick and reliable delivery right to your doorstep.' }
-//     ]
-//   },
-//   curatedForYou: {
-//     badge: 'Curated For You',
-//     title: 'Beauty, Curated For You',
-//     description: 'Discover our handpicked collection of premium beauty products, carefully selected to enhance your natural beauty.',
-//     buttonText: 'View All Products',
-//     buttonLink: '/products',
-//     isActive: true
-//   },
-//   cta: {
-//     backgroundImage: '',
-//     title: "We're Here to Help",
-//     description: 'Our beauty experts are ready to assist you with any questions about products or orders.',
-//     buttonText: 'Shop Now',
-//     buttonLink: '/products',
-//     secondaryButtonText: 'Contact Us',
-//     secondaryButtonLink: '/contact'
-//   }
-// };
+// const Field = ({ label, value, onChange, placeholder, rows, type = 'text' }) => (
+//   <div>
+//     <label className="mb-1 block text-sm font-medium text-gray-800">{label}</label>
+//     {rows ? (
+//       <textarea value={value || ''} onChange={(e) => onChange(e.target.value)} rows={rows} placeholder={placeholder}
+//         className="w-full resize-none rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-black outline-none focus:border-black focus:ring-1 focus:ring-black" />
+//     ) : (
+//       <input type={type} value={value || ''} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
+//         className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-black outline-none focus:border-black focus:ring-1 focus:ring-black" />
+//     )}
+//   </div>
+// );
+
+// const ButtonFields = ({ title, button, onChange }) => (
+//   <div className="rounded-md border border-gray-300 p-3">
+//     <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-600">{title}</p>
+//     <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+//       <Field label="Text" value={button?.text} onChange={(v) => onChange({ ...button, text: v })} />
+//       <Field label="Link" value={button?.link} onChange={(v) => onChange({ ...button, link: v })} />
+//       <div className="flex items-end">
+//         <label className="flex items-center gap-2 text-xs text-gray-800">
+//           <input type="checkbox" checked={button?.isActive !== false} onChange={(e) => onChange({ ...button, isActive: e.target.checked })} />
+//           Active
+//         </label>
+//       </div>
+//     </div>
+//   </div>
+// );
 
 // // ============================================================
-// // MAIN COMPONENT
+// // IMAGE ARRAY EDITOR (limit optional)
+// // ============================================================
+
+// function ImageArrayEditor({ title, images = [], onChange, max = null, aspectRatio = '1/1' }) {
+//   const update = (i, patch) => { const c = [...images]; c[i] = { ...c[i], ...patch }; onChange(c); };
+//   const add = () => onChange([...images, { url: '', alt: '', displayOrder: images.length, isActive: true }]);
+//   const remove = (i) => onChange(images.filter((_, idx) => idx !== i));
+//   const move = (i, dir) => {
+//     const j = i + dir; if (j < 0 || j >= images.length) return;
+//     const c = [...images]; [c[i], c[j]] = [c[j], c[i]];
+//     onChange(c.map((img, idx) => ({ ...img, displayOrder: idx })));
+//   };
+//   const disabled = max !== null && images.length >= max;
+
+//   return (
+//     <div className="rounded-md border border-gray-300 p-3">
+//       <div className="mb-2 flex items-center justify-between">
+//         <p className="text-xs font-semibold uppercase tracking-wide text-gray-600">
+//           {title} {max ? `(${images.length}/${max})` : `(${images.length})`}
+//         </p>
+//         <button type="button" onClick={add} disabled={disabled}
+//           className="flex items-center gap-1 rounded-md bg-black px-2 py-1 text-xs text-white hover:bg-gray-800 disabled:opacity-40">
+//           <Plus className="h-3 w-3" /> Add
+//         </button>
+//       </div>
+
+//       {images.length === 0 && <p className="py-3 text-center text-xs text-gray-500">No images yet.</p>}
+
+//       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+//         {images.map((img, i) => (
+//           <div key={i} className="rounded-md border border-gray-300 p-2">
+//             <ImageUpload imageUrl={img.url}
+//               onImageChange={(url) => update(i, { url })}
+//               onImageRemove={() => update(i, { url: '' })}
+//               label={`Image ${i + 1}`} aspectRatio={aspectRatio} size={120} />
+//             <input type="text" value={img.alt || ''} onChange={(e) => update(i, { alt: e.target.value })}
+//               placeholder="Alt text"
+//               className="mt-2 w-full rounded border border-gray-300 px-2 py-1 text-xs text-black outline-none focus:border-black" />
+//             <div className="mt-2 flex items-center justify-between">
+//               <div className="flex gap-1">
+//                 <button type="button" onClick={() => move(i, -1)} className="rounded bg-gray-100 p-1 text-gray-700 hover:bg-gray-200"><ArrowUp className="h-3 w-3" /></button>
+//                 <button type="button" onClick={() => move(i, 1)}  className="rounded bg-gray-100 p-1 text-gray-700 hover:bg-gray-200"><ArrowDown className="h-3 w-3" /></button>
+//               </div>
+//               <button type="button" onClick={() => remove(i)} className="rounded p-1 text-black hover:bg-gray-200"><Trash2 className="h-3 w-3" /></button>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// }
+
+// // ============================================================
+// // MAIN ADMIN PAGE
 // // ============================================================
 
 // export default function AboutManagement() {
-//   const router = useRouter();
-//   const [aboutData, setAboutData] = useState(null);
+//   const [data, setData] = useState(null);
 //   const [loading, setLoading] = useState(true);
 //   const [saving, setSaving] = useState(false);
-//   const [resetting, setResetting] = useState(false);
 //   const [activeTab, setActiveTab] = useState('hero');
 
-//   // Fetch about data
 //   useEffect(() => {
-//     fetchAboutData();
+//     (async () => {
+//       try {
+//         const token = localStorage.getItem('token');
+//         if (!token) { toast.error('Please login first'); return; }
+//         const res = await fetch(`${API_URL}/api/admin/about`, { headers: { Authorization: `Bearer ${token}` } });
+//         const json = await res.json();
+//         if (res.ok && json.success) setData(json.data);
+//         else toast.error(json.error || 'Failed to load');
+//       } catch (e) { console.error(e); toast.error('Network error'); }
+//       finally { setLoading(false); }
+//     })();
 //   }, []);
-
-//   const fetchAboutData = async () => {
-//     try {
-//       setLoading(true);
-//       const token = localStorage.getItem('token');
-      
-//       if (!token) {
-//         toast.error('Please login first');
-//         setLoading(false);
-//         return;
-//       }
-      
-//       const response = await fetch('http://localhost:5000/api/admin/about', {
-//         headers: { 'Authorization': `Bearer ${token}` }
-//       });
-
-//       if (response.status === 403) {
-//         const errorData = await response.json().catch(() => ({}));
-//         toast.error(errorData.error || 'You do not have permission to manage about page');
-//         setLoading(false);
-//         return;
-//       }
-
-//       if (response.ok) {
-//         const result = await response.json();
-//         if (result.success && result.data) {
-//           setAboutData(result.data);
-//           toast.success('About data loaded successfully');
-//         }
-//       } else {
-//         const errorData = await response.json().catch(() => ({}));
-//         toast.error(errorData.error || 'Failed to load about data');
-//         setAboutData(DEFAULT_ABOUT_DATA);
-//       }
-//     } catch (error) {
-//       console.error('Error fetching about data:', error);
-//       toast.error('Network error. Please try again.');
-//       setAboutData(DEFAULT_ABOUT_DATA);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
 
 //   const handleSave = async () => {
 //     try {
 //       setSaving(true);
 //       const token = localStorage.getItem('token');
-      
-//       if (!token) {
-//         toast.error('Please login first');
-//         setSaving(false);
-//         return;
-//       }
-
-//       const dataToSave = {
-//         hero: aboutData.hero || DEFAULT_ABOUT_DATA.hero,
-//         stats: aboutData.stats || DEFAULT_ABOUT_DATA.stats,
-//         story: aboutData.story || DEFAULT_ABOUT_DATA.story,
-//         whyChooseUs: aboutData.whyChooseUs || DEFAULT_ABOUT_DATA.whyChooseUs,
-//         curatedForYou: aboutData.curatedForYou || DEFAULT_ABOUT_DATA.curatedForYou,
-//         cta: aboutData.cta || DEFAULT_ABOUT_DATA.cta
-//       };
-
-//       const response = await fetch('http://localhost:5000/api/admin/about', {
+//       if (!token) { toast.error('Please login first'); return; }
+//       const res = await fetch(`${API_URL}/api/admin/about`, {
 //         method: 'PUT',
-//         headers: {
-//           'Content-Type': 'application/json',
-//           'Authorization': `Bearer ${token}`
-//         },
-//         body: JSON.stringify(dataToSave)
+//         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+//         body: JSON.stringify(data),
 //       });
-
-//       if (response.status === 403) {
-//         const errorData = await response.json().catch(() => ({}));
-//         toast.error(errorData.error || 'You do not have permission to update about page');
-//         setSaving(false);
-//         return;
-//       }
-
-//       if (response.ok) {
-//         const result = await response.json();
-//         if (result.success) {
-//           toast.success('✅ About page updated successfully!');
-//           await fetchAboutData();
-//         } else {
-//           toast.error(result.error || 'Failed to save');
-//         }
-//       } else {
-//         const errorData = await response.json().catch(() => ({}));
-//         toast.error(errorData.error || 'Failed to save about data');
-//       }
-//     } catch (error) {
-//       console.error('Error saving about data:', error);
-//       toast.error('Network error. Please try again.');
-//     } finally {
-//       setSaving(false);
-//     }
+//       const json = await res.json();
+//       if (res.ok && json.success) { toast.success('About page updated'); setData(json.data); }
+//       else toast.error(json.error || 'Failed to save');
+//     } catch (e) { console.error(e); toast.error('Network error'); }
+//     finally { setSaving(false); }
 //   };
 
 //   const handleReset = async () => {
-//     if (!confirm('Are you sure you want to reset the about page to default? This action cannot be undone.')) {
-//       return;
-//     }
-
+//     if (!confirm('Reset to defaults?')) return;
 //     try {
-//       setResetting(true);
 //       const token = localStorage.getItem('token');
-      
-//       if (!token) {
-//         toast.error('Please login first');
-//         setResetting(false);
-//         return;
-//       }
-
-//       const response = await fetch('http://localhost:5000/api/admin/about/reset', {
-//         method: 'POST',
-//         headers: { 'Authorization': `Bearer ${token}` }
-//       });
-
-//       if (response.status === 403) {
-//         const errorData = await response.json().catch(() => ({}));
-//         toast.error(errorData.error || 'You do not have permission to reset about page');
-//         setResetting(false);
-//         return;
-//       }
-
-//       if (response.ok) {
-//         const result = await response.json();
-//         if (result.success) {
-//           toast.success('About page reset to default!');
-//           setAboutData(DEFAULT_ABOUT_DATA);
-//         } else {
-//           toast.error(result.error || 'Failed to reset');
-//         }
-//       } else {
-//         const errorData = await response.json().catch(() => ({}));
-//         toast.error(errorData.error || 'Failed to reset about data');
-//       }
-//     } catch (error) {
-//       console.error('Error resetting about data:', error);
-//       toast.error('Network error. Please try again.');
-//     } finally {
-//       setResetting(false);
-//     }
+//       const res = await fetch(`${API_URL}/api/admin/about/reset`, { method: 'POST', headers: { Authorization: `Bearer ${token}` } });
+//       const json = await res.json();
+//       if (res.ok && json.success) { toast.success('Reset done'); setData(json.data); }
+//       else toast.error(json.error || 'Reset failed');
+//     } catch { toast.error('Network error'); }
 //   };
 
-//   // Update handlers
-//   const updateField = (section, field, value) => {
-//     setAboutData(prev => {
-//       if (!prev) return DEFAULT_ABOUT_DATA;
-//       return {
-//         ...prev,
-//         [section]: {
-//           ...prev[section],
-//           [field]: value
-//         }
-//       };
-//     });
-//   };
-
-//   const updateNestedField = (section, nested, field, value) => {
-//     setAboutData(prev => {
-//       if (!prev) return DEFAULT_ABOUT_DATA;
-//       return {
-//         ...prev,
-//         [section]: {
-//           ...prev[section],
-//           [nested]: {
-//             ...prev[section]?.[nested],
-//             [field]: value
-//           }
-//         }
-//       };
-//     });
-//   };
-
-//   const updateArrayItem = (section, index, field, value) => {
-//     setAboutData(prev => {
-//       if (!prev) return DEFAULT_ABOUT_DATA;
-//       const items = Array.isArray(prev[section]) ? [...prev[section]] : [];
-//       if (items[index]) {
-//         items[index] = { ...items[index], [field]: value };
-//       }
-//       return { ...prev, [section]: items };
-//     });
-//   };
-
-//   const addArrayItem = (section, template) => {
-//     setAboutData(prev => {
-//       if (!prev) return DEFAULT_ABOUT_DATA;
-//       const items = Array.isArray(prev[section]) ? [...prev[section]] : [];
-//       const newId = Date.now() + Math.floor(Math.random() * 1000);
-//       items.push({ ...template, id: newId });
-//       return { ...prev, [section]: items };
-//     });
-//   };
-
-//   const removeArrayItem = (section, index) => {
-//     setAboutData(prev => {
-//       if (!prev) return DEFAULT_ABOUT_DATA;
-//       const items = Array.isArray(prev[section]) ? [...prev[section]] : [];
-//       items.splice(index, 1);
-//       return { ...prev, [section]: items };
-//     });
-//   };
-
-//   const updateStatsItem = (index, field, value) => {
-//     setAboutData(prev => {
-//       if (!prev) return DEFAULT_ABOUT_DATA;
-//       const items = Array.isArray(prev.stats?.items) ? [...prev.stats.items] : [];
-//       if (items[index]) {
-//         items[index] = { ...items[index], [field]: value };
-//       }
-//       return { 
-//         ...prev, 
-//         stats: {
-//           ...prev.stats,
-//           items
-//         }
-//       };
-//     });
-//   };
-
-//   const addStatsItem = () => {
-//     setAboutData(prev => {
-//       if (!prev) return DEFAULT_ABOUT_DATA;
-//       const items = Array.isArray(prev.stats?.items) ? [...prev.stats.items] : [];
-//       const newId = Date.now() + Math.floor(Math.random() * 1000);
-//       items.push({ 
-//         id: newId, 
-//         icon: 'FaAward', 
-//         value: '0', 
-//         label: 'New Stat', 
-//         displayOrder: items.length, 
-//         isActive: true 
-//       });
-//       return { 
-//         ...prev, 
-//         stats: {
-//           ...prev.stats,
-//           items
-//         }
-//       };
-//     });
-//   };
-
-//   const removeStatsItem = (index) => {
-//     setAboutData(prev => {
-//       if (!prev) return DEFAULT_ABOUT_DATA;
-//       const items = Array.isArray(prev.stats?.items) ? [...prev.stats.items] : [];
-//       items.splice(index, 1);
-//       return { 
-//         ...prev, 
-//         stats: {
-//           ...prev.stats,
-//           items
-//         }
-//       };
-//     });
-//   };
-
-//   const toggleStatsItemActive = (index) => {
-//     setAboutData(prev => {
-//       if (!prev) return DEFAULT_ABOUT_DATA;
-//       const items = Array.isArray(prev.stats?.items) ? [...prev.stats.items] : [];
-//       if (items[index]) {
-//         items[index] = { ...items[index], isActive: !items[index].isActive };
-//       }
-//       return { 
-//         ...prev, 
-//         stats: {
-//           ...prev.stats,
-//           items
-//         }
-//       };
-//     });
-//   };
-
-// // Replace the updateNestedArrayItem function with this:
-
-// const updateNestedArrayItem = (section, nested, index, field, value) => {
-//   setAboutData(prev => {
-//     if (!prev) return DEFAULT_ABOUT_DATA;
-//     const items = Array.isArray(prev[section]?.[nested]) ? [...prev[section][nested]] : [];
-//     if (items[index]) {
-//       // Only update if value is a string or number, not an object
-//       if (typeof value === 'string' || typeof value === 'number') {
-//         items[index] = { ...items[index], [field]: value };
-//       } else if (value === null || value === undefined) {
-//         items[index] = { ...items[index], [field]: '' };
-//       }
-//     }
-//     return { 
-//       ...prev, 
-//       [section]: {
-//         ...prev[section],
-//         [nested]: items
-//       }
-//     };
-//   });
-// };
-
-//   const addNestedArrayItem = (section, nested, template) => {
-//     setAboutData(prev => {
-//       if (!prev) return DEFAULT_ABOUT_DATA;
-//       const items = Array.isArray(prev[section]?.[nested]) ? [...prev[section][nested]] : [];
-//       const newId = Date.now() + Math.floor(Math.random() * 1000);
-//       items.push({ ...template, id: newId });
-//       return { 
-//         ...prev, 
-//         [section]: {
-//           ...prev[section],
-//           [nested]: items
-//         }
-//       };
-//     });
-//   };
-
-//   const removeNestedArrayItem = (section, nested, index) => {
-//     setAboutData(prev => {
-//       if (!prev) return DEFAULT_ABOUT_DATA;
-//       const items = Array.isArray(prev[section]?.[nested]) ? [...prev[section][nested]] : [];
-//       items.splice(index, 1);
-//       return { 
-//         ...prev, 
-//         [section]: {
-//           ...prev[section],
-//           [nested]: items
-//         }
-//       };
-//     });
-//   };
-
-//   const updateStoryParagraph = (index, value) => {
-//     setAboutData(prev => {
-//       if (!prev) return DEFAULT_ABOUT_DATA;
-//       const paragraphs = Array.isArray(prev.story?.paragraphs) ? [...prev.story.paragraphs] : [];
-//       paragraphs[index] = value;
-//       return { 
-//         ...prev, 
-//         story: {
-//           ...prev.story,
-//           paragraphs
-//         }
-//       };
-//     });
-//   };
-
-//   const addStoryParagraph = () => {
-//     setAboutData(prev => {
-//       if (!prev) return DEFAULT_ABOUT_DATA;
-//       const paragraphs = Array.isArray(prev.story?.paragraphs) ? [...prev.story.paragraphs] : [];
-//       paragraphs.push('');
-//       return { 
-//         ...prev, 
-//         story: {
-//           ...prev.story,
-//           paragraphs
-//         }
-//       };
-//     });
-//   };
-
-//   const removeStoryParagraph = (index) => {
-//     setAboutData(prev => {
-//       if (!prev) return DEFAULT_ABOUT_DATA;
-//       const paragraphs = Array.isArray(prev.story?.paragraphs) ? [...prev.story.paragraphs] : [];
-//       paragraphs.splice(index, 1);
-//       return { 
-//         ...prev, 
-//         story: {
-//           ...prev.story,
-//           paragraphs
-//         }
-//       };
-//     });
-//   };
-
-//   // Helper to get safe array
-//   const getSafeArray = (data, key) => {
-//     if (!data) return [];
-//     const value = data[key];
-//     return Array.isArray(value) ? value : [];
-//   };
+//   const patch = (section, partial) =>
+//     setData((prev) => ({ ...prev, [section]: { ...prev[section], ...partial } }));
 
 //   if (loading) {
 //     return (
 //       <ProtectedRoute pageKey="about_management">
-//         <div className="min-h-screen bg-[#f0f7fa] flex items-center justify-center">
-//           <div className="text-center">
-//             <Loader2 className="w-8 h-8 animate-spin text-pink-600 mx-auto" />
-//             <p className="text-gray-500 mt-2">Loading about data...</p>
-//           </div>
+//         <div className="flex min-h-screen items-center justify-center bg-white">
+//           <Loader2 className="h-8 w-8 animate-spin text-black" />
 //         </div>
 //       </ProtectedRoute>
 //     );
 //   }
+//   if (!data) return null;
 
-//   const data = aboutData || DEFAULT_ABOUT_DATA;
+//   // ----------------------------------------------------------
+//   // PANELS
+//   // ----------------------------------------------------------
 
-//   // Get safe arrays
-//   const statsItemsArray = getSafeArray(data.stats || {}, 'items');
-//   const storyImagesArray = getSafeArray(data.story || {}, 'images');
-//   const trustIndicatorsArray = getSafeArray(data.story || {}, 'trustIndicators');
-//   const paragraphsArray = getSafeArray(data.story || {}, 'paragraphs');
-//   const whyChooseUsCards = getSafeArray(data.whyChooseUs || {}, 'cards');
-
-//   return (
-//     <ProtectedRoute pageKey="about_management">
-//       <div className="min-h-screen bg-[#f0f7fa]">
-//         {/* Header */}
-//         <div className="bg-white border-b border-pink-600/20 shadow-lg sticky top-0 z-10">
-//           <div className="px-4 sm:px-6 py-3 sm:py-4">
-//             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-//               <div className="flex items-center gap-2 sm:gap-4">
-//                 <div className="min-w-0 flex-1">
-//                   <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-//                     <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-black truncate">
-//                       About Page Management
-//                     </h1>
-//                   </div>
-//                   <p className="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1 truncate">
-//                     Manage about page content, stats, why choose us, curated categories, and more
-//                   </p>
-//                 </div>
-//               </div>
-//               <div className="flex items-center gap-2 sm:gap-3">
-//                 <button
-//                   onClick={handleReset}
-//                   disabled={resetting}
-//                   className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm bg-pink-500/20 text-pink-700 rounded-lg hover:bg-pink-500/30 transition-colors border border-pink-500/20 disabled:opacity-50"
-//                 >
-//                   {resetting ? <Loader2 className="w-4 h-4 animate-spin" /> : <RotateCcw className="w-4 h-4" />}
-//                   Reset
-//                 </button>
-//                 <button
-//                   onClick={fetchAboutData}
-//                   className="p-1.5 sm:p-2 text-gray-600 hover:bg-pink-600/10 rounded-lg transition-colors hover:text-pink-600"
-//                   title="Refresh"
-//                 >
-//                   <RotateCcw className="w-4 h-4 sm:w-5 sm:h-5" />
-//                 </button>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* Main Content */}
-//         <div className="p-4 sm:p-6">
-//           <form onSubmit={(e) => { e.preventDefault(); handleSave(); }} className="space-y-6">
-//             {/* Tabs */}
-//             <div className="flex flex-wrap gap-2 border-b border-pink-600/20 pb-2 bg-white rounded-t-xl shadow-sm border border-pink-600/20 p-4">
-//               {[
-//                 { id: 'hero', label: 'Hero Section', icon: FaImage },
-//                 { id: 'stats', label: 'Stats', icon: FaStar },
-//                 { id: 'story', label: 'Story', icon: FaUsers },
-//                 { id: 'whyChooseUs', label: 'Why Choose Us', icon: FaHeart },
-//                 { id: 'curatedForYou', label: 'Curated For You', icon: FaGem },
-//                 { id: 'cta', label: 'CTA', icon: GiSparkles },
-//               ].map(tab => (
-//                 <button
-//                   key={tab.id}
-//                   type="button"
-//                   onClick={() => setActiveTab(tab.id)}
-//                   className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors flex items-center gap-2 ${
-//                     activeTab === tab.id
-//                       ? 'bg-pink-600 text-white'
-//                       : 'text-gray-600 hover:bg-pink-600/10 hover:text-pink-600'
-//                   }`}
-//                 >
-//                   <tab.icon className="w-4 h-4" />
-//                   {tab.label}
-//                 </button>
-//               ))}
-//             </div>
-
-//             {/* Tab Content */}
-//             <div className="space-y-6">
-//             {/* Hero Tab - Simplified */}
-// {activeTab === 'hero' && (
-//   <div className="bg-white rounded-xl shadow-sm border border-pink-600/20 p-4 sm:p-6">
-//     <h2 className="text-lg font-semibold text-[#004767] flex items-center gap-2 mb-4">
-//       <FaImage className="w-5 h-5 text-pink-600" />
-//       Hero Section Settings
-//     </h2>
+//   const HeroPanel = (
 //     <div className="space-y-4">
-//       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-//         <ImageUpload
-//           imageUrl={data.hero?.leftImage || ''}
-//           onImageChange={(url) => updateField('hero', 'leftImage', url)}
-//           onImageRemove={() => updateField('hero', 'leftImage', '')}
-//           label="Left Image"
-//           aspectRatio="1/1"
-//         />
-//         <ImageUpload
-//           imageUrl={data.hero?.rightImage || ''}
-//           onImageChange={(url) => updateField('hero', 'rightImage', url)}
-//           onImageRemove={() => updateField('hero', 'rightImage', '')}
-//           label="Right Image"
-//           aspectRatio="1/1"
-//         />
+//       <Field label="Section Name" value={data.hero?.sectionName} onChange={(v) => patch('hero', { sectionName: v })} />
+//       <ImageUpload imageUrl={data.hero?.image}
+//         onImageChange={(url) => patch('hero', { image: url })}
+//         onImageRemove={() => patch('hero', { image: '' })}
+//         label="Hero Image (single)" aspectRatio="16/9" size={260} />
+//       <Field label="Image Alt" value={data.hero?.imageAlt} onChange={(v) => patch('hero', { imageAlt: v })} />
+//       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+//         <Field label="Badge" value={data.hero?.badge} onChange={(v) => patch('hero', { badge: v })} />
+//         <Field label="Title" value={data.hero?.title} onChange={(v) => patch('hero', { title: v })} />
+//         <Field label="Highlighted Text" value={data.hero?.highlightedText} onChange={(v) => patch('hero', { highlightedText: v })} />
 //       </div>
-
-//       <div>
-//         <label className="block text-sm font-medium text-gray-700 mb-1">Badge</label>
-//         <input
-//           type="text"
-//           value={data.hero?.badge || ''}
-//           onChange={(e) => updateField('hero', 'badge', e.target.value)}
-//           className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//           placeholder="About Us"
-//         />
-//       </div>
-
-//       <div>
-//         <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
-//         <input
-//           type="text"
-//           value={data.hero?.title || ''}
-//           onChange={(e) => updateField('hero', 'title', e.target.value)}
-//           className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//           placeholder="Redefining Beauty"
-//         />
-//       </div>
-
-//       <div>
-//         <label className="block text-sm font-medium text-gray-700 mb-1">Highlighted Text</label>
-//         <input
-//           type="text"
-//           value={data.hero?.highlightedText || ''}
-//           onChange={(e) => updateField('hero', 'highlightedText', e.target.value)}
-//           className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//           placeholder="for Everyone"
-//         />
-//       </div>
-
-//       <div>
-//         <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-//         <textarea
-//           value={data.hero?.description || ''}
-//           onChange={(e) => updateField('hero', 'description', e.target.value)}
-//           rows={3}
-//           className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none resize-none"
-//           placeholder="We believe beauty is for everyone..."
-//         />
-//       </div>
-
-//       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-//         <div>
-//           <label className="block text-sm font-medium text-gray-700 mb-1">Button Text</label>
-//           <input
-//             type="text"
-//             value={data.hero?.buttonText || ''}
-//             onChange={(e) => updateField('hero', 'buttonText', e.target.value)}
-//             className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//             placeholder="Explore Products"
-//           />
-//         </div>
-//         <div>
-//           <label className="block text-sm font-medium text-gray-700 mb-1">Button Link</label>
-//           <input
-//             type="text"
-//             value={data.hero?.buttonLink || ''}
-//             onChange={(e) => updateField('hero', 'buttonLink', e.target.value)}
-//             className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//             placeholder="/products"
-//           />
-//         </div>
-//       </div>
-
-//       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-//         <div>
-//           <label className="block text-sm font-medium text-gray-700 mb-1">Secondary Button Text</label>
-//           <input
-//             type="text"
-//             value={data.hero?.secondaryButtonText || ''}
-//             onChange={(e) => updateField('hero', 'secondaryButtonText', e.target.value)}
-//             className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//             placeholder="Get in Touch"
-//           />
-//         </div>
-//         <div>
-//           <label className="block text-sm font-medium text-gray-700 mb-1">Secondary Button Link</label>
-//           <input
-//             type="text"
-//             value={data.hero?.secondaryButtonLink || ''}
-//             onChange={(e) => updateField('hero', 'secondaryButtonLink', e.target.value)}
-//             className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//             placeholder="/contact"
-//           />
-//         </div>
-//       </div>
+//       <Field label="Description" rows={3} value={data.hero?.description} onChange={(v) => patch('hero', { description: v })} />
+//       <ButtonFields title="Primary Button" button={data.hero?.primaryButton} onChange={(b) => patch('hero', { primaryButton: b })} />
 //     </div>
-//   </div>
-// )}
+//   );
 
-//               {/* Stats Tab */}
-//               {activeTab === 'stats' && (
-//                 <div className="bg-white rounded-xl shadow-sm border border-pink-600/20 p-4 sm:p-6">
-//                   <h2 className="text-lg font-semibold text-[#004767] flex items-center gap-2 mb-4">
-//                     <FaStar className="w-5 h-5 text-pink-600" />
-//                     Stats Section
-//                   </h2>
-                  
-//                    <div className="mb-6">
-//       <ImageUpload
-//         imageUrl={data.stats?.backgroundImage || ''}
-//         onImageChange={(url) => {
-//           setAboutData(prev => ({
-//             ...prev,
-//             stats: {
-//               ...prev.stats,
-//               backgroundImage: url
-//             }
-//           }));
-//         }}
-//         onImageRemove={() => {
-//           setAboutData(prev => ({
-//             ...prev,
-//             stats: {
-//               ...prev.stats,
-//               backgroundImage: ''
-//             }
-//           }));
-//         }}
-//         label="Stats Background Image"
-//         aspectRatio="16/9"
-//       />
-//       <p className="text-xs text-gray-400 mt-1">This image will appear behind the stats section</p>
-//     </div>
-
-//                   <div className="flex items-center justify-between mb-4">
-//                     <h3 className="text-md font-medium text-gray-700">Stat Items <span className="text-xs font-normal text-gray-400">(Max 4)</span></h3>
-//                     <button
-//                       type="button"
-//                       onClick={addStatsItem}
-//                       disabled={statsItemsArray.length >= 4}
-//                       className="px-3 py-1.5 bg-pink-600 text-white text-sm rounded-lg hover:bg-pink-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
-//                     >
-//                       <Plus className="w-4 h-4" /> Add Stat
-//                     </button>
-//                   </div>
-//                   <div className="space-y-3">
-//                     {statsItemsArray.map((stat, index) => (
-//                       <div key={stat.id || index} className="border border-gray-200 rounded-lg p-4">
-//                         <div className="flex items-start gap-4">
-//                           <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-3">
-//                             <div>
-//                               <label className="block text-xs font-medium text-gray-700 mb-1">Icon</label>
-//                               <select
-//                                 value={stat.icon || 'FaAward'}
-//                                 onChange={(e) => updateStatsItem(index, 'icon', e.target.value)}
-//                                 className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//                               >
-//                                 {STAT_ICON_OPTIONS.map(opt => (
-//                                   <option key={opt.value} value={opt.value}>{opt.label}</option>
-//                                 ))}
-//                               </select>
-//                             </div>
-//                             <div>
-//                               <label className="block text-xs font-medium text-gray-700 mb-1">Value</label>
-//                               <input
-//                                 type="text"
-//                                 value={stat.value || ''}
-//                                 onChange={(e) => updateStatsItem(index, 'value', e.target.value)}
-//                                 className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//                               />
-//                             </div>
-//                             <div>
-//                               <label className="block text-xs font-medium text-gray-700 mb-1">Label</label>
-//                               <input
-//                                 type="text"
-//                                 value={stat.label || ''}
-//                                 onChange={(e) => updateStatsItem(index, 'label', e.target.value)}
-//                                 className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//                               />
-//                             </div>
-//                           </div>
-//                           <div className="flex items-center gap-2">
-//                             <button
-//                               type="button"
-//                               onClick={() => toggleStatsItemActive(index)}
-//                               className={`px-2 py-1 text-xs rounded ${stat.isActive !== false ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}
-//                             >
-//                               {stat.isActive !== false ? 'Active' : 'Inactive'}
-//                             </button>
-//                             <button
-//                               type="button"
-//                               onClick={() => removeStatsItem(index)}
-//                               className="p-1 text-red-500 hover:bg-red-50 rounded"
-//                             >
-//                               <Trash2 className="w-4 h-4" />
-//                             </button>
-//                           </div>
-//                         </div>
-//                       </div>
-//                     ))}
-//                     {statsItemsArray.length === 0 && (
-//                       <p className="text-gray-500 text-center py-4">No stats added yet.</p>
-//                     )}
-//                   </div>
-//                 </div>
-//               )}
-
-//               {/* Story Tab */}
-//               {activeTab === 'story' && (
-//                 <div className="bg-white rounded-xl shadow-sm border border-pink-600/20 p-4 sm:p-6">
-//                   <h2 className="text-lg font-semibold text-[#004767] flex items-center gap-2 mb-4">
-//                     <FaUsers className="w-5 h-5 text-pink-600" />
-//                     Story Section
-//                   </h2>
-//                   <div className="space-y-6">
-//                     <div>
-//                       <label className="block text-sm font-medium text-gray-700 mb-1">Badge</label>
-//                       <input
-//                         type="text"
-//                         value={data.story?.badge || ''}
-//                         onChange={(e) => updateField('story', 'badge', e.target.value)}
-//                         className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//                         placeholder="Our Story"
-//                       />
-//                     </div>
-
-//                     <div>
-//                       <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
-//                       <input
-//                         type="text"
-//                         value={data.story?.title || ''}
-//                         onChange={(e) => updateField('story', 'title', e.target.value)}
-//                         className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//                         placeholder="A Journey of Beauty & Trust"
-//                       />
-//                     </div>
-
-//                     <div>
-//                       <div className="flex items-center justify-between mb-2">
-//                         <label className="block text-sm font-medium text-gray-700">Paragraphs</label>
-//                         <button
-//                           type="button"
-//                           onClick={addStoryParagraph}
-//                           className="px-3 py-1 bg-pink-600 text-white text-sm rounded-lg hover:bg-pink-700 transition-colors flex items-center gap-1"
-//                         >
-//                           <Plus className="w-4 h-4" /> Add Paragraph
-//                         </button>
-//                       </div>
-//                       {paragraphsArray.map((paragraph, index) => (
-//                         <div key={index} className="flex gap-2 mb-2">
-//                           <textarea
-//                             value={paragraph || ''}
-//                             onChange={(e) => updateStoryParagraph(index, e.target.value)}
-//                             rows={2}
-//                             className="flex-1 px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none resize-none"
-//                             placeholder="Enter paragraph..."
-//                           />
-//                           <button
-//                             type="button"
-//                             onClick={() => removeStoryParagraph(index)}
-//                             className="p-2 text-red-500 hover:bg-red-50 rounded"
-//                           >
-//                             <Trash2 className="w-4 h-4" />
-//                           </button>
-//                         </div>
-//                       ))}
-//                       {paragraphsArray.length === 0 && (
-//                         <p className="text-gray-500 text-center py-2">No paragraphs added yet.</p>
-//                       )}
-//                     </div>
-
-//                     {/* Trust Indicators */}
-//                     <div>
-//                       <div className="flex items-center justify-between mb-2">
-//                         <label className="block text-sm font-medium text-gray-700">Trust Indicators</label>
-//                         <button
-//                           type="button"
-//                           onClick={() => addNestedArrayItem('story', 'trustIndicators', { icon: 'FaCheckCircle', label: 'New Indicator' })}
-//                           className="px-3 py-1 bg-pink-600 text-white text-sm rounded-lg hover:bg-pink-700 transition-colors flex items-center gap-1"
-//                         >
-//                           <Plus className="w-4 h-4" /> Add Indicator
-//                         </button>
-//                       </div>
-//                       {trustIndicatorsArray.map((indicator, index) => (
-//                         <div key={indicator.id || index} className="flex items-center gap-3 mb-2">
-//                           <div className="flex-1 grid grid-cols-2 gap-3">
-//                             <select
-//                               value={indicator.icon || 'FaCheckCircle'}
-//                               onChange={(e) => updateNestedArrayItem('story', 'trustIndicators', index, 'icon', e.target.value)}
-//                               className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//                             >
-//                               {TRUST_ICON_OPTIONS.map(opt => (
-//                                 <option key={opt.value} value={opt.value}>{opt.label}</option>
-//                               ))}
-//                             </select>
-//                             <input
-//                               type="text"
-//                               value={indicator.label || ''}
-//                               onChange={(e) => updateNestedArrayItem('story', 'trustIndicators', index, 'label', e.target.value)}
-//                               className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//                               placeholder="Indicator label"
-//                             />
-//                           </div>
-//                           <button
-//                             type="button"
-//                             onClick={() => removeNestedArrayItem('story', 'trustIndicators', index)}
-//                             className="p-1 text-red-500 hover:bg-red-50 rounded"
-//                           >
-//                             <Trash2 className="w-4 h-4" />
-//                           </button>
-//                         </div>
-//                       ))}
-//                     </div>
-
-//                     {/* Story Images */}
-//                     <div>
-//                       <div className="flex items-center justify-between mb-2">
-//                         <label className="block text-sm font-medium text-gray-700">Story Images</label>
-//                         <button
-//                           type="button"
-//                           onClick={() => addNestedArrayItem('story', 'images', { src: '', alt: 'Story image' })}
-//                           className="px-3 py-1 bg-pink-600 text-white text-sm rounded-lg hover:bg-pink-700 transition-colors flex items-center gap-1"
-//                         >
-//                           <Plus className="w-4 h-4" /> Add Image
-//                         </button>
-//                       </div>
-//                       {storyImagesArray.map((image, index) => (
-//                         <div key={image.id || index} className="border border-gray-200 rounded-lg p-4 mb-3">
-//                           <div className="flex items-start gap-4">
-//                             <div className="flex-1 grid grid-cols-1 gap-3">
-//                               <ImageUpload
-//                                 imageUrl={image.src || ''}
-//                                 onImageChange={(url) => updateNestedArrayItem('story', 'images', index, 'src', url)}
-//                                 onImageRemove={() => updateNestedArrayItem('story', 'images', index, 'src', '')}
-//                                 label={`Image ${index + 1}`}
-//                                 aspectRatio="4/3"
-//                               />
-//                               <div>
-//                                 <label className="block text-xs font-medium text-gray-700 mb-1">Alt Text</label>
-//                                 <input
-//                                   type="text"
-//                                   value={image.alt || ''}
-//                                   onChange={(e) => updateNestedArrayItem('story', 'images', index, 'alt', e.target.value)}
-//                                   className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//                                   placeholder="Image description"
-//                                 />
-//                               </div>
-//                             </div>
-//                             <div className="flex items-center gap-2">
-//                               <button
-//                                 type="button"
-//                                 onClick={() => updateNestedArrayItem('story', 'images', index, 'isActive', !image.isActive)}
-//                                 className={`px-2 py-1 text-xs rounded ${image.isActive !== false ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}
-//                               >
-//                                 {image.isActive !== false ? 'Active' : 'Inactive'}
-//                               </button>
-//                               <button
-//                                 type="button"
-//                                 onClick={() => removeNestedArrayItem('story', 'images', index)}
-//                                 className="p-1 text-red-500 hover:bg-red-50 rounded"
-//                               >
-//                                 <Trash2 className="w-4 h-4" />
-//                               </button>
-//                             </div>
-//                           </div>
-//                         </div>
-//                       ))}
-//                       {storyImagesArray.length === 0 && (
-//                         <p className="text-gray-500 text-center py-4">No story images added yet.</p>
-//                       )}
-//                     </div>
-//                   </div>
-//                 </div>
-//               )}
-// {/* Why Choose Us Tab - Fixed */}
-// {activeTab === 'whyChooseUs' && (
-//   <div className="bg-white rounded-xl shadow-sm border border-pink-600/20 p-4 sm:p-6">
-//     <h2 className="text-lg font-semibold text-[#004767] flex items-center gap-2 mb-4">
-//       <FaHeart className="w-5 h-5 text-pink-600" />
-//       Why Choose Us Section
-//     </h2>
-
-//       <div className="mb-6">
-//       <ImageUpload
-//         imageUrl={data.whyChooseUs?.backgroundImage || ''}
-//         onImageChange={(url) => {
-//           setAboutData(prev => ({
-//             ...prev,
-//             whyChooseUs: {
-//               ...prev.whyChooseUs,
-//               backgroundImage: url
-//             }
-//           }));
-//         }}
-//         onImageRemove={() => {
-//           setAboutData(prev => ({
-//             ...prev,
-//             whyChooseUs: {
-//               ...prev.whyChooseUs,
-//               backgroundImage: ''
-//             }
-//           }));
-//         }}
-//         label="Why Choose Us Background Image"
-//         aspectRatio="16/9"
-//       />
-//       <p className="text-xs text-gray-400 mt-1">This image will appear behind the why choose us section</p>
-//     </div>
-
+//   const BrandStoryPanel = (
 //     <div className="space-y-4">
-//       <div>
-//         <label className="block text-sm font-medium text-gray-700 mb-1">Badge</label>
-//         <input
-//           type="text"
-//           value={typeof data.whyChooseUs?.badge === 'string' ? data.whyChooseUs.badge : ''}
-//           onChange={(e) => updateNestedField('whyChooseUs', 'badge', e.target.value)}
-//           className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//           placeholder="Why Choose Us"
-//         />
+//       <Field label="Section Name" value={data.brandStory?.sectionName} onChange={(v) => patch('brandStory', { sectionName: v })} />
+//       <ImageArrayEditor title="Brand Story Images (max 4)" max={4}
+//         images={data.brandStory?.images || []}
+//         onChange={(imgs) => patch('brandStory', { images: imgs })} aspectRatio="1/1" />
+//       {/* <Field label="Image Caption (on first image)" value={data.brandStory?.imageCaption} onChange={(v) => patch('brandStory', { imageCaption: v })} /> */}
+//       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+//         <Field label="Badge" value={data.brandStory?.badge} onChange={(v) => patch('brandStory', { badge: v })} />
+//         <Field label="Title" value={data.brandStory?.title} onChange={(v) => patch('brandStory', { title: v })} />
+//         <Field label="Highlighted Text" value={data.brandStory?.highlightedText} onChange={(v) => patch('brandStory', { highlightedText: v })} />
 //       </div>
+//       <Field label="Description" rows={3} value={data.brandStory?.description} onChange={(v) => patch('brandStory', { description: v })} />
 
-//       <div>
-//         <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
-//         <input
-//           type="text"
-//           value={typeof data.whyChooseUs?.title === 'string' ? data.whyChooseUs.title : ''}
-//           onChange={(e) => updateNestedField('whyChooseUs', 'title', e.target.value)}
-//           className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//           placeholder="Beauty Is Power, A Smile Is Its Word"
-//         />
-//       </div>
-
-//       <div>
-//         <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-//         <textarea
-//           value={typeof data.whyChooseUs?.description === 'string' ? data.whyChooseUs.description : ''}
-//           onChange={(e) => updateNestedField('whyChooseUs', 'description', e.target.value)}
-//           rows={3}
-//           className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none resize-none"
-//           placeholder="Description..."
-//         />
-//       </div>
-
-//       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-//         <div>
-//           <label className="block text-sm font-medium text-gray-700 mb-1">Button Text</label>
-//           <input
-//             type="text"
-//             value={typeof data.whyChooseUs?.buttonText === 'string' ? data.whyChooseUs.buttonText : ''}
-//             onChange={(e) => updateNestedField('whyChooseUs', 'buttonText', e.target.value)}
-//             className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//             placeholder="Explore More"
-//           />
-//         </div>
-//         <div>
-//           <label className="block text-sm font-medium text-gray-700 mb-1">Button Link</label>
-//           <input
-//             type="text"
-//             value={typeof data.whyChooseUs?.buttonLink === 'string' ? data.whyChooseUs.buttonLink : ''}
-//             onChange={(e) => updateNestedField('whyChooseUs', 'buttonLink', e.target.value)}
-//             className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//             placeholder="/products"
-//           />
-//         </div>
-//       </div>
-
-//       <div className="mt-6">
-//         <div className="flex items-center justify-between mb-2">
-//           <label className="block text-sm font-medium text-gray-700">Cards (2 rows x 2 columns)</label>
-//           <button
-//             type="button"
-//             onClick={() => addNestedArrayItem('whyChooseUs', 'cards', { icon: 'FaLeaf', title: 'New Card', description: 'Card description' })}
-//             className="px-3 py-1 bg-pink-600 text-white text-sm rounded-lg hover:bg-pink-700 transition-colors flex items-center gap-1"
-//           >
-//             <Plus className="w-4 h-4" /> Add Card
+//       <div className="rounded-md border border-gray-300 p-3">
+//         <div className="mb-2 flex items-center justify-between">
+//           <p className="text-xs font-semibold uppercase tracking-wide text-gray-600">Features</p>
+//           <button type="button"
+//             onClick={() => patch('brandStory', { features: [...(data.brandStory?.features || []), { icon: 'FaLeaf', title: '', description: '', isActive: true }] })}
+//             className="flex items-center gap-1 rounded-md bg-black px-2 py-1 text-xs text-white hover:bg-gray-800">
+//             <Plus className="h-3 w-3" /> Add
 //           </button>
 //         </div>
-//         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-//           {whyChooseUsCards.map((card, index) => (
-//             <div key={card.id || index} className="border border-gray-200 rounded-lg p-3">
-//               <div className="flex items-start gap-3">
-//                 <div className="flex-1 space-y-2">
-//                   <div>
-//                     <label className="block text-xs font-medium text-gray-700 mb-0.5">Icon</label>
-//                     <select
-//                       value={card.icon || 'FaLeaf'}
-//                       onChange={(e) => updateNestedArrayItem('whyChooseUs', 'cards', index, 'icon', e.target.value)}
-//                       className="w-full px-2 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//                     >
-//                       {WHY_CHOOSE_ICON_OPTIONS.map(opt => (
-//                         <option key={opt.value} value={opt.value}>{opt.label}</option>
-//                       ))}
-//                     </select>
-//                   </div>
-//                   <div>
-//                     <label className="block text-xs font-medium text-gray-700 mb-0.5">Title</label>
-//                     <input
-//                       type="text"
-//                       value={typeof card.title === 'string' ? card.title : ''}
-//                       onChange={(e) => {
-//                         const newValue = e.target.value;
-//                         if (typeof newValue === 'string') {
-//                           updateNestedArrayItem('whyChooseUs', 'cards', index, 'title', newValue);
-//                         }
-//                       }}
-//                       className="w-full px-2 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//                       placeholder="Card title"
-//                     />
-//                   </div>
-//                   <div>
-//                     <label className="block text-xs font-medium text-gray-700 mb-0.5">Description</label>
-//                     <input
-//                       type="text"
-//                       value={typeof card.description === 'string' ? card.description : ''}
-//                       onChange={(e) => {
-//                         const newValue = e.target.value;
-//                         if (typeof newValue === 'string') {
-//                           updateNestedArrayItem('whyChooseUs', 'cards', index, 'description', newValue);
-//                         }
-//                       }}
-//                       className="w-full px-2 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//                       placeholder="Card description"
-//                     />
-//                   </div>
-//                 </div>
-//                 <button
-//                   type="button"
-//                   onClick={() => removeNestedArrayItem('whyChooseUs', 'cards', index)}
-//                   className="p-1 text-red-500 hover:bg-red-50 rounded flex-shrink-0 mt-1"
-//                 >
-//                   <Trash2 className="w-4 h-4" />
-//                 </button>
+//         {(data.brandStory?.features || []).map((f, i) => (
+//           <div key={i} className="mb-2 grid grid-cols-1 items-end gap-2 rounded border border-gray-200 p-2 sm:grid-cols-[1fr_1fr_1fr_auto]">
+//             <select value={f.icon || 'FaLeaf'}
+//               onChange={(e) => { const c = [...data.brandStory.features]; c[i] = { ...c[i], icon: e.target.value }; patch('brandStory', { features: c }); }}
+//               className="rounded-md border border-gray-300 px-2 py-1 text-sm text-black">
+//               {ICON_OPTIONS.map((o) => <option key={o} value={o}>{o}</option>)}
+//             </select>
+//             <input type="text" value={f.title || ''}
+//               onChange={(e) => { const c = [...data.brandStory.features]; c[i] = { ...c[i], title: e.target.value }; patch('brandStory', { features: c }); }}
+//               placeholder="Title"
+//               className="rounded-md border border-gray-300 px-2 py-1 text-sm text-black outline-none focus:border-black" />
+//             <input type="text" value={f.description || ''}
+//               onChange={(e) => { const c = [...data.brandStory.features]; c[i] = { ...c[i], description: e.target.value }; patch('brandStory', { features: c }); }}
+//               placeholder="Description"
+//               className="rounded-md border border-gray-300 px-2 py-1 text-sm text-black outline-none focus:border-black" />
+//             <button type="button" onClick={() => patch('brandStory', { features: data.brandStory.features.filter((_, idx) => idx !== i) })}
+//               className="rounded p-1 text-black hover:bg-gray-200"><Trash2 className="h-4 w-4" /></button>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+
+//   const JourneyPanel = (
+//     <div className="space-y-4">
+//       <Field label="Section Name" value={data.journey?.sectionName} onChange={(v) => patch('journey', { sectionName: v })} />
+//       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+//         <Field label="Badge" value={data.journey?.badge} onChange={(v) => patch('journey', { badge: v })} />
+//         <Field label="Title" value={data.journey?.title} onChange={(v) => patch('journey', { title: v })} />
+//         <Field label="Highlighted Text" value={data.journey?.highlightedText} onChange={(v) => patch('journey', { highlightedText: v })} />
+//       </div>
+//       <Field label="Description" rows={2} value={data.journey?.description} onChange={(v) => patch('journey', { description: v })} />
+
+//       <div className="rounded-md border border-gray-300 p-3">
+//         <div className="mb-2 flex items-center justify-between">
+//           <p className="text-xs font-semibold uppercase tracking-wide text-gray-600">Timeline Items</p>
+//           <button type="button"
+//             onClick={() => patch('journey', { items: [...(data.journey?.items || []), { year: '', title: '', text: '', image: '', displayOrder: (data.journey?.items || []).length, isActive: true }] })}
+//             className="flex items-center gap-1 rounded-md bg-black px-2 py-1 text-xs text-white hover:bg-gray-800">
+//             <Plus className="h-3 w-3" /> Add
+//           </button>
+//         </div>
+//         {(data.journey?.items || []).map((item, i) => (
+//           <div key={i} className="mb-3 rounded-md border border-gray-200 p-3">
+//             <div className="grid grid-cols-1 gap-3 sm:grid-cols-[120px_1fr_1fr]">
+//               <ImageUpload imageUrl={item.image}
+//                 onImageChange={(url) => { const c = [...data.journey.items]; c[i] = { ...c[i], image: url }; patch('journey', { items: c }); }}
+//                 onImageRemove={() => { const c = [...data.journey.items]; c[i] = { ...c[i], image: '' }; patch('journey', { items: c }); }}
+//                 label={`Item ${i + 1}`} aspectRatio="1/1" size={100} />
+//               <Field label="Year" value={item.year} onChange={(v) => { const c = [...data.journey.items]; c[i] = { ...c[i], year: v }; patch('journey', { items: c }); }} />
+//               <Field label="Title" value={item.title} onChange={(v) => { const c = [...data.journey.items]; c[i] = { ...c[i], title: v }; patch('journey', { items: c }); }} />
+//             </div>
+//             <div className="mt-2">
+//               <Field label="Text" rows={2} value={item.text} onChange={(v) => { const c = [...data.journey.items]; c[i] = { ...c[i], text: v }; patch('journey', { items: c }); }} />
+//             </div>
+//             <div className="mt-2 flex justify-end">
+//               <button type="button" onClick={() => patch('journey', { items: data.journey.items.filter((_, idx) => idx !== i) })}
+//                 className="rounded p-1 text-black hover:bg-gray-200"><Trash2 className="h-4 w-4" /></button>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+
+//   const CraftsmanshipPanel = (
+//     <div className="space-y-4">
+//       <Field label="Section Name" value={data.craftsmanship?.sectionName} onChange={(v) => patch('craftsmanship', { sectionName: v })} />
+//       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+//         <Field label="Badge" value={data.craftsmanship?.badge} onChange={(v) => patch('craftsmanship', { badge: v })} />
+//         <Field label="Title" value={data.craftsmanship?.title} onChange={(v) => patch('craftsmanship', { title: v })} />
+//         <Field label="Highlighted Text" value={data.craftsmanship?.highlightedText} onChange={(v) => patch('craftsmanship', { highlightedText: v })} />
+//       </div>
+//       <Field label="Description" rows={2} value={data.craftsmanship?.description} onChange={(v) => patch('craftsmanship', { description: v })} />
+//       <ButtonFields title="Button" button={data.craftsmanship?.button} onChange={(b) => patch('craftsmanship', { button: b })} />
+
+//       <div className="rounded-md border border-gray-300 p-3">
+//         <div className="mb-2 flex items-center justify-between">
+//           <p className="text-xs font-semibold uppercase tracking-wide text-gray-600">Craft Cards</p>
+//           <button type="button"
+//             onClick={() => patch('craftsmanship', { cards: [...(data.craftsmanship?.cards || []), { title: '', subtitle: '', image: '', displayOrder: (data.craftsmanship?.cards || []).length, isActive: true }] })}
+//             className="flex items-center gap-1 rounded-md bg-black px-2 py-1 text-xs text-white hover:bg-gray-800">
+//             <Plus className="h-3 w-3" /> Add
+//           </button>
+//         </div>
+//         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+//           {(data.craftsmanship?.cards || []).map((c, i) => (
+//             <div key={i} className="rounded-md border border-gray-200 p-3">
+//               <ImageUpload imageUrl={c.image}
+//                 onImageChange={(url) => { const cp = [...data.craftsmanship.cards]; cp[i] = { ...cp[i], image: url }; patch('craftsmanship', { cards: cp }); }}
+//                 onImageRemove={() => { const cp = [...data.craftsmanship.cards]; cp[i] = { ...cp[i], image: '' }; patch('craftsmanship', { cards: cp }); }}
+//                 label={`Card ${i + 1}`} aspectRatio="1/1" size={120} />
+//               <div className="mt-2 space-y-2">
+//                 <Field label="Title" value={c.title} onChange={(v) => { const cp = [...data.craftsmanship.cards]; cp[i] = { ...cp[i], title: v }; patch('craftsmanship', { cards: cp }); }} />
+//                 <Field label="Subtitle" value={c.subtitle} onChange={(v) => { const cp = [...data.craftsmanship.cards]; cp[i] = { ...cp[i], subtitle: v }; patch('craftsmanship', { cards: cp }); }} />
+//               </div>
+//               <div className="mt-2 flex justify-end">
+//                 <button type="button" onClick={() => patch('craftsmanship', { cards: data.craftsmanship.cards.filter((_, idx) => idx !== i) })}
+//                   className="rounded p-1 text-black hover:bg-gray-200"><Trash2 className="h-4 w-4" /></button>
 //               </div>
 //             </div>
 //           ))}
 //         </div>
-//         {whyChooseUsCards.length === 0 && (
-//           <p className="text-gray-500 text-center py-2">No cards added yet.</p>
-//         )}
 //       </div>
 //     </div>
-//   </div>
-// )}
+//   );
 
-//               {/* Curated For You Tab */}
-//               {activeTab === 'curatedForYou' && (
-//                 <div className="bg-white rounded-xl shadow-sm border border-pink-600/20 p-4 sm:p-6">
-//                   <h2 className="text-lg font-semibold text-[#004767] flex items-center gap-2 mb-4">
-//                     <FaGem className="w-5 h-5 text-pink-600" />
-//                     Curated For You Section
-//                   </h2>
-//                   <div className="space-y-4">
-//                     <div>
-//                       <label className="block text-sm font-medium text-gray-700 mb-1">Badge</label>
-//                       <input
-//                         type="text"
-//                         value={data.curatedForYou?.badge || ''}
-//                         onChange={(e) => updateField('curatedForYou', 'badge', e.target.value)}
-//                         className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//                         placeholder="Curated For You"
-//                       />
-//                     </div>
+//   const ArtisanPanel = (
+//     <div className="space-y-4">
+//       <Field label="Section Name" value={data.artisan?.sectionName} onChange={(v) => patch('artisan', { sectionName: v })} />
+//       <ImageUpload imageUrl={data.artisan?.image}
+//         onImageChange={(url) => patch('artisan', { image: url })}
+//         onImageRemove={() => patch('artisan', { image: '' })}
+//         label="Artisan Image (single)" aspectRatio="4/3" size={240} />
+//       <Field label="Image Alt" value={data.artisan?.imageAlt} onChange={(v) => patch('artisan', { imageAlt: v })} />
+//       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+//         <Field label="Badge" value={data.artisan?.badge} onChange={(v) => patch('artisan', { badge: v })} />
+//         <Field label="Title" value={data.artisan?.title} onChange={(v) => patch('artisan', { title: v })} />
+//         <Field label="Highlighted Text" value={data.artisan?.highlightedText} onChange={(v) => patch('artisan', { highlightedText: v })} />
+//       </div>
+//       <Field label="Description" rows={2} value={data.artisan?.description} onChange={(v) => patch('artisan', { description: v })} />
+//       <Field label="Quote" rows={3} value={data.artisan?.quote} onChange={(v) => patch('artisan', { quote: v })} />
+//       <Field label="Quote Author" value={data.artisan?.quoteAuthor} onChange={(v) => patch('artisan', { quoteAuthor: v })} />
+//       <ButtonFields title="Button" button={data.artisan?.button} onChange={(b) => patch('artisan', { button: b })} />
+//     </div>
+//   );
 
-//                     <div>
-//                       <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
-//                       <input
-//                         type="text"
-//                         value={data.curatedForYou?.title || ''}
-//                         onChange={(e) => updateField('curatedForYou', 'title', e.target.value)}
-//                         className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//                         placeholder="Beauty, Curated For You"
-//                       />
-//                     </div>
+//   const GalleryPanel = (
+//     <div className="space-y-4">
+//       <Field label="Section Name" value={data.gallery?.sectionName} onChange={(v) => patch('gallery', { sectionName: v })} />
+//       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+//         <Field label="Badge" value={data.gallery?.badge} onChange={(v) => patch('gallery', { badge: v })} />
+//         <Field label="Title" value={data.gallery?.title} onChange={(v) => patch('gallery', { title: v })} />
+//       </div>
+//       <Field label="Description" rows={2} value={data.gallery?.description} onChange={(v) => patch('gallery', { description: v })} />
+//       <ImageArrayEditor title="Gallery Images (unlimited)" images={data.gallery?.images || []}
+//         onChange={(imgs) => patch('gallery', { images: imgs })} aspectRatio="1/1" />
+//     </div>
+//   );
 
-//                     <div>
-//                       <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-//                       <textarea
-//                         value={data.curatedForYou?.description || ''}
-//                         onChange={(e) => updateField('curatedForYou', 'description', e.target.value)}
-//                         rows={3}
-//                         className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none resize-none"
-//                         placeholder="Description..."
-//                       />
-//                     </div>
+//   const CTAPanel = (
+//     <div className="space-y-4">
+//       <Field label="Section Name" value={data.cta?.sectionName} onChange={(v) => patch('cta', { sectionName: v })} />
+//       <ImageUpload imageUrl={data.cta?.backgroundImage}
+//         onImageChange={(url) => patch('cta', { backgroundImage: url })}
+//         onImageRemove={() => patch('cta', { backgroundImage: '' })}
+//         label="Background Image (single)" aspectRatio="16/9" size={260} />
+//       <Field label="Title" value={data.cta?.title} onChange={(v) => patch('cta', { title: v })} />
+//       <Field label="Description" rows={3} value={data.cta?.description} onChange={(v) => patch('cta', { description: v })} />
+//       <ButtonFields title="Primary Button" button={data.cta?.primaryButton} onChange={(b) => patch('cta', { primaryButton: b })} />
+//     </div>
+//   );
 
-//                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-//                       <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-1">Button Text</label>
-//                         <input
-//                           type="text"
-//                           value={data.curatedForYou?.buttonText || ''}
-//                           onChange={(e) => updateField('curatedForYou', 'buttonText', e.target.value)}
-//                           className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//                           placeholder="View All Products"
-//                         />
-//                       </div>
-//                       <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-1">Button Link</label>
-//                         <input
-//                           type="text"
-//                           value={data.curatedForYou?.buttonLink || ''}
-//                           onChange={(e) => updateField('curatedForYou', 'buttonLink', e.target.value)}
-//                           className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//                           placeholder="/products"
-//                         />
-//                       </div>
-//                     </div>
+//   const PANELS = {
+//     hero: HeroPanel,
+//     brandStory: BrandStoryPanel,
+//     journey: JourneyPanel,
+//     craftsmanship: CraftsmanshipPanel,
+//     artisan: ArtisanPanel,
+//     gallery: GalleryPanel,
+//     cta: CTAPanel,
+//   };
 
-//                     <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-//                       <p className="text-sm text-blue-700">
-//                         <strong>Note:</strong> Categories are automatically fetched from your product categories. 
-//                         To manage categories, go to the <Link href="/authorize/categories" className="underline font-medium">Categories Management</Link> page.
-//                       </p>
-//                     </div>
-//                   </div>
-//                 </div>
-//               )}
+//   return (
+//     <ProtectedRoute pageKey="about_management">
+//       <div className="min-h-screen bg-white text-black">
+//         {/* Header */}
+//         <div className="sticky top-0 z-10 border-b border-gray-200 bg-white">
+//           <div className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-4">
+//             <div>
+//               <h1 className="text-lg font-bold sm:text-2xl">About Page Management</h1>
+//               <p className="mt-0.5 text-xs text-gray-600 sm:text-sm">
+//                 Nishita's Collection — everything is editable
+//               </p>
+//             </div>
+//             <div className="flex items-center gap-2">
+//               <button onClick={handleReset}
+//                 className="flex items-center gap-1.5 rounded-md border border-gray-300 px-3 py-1.5 text-xs text-black hover:bg-gray-100 sm:text-sm">
+//                 <RotateCcw className="h-4 w-4" /> Reset
+//               </button>
+//               <Link href="/about" target="_blank"
+//                 className="rounded-md border border-gray-300 px-3 py-1.5 text-xs text-black hover:bg-gray-100 sm:text-sm">
+//                 Preview
+//               </Link>
+//             </div>
+//           </div>
+//         </div>
 
-//               {/* CTA Tab */}
-//               {activeTab === 'cta' && (
-//                 <div className="bg-white rounded-xl shadow-sm border border-pink-600/20 p-4 sm:p-6">
-//                   <h2 className="text-lg font-semibold text-[#004767] flex items-center gap-2 mb-4">
-//                     <GiSparkles className="w-5 h-5 text-pink-600" />
-//                     CTA Section
-//                   </h2>
-//                   <div className="space-y-4">
-//                     <div>
-//                       <ImageUpload
-//                         imageUrl={data.cta?.backgroundImage || ''}
-//                         onImageChange={(url) => updateField('cta', 'backgroundImage', url)}
-//                         onImageRemove={() => updateField('cta', 'backgroundImage', '')}
-//                         label="CTA Background Image"
-//                         aspectRatio="16/9"
-//                       />
-//                     </div>
-
-//                     <div>
-//                       <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
-//                       <input
-//                         type="text"
-//                         value={data.cta?.title || ''}
-//                         onChange={(e) => updateField('cta', 'title', e.target.value)}
-//                         className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//                         placeholder="We're Here to Help"
-//                       />
-//                     </div>
-
-//                     <div>
-//                       <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-//                       <textarea
-//                         value={data.cta?.description || ''}
-//                         onChange={(e) => updateField('cta', 'description', e.target.value)}
-//                         rows={3}
-//                         className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none resize-none"
-//                         placeholder="Description..."
-//                       />
-//                     </div>
-
-//                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-//                       <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-1">Button Text</label>
-//                         <input
-//                           type="text"
-//                           value={data.cta?.buttonText || ''}
-//                           onChange={(e) => updateField('cta', 'buttonText', e.target.value)}
-//                           className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//                           placeholder="Shop Now"
-//                         />
-//                       </div>
-//                       <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-1">Button Link</label>
-//                         <input
-//                           type="text"
-//                           value={data.cta?.buttonLink || ''}
-//                           onChange={(e) => updateField('cta', 'buttonLink', e.target.value)}
-//                           className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//                           placeholder="/products"
-//                         />
-//                       </div>
-//                     </div>
-
-//                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-//                       <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-1">Secondary Button Text</label>
-//                         <input
-//                           type="text"
-//                           value={data.cta?.secondaryButtonText || ''}
-//                           onChange={(e) => updateField('cta', 'secondaryButtonText', e.target.value)}
-//                           className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//                           placeholder="Contact Us"
-//                         />
-//                       </div>
-//                       <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-1">Secondary Button Link</label>
-//                         <input
-//                           type="text"
-//                           value={data.cta?.secondaryButtonLink || ''}
-//                           onChange={(e) => updateField('cta', 'secondaryButtonLink', e.target.value)}
-//                           className="w-full px-3 py-2 border border-pink-600/20 rounded-lg focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none"
-//                           placeholder="/contact"
-//                         />
-//                       </div>
-//                     </div>
-//                   </div>
-//                 </div>
-//               )}
+//         {/* Body */}
+//         <div className="p-4 sm:p-6">
+//           <form onSubmit={(e) => { e.preventDefault(); handleSave(); }} className="space-y-6">
+//             {/* Tabs */}
+//             <div className="flex flex-wrap gap-2 rounded-md border border-gray-200 bg-white p-3">
+//               {SECTIONS.map((s) => (
+//                 <button key={s.id} type="button" onClick={() => setActiveTab(s.id)}
+//                   className={`rounded-md px-3 py-2 text-sm font-medium transition ${
+//                     activeTab === s.id ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'
+//                   }`}>
+//                   {s.label}
+//                 </button>
+//               ))}
 //             </div>
 
-//             {/* Submit Button */}
-//             <div className="flex justify-end pt-4 border-t border-pink-600/20">
-//               <button
-//                 type="submit"
-//                 disabled={saving}
-//                 className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-600 to-pink-700 text-white font-medium rounded-lg hover:opacity-90 transition-colors disabled:opacity-50 text-sm shadow-md hover:shadow-lg"
-//               >
-//                 {saving ? (
-//                   <>
-//                     <Loader2 className="w-4 h-4 animate-spin" />
-//                     <span>Saving...</span>
-//                   </>
-//                 ) : (
-//                   <>
-//                     <Save className="w-4 h-4" />
-//                     <span>Save About Page</span>
-//                   </>
-//                 )}
+//             {/* Panel */}
+//             <div className="rounded-md border border-gray-200 bg-white p-4 sm:p-6">
+//               {PANELS[activeTab]}
+//             </div>
+
+//             {/* Save */}
+//             <div className="flex justify-end border-t border-gray-200 pt-4">
+//               <button type="submit" disabled={saving}
+//                 className="flex items-center gap-2 rounded-md bg-black px-6 py-3 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50">
+//                 {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+//                 {saving ? 'Saving…' : 'Save About Page'}
 //               </button>
 //             </div>
 //           </form>
@@ -1607,6 +547,7 @@
 //     </ProtectedRoute>
 //   );
 // }
+
 
 'use client';
 
@@ -1621,26 +562,40 @@ import { toast } from 'sonner';
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 const SECTIONS = [
-  { id: 'hero',          label: 'Hero' },
-  { id: 'brandStory',    label: 'Brand Story' },
-  { id: 'journey',       label: 'Journey' },
-  { id: 'craftsmanship', label: 'Craftsmanship' },
-  { id: 'artisan',       label: 'Artisan' },
-  { id: 'gallery',       label: 'Gallery' },
-  { id: 'cta',           label: 'CTA' },
+  { id: 'hero',      label: 'Hero' },
+  { id: 'quick',     label: 'Quick Contact' },
+  { id: 'social',    label: 'Social Links' },
+  { id: 'map',       label: 'Map' },
+  { id: 'cta',       label: 'CTA' },
+  { id: 'form',      label: 'Form' },
 ];
 
-const ICON_OPTIONS = [
-  'FaLeaf','FaHeart','FaUsers','FaStar','FaAward','FaShieldAlt','FaTruck',
-  'FaCheckCircle','FaShippingFast','FaGift','FaSmile','FaGem','FaHands',
-  'FaSeedling','FaGlobe','FaCalendarAlt','FaMapMarkerAlt','GiLipstick','GiSparkles',
+const QUICK_ICON_OPTIONS = [
+  { value: 'FaPhone',         label: 'Phone' },
+  { value: 'FaWhatsapp',      label: 'WhatsApp' },
+  { value: 'FaEnvelope',      label: 'Email' },
+  { value: 'FaMapMarkerAlt',  label: 'Location' },
+  { value: 'FaClock',         label: 'Clock' },
+];
+
+const SOCIAL_PLATFORMS = [
+  { value: 'facebook',  icon: 'FaFacebookF',  label: 'Facebook',  color: 'hover:bg-[#1877F2]' },
+  { value: 'instagram', icon: 'FaInstagram',  label: 'Instagram', color: 'hover:bg-[#E4405F]' },
+  { value: 'x',         icon: 'FaTwitter',    label: 'X (Twitter)', color: 'hover:bg-[#000000]' },
+  { value: 'youtube',   icon: 'FaYoutube',    label: 'YouTube',   color: 'hover:bg-[#FF0000]' },
+  { value: 'tiktok',    icon: 'FaTiktok',     label: 'TikTok',    color: 'hover:bg-[#000000]' },
+  { value: 'pinterest', icon: 'FaPinterest',  label: 'Pinterest', color: 'hover:bg-[#BD081C]' },
+  { value: 'linkedin',  icon: 'FaLinkedinIn', label: 'LinkedIn',  color: 'hover:bg-[#0A66C2]' },
+  { value: 'telegram',  icon: 'FaTelegram',   label: 'Telegram',  color: 'hover:bg-[#26A5E4]' },
+  { value: 'viber',     icon: 'FaViber',      label: 'Viber',     color: 'hover:bg-[#7360F2]' },
+  { value: 'messenger', icon: 'FaFacebookMessenger', label: 'Messenger', color: 'hover:bg-[#00B2FF]' },
 ];
 
 // ============================================================
 // IMAGE UPLOAD
 // ============================================================
 
-function ImageUpload({ imageUrl, onImageChange, onImageRemove, label = 'Image', aspectRatio = '1/1', size = 180 }) {
+function ImageUpload({ imageUrl, onImageChange, onImageRemove, label = 'Image', aspectRatio = '16/9', size = 220 }) {
   const ref = useRef(null);
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState(imageUrl || '');
@@ -1737,7 +692,7 @@ function ImageUpload({ imageUrl, onImageChange, onImageRemove, label = 'Image', 
 }
 
 // ============================================================
-// REUSABLE INPUTS
+// SMALL FIELDS
 // ============================================================
 
 const Field = ({ label, value, onChange, placeholder, rows, type = 'text' }) => (
@@ -1753,91 +708,23 @@ const Field = ({ label, value, onChange, placeholder, rows, type = 'text' }) => 
   </div>
 );
 
-const ButtonFields = ({ title, button, onChange }) => (
-  <div className="rounded-md border border-gray-300 p-3">
-    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-600">{title}</p>
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-      <Field label="Text" value={button?.text} onChange={(v) => onChange({ ...button, text: v })} />
-      <Field label="Link" value={button?.link} onChange={(v) => onChange({ ...button, link: v })} />
-      <div className="flex items-end">
-        <label className="flex items-center gap-2 text-xs text-gray-800">
-          <input type="checkbox" checked={button?.isActive !== false} onChange={(e) => onChange({ ...button, isActive: e.target.checked })} />
-          Active
-        </label>
-      </div>
-    </div>
-  </div>
-);
-
-// ============================================================
-// IMAGE ARRAY EDITOR (limit optional)
-// ============================================================
-
-function ImageArrayEditor({ title, images = [], onChange, max = null, aspectRatio = '1/1' }) {
-  const update = (i, patch) => { const c = [...images]; c[i] = { ...c[i], ...patch }; onChange(c); };
-  const add = () => onChange([...images, { url: '', alt: '', displayOrder: images.length, isActive: true }]);
-  const remove = (i) => onChange(images.filter((_, idx) => idx !== i));
-  const move = (i, dir) => {
-    const j = i + dir; if (j < 0 || j >= images.length) return;
-    const c = [...images]; [c[i], c[j]] = [c[j], c[i]];
-    onChange(c.map((img, idx) => ({ ...img, displayOrder: idx })));
-  };
-  const disabled = max !== null && images.length >= max;
-
-  return (
-    <div className="rounded-md border border-gray-300 p-3">
-      <div className="mb-2 flex items-center justify-between">
-        <p className="text-xs font-semibold uppercase tracking-wide text-gray-600">
-          {title} {max ? `(${images.length}/${max})` : `(${images.length})`}
-        </p>
-        <button type="button" onClick={add} disabled={disabled}
-          className="flex items-center gap-1 rounded-md bg-black px-2 py-1 text-xs text-white hover:bg-gray-800 disabled:opacity-40">
-          <Plus className="h-3 w-3" /> Add
-        </button>
-      </div>
-
-      {images.length === 0 && <p className="py-3 text-center text-xs text-gray-500">No images yet.</p>}
-
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {images.map((img, i) => (
-          <div key={i} className="rounded-md border border-gray-300 p-2">
-            <ImageUpload imageUrl={img.url}
-              onImageChange={(url) => update(i, { url })}
-              onImageRemove={() => update(i, { url: '' })}
-              label={`Image ${i + 1}`} aspectRatio={aspectRatio} size={120} />
-            <input type="text" value={img.alt || ''} onChange={(e) => update(i, { alt: e.target.value })}
-              placeholder="Alt text"
-              className="mt-2 w-full rounded border border-gray-300 px-2 py-1 text-xs text-black outline-none focus:border-black" />
-            <div className="mt-2 flex items-center justify-between">
-              <div className="flex gap-1">
-                <button type="button" onClick={() => move(i, -1)} className="rounded bg-gray-100 p-1 text-gray-700 hover:bg-gray-200"><ArrowUp className="h-3 w-3" /></button>
-                <button type="button" onClick={() => move(i, 1)}  className="rounded bg-gray-100 p-1 text-gray-700 hover:bg-gray-200"><ArrowDown className="h-3 w-3" /></button>
-              </div>
-              <button type="button" onClick={() => remove(i)} className="rounded p-1 text-black hover:bg-gray-200"><Trash2 className="h-3 w-3" /></button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 // ============================================================
 // MAIN ADMIN PAGE
 // ============================================================
 
-export default function AboutManagement() {
+export default function ContactManagement() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState('hero');
 
+  // ---- fetch ----
   useEffect(() => {
     (async () => {
       try {
         const token = localStorage.getItem('token');
         if (!token) { toast.error('Please login first'); return; }
-        const res = await fetch(`${API_URL}/api/admin/about`, { headers: { Authorization: `Bearer ${token}` } });
+        const res = await fetch(`${API_URL}/api/contact/admin`, { headers: { Authorization: `Bearer ${token}` } });
         const json = await res.json();
         if (res.ok && json.success) setData(json.data);
         else toast.error(json.error || 'Failed to load');
@@ -1846,30 +733,35 @@ export default function AboutManagement() {
     })();
   }, []);
 
+  // ---- save ----
   const handleSave = async () => {
     try {
       setSaving(true);
       const token = localStorage.getItem('token');
       if (!token) { toast.error('Please login first'); return; }
-      const res = await fetch(`${API_URL}/api/admin/about`, {
+      const res = await fetch(`${API_URL}/api/contact/admin`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify(data),
       });
       const json = await res.json();
-      if (res.ok && json.success) { toast.success('About page updated'); setData(json.data); }
+      if (res.ok && json.success) { toast.success('Contact page updated'); setData(json.data); }
       else toast.error(json.error || 'Failed to save');
     } catch (e) { console.error(e); toast.error('Network error'); }
     finally { setSaving(false); }
   };
 
+  // ---- reset ----
   const handleReset = async () => {
-    if (!confirm('Reset to defaults?')) return;
+    if (!confirm('Reset the contact page to defaults? This cannot be undone.')) return;
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${API_URL}/api/admin/about/reset`, { method: 'POST', headers: { Authorization: `Bearer ${token}` } });
+      const res = await fetch(`${API_URL}/api/contact/admin/reset`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const json = await res.json();
-      if (res.ok && json.success) { toast.success('Reset done'); setData(json.data); }
+      if (res.ok && json.success) { toast.success('Reset to defaults'); setData(json.data); }
       else toast.error(json.error || 'Reset failed');
     } catch { toast.error('Network error'); }
   };
@@ -1879,7 +771,7 @@ export default function AboutManagement() {
 
   if (loading) {
     return (
-      <ProtectedRoute pageKey="about_management">
+      <ProtectedRoute pageKey="contact_management">
         <div className="flex min-h-screen items-center justify-center bg-white">
           <Loader2 className="h-8 w-8 animate-spin text-black" />
         </div>
@@ -1892,218 +784,217 @@ export default function AboutManagement() {
   // PANELS
   // ----------------------------------------------------------
 
+  // ---- HERO ----
   const HeroPanel = (
-    <div className="space-y-4">
-      <Field label="Section Name" value={data.hero?.sectionName} onChange={(v) => patch('hero', { sectionName: v })} />
-      <ImageUpload imageUrl={data.hero?.image}
-        onImageChange={(url) => patch('hero', { image: url })}
-        onImageRemove={() => patch('hero', { image: '' })}
-        label="Hero Image (single)" aspectRatio="16/9" size={260} />
-      <Field label="Image Alt" value={data.hero?.imageAlt} onChange={(v) => patch('hero', { imageAlt: v })} />
+    <div className="space-y-3">
+      <ImageUpload imageUrl={data.hero?.bgImage}
+        onImageChange={(url) => patch('hero', { bgImage: url })}
+        onImageRemove={() => patch('hero', { bgImage: '' })}
+        label="Hero Background Image" aspectRatio="16/9" size={260} />
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <Field label="Badge" value={data.hero?.badge} onChange={(v) => patch('hero', { badge: v })} />
         <Field label="Title" value={data.hero?.title} onChange={(v) => patch('hero', { title: v })} />
-        <Field label="Highlighted Text" value={data.hero?.highlightedText} onChange={(v) => patch('hero', { highlightedText: v })} />
+        <Field label="Highlighted Text" value={data.hero?.highlightText} onChange={(v) => patch('hero', { highlightText: v })} />
       </div>
       <Field label="Description" rows={3} value={data.hero?.description} onChange={(v) => patch('hero', { description: v })} />
-      <ButtonFields title="Primary Button" button={data.hero?.primaryButton} onChange={(b) => patch('hero', { primaryButton: b })} />
     </div>
   );
 
-  const BrandStoryPanel = (
+  // ---- QUICK CONTACT ----
+  const QuickPanel = (
     <div className="space-y-4">
-      <Field label="Section Name" value={data.brandStory?.sectionName} onChange={(v) => patch('brandStory', { sectionName: v })} />
-      <ImageArrayEditor title="Brand Story Images (max 4)" max={4}
-        images={data.brandStory?.images || []}
-        onChange={(imgs) => patch('brandStory', { images: imgs })} aspectRatio="1/1" />
-      {/* <Field label="Image Caption (on first image)" value={data.brandStory?.imageCaption} onChange={(v) => patch('brandStory', { imageCaption: v })} /> */}
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <Field label="Badge" value={data.brandStory?.badge} onChange={(v) => patch('brandStory', { badge: v })} />
-        <Field label="Title" value={data.brandStory?.title} onChange={(v) => patch('brandStory', { title: v })} />
-        <Field label="Highlighted Text" value={data.brandStory?.highlightedText} onChange={(v) => patch('brandStory', { highlightedText: v })} />
+      <div className="flex items-center justify-between">
+        <p className="text-sm font-medium text-gray-800">Quick Contact Cards (max 3 on public page)</p>
+        <button
+          type="button"
+          onClick={() =>
+            setData((prev) => ({
+              ...prev,
+              quickContacts: [
+                ...(prev.quickContacts || []),
+                { icon: 'FaPhone', label: '', value: '', link: '', description: '', isActive: true, displayOrder: (prev.quickContacts || []).length },
+              ],
+            }))
+          }
+          className="flex items-center gap-1 rounded-md bg-black px-2 py-1 text-xs text-white hover:bg-gray-800"
+        >
+          <Plus className="h-3 w-3" /> Add
+        </button>
       </div>
-      <Field label="Description" rows={3} value={data.brandStory?.description} onChange={(v) => patch('brandStory', { description: v })} />
 
-      <div className="rounded-md border border-gray-300 p-3">
-        <div className="mb-2 flex items-center justify-between">
-          <p className="text-xs font-semibold uppercase tracking-wide text-gray-600">Features</p>
-          <button type="button"
-            onClick={() => patch('brandStory', { features: [...(data.brandStory?.features || []), { icon: 'FaLeaf', title: '', description: '', isActive: true }] })}
-            className="flex items-center gap-1 rounded-md bg-black px-2 py-1 text-xs text-white hover:bg-gray-800">
-            <Plus className="h-3 w-3" /> Add
-          </button>
-        </div>
-        {(data.brandStory?.features || []).map((f, i) => (
-          <div key={i} className="mb-2 grid grid-cols-1 items-end gap-2 rounded border border-gray-200 p-2 sm:grid-cols-[1fr_1fr_1fr_auto]">
-            <select value={f.icon || 'FaLeaf'}
-              onChange={(e) => { const c = [...data.brandStory.features]; c[i] = { ...c[i], icon: e.target.value }; patch('brandStory', { features: c }); }}
-              className="rounded-md border border-gray-300 px-2 py-1 text-sm text-black">
-              {ICON_OPTIONS.map((o) => <option key={o} value={o}>{o}</option>)}
-            </select>
-            <input type="text" value={f.title || ''}
-              onChange={(e) => { const c = [...data.brandStory.features]; c[i] = { ...c[i], title: e.target.value }; patch('brandStory', { features: c }); }}
-              placeholder="Title"
-              className="rounded-md border border-gray-300 px-2 py-1 text-sm text-black outline-none focus:border-black" />
-            <input type="text" value={f.description || ''}
-              onChange={(e) => { const c = [...data.brandStory.features]; c[i] = { ...c[i], description: e.target.value }; patch('brandStory', { features: c }); }}
-              placeholder="Description"
-              className="rounded-md border border-gray-300 px-2 py-1 text-sm text-black outline-none focus:border-black" />
-            <button type="button" onClick={() => patch('brandStory', { features: data.brandStory.features.filter((_, idx) => idx !== i) })}
-              className="rounded p-1 text-black hover:bg-gray-200"><Trash2 className="h-4 w-4" /></button>
+      {(data.quickContacts || []).map((item, i) => (
+        <div key={i} className="rounded-md border border-gray-300 p-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div>
+              <label className="mb-1 block text-xs font-medium text-gray-700">Icon</label>
+              <select
+                value={item.icon}
+                onChange={(e) => {
+                  const c = [...data.quickContacts]; c[i] = { ...c[i], icon: e.target.value };
+                  setData((p) => ({ ...p, quickContacts: c }));
+                }}
+                className="w-full rounded-md border border-gray-300 bg-white px-2 py-1 text-sm text-black"
+              >
+                {QUICK_ICON_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+              </select>
+            </div>
+            <Field label="Label" value={item.label}
+              onChange={(v) => { const c = [...data.quickContacts]; c[i] = { ...c[i], label: v }; setData((p) => ({ ...p, quickContacts: c })); }} />
+            <Field label="Value" value={item.value}
+              onChange={(v) => { const c = [...data.quickContacts]; c[i] = { ...c[i], value: v }; setData((p) => ({ ...p, quickContacts: c })); }} />
+            <Field label="Link" value={item.link}
+              onChange={(v) => { const c = [...data.quickContacts]; c[i] = { ...c[i], link: v }; setData((p) => ({ ...p, quickContacts: c })); }} />
           </div>
-        ))}
-      </div>
-    </div>
-  );
-
-  const JourneyPanel = (
-    <div className="space-y-4">
-      <Field label="Section Name" value={data.journey?.sectionName} onChange={(v) => patch('journey', { sectionName: v })} />
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <Field label="Badge" value={data.journey?.badge} onChange={(v) => patch('journey', { badge: v })} />
-        <Field label="Title" value={data.journey?.title} onChange={(v) => patch('journey', { title: v })} />
-        <Field label="Highlighted Text" value={data.journey?.highlightedText} onChange={(v) => patch('journey', { highlightedText: v })} />
-      </div>
-      <Field label="Description" rows={2} value={data.journey?.description} onChange={(v) => patch('journey', { description: v })} />
-
-      <div className="rounded-md border border-gray-300 p-3">
-        <div className="mb-2 flex items-center justify-between">
-          <p className="text-xs font-semibold uppercase tracking-wide text-gray-600">Timeline Items</p>
-          <button type="button"
-            onClick={() => patch('journey', { items: [...(data.journey?.items || []), { year: '', title: '', text: '', image: '', displayOrder: (data.journey?.items || []).length, isActive: true }] })}
-            className="flex items-center gap-1 rounded-md bg-black px-2 py-1 text-xs text-white hover:bg-gray-800">
-            <Plus className="h-3 w-3" /> Add
-          </button>
-        </div>
-        {(data.journey?.items || []).map((item, i) => (
-          <div key={i} className="mb-3 rounded-md border border-gray-200 p-3">
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-[120px_1fr_1fr]">
-              <ImageUpload imageUrl={item.image}
-                onImageChange={(url) => { const c = [...data.journey.items]; c[i] = { ...c[i], image: url }; patch('journey', { items: c }); }}
-                onImageRemove={() => { const c = [...data.journey.items]; c[i] = { ...c[i], image: '' }; patch('journey', { items: c }); }}
-                label={`Item ${i + 1}`} aspectRatio="1/1" size={100} />
-              <Field label="Year" value={item.year} onChange={(v) => { const c = [...data.journey.items]; c[i] = { ...c[i], year: v }; patch('journey', { items: c }); }} />
-              <Field label="Title" value={item.title} onChange={(v) => { const c = [...data.journey.items]; c[i] = { ...c[i], title: v }; patch('journey', { items: c }); }} />
-            </div>
-            <div className="mt-2">
-              <Field label="Text" rows={2} value={item.text} onChange={(v) => { const c = [...data.journey.items]; c[i] = { ...c[i], text: v }; patch('journey', { items: c }); }} />
-            </div>
-            <div className="mt-2 flex justify-end">
-              <button type="button" onClick={() => patch('journey', { items: data.journey.items.filter((_, idx) => idx !== i) })}
-                className="rounded p-1 text-black hover:bg-gray-200"><Trash2 className="h-4 w-4" /></button>
+          <div className="mt-2">
+            <Field label="Description" rows={2} value={item.description}
+              onChange={(v) => { const c = [...data.quickContacts]; c[i] = { ...c[i], description: v }; setData((p) => ({ ...p, quickContacts: c })); }} />
+          </div>
+          <div className="mt-2 flex items-center justify-between">
+            <label className="flex items-center gap-2 text-xs text-gray-700">
+              <input type="checkbox" checked={item.isActive !== false}
+                onChange={(e) => { const c = [...data.quickContacts]; c[i] = { ...c[i], isActive: e.target.checked }; setData((p) => ({ ...p, quickContacts: c })); }} />
+              Active
+            </label>
+            <div className="flex items-center gap-1">
+              <button type="button" onClick={() => {
+                if (i === 0) return;
+                const c = [...data.quickContacts]; [c[i - 1], c[i]] = [c[i], c[i - 1]];
+                c.forEach((x, idx) => x.displayOrder = idx);
+                setData((p) => ({ ...p, quickContacts: c }));
+              }} className="rounded bg-gray-100 p-1 hover:bg-gray-200"><ArrowUp className="h-3 w-3" /></button>
+              <button type="button" onClick={() => {
+                if (i === data.quickContacts.length - 1) return;
+                const c = [...data.quickContacts]; [c[i + 1], c[i]] = [c[i], c[i + 1]];
+                c.forEach((x, idx) => x.displayOrder = idx);
+                setData((p) => ({ ...p, quickContacts: c }));
+              }} className="rounded bg-gray-100 p-1 hover:bg-gray-200"><ArrowDown className="h-3 w-3" /></button>
+              <button type="button"
+                onClick={() => setData((p) => ({ ...p, quickContacts: p.quickContacts.filter((_, idx) => idx !== i) }))}
+                className="rounded p-1 text-black hover:bg-gray-200"><Trash2 className="h-3 w-3" /></button>
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 
-  const CraftsmanshipPanel = (
+  // ---- SOCIAL ----
+  const SocialPanel = (
     <div className="space-y-4">
-      <Field label="Section Name" value={data.craftsmanship?.sectionName} onChange={(v) => patch('craftsmanship', { sectionName: v })} />
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <Field label="Badge" value={data.craftsmanship?.badge} onChange={(v) => patch('craftsmanship', { badge: v })} />
-        <Field label="Title" value={data.craftsmanship?.title} onChange={(v) => patch('craftsmanship', { title: v })} />
-        <Field label="Highlighted Text" value={data.craftsmanship?.highlightedText} onChange={(v) => patch('craftsmanship', { highlightedText: v })} />
+      <div className="flex items-center justify-between">
+        <p className="text-sm font-medium text-gray-800">Social Links</p>
+        <button
+          type="button"
+          onClick={() =>
+            setData((prev) => ({
+              ...prev,
+              socialLinks: [
+                ...(prev.socialLinks || []),
+                { platform: 'facebook', url: '', icon: 'FaFacebookF', color: 'hover:bg-[#1877F2]', isActive: true, displayOrder: (prev.socialLinks || []).length },
+              ],
+            }))
+          }
+          className="flex items-center gap-1 rounded-md bg-black px-2 py-1 text-xs text-white hover:bg-gray-800"
+        >
+          <Plus className="h-3 w-3" /> Add
+        </button>
       </div>
-      <Field label="Description" rows={2} value={data.craftsmanship?.description} onChange={(v) => patch('craftsmanship', { description: v })} />
-      <ButtonFields title="Button" button={data.craftsmanship?.button} onChange={(b) => patch('craftsmanship', { button: b })} />
 
-      <div className="rounded-md border border-gray-300 p-3">
-        <div className="mb-2 flex items-center justify-between">
-          <p className="text-xs font-semibold uppercase tracking-wide text-gray-600">Craft Cards</p>
-          <button type="button"
-            onClick={() => patch('craftsmanship', { cards: [...(data.craftsmanship?.cards || []), { title: '', subtitle: '', image: '', displayOrder: (data.craftsmanship?.cards || []).length, isActive: true }] })}
-            className="flex items-center gap-1 rounded-md bg-black px-2 py-1 text-xs text-white hover:bg-gray-800">
-            <Plus className="h-3 w-3" /> Add
-          </button>
-        </div>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {(data.craftsmanship?.cards || []).map((c, i) => (
-            <div key={i} className="rounded-md border border-gray-200 p-3">
-              <ImageUpload imageUrl={c.image}
-                onImageChange={(url) => { const cp = [...data.craftsmanship.cards]; cp[i] = { ...cp[i], image: url }; patch('craftsmanship', { cards: cp }); }}
-                onImageRemove={() => { const cp = [...data.craftsmanship.cards]; cp[i] = { ...cp[i], image: '' }; patch('craftsmanship', { cards: cp }); }}
-                label={`Card ${i + 1}`} aspectRatio="1/1" size={120} />
-              <div className="mt-2 space-y-2">
-                <Field label="Title" value={c.title} onChange={(v) => { const cp = [...data.craftsmanship.cards]; cp[i] = { ...cp[i], title: v }; patch('craftsmanship', { cards: cp }); }} />
-                <Field label="Subtitle" value={c.subtitle} onChange={(v) => { const cp = [...data.craftsmanship.cards]; cp[i] = { ...cp[i], subtitle: v }; patch('craftsmanship', { cards: cp }); }} />
-              </div>
-              <div className="mt-2 flex justify-end">
-                <button type="button" onClick={() => patch('craftsmanship', { cards: data.craftsmanship.cards.filter((_, idx) => idx !== i) })}
-                  className="rounded p-1 text-black hover:bg-gray-200"><Trash2 className="h-4 w-4" /></button>
-              </div>
+      {(data.socialLinks || []).map((item, i) => (
+        <div key={i} className="rounded-md border border-gray-300 p-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div>
+              <label className="mb-1 block text-xs font-medium text-gray-700">Platform</label>
+              <select
+                value={item.platform}
+                onChange={(e) => {
+                  const p = SOCIAL_PLATFORMS.find((x) => x.value === e.target.value);
+                  const c = [...data.socialLinks];
+                  c[i] = { ...c[i], platform: e.target.value, icon: p?.icon || 'FaFacebookF', color: p?.color || '' };
+                  setData((prev) => ({ ...prev, socialLinks: c }));
+                }}
+                className="w-full rounded-md border border-gray-300 bg-white px-2 py-1 text-sm text-black"
+              >
+                {SOCIAL_PLATFORMS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+              </select>
             </div>
-          ))}
+            <Field label="URL" value={item.url}
+              onChange={(v) => { const c = [...data.socialLinks]; c[i] = { ...c[i], url: v }; setData((p) => ({ ...p, socialLinks: c })); }} />
+          </div>
+          <div className="mt-2 flex items-center justify-between">
+            <label className="flex items-center gap-2 text-xs text-gray-700">
+              <input type="checkbox" checked={item.isActive !== false}
+                onChange={(e) => { const c = [...data.socialLinks]; c[i] = { ...c[i], isActive: e.target.checked }; setData((p) => ({ ...p, socialLinks: c })); }} />
+              Active
+            </label>
+            <button type="button"
+              onClick={() => setData((p) => ({ ...p, socialLinks: p.socialLinks.filter((_, idx) => idx !== i) }))}
+              className="rounded p-1 text-black hover:bg-gray-200"><Trash2 className="h-3 w-3" /></button>
+          </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 
-  const ArtisanPanel = (
-    <div className="space-y-4">
-      <Field label="Section Name" value={data.artisan?.sectionName} onChange={(v) => patch('artisan', { sectionName: v })} />
-      <ImageUpload imageUrl={data.artisan?.image}
-        onImageChange={(url) => patch('artisan', { image: url })}
-        onImageRemove={() => patch('artisan', { image: '' })}
-        label="Artisan Image (single)" aspectRatio="4/3" size={240} />
-      <Field label="Image Alt" value={data.artisan?.imageAlt} onChange={(v) => patch('artisan', { imageAlt: v })} />
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <Field label="Badge" value={data.artisan?.badge} onChange={(v) => patch('artisan', { badge: v })} />
-        <Field label="Title" value={data.artisan?.title} onChange={(v) => patch('artisan', { title: v })} />
-        <Field label="Highlighted Text" value={data.artisan?.highlightedText} onChange={(v) => patch('artisan', { highlightedText: v })} />
-      </div>
-      <Field label="Description" rows={2} value={data.artisan?.description} onChange={(v) => patch('artisan', { description: v })} />
-      <Field label="Quote" rows={3} value={data.artisan?.quote} onChange={(v) => patch('artisan', { quote: v })} />
-      <Field label="Quote Author" value={data.artisan?.quoteAuthor} onChange={(v) => patch('artisan', { quoteAuthor: v })} />
-      <ButtonFields title="Button" button={data.artisan?.button} onChange={(b) => patch('artisan', { button: b })} />
+  // ---- MAP ----
+  const MapPanel = (
+    <div className="space-y-3">
+      <Field label="Map Title" value={data.map?.title} onChange={(v) => patch('map', { title: v })} />
+      <Field label="Google Maps Embed URL" rows={4} value={data.map?.embedCode}
+        onChange={(v) => patch('map', { embedCode: v })}
+        placeholder="https://www.google.com/maps?q=... or full iframe code" />
+      <p className="text-xs text-gray-500">Paste either the URL or the full iframe — we'll extract the src automatically.</p>
     </div>
   );
 
-  const GalleryPanel = (
-    <div className="space-y-4">
-      <Field label="Section Name" value={data.gallery?.sectionName} onChange={(v) => patch('gallery', { sectionName: v })} />
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <Field label="Badge" value={data.gallery?.badge} onChange={(v) => patch('gallery', { badge: v })} />
-        <Field label="Title" value={data.gallery?.title} onChange={(v) => patch('gallery', { title: v })} />
-      </div>
-      <Field label="Description" rows={2} value={data.gallery?.description} onChange={(v) => patch('gallery', { description: v })} />
-      <ImageArrayEditor title="Gallery Images (unlimited)" images={data.gallery?.images || []}
-        onChange={(imgs) => patch('gallery', { images: imgs })} aspectRatio="1/1" />
-    </div>
-  );
-
+  // ---- CTA ----
   const CTAPanel = (
-    <div className="space-y-4">
-      <Field label="Section Name" value={data.cta?.sectionName} onChange={(v) => patch('cta', { sectionName: v })} />
-      <ImageUpload imageUrl={data.cta?.backgroundImage}
-        onImageChange={(url) => patch('cta', { backgroundImage: url })}
-        onImageRemove={() => patch('cta', { backgroundImage: '' })}
-        label="Background Image (single)" aspectRatio="16/9" size={260} />
-      <Field label="Title" value={data.cta?.title} onChange={(v) => patch('cta', { title: v })} />
-      <Field label="Description" rows={3} value={data.cta?.description} onChange={(v) => patch('cta', { description: v })} />
-      <ButtonFields title="Primary Button" button={data.cta?.primaryButton} onChange={(b) => patch('cta', { primaryButton: b })} />
+    <div className="space-y-3">
+      <ImageUpload imageUrl={data.cta?.bgImage}
+        onImageChange={(url) => patch('cta', { bgImage: url })}
+        onImageRemove={() => patch('cta', { bgImage: '' })}
+        label="CTA Background Image (single)" aspectRatio="16/9" size={240} />
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <Field label="Badge" value={data.cta?.badge} onChange={(v) => patch('cta', { badge: v })} />
+        <Field label="Title" value={data.cta?.title} onChange={(v) => patch('cta', { title: v })} />
+      </div>
+      <Field label="Description" rows={2} value={data.cta?.description} onChange={(v) => patch('cta', { description: v })} />
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <Field label="Primary Button Text" value={data.cta?.buttonText} onChange={(v) => patch('cta', { buttonText: v })} />
+        <Field label="Primary Button Link" value={data.cta?.buttonLink} onChange={(v) => patch('cta', { buttonLink: v })} />
+        <Field label="Secondary Button Text" value={data.cta?.secondaryButtonText} onChange={(v) => patch('cta', { secondaryButtonText: v })} />
+        <Field label="Secondary Button Link" value={data.cta?.secondaryButtonLink} onChange={(v) => patch('cta', { secondaryButtonLink: v })} />
+      </div>
+    </div>
+  );
+
+  // ---- FORM COPY ----
+  const FormPanel = (
+    <div className="space-y-3">
+      <Field label="Form Title" value={data.form?.title} onChange={(v) => patch('form', { title: v })} />
+      <Field label="Form Description" rows={2} value={data.form?.description} onChange={(v) => patch('form', { description: v })} />
+      <Field label="Success Message" rows={2} value={data.form?.successMessage} onChange={(v) => patch('form', { successMessage: v })} />
     </div>
   );
 
   const PANELS = {
     hero: HeroPanel,
-    brandStory: BrandStoryPanel,
-    journey: JourneyPanel,
-    craftsmanship: CraftsmanshipPanel,
-    artisan: ArtisanPanel,
-    gallery: GalleryPanel,
+    quick: QuickPanel,
+    social: SocialPanel,
+    map: MapPanel,
     cta: CTAPanel,
+    form: FormPanel,
   };
 
   return (
-    <ProtectedRoute pageKey="about_management">
+    <ProtectedRoute pageKey="contact_management">
       <div className="min-h-screen bg-white text-black">
+
         {/* Header */}
         <div className="sticky top-0 z-10 border-b border-gray-200 bg-white">
           <div className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-4">
             <div>
-              <h1 className="text-lg font-bold sm:text-2xl">About Page Management</h1>
+              <h1 className="text-lg font-bold sm:text-2xl">Contact Page Management</h1>
               <p className="mt-0.5 text-xs text-gray-600 sm:text-sm">
                 Nishita's Collection — everything is editable
               </p>
@@ -2113,7 +1004,7 @@ export default function AboutManagement() {
                 className="flex items-center gap-1.5 rounded-md border border-gray-300 px-3 py-1.5 text-xs text-black hover:bg-gray-100 sm:text-sm">
                 <RotateCcw className="h-4 w-4" /> Reset
               </button>
-              <Link href="/about" target="_blank"
+              <Link href="/contact" target="_blank"
                 className="rounded-md border border-gray-300 px-3 py-1.5 text-xs text-black hover:bg-gray-100 sm:text-sm">
                 Preview
               </Link>
@@ -2123,14 +1014,18 @@ export default function AboutManagement() {
 
         {/* Body */}
         <div className="p-4 sm:p-6">
-          <form onSubmit={(e) => { e.preventDefault(); handleSave(); }} className="space-y-6">
+          <form onSubmit={(e) => { e.preventDefault(); handleSave(); }} className="space-y-4">
             {/* Tabs */}
             <div className="flex flex-wrap gap-2 rounded-md border border-gray-200 bg-white p-3">
               {SECTIONS.map((s) => (
-                <button key={s.id} type="button" onClick={() => setActiveTab(s.id)}
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={() => setActiveTab(s.id)}
                   className={`rounded-md px-3 py-2 text-sm font-medium transition ${
                     activeTab === s.id ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'
-                  }`}>
+                  }`}
+                >
                   {s.label}
                 </button>
               ))}
@@ -2146,7 +1041,7 @@ export default function AboutManagement() {
               <button type="submit" disabled={saving}
                 className="flex items-center gap-2 rounded-md bg-black px-6 py-3 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50">
                 {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-                {saving ? 'Saving…' : 'Save About Page'}
+                {saving ? 'Saving…' : 'Save Contact Page'}
               </button>
             </div>
           </form>
