@@ -673,7 +673,7 @@ function SaleBannerCompact({ maxDiscount }) {
     maxDiscount && maxDiscount > 0 ? Math.round(maxDiscount) : 40;
 
   return (
-    <section className="flex h-full w-full items-center justify-center py-2 sm:py-4 lg:py-6 -mt-10">
+    <section className="flex h-full w-full items-center justify-center py-2 sm:py-4 lg:py-6 -mt-8 md:-mt-10">
       <motion.div
         className="mx-auto flex w-full max-w-[320px] flex-col items-center px-2 sm:max-w-[380px] sm:px-3 lg:max-w-[420px]"
         animate={
@@ -1156,7 +1156,7 @@ export default function OfferSection() {
     <>
       <section
         id="sale-products"
-        className="w-full py-4 sm:py-6 md:py-2"
+        className="w-full py-6 sm:py-6 md:py-2 -mb-10 md:-mb-32"
         style={{ backgroundColor: IVORY }}
       >
         <div className="mx-auto max-w-[1500px] px-3 sm:px-4 md:px-6 lg:px-10">
@@ -1229,7 +1229,7 @@ export default function OfferSection() {
             </div>
 
             <div className="flex flex-col">
-              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:gap-3 lg:grid-cols-4">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:gap-3 lg:grid-cols-4 -mt-20 md:-mt-0.5">
                 {currentProducts.map((product, index) => (
                   <OfferProductCard
                     key={`${product._id}-${currentPage}-${index}`}

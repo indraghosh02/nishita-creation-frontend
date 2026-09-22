@@ -1715,7 +1715,7 @@ export default function VideoSection({
           VIDEO SECTION
           ====================================================== */}
 
-      <section className="py-6 md:py-10 bg-[#f8f7f2]">
+      <section className="py-6 md:py-10 bg-[#f8f7f2] -mt-16 md:-mt-4">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
 
           {/* HEADER */}
