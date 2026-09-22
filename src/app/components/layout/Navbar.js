@@ -1236,6 +1236,8 @@
 //     </>
 //   );
 // }
+
+
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -1878,13 +1880,21 @@ export default function Navbar() {
             TOP ROW hides
             BOTTOM ROW becomes fixed to top
       ===================================================== */}
-      <header
+      {/* <header
         className={`
           block w-full bg-[#F1EFE3] text-[#292725] lg:hidden
           transition-all duration-300
           ${isScrolled ? 'pt-0' : '-mt-16'}
         `}
-      >
+      > */}
+
+      <header
+  className={`
+    relative z-40 block w-full bg-[#F1EFE3] text-[#292725] lg:hidden
+    transition-all duration-300
+    ${isScrolled ? 'pt-0' : '-mt-16'}
+  `}
+>
         {/* =================================================
             MOBILE TOP ROW — hidden after scrolling
             Height reduced: 52 → 42
@@ -1925,8 +1935,11 @@ export default function Navbar() {
                 />
               </form>
 
-              {showResults && searchResults.length > 0 && (
-                <div className="absolute left-0 right-0 top-[38px] z-[60] max-h-80 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg">
+              {/* {showResults && searchResults.length > 0 && (
+                <div className="absolute left-0 right-0 top-[38px] z-[60] max-h-80 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg"> */}
+
+                {showResults && searchResults.length > 0 && (
+  <div className="absolute left-0 right-0 top-[38px] z-[9999] max-h-80 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-2xl">
                   {searchResults.map((product) => (
                     <button
                       key={product._id}
@@ -2143,7 +2156,7 @@ export default function Navbar() {
       {/* =====================================================
           DESKTOP HEADER (hidden below lg)
       ===================================================== */}
-      <header
+      {/* <header
         className={`
           relative hidden w-full bg-[#F1EFE3] text-[#292725] lg:-mt-16 lg:block
           transition-all duration-300
@@ -2153,7 +2166,19 @@ export default function Navbar() {
               : 'opacity-100'
           }
         `}
-      >
+      > */}
+
+      <header
+  className={`
+    relative z-40 hidden w-full bg-[#F1EFE3] text-[#292725] lg:-mt-16 lg:block
+    transition-all duration-300
+    ${
+      isScrolled
+        ? 'pointer-events-none opacity-0'
+        : 'opacity-100'
+    }
+  `}
+>
         {/* LOGO */}
         <Link
           href="/"
@@ -2246,8 +2271,10 @@ export default function Navbar() {
                       </div>
                     </form>
 
-                    {showResults && searchResults.length > 0 && (
-                      <div className="absolute top-full left-0 right-0 mt-2 max-h-80 overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-lg z-50">
+                    {/* {showResults && searchResults.length > 0 && (
+                      <div className="absolute top-full left-0 right-0 mt-2 max-h-80 overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-lg z-50"> */}
+                      {showResults && searchResults.length > 0 && (
+  <div className="absolute top-full left-0 right-0 mt-2 max-h-80 overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-2xl z-[9999]">
                         {searchResults.map((product) => (
                           <button
                             key={product._id}

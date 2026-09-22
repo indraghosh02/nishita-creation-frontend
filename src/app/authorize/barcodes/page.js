@@ -142,49 +142,95 @@ export default function BarcodeManagement() {
   }, []);
 
   // Handle scanned barcode - navigate to product page
-  const handleScannedBarcode = async (barcode) => {
-    const toastId = toast.loading(`Searching for product with barcode: ${barcode}...`);
+  // const handleScannedBarcode = async (barcode) => {
+  //   const toastId = toast.loading(`Searching for product with barcode: ${barcode}...`);
     
-    try {
-      // First check if this barcode exists in our current list
-      const foundBarcode = barcodes.find(b => b.barcodeNumber === barcode);
+  //   try {
+  //     // First check if this barcode exists in our current list
+  //     const foundBarcode = barcodes.find(b => b.barcodeNumber === barcode);
       
-      if (foundBarcode && foundBarcode.status === 'assigned' && foundBarcode.productId) {
-        // Barcode is assigned to a product, navigate to product page
-        const productId = foundBarcode.productId._id || foundBarcode.productId;
-        toast.success(`Product found! Redirecting...`, { id: toastId });
-        router.push(`/productDetails?id=${productId}`);
+  //     if (foundBarcode && foundBarcode.status === 'assigned' && foundBarcode.productId) {
+  //       // Barcode is assigned to a product, navigate to product page
+  //       const productId = foundBarcode.productId._id || foundBarcode.productId;
+  //       toast.success(`Product found! Redirecting...`, { id: toastId });
+  //       router.push(`/productDetails?id=${productId}`);
+  //       return;
+  //     }
+      
+  //     // If not found in current list or not assigned, try API
+  //     const response = await fetch(`http://localhost:5000/api/products/barcode/${encodeURIComponent(barcode)}`);
+  //     const data = await response.json();
+      
+  //     if (data.success && data.data) {
+  //       toast.success(`Product found: ${data.data.productName}`, { id: toastId });
+  //       router.push(`/productDetails?id=${data.data._id}`);
+  //     } else {
+  //       toast.error(`No product found for barcode: ${barcode}`, { id: toastId });
+  //     }
+  //   } catch (error) {
+  //     console.error('Error finding product:', error);
+  //     toast.error('Failed to find product. Please try again.', { id: toastId });
+  //   }
+  // };
+
+  const handleScannedBarcode = async (barcode) => {
+  const toastId = toast.loading(`Searching for product with barcode: ${barcode}...`);
+
+  try {
+    const foundBarcode = barcodes.find(b => b.barcodeNumber === barcode);
+
+    if (foundBarcode && foundBarcode.status === 'assigned' && foundBarcode.productId) {
+      const productSlug = foundBarcode.productId.slug || foundBarcode.productId._id;
+      toast.success('Product found! Redirecting...', { id: toastId });
+      router.push(`/product/${productSlug}`);
+      return;
+    }
+
+    // Fallback: use validate endpoint (already public)
+    const response = await fetch(
+      `http://localhost:5000/api/barcodes/validate/${encodeURIComponent(barcode)}`
+    );
+    const data = await response.json();
+
+    if (data.success && data.data.status === 'assigned') {
+      const slug = data.data.productSlug || data.data.productId;
+      if (slug) {
+        toast.success(`Product found: ${data.data.productName}`, { id: toastId });
+        router.push(`/product/${slug}`);
         return;
       }
-      
-      // If not found in current list or not assigned, try API
-      const response = await fetch(`http://localhost:5000/api/products/barcode/${encodeURIComponent(barcode)}`);
-      const data = await response.json();
-      
-      if (data.success && data.data) {
-        toast.success(`Product found: ${data.data.productName}`, { id: toastId });
-        router.push(`/productDetails?id=${data.data._id}`);
-      } else {
-        toast.error(`No product found for barcode: ${barcode}`, { id: toastId });
-      }
-    } catch (error) {
-      console.error('Error finding product:', error);
-      toast.error('Failed to find product. Please try again.', { id: toastId });
     }
-  };
+
+    toast.error(`No product found for barcode: ${barcode}`, { id: toastId });
+  } catch (error) {
+    console.error('Error finding product:', error);
+    toast.error('Failed to find product. Please try again.', { id: toastId });
+  }
+};
 
   // Handle click on barcode card - navigate to product page if assigned
+  // const handleBarcodeClick = (barcode) => {
+  //   if (barcode.status === 'assigned' && barcode.productId) {
+  //     const productId = barcode.productId._id || barcode.productId;
+  //     router.push(`/productDetails?id=${productId}`);
+  //   } else if (barcode.status === 'assigned' && barcode.productName) {
+  //     // If productId is not populated but we have product info, try to find by name
+  //     toast.info('Product details not fully loaded, please refresh');
+  //   } else {
+  //     toast.info('This barcode is not assigned to any product yet');
+  //   }
+  // };
+
   const handleBarcodeClick = (barcode) => {
-    if (barcode.status === 'assigned' && barcode.productId) {
-      const productId = barcode.productId._id || barcode.productId;
-      router.push(`/productDetails?id=${productId}`);
-    } else if (barcode.status === 'assigned' && barcode.productName) {
-      // If productId is not populated but we have product info, try to find by name
-      toast.info('Product details not fully loaded, please refresh');
-    } else {
-      toast.info('This barcode is not assigned to any product yet');
-    }
-  };
+  if (barcode.status === 'assigned' && barcode.productId) {
+    const productSlug = barcode.productId.slug || barcode.productId._id;
+    router.push(`/product/${productSlug}`);
+  } else if (barcode.status === 'assigned' && barcode.productName) {
+    toast.info('Product details not fully loaded, please refresh');
+  } else {
+    toast.info('This barcode is not assigned to any product yet');
+  }
+};
 
   const handleGenerateBarcodes = async () => {
     if (generateCount < 1 || generateCount > 1000) {

@@ -7090,6 +7090,7 @@ export default function ManualOrderCreate() {
                     >
                       <option value="website">Website</option>
                       <option value="facebook">Facebook</option>
+                      <option value="instagram">Instagram</option> 
                       <option value="showroom">Showroom</option>
                     </select>
                   </div>

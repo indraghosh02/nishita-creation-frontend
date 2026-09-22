@@ -595,12 +595,27 @@ export default function VideosClient() {
     };
   }, []);
 
-  const upcomingSessions = useMemo(() => {
-    return [...liveSessions].sort(
-      (a, b) => new Date(a.scheduledAt) - new Date(b.scheduledAt)
-    );
-  }, [liveSessions]);
+  // const upcomingSessions = useMemo(() => {
+  //   return [...liveSessions].sort(
+  //     (a, b) => new Date(a.scheduledAt) - new Date(b.scheduledAt)
+  //   );
+  // }, [liveSessions]);
 
+  const upcomingSessions = useMemo(() => {
+  const now = Date.now();
+
+  return [...liveSessions]
+    .filter((s) => {
+      if (!s?.scheduledAt) return false;
+      const t = new Date(s.scheduledAt).getTime();
+      return Number.isFinite(t) && t > now;   // only future sessions
+    })
+    .sort(
+      (a, b) =>
+        new Date(a.scheduledAt).getTime() -
+        new Date(b.scheduledAt).getTime()
+    );
+}, [liveSessions]);
   const videoTypes = useMemo(() => {
     const types = videos
       .map((v) => (v.type || '').trim().toLowerCase())

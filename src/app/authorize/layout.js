@@ -573,6 +573,13 @@ accessKey: 'barcode-scanner'
           href: '/authorize/returned-items',
           icon: PackageCheck,
           accessKey: 'returned_items'
+        },
+
+         {
+          name: 'Restock Item',
+          href: '/authorize/restock',
+          icon: PackageCheck,
+          accessKey: 'restock'
         }
       ]
     },

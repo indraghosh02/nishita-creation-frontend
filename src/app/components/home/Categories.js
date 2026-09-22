@@ -492,6 +492,8 @@
 //     </motion.div>
 //   );
 // }
+
+
 'use client';
 
 import Image from 'next/image';
@@ -506,14 +508,105 @@ const SIDE_SLOTS = 4;
 // ============================================
 // OCCASION CARD
 // ============================================
-function OccasionCard({
-  image,
-  imageMobile,
-  title,
-  subtitle,
-  href,
-  center = false,
-}) {
+// function OccasionCard({
+//   image,
+//   imageMobile,
+//   title,
+//   subtitle,
+//   href,
+//   center = false,
+// }) {
+//   const [isMobile, setIsMobile] = useState(false);
+
+//   useEffect(() => {
+//     const check = () => setIsMobile(window.innerWidth < 768);
+//     check();
+//     window.addEventListener('resize', check);
+//     return () => window.removeEventListener('resize', check);
+//   }, []);
+
+//   const displayImage =
+//     center && imageMobile && isMobile ? imageMobile : image;
+
+//   return (
+//     <Link
+//       href={href}
+//       className={`
+//         group relative block overflow-hidden rounded-[5px]
+//         ${center ? 'aspect-[2/1] md:aspect-auto md:h-full' : 'aspect-[2/1]'}
+//       `}
+//     >
+//       <Image
+//         key={displayImage}
+//         src={displayImage}
+//         alt={title}
+//         fill
+//         priority
+//         className="
+//           object-cover
+//           transition-transform
+//           duration-700
+//           ease-out
+//           group-hover:scale-105
+//         "
+//         sizes="
+//           (max-width: 767px) 100vw,
+//           (max-width: 1024px) 50vw,
+//           33vw
+//         "
+//       />
+
+//       <div
+//         className="
+//           absolute
+//           inset-0
+//           bg-gradient-to-t
+//           from-black/65
+//           via-black/10
+//           to-transparent
+//         "
+//       />
+
+//       <div
+//         className={`
+//           absolute
+//           bottom-5
+//           left-4
+//           right-4
+//           text-white
+//           ${center ? 'text-center md:text-center' : 'text-left'}
+//         `}
+//       >
+//         <h3
+//           className="
+//             text-[18px]
+//             leading-tight
+//             font-medium
+//             tracking-[-0.3px]
+//             md:text-[20px]
+//           "
+//         >
+//           {title}
+//         </h3>
+
+//         <p
+//           className="
+//             mt-1
+//             text-[10px]
+//             font-medium
+//             tracking-[0.3px]
+//             md:text-[11px]
+//           "
+//         >
+//           {subtitle}
+//           <span className="ml-1 text-[14px]">→</span>
+//         </p>
+//       </div>
+//     </Link>
+//   );
+// }
+
+function OccasionCard({ image, imageMobile, title, subtitle, href, center = false }) {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -523,8 +616,7 @@ function OccasionCard({
     return () => window.removeEventListener('resize', check);
   }, []);
 
-  const displayImage =
-    center && imageMobile && isMobile ? imageMobile : image;
+  const displayImage = center && imageMobile && isMobile ? imageMobile : image;
 
   return (
     <Link
@@ -540,48 +632,24 @@ function OccasionCard({
         alt={title}
         fill
         priority
-        className="
-          object-cover
-          transition-transform
-          duration-700
-          ease-out
-          group-hover:scale-105
-        "
-        sizes="
-          (max-width: 767px) 100vw,
-          (max-width: 1024px) 50vw,
-          33vw
-        "
+        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+        sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 33vw"
       />
 
-      <div
-        className="
-          absolute
-          inset-0
-          bg-gradient-to-t
-          from-black/65
-          via-black/10
-          to-transparent
-        "
-      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
 
       <div
         className={`
-          absolute
-          bottom-5
-          left-4
-          right-4
-          text-white
-          ${center ? 'text-center md:text-center' : 'text-left'}
+          absolute bottom-2.5 left-2.5 right-2.5 text-white text-left
+          md:bottom-5 md:left-4 md:right-4
+          ${center ? 'md:text-center' : ''}
         `}
       >
         <h3
           className="
-            text-[18px]
-            leading-tight
-            font-medium
-            tracking-[-0.3px]
-            md:text-[20px]
+            text-[11px] leading-tight font-medium tracking-[-0.1px]
+            sm:text-[13px]
+            md:text-[20px] md:tracking-[-0.3px]
           "
         >
           {title}
@@ -589,15 +657,13 @@ function OccasionCard({
 
         <p
           className="
-            mt-1
-            text-[10px]
-            font-medium
-            tracking-[0.3px]
-            md:text-[11px]
+            mt-0.5 text-[7px] font-medium tracking-[0.15px]
+            sm:text-[9px]
+            md:mt-1 md:text-[11px] md:tracking-[0.3px]
           "
         >
           {subtitle}
-          <span className="ml-1 text-[14px]">→</span>
+          <span className="ml-0.5 text-[9px] md:ml-1 md:text-[14px]">→</span>
         </p>
       </div>
     </Link>
@@ -624,6 +690,289 @@ function PlaceholderCard({ center = false }) {
   );
 }
 
+// export default function OccasionSection() {
+//   const [tags, setTags] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [page, setPage] = useState(0);
+
+//   useEffect(() => {
+//     const fetchTags = async () => {
+//       try {
+//         const response = await fetch(`${API_URL}/api/tags?isActive=true`, {
+//           cache: 'no-store',
+//         });
+//         const data = await response.json();
+//         if (data.success) {
+//           const sorted = [...data.data].sort((a, b) => a.order - b.order);
+//           setTags(sorted);
+//         }
+//       } catch (error) {
+//         console.error('Failed to fetch tags:', error);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchTags();
+//   }, []);
+
+//   const centerTag = tags.find((t) => t.order === 0) || null;
+
+//   const sideTags = tags
+//     .filter((t) => t.order !== 0)
+//     .sort((a, b) => a.order - b.order);
+
+//   const totalPages = Math.max(1, Math.ceil(sideTags.length / SIDE_SLOTS));
+//   const hasMultiplePages = totalPages > 1;
+
+//   const currentPage = Math.min(page, totalPages - 1);
+//   const startIndex = currentPage * SIDE_SLOTS;
+
+//   const visibleSide = [];
+//   for (let i = 0; i < SIDE_SLOTS; i++) {
+//     const idx = startIndex + i;
+//     if (idx < sideTags.length) {
+//       visibleSide.push(sideTags[idx]);
+//     } else if (sideTags.length > 0) {
+//       visibleSide.push(sideTags[i % sideTags.length]);
+//     }
+//   }
+
+//   const leftTop = visibleSide[0] || null;
+//   const rightTop = visibleSide[1] || null;
+//   const leftBottom = visibleSide[2] || null;
+//   const rightBottom = visibleSide[3] || null;
+
+//   const handlePrev = () => setPage((p) => Math.max(0, p - 1));
+//   const handleNext = () =>
+//     setPage((p) => Math.min(totalPages - 1, p + 1));
+
+//   if (loading || tags.length === 0) {
+//     return null;
+//   }
+
+//   return (
+//     <section className="w-full bg-white py-6 md:py-8 lg:py-9">
+//       <div className="mx-auto max-w-[1320px] px-5 md:px-8 lg:px-10">
+
+//         {/* HEADER */}
+//         <div className="mb-5 flex items-center justify-between md:mb-6">
+//           <h2
+//             className="
+//               text-[25px]
+//               font-medium
+//               leading-none
+//               tracking-[-1px]
+//               text-[#3F3F3F]
+//               md:text-[29px]
+//               lg:text-[32px]
+//             "
+//           >
+//             Shop By{' '}
+//             <span className="font-semibold text-[#A5252E]">
+//               Collections
+//             </span>
+//           </h2>
+
+//           <div className="hidden items-center gap-3 sm:flex">
+//             <Link
+//               href="/collections"
+//               className="
+//                 border-b
+//                 border-[#333]
+//                 pb-[2px]
+//                 text-[11px]
+//                 font-medium
+//                 tracking-wide
+//                 text-[#333]
+//                 transition-opacity
+//                 hover:opacity-60
+//                 md:text-[12px]
+//               "
+//             >
+//               ALL COLLECTIONS
+//             </Link>
+
+//             {hasMultiplePages && (
+//               <div className="flex items-center gap-1.5">
+//                 <button
+//                   type="button"
+//                   onClick={handlePrev}
+//                   disabled={currentPage === 0}
+//                   aria-label="Previous"
+//                   className="
+//                     flex h-7 w-7 items-center justify-center
+//                     rounded-full border border-[#333]/25
+//                     text-[#333]
+//                     transition
+//                     hover:bg-[#B82E68] hover:text-white hover:border-[#B82E68]
+//                     disabled:opacity-30 disabled:cursor-not-allowed
+//                     disabled:hover:bg-transparent disabled:hover:text-[#333]
+//                     disabled:hover:border-[#333]/25
+//                   "
+//                 >
+//                   <ChevronLeft className="h-4 w-4" />
+//                 </button>
+//                 <button
+//                   type="button"
+//                   onClick={handleNext}
+//                   disabled={currentPage >= totalPages - 1}
+//                   aria-label="Next"
+//                   className="
+//                     flex h-7 w-7 items-center justify-center
+//                     rounded-full border border-[#333]/25
+//                     text-[#333]
+//                     transition
+//                     hover:bg-[#B82E68] hover:text-white hover:border-[#B82E68]
+//                     disabled:opacity-30 disabled:cursor-not-allowed
+//                     disabled:hover:bg-transparent disabled:hover:text-[#333]
+//                     disabled:hover:border-[#333]/25
+//                   "
+//                 >
+//                   <ChevronRight className="h-4 w-4" />
+//                 </button>
+//               </div>
+//             )}
+//           </div>
+//         </div>
+
+//         {/* GRID */}
+//         <div
+//           className="
+//             grid
+//             grid-cols-1
+//             gap-2.5
+
+//             md:grid-cols-3
+//             md:grid-rows-2
+//             md:gap-3.5
+//           "
+//         >
+
+//           {/* LEFT TOP */}
+//           {leftTop ? (
+//             <OccasionCard
+//               image={leftTop.image}
+//               title={leftTop.name}
+//               subtitle="ALL COLLECTIONS"
+//               href={`/collections?tag=${leftTop.slug}`}
+//             />
+//           ) : (
+//             <PlaceholderCard />
+//           )}
+
+//           {/* CENTER */}
+//           {centerTag ? (
+//             <div className="md:row-span-2">
+//               <OccasionCard
+//                 image={centerTag.image}
+//                 imageMobile={centerTag.imageMobile}
+//                 title={centerTag.name}
+//                 subtitle="EXPLORE"
+//                 href={`/collections?tag=${centerTag.slug}`}
+//                 center
+//               />
+//             </div>
+//           ) : (
+//             <div className="md:row-span-2">
+//               <PlaceholderCard center />
+//             </div>
+//           )}
+
+//           {/* RIGHT TOP */}
+//           {rightTop ? (
+//             <OccasionCard
+//               image={rightTop.image}
+//               title={rightTop.name}
+//               subtitle="ALL COLLECTIONS"
+//               href={`/collections?tag=${rightTop.slug}`}
+//             />
+//           ) : (
+//             <PlaceholderCard />
+//           )}
+
+//           {/* LEFT BOTTOM */}
+//           {leftBottom ? (
+//             <OccasionCard
+//               image={leftBottom.image}
+//               title={leftBottom.name}
+//               subtitle="ALL COLLECTIONS"
+//               href={`/collections?tag=${leftBottom.slug}`}
+//             />
+//           ) : (
+//             <PlaceholderCard />
+//           )}
+
+//           {/* RIGHT BOTTOM */}
+//           {rightBottom ? (
+//             <OccasionCard
+//               image={rightBottom.image}
+//               title={rightBottom.name}
+//               subtitle="ALL COLLECTIONS"
+//               href={`/collections?tag=${rightBottom.slug}`}
+//             />
+//           ) : (
+//             <PlaceholderCard />
+//           )}
+
+//         </div>
+
+//         {/* Mobile View All + arrows */}
+//         <div className="mt-4 flex items-center justify-center gap-3 sm:hidden">
+//           {hasMultiplePages && (
+//             <button
+//               type="button"
+//               onClick={handlePrev}
+//               disabled={currentPage === 0}
+//               aria-label="Previous"
+//               className="
+//                 flex h-7 w-7 items-center justify-center
+//                 rounded-full border border-[#333]/25
+//                 text-[#333]
+//                 disabled:opacity-30 disabled:cursor-not-allowed
+//               "
+//             >
+//               <ChevronLeft className="h-4 w-4" />
+//             </button>
+//           )}
+
+//           <Link
+//             href="/collections"
+//             className="
+//               border-b
+//               border-[#333]
+//               pb-1
+//               text-[11px]
+//               font-medium
+//               tracking-wide
+//               text-[#333]
+//             "
+//           >
+//             VIEW ALL EVENTS
+//           </Link>
+
+//           {hasMultiplePages && (
+//             <button
+//               type="button"
+//               onClick={handleNext}
+//               disabled={currentPage >= totalPages - 1}
+//               aria-label="Next"
+//               className="
+//                 flex h-7 w-7 items-center justify-center
+//                 rounded-full border border-[#333]/25
+//                 text-[#333]
+//                 disabled:opacity-30 disabled:cursor-not-allowed
+//               "
+//             >
+//               <ChevronRight className="h-4 w-4" />
+//             </button>
+//           )}
+//         </div>
+
+//       </div>
+//     </section>
+//   );
+// }
 export default function OccasionSection() {
   const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -646,11 +995,13 @@ export default function OccasionSection() {
         setLoading(false);
       }
     };
-
     fetchTags();
   }, []);
 
   const centerTag = tags.find((t) => t.order === 0) || null;
+
+  // All tags sorted — includes center tag if present
+  const allTags = [...tags].sort((a, b) => a.order - b.order);
 
   const sideTags = tags
     .filter((t) => t.order !== 0)
@@ -677,9 +1028,30 @@ export default function OccasionSection() {
   const leftBottom = visibleSide[2] || null;
   const rightBottom = visibleSide[3] || null;
 
+  // ============================================
+  // MOBILE CARDS — flat list, 4 per page (2×2)
+  // No compulsory center. Uses ALL tags.
+  // ============================================
+  const MOBILE_SLOTS = 4;
+  const mobileTotalPages = Math.max(1, Math.ceil(allTags.length / MOBILE_SLOTS));
+  const mobileHasMultiplePages = mobileTotalPages > 1;
+
+  const mobileCurrentPage = Math.min(page, mobileTotalPages - 1);
+  const mobileStartIndex = mobileCurrentPage * MOBILE_SLOTS;
+
+  const mobileVisible = [];
+  for (let i = 0; i < MOBILE_SLOTS; i++) {
+    const idx = mobileStartIndex + i;
+    if (idx < allTags.length) {
+      mobileVisible.push(allTags[idx]);
+    } else if (allTags.length > 0) {
+      mobileVisible.push(allTags[i % allTags.length]);
+    }
+  }
+
   const handlePrev = () => setPage((p) => Math.max(0, p - 1));
   const handleNext = () =>
-    setPage((p) => Math.min(totalPages - 1, p + 1));
+    setPage((p) => Math.min(Math.max(totalPages, mobileTotalPages) - 1, p + 1));
 
   if (loading || tags.length === 0) {
     return null;
@@ -693,12 +1065,9 @@ export default function OccasionSection() {
         <div className="mb-5 flex items-center justify-between md:mb-6">
           <h2
             className="
-              text-[25px]
-              font-medium
-              leading-none
-              tracking-[-1px]
-              text-[#3F3F3F]
-              md:text-[29px]
+              text-[20px] leading-none tracking-[-0.8px] text-[#3F3F3F] font-medium
+              sm:text-[23px]
+              md:text-[29px] md:tracking-[-1px]
               lg:text-[32px]
             "
           >
@@ -712,15 +1081,9 @@ export default function OccasionSection() {
             <Link
               href="/collections"
               className="
-                border-b
-                border-[#333]
-                pb-[2px]
-                text-[11px]
-                font-medium
-                tracking-wide
-                text-[#333]
-                transition-opacity
-                hover:opacity-60
+                border-b border-[#333] pb-[2px]
+                text-[11px] font-medium tracking-wide text-[#333]
+                transition-opacity hover:opacity-60
                 md:text-[12px]
               "
             >
@@ -736,8 +1099,7 @@ export default function OccasionSection() {
                   aria-label="Previous"
                   className="
                     flex h-7 w-7 items-center justify-center
-                    rounded-full border border-[#333]/25
-                    text-[#333]
+                    rounded-full border border-[#333]/25 text-[#333]
                     transition
                     hover:bg-[#B82E68] hover:text-white hover:border-[#B82E68]
                     disabled:opacity-30 disabled:cursor-not-allowed
@@ -754,8 +1116,7 @@ export default function OccasionSection() {
                   aria-label="Next"
                   className="
                     flex h-7 w-7 items-center justify-center
-                    rounded-full border border-[#333]/25
-                    text-[#333]
+                    rounded-full border border-[#333]/25 text-[#333]
                     transition
                     hover:bg-[#B82E68] hover:text-white hover:border-[#B82E68]
                     disabled:opacity-30 disabled:cursor-not-allowed
@@ -770,20 +1131,33 @@ export default function OccasionSection() {
           </div>
         </div>
 
-        {/* GRID */}
-        <div
-          className="
-            grid
-            grid-cols-1
-            gap-2.5
+        {/* ============================================
+            MOBILE GRID — 2 cols × 2 rows (4 cards)
+            Uses allTags (no compulsory center).
+        ============================================ */}
+        <div className="grid grid-cols-2 gap-2.5 md:hidden">
+         {mobileVisible.map((tag, i) => {
+  const isCenterTag = tag.order === 0;
+  return tag ? (
+    <OccasionCard
+      key={`${tag._id}-${i}`}
+      image={tag.image}
+      imageMobile={tag.imageMobile}
+      title={tag.name}
+      subtitle={isCenterTag ? 'EXPLORE' : 'ALL COLLECTIONS'}
+      href={`/collections?tag=${tag.slug}`}
+      center={isCenterTag}
+    />
+  ) : (
+    <PlaceholderCard key={`ph-${i}`} />
+  );
+})}
+        </div>
 
-            md:grid-cols-3
-            md:grid-rows-2
-            md:gap-3.5
-          "
-        >
-
-          {/* LEFT TOP */}
+        {/* ============================================
+            DESKTOP GRID — unchanged 3-col / 2-row
+        ============================================ */}
+        <div className="hidden md:grid md:grid-cols-3 md:grid-rows-2 md:gap-3.5">
           {leftTop ? (
             <OccasionCard
               image={leftTop.image}
@@ -795,7 +1169,6 @@ export default function OccasionSection() {
             <PlaceholderCard />
           )}
 
-          {/* CENTER */}
           {centerTag ? (
             <div className="md:row-span-2">
               <OccasionCard
@@ -813,7 +1186,6 @@ export default function OccasionSection() {
             </div>
           )}
 
-          {/* RIGHT TOP */}
           {rightTop ? (
             <OccasionCard
               image={rightTop.image}
@@ -825,7 +1197,6 @@ export default function OccasionSection() {
             <PlaceholderCard />
           )}
 
-          {/* LEFT BOTTOM */}
           {leftBottom ? (
             <OccasionCard
               image={leftBottom.image}
@@ -837,7 +1208,6 @@ export default function OccasionSection() {
             <PlaceholderCard />
           )}
 
-          {/* RIGHT BOTTOM */}
           {rightBottom ? (
             <OccasionCard
               image={rightBottom.image}
@@ -848,21 +1218,19 @@ export default function OccasionSection() {
           ) : (
             <PlaceholderCard />
           )}
-
         </div>
 
-        {/* Mobile View All + arrows */}
+        {/* Mobile View All + arrows — uses mobile pagination */}
         <div className="mt-4 flex items-center justify-center gap-3 sm:hidden">
-          {hasMultiplePages && (
+          {mobileHasMultiplePages && (
             <button
               type="button"
               onClick={handlePrev}
-              disabled={currentPage === 0}
+              disabled={mobileCurrentPage === 0}
               aria-label="Previous"
               className="
                 flex h-7 w-7 items-center justify-center
-                rounded-full border border-[#333]/25
-                text-[#333]
+                rounded-full border border-[#333]/25 text-[#333]
                 disabled:opacity-30 disabled:cursor-not-allowed
               "
             >
@@ -873,28 +1241,22 @@ export default function OccasionSection() {
           <Link
             href="/collections"
             className="
-              border-b
-              border-[#333]
-              pb-1
-              text-[11px]
-              font-medium
-              tracking-wide
-              text-[#333]
+              border-b border-[#333] pb-1
+              text-[11px] font-medium tracking-wide text-[#333]
             "
           >
             VIEW ALL EVENTS
           </Link>
 
-          {hasMultiplePages && (
+          {mobileHasMultiplePages && (
             <button
               type="button"
               onClick={handleNext}
-              disabled={currentPage >= totalPages - 1}
+              disabled={mobileCurrentPage >= mobileTotalPages - 1}
               aria-label="Next"
               className="
                 flex h-7 w-7 items-center justify-center
-                rounded-full border border-[#333]/25
-                text-[#333]
+                rounded-full border border-[#333]/25 text-[#333]
                 disabled:opacity-30 disabled:cursor-not-allowed
               "
             >
