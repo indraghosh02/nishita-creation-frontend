@@ -1,4 +1,5 @@
 
+
 // 'use client';
 
 // import { useState, useEffect, useRef } from 'react';
@@ -58,7 +59,6 @@
 
 //   // Search states
 //   const [searchOpen, setSearchOpen] = useState(false);
-//   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 //   const [searchQuery, setSearchQuery] = useState('');
 //   const [searchResults, setSearchResults] = useState([]);
 //   const [searchLoading, setSearchLoading] = useState(false);
@@ -71,7 +71,7 @@
 //   const [profileImageError, setProfileImageError] = useState(false);
 //   const [cartCount, setCartCount] = useState(0);
 
-//   // Mobile category expansion
+//   // Mobile expansion state
 //   const [expandedMobileCategory, setExpandedMobileCategory] = useState(null);
 
 //   // Refs
@@ -98,13 +98,24 @@
 //       setIsScrolled(window.scrollY > 50);
 //     };
 
-//     window.addEventListener('scroll', handleScroll);
-//     return () => window.removeEventListener('scroll', handleScroll);
+//     handleScroll();
+
+//     window.addEventListener('scroll', handleScroll, {
+//       passive: true,
+//     });
+
+//     return () => {
+//       window.removeEventListener('scroll', handleScroll);
+//     };
 //   }, []);
 
-//   // Close mobile menu on scroll
+//   // Close mobile menu on scroll (desktop only behavior — mobile menu is independent)
 //   useEffect(() => {
-//     if (isScrolled) {
+//     if (
+//       isScrolled &&
+//       typeof window !== 'undefined' &&
+//       window.innerWidth >= 1024
+//     ) {
 //       setMobileMenuOpen(false);
 //     }
 //   }, [isScrolled]);
@@ -203,12 +214,9 @@
 //       }
 //       if (
 //         mobileSearchRef.current &&
-//         !mobileSearchRef.current.contains(event.target) &&
-//         !event.target.closest('.mobile-search-trigger')
+//         !mobileSearchRef.current.contains(event.target)
 //       ) {
-//         setMobileSearchOpen(false);
-//         setShowResults(false);
-//         setSearchQuery('');
+//         // Keep mobile search query so user can continue typing
 //       }
 //     };
 
@@ -284,7 +292,6 @@
 //     if (searchQuery.trim()) {
 //       router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
 //       setSearchOpen(false);
-//       setMobileSearchOpen(false);
 //       setSearchQuery('');
 //       setShowResults(false);
 //     }
@@ -297,7 +304,6 @@
 
 //     if (productSlug) {
 //       setSearchOpen(false);
-//       setMobileSearchOpen(false);
 //       setSearchQuery('');
 //       setShowResults(false);
 //       setTimeout(() => {
@@ -386,11 +392,12 @@
 //   };
 
 //   // Get navigation items from backend
-//   const navItems = navbarData?.items?.filter(item => item.isActive !== false) || [];
+//   const navItems =
+//     navbarData?.items?.filter((item) => item.isActive !== false) || [];
 
 //   // Toggle mobile category expansion
 //   const toggleMobileCategory = (itemId) => {
-//     setExpandedMobileCategory(prev => prev === itemId ? null : itemId);
+//     setExpandedMobileCategory((prev) => (prev === itemId ? null : itemId));
 //   };
 
 //   // ============================================================
@@ -418,8 +425,13 @@
 //     const itemKey = `${prefix}${item.id || index}`;
 
 //     // Category type with subcategories - show dropdown
-//     if (item.type === 'category' && item.category?.subcategories?.length > 0) {
-//       const categoryUrl = item.href || `/products?category=${item.category?.slug || item.category?._id}`;
+//     if (
+//       item.type === 'category' &&
+//       item.category?.subcategories?.length > 0
+//     ) {
+//       const categoryUrl =
+//         item.href ||
+//         `/products?category=${item.category?.slug || item.category?._id}`;
 
 //       return (
 //         <div key={itemKey} className="group relative mr-5">
@@ -437,30 +449,34 @@
 //             />
 //           </Link>
 
-//           {/* Dropdown with subcategories and their children */}
+//           {/* Dropdown */}
 //           <div className="invisible absolute left-0 top-full z-50 mt-1 min-w-[220px] rounded-lg border border-gray-200 bg-white py-2 opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:opacity-100">
 //             {item.category.subcategories.map((sub) => {
 //               const subSlug = sub.slug || sub._id;
 //               const hasChildren = sub.children?.length > 0;
 
 //               if (hasChildren) {
-//                 // Subcategory with children - nested dropdown
 //                 return (
 //                   <div key={sub._id || sub.id} className="group/sub relative">
 //                     <Link
-//                       href={`/products?category=${item.category.slug || item.category._id}&subcategory=${subSlug}`}
+//                       href={`/products?category=${
+//                         item.category.slug || item.category._id
+//                       }&subcategory=${subSlug}`}
 //                       className="flex items-center justify-between px-4 py-2 text-[12px] text-gray-700 transition hover:bg-gray-50 hover:text-[#69272B]"
 //                     >
 //                       <span>{sub.name}</span>
 //                       <ChevronDown size={12} className="-rotate-90" />
 //                     </Link>
 
-//                     {/* Child subcategories */}
 //                     <div className="invisible absolute left-full top-0 ml-1 min-w-[180px] rounded-lg border border-gray-200 bg-white py-2 opacity-0 shadow-lg transition-all duration-200 group-hover/sub:visible group-hover/sub:opacity-100">
 //                       {sub.children.map((child) => (
 //                         <Link
 //                           key={child._id || child.id}
-//                           href={`/products?category=${item.category.slug || item.category._id}&subcategory=${subSlug}&child=${child.slug || child._id}`}
+//                           href={`/products?category=${
+//                             item.category.slug || item.category._id
+//                           }&subcategory=${subSlug}&child=${
+//                             child.slug || child._id
+//                           }`}
 //                           className="block px-4 py-2 text-[12px] text-gray-600 transition hover:bg-gray-50 hover:text-[#69272B]"
 //                         >
 //                           {child.name}
@@ -471,11 +487,12 @@
 //                 );
 //               }
 
-//               // Simple subcategory link
 //               return (
 //                 <Link
 //                   key={sub._id || sub.id}
-//                   href={`/products?category=${item.category.slug || item.category._id}&subcategory=${subSlug}`}
+//                   href={`/products?category=${
+//                     item.category.slug || item.category._id
+//                   }&subcategory=${subSlug}`}
 //                   className="block px-4 py-2 text-[12px] text-gray-700 transition hover:bg-gray-50 hover:text-[#69272B]"
 //                 >
 //                   {sub.name}
@@ -487,9 +504,11 @@
 //       );
 //     }
 
-//     // Category type without subcategories - simple link
+//     // Category type without subcategories
 //     if (item.type === 'category' && item.category) {
-//       const categoryUrl = item.href || `/products?category=${item.category?.slug || item.category?._id}`;
+//       const categoryUrl =
+//         item.href ||
+//         `/products?category=${item.category?.slug || item.category?._id}`;
 //       return (
 //         <Link
 //           key={itemKey}
@@ -518,43 +537,48 @@
 //   };
 
 //   // ============================================================
-//   // RENDER MOBILE NAV ITEM
+//   // RENDER MOBILE NAV ITEM (inside sidebar)
 //   // ============================================================
 //   const renderMobileNavItem = (item, index) => {
 //     const itemKey = `mobile-${item.id || index}`;
-//     const hasSubcategories = item.type === 'category' && item.category?.subcategories?.length > 0;
+//     const hasSubcategories =
+//       item.type === 'category' && item.category?.subcategories?.length > 0;
 //     const isExpanded = expandedMobileCategory === (item.id || index);
 
 //     if (hasSubcategories) {
-//       const categoryUrl = item.href || `/products?category=${item.category?.slug || item.category?._id}`;
+//       const categoryUrl =
+//         item.href ||
+//         `/products?category=${item.category?.slug || item.category?._id}`;
 
 //       return (
 //         <div key={itemKey}>
 //           <div
-//             className={`flex min-h-[40px] items-center justify-between border-b border-[#eeeeee] text-[12px] font-medium ${
+//             className={`flex min-h-[48px] items-center justify-between border-b border-[#eeeeee] text-[13px] font-medium ${
 //               item.highlight ? 'text-[#d83a38]' : 'text-[#292725]'
 //             }`}
 //           >
 //             <Link
 //               href={categoryUrl}
 //               onClick={() => setMobileMenuOpen(false)}
-//               className="flex-1 py-2"
+//               className="flex-1 py-3"
 //             >
 //               {item.name}
 //             </Link>
 //             <button
 //               onClick={() => toggleMobileCategory(item.id || index)}
-//               className="p-2"
+//               className="p-3"
+//               aria-label="Toggle subcategories"
 //             >
 //               <ChevronDown
-//                 size={13}
-//                 strokeWidth={1.4}
-//                 className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+//                 size={16}
+//                 strokeWidth={1.6}
+//                 className={`transition-transform duration-200 ${
+//                   isExpanded ? 'rotate-180' : ''
+//                 }`}
 //               />
 //             </button>
 //           </div>
 
-//           {/* Mobile Subcategories */}
 //           <AnimatePresence>
 //             {isExpanded && (
 //               <motion.div
@@ -570,9 +594,11 @@
 //                     return (
 //                       <Link
 //                         key={sub._id || sub.id}
-//                         href={`/products?category=${item.category.slug || item.category._id}&subcategory=${subSlug}`}
+//                         href={`/products?category=${
+//                           item.category.slug || item.category._id
+//                         }&subcategory=${subSlug}`}
 //                         onClick={() => setMobileMenuOpen(false)}
-//                         className="block px-6 py-2 text-[11px] text-gray-600 transition hover:bg-gray-100 hover:text-[#69272B]"
+//                         className="block px-6 py-2.5 text-[12px] text-gray-600 transition hover:bg-gray-100 hover:text-[#69272B]"
 //                       >
 //                         {sub.name}
 //                       </Link>
@@ -591,7 +617,7 @@
 //         key={itemKey}
 //         href={item.href || '/'}
 //         onClick={() => setMobileMenuOpen(false)}
-//         className={`flex min-h-[40px] items-center justify-between border-b border-[#eeeeee] text-[12px] font-medium ${
+//         className={`flex min-h-[48px] items-center justify-between border-b border-[#eeeeee] text-[13px] font-medium ${
 //           item.highlight ? 'text-[#d83a38]' : 'text-[#292725]'
 //         }`}
 //       >
@@ -606,18 +632,316 @@
 //   return (
 //     <>
 //       {/* =====================================================
-//           ORIGINAL HEADER
+//           MOBILE HEADER
+//           TOP:
+//             Search + Phone / Truck / MapPin
+//           BOTTOM:
+//             Menu + Logo + Wishlist / Bag / User
+
+//           On scroll:
+//             TOP ROW hides
+//             BOTTOM ROW becomes fixed to top
 //       ===================================================== */}
-//       <header
+//       {/* <header
 //         className={`
-//           relative -mt-16 w-full bg-[#F1EFE3] text-[#292725]
+//           block w-full bg-[#F1EFE3] text-[#292725] lg:hidden
 //           transition-all duration-300
-//           ${isScrolled ? 'pointer-events-none opacity-0' : 'opacity-100'}
+//           ${isScrolled ? 'pt-0' : '-mt-16'}
 //         `}
-//       >
+//       > */}
+
+//       <header
+//   className={`
+//     relative z-40 block w-full bg-[#F1EFE3] text-[#292725] lg:hidden
+//     transition-all duration-300
+//     ${isScrolled ? 'pt-0' : '-mt-16'}
+//   `}
+// >
 //         {/* =================================================
-//             LOGO - COVERS BOTH ROWS
+//             MOBILE TOP ROW — hidden after scrolling
+//             Height reduced: 52 → 42
 //         ================================================= */}
+//         <div
+//           className={`
+//             overflow-hidden border-b border-[#dedcd2]
+//             transition-all duration-300
+//             ${
+//               isScrolled
+//                 ? 'max-h-0 border-b-0 opacity-0'
+//                 : 'max-h-[42px] opacity-100'
+//             }
+//           `}
+//         >
+//           <div className="flex h-[42px] items-center gap-2 px-3">
+//             {/* Search bar */}
+//             <div className="relative flex-1" ref={mobileSearchRef}>
+//               <form onSubmit={handleSearchSubmit} className="relative">
+//                 <Search
+//                   size={14}
+//                   strokeWidth={1.5}
+//                   className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-[#777]"
+//                 />
+//                 <input
+//                   type="text"
+//                   value={searchQuery}
+//                   onChange={(e) => setSearchQuery(e.target.value)}
+//                   placeholder="Search products..."
+//                   className="
+//                     h-[30px] w-full rounded-full
+//                     border border-[#dedbd7]
+//                     bg-white pl-8 pr-3
+//                     text-[11px] text-[#333]
+//                     outline-none
+//                     focus:border-[#69272B]
+//                   "
+//                 />
+//               </form>
+
+//               {/* {showResults && searchResults.length > 0 && (
+//                 <div className="absolute left-0 right-0 top-[38px] z-[60] max-h-80 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg"> */}
+
+//                 {showResults && searchResults.length > 0 && (
+//   <div className="absolute left-0 right-0 top-[38px] z-[9999] max-h-80 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-2xl">
+//                   {searchResults.map((product) => (
+//                     <button
+//                       key={product._id}
+//                       onMouseDown={(e) => {
+//                         e.preventDefault();
+//                         handleResultClick(product);
+//                       }}
+//                       className="
+//                         flex w-full items-center gap-3
+//                         border-b border-gray-100
+//                         px-3 py-3 text-left
+//                         transition hover:bg-gray-50
+//                         last:border-0
+//                       "
+//                     >
+//                       {product.images?.[0] ? (
+//                         <img
+//                           src={product.images[0]?.url || product.images[0]}
+//                           alt={product.productName || product.name}
+//                           className="h-12 w-12 rounded-lg bg-gray-100 object-cover"
+//                         />
+//                       ) : (
+//                         <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100">
+//                           <Package className="h-6 w-6 text-gray-400" />
+//                         </div>
+//                       )}
+//                       <div className="min-w-0 flex-1">
+//                         <p className="truncate text-sm font-medium text-gray-900">
+//                           {product.productName ||
+//                             product.name ||
+//                             product.title}
+//                         </p>
+//                         <p
+//                           className="text-sm font-semibold"
+//                           style={{ color: ACCENT_COLOR }}
+//                         >
+//                           ৳
+//                           {product.discountPrice ||
+//                             product.regularPrice ||
+//                             product.price}
+//                         </p>
+//                       </div>
+//                     </button>
+//                   ))}
+//                 </div>
+//               )}
+//             </div>
+
+//             {/* Right icons */}
+//             <div className="flex shrink-0 items-center gap-0.5">
+//               {navbarData?.topBar?.phone && (
+//                 <Link
+//                   href={navbarData.topBar.phoneLink || '/contact'}
+//                   aria-label="Call us"
+//                   className="flex h-8 w-8 items-center justify-center rounded-full text-[#292725] transition hover:bg-black/5"
+//                 >
+//                   <Phone size={16} strokeWidth={1.6} />
+//                 </Link>
+//               )}
+
+//               {navbarData?.topBar?.showTrackOrder !== false && (
+//                 <Link
+//                   href={navbarData.topBar.trackOrderLink || '/track'}
+//                   aria-label="Track order"
+//                   className="flex h-8 w-8 items-center justify-center rounded-full text-[#292725] transition hover:bg-black/5"
+//                 >
+//                   <Truck size={16} strokeWidth={1.6} />
+//                 </Link>
+//               )}
+
+//               {navbarData?.topBar?.showOutlet !== false && (
+//                 <button
+//                   onClick={() => setOutletModalOpen(true)}
+//                   aria-label="Our outlet"
+//                   className="flex h-8 w-8 items-center justify-center rounded-full text-[#292725] transition hover:bg-black/5"
+//                 >
+//                   <MapPin size={16} strokeWidth={1.6} />
+//                 </button>
+//               )}
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* =================================================
+//             MOBILE BOTTOM ROW — becomes fixed on scroll
+//             Height reduced: 56 → 48
+//         ================================================= */}
+//         <div
+//           className={`
+//             border-b border-[#dedcd2] bg-[#F1EFE3]
+//             transition-all duration-300
+//             ${
+//               isScrolled
+//                 ? 'fixed left-0 right-0 top-0 z-50 shadow-[0_2px_10px_rgba(0,0,0,0.04)]'
+//                 : 'relative'
+//             }
+//           `}
+//         >
+//           <div className="flex h-[48px] items-center px-3">
+//             {/* Left: Menu + Logo */}
+//             <div className="flex items-center gap-1">
+//               <button
+//                 type="button"
+//                 onClick={() => setMobileMenuOpen(true)}
+//                 aria-label="Open menu"
+//                 className="flex h-8 w-8 items-center justify-center rounded-full text-[#292725] transition hover:bg-black/5"
+//               >
+//                 <Menu size={20} strokeWidth={1.6} />
+//               </button>
+
+//               <Link href="/" className="flex items-center pl-1">
+//                 {navbarData?.logo?.logoUrl ? (
+//                   <img
+//                     src={getLogoUrl(navbarData.logo.logoUrl)}
+//                     alt={navbarData.logo.text || 'Logo'}
+//                     className={`
+//                       w-auto object-contain transition-all duration-300
+//                       ${
+//                         isScrolled
+//                           ? 'h-6 max-w-[90px]'
+//                           : 'h-7 max-w-[100px]'
+//                       }
+//                     `}
+//                   />
+//                 ) : (
+//                   <div className="flex flex-col leading-tight">
+//                     <span
+//                       className="text-[13px] font-bold"
+//                       style={{ color: styles.textColor }}
+//                     >
+//                       {navbarData?.logo?.text || "Nishat's Collection"}
+//                     </span>
+//                     {navbarData?.logo?.highlightText && (
+//                       <span
+//                         className="text-[7px] font-medium tracking-widest"
+//                         style={{ color: ACCENT_COLOR }}
+//                       >
+//                         {navbarData.logo.highlightText}
+//                       </span>
+//                     )}
+//                   </div>
+//                 )}
+//               </Link>
+//             </div>
+
+//             {/* Right: Wishlist + Bag + Account */}
+//             <div className="ml-auto flex items-center gap-0.5">
+//               <Link
+//                 href="/wishlist"
+//                 aria-label="Wishlist"
+//                 className="flex h-8 w-8 items-center justify-center rounded-full text-[#292725] transition hover:bg-black/5"
+//               >
+//                 <Heart size={18} strokeWidth={1.5} />
+//               </Link>
+
+//               <button
+//                 onClick={() => setIsCartOpen(true)}
+//                 aria-label="Shopping bag"
+//                 className="relative flex h-8 w-8 items-center justify-center rounded-full text-[#292725] transition hover:bg-black/5"
+//               >
+//                 <ShoppingBag size={18} strokeWidth={1.5} />
+//                 {cartCount > 0 && (
+//                   <span
+//                     className="absolute right-0 top-0 flex h-[14px] min-w-[14px] items-center justify-center rounded-full px-1 text-[8px] font-semibold text-white"
+//                     style={{ backgroundColor: ACCENT_COLOR }}
+//                   >
+//                     {cartCount > 9 ? '9+' : cartCount}
+//                   </span>
+//                 )}
+//               </button>
+
+//               {user ? (
+//                 <Link
+//                   href={getDashboardLink()}
+//                   aria-label="Account"
+//                   className="flex h-8 w-8 items-center justify-center rounded-full text-[#292725] transition hover:bg-black/5"
+//                 >
+//                   {getProfilePicture() && !profileImageError ? (
+//                     <img
+//                       src={getProfilePicture()}
+//                       alt={getDisplayName()}
+//                       onError={() => setProfileImageError(true)}
+//                       className="h-5 w-5 rounded-full object-cover"
+//                     />
+//                   ) : (
+//                     <UserCircle size={18} strokeWidth={1.5} />
+//                   )}
+//                 </Link>
+//               ) : (
+//                 <Link
+//                   href="/login"
+//                   aria-label="Account"
+//                   className="flex h-8 w-8 items-center justify-center rounded-full text-[#292725] transition hover:bg-black/5"
+//                 >
+//                   <User size={18} strokeWidth={1.5} />
+//                 </Link>
+//               )}
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* =================================================
+//             SPACER — matches new bottom row height (48)
+//         ================================================= */}
+//         <div
+//           className={`
+//             transition-[height] duration-300 ease-out
+//             ${isScrolled ? 'h-[48px]' : 'h-0'}
+//           `}
+//           aria-hidden="true"
+//         />
+//       </header>
+
+//       {/* =====================================================
+//           DESKTOP HEADER (hidden below lg)
+//       ===================================================== */}
+//       {/* <header
+//         className={`
+//           relative hidden w-full bg-[#F1EFE3] text-[#292725] lg:-mt-16 lg:block
+//           transition-all duration-300
+//           ${
+//             isScrolled
+//               ? 'pointer-events-none opacity-0'
+//               : 'opacity-100'
+//           }
+//         `}
+//       > */}
+
+//       <header
+//   className={`
+//     relative z-40 hidden w-full bg-[#F1EFE3] text-[#292725] lg:-mt-16 lg:block
+//     transition-all duration-300
+//     ${
+//       isScrolled
+//         ? 'pointer-events-none opacity-0'
+//         : 'opacity-100'
+//     }
+//   `}
+// >
+//         {/* LOGO */}
 //         <Link
 //           href="/"
 //           className="absolute left-4 top-0 z-30 flex h-[89px] w-[100px] items-center justify-center lg:left-7"
@@ -630,7 +954,10 @@
 //             />
 //           ) : (
 //             <div className="flex flex-col items-center">
-//               <span className="text-lg font-bold" style={{ color: styles.textColor }}>
+//               <span
+//                 className="text-lg font-bold"
+//                 style={{ color: styles.textColor }}
+//               >
 //                 {navbarData?.logo?.text || "Nishat's Collection"}
 //               </span>
 //               {navbarData?.logo?.highlightText && (
@@ -645,15 +972,12 @@
 //           )}
 //         </Link>
 
-//         {/* =================================================
-//             TOP NAVBAR
-//         ================================================= */}
+//         {/* TOP NAVBAR */}
 //         <div className="border-b border-[#dedcd2]">
 //           <div className="relative mx-auto flex h-[46px] max-w-[1600px] items-center px-4 lg:px-7">
-//             {/* Logo Space */}
 //             <div className="w-[100px] shrink-0" />
 
-//             {/* ================= SEARCH ================= */}
+//             {/* SEARCH */}
 //             <div className="absolute left-1/2 top-1/2 w-[320px] -translate-x-1/2 -translate-y-1/2">
 //               <div className="relative w-full" ref={searchRef}>
 //                 {!searchOpen ? (
@@ -709,9 +1033,10 @@
 //                       </div>
 //                     </form>
 
-//                     {/* Desktop Search Results */}
-//                     {showResults && searchResults.length > 0 && (
-//                       <div className="absolute top-full left-0 right-0 mt-2 max-h-80 overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-lg z-50">
+//                     {/* {showResults && searchResults.length > 0 && (
+//                       <div className="absolute top-full left-0 right-0 mt-2 max-h-80 overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-lg z-50"> */}
+//                       {showResults && searchResults.length > 0 && (
+//   <div className="absolute top-full left-0 right-0 mt-2 max-h-80 overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-2xl z-[9999]">
 //                         {searchResults.map((product) => (
 //                           <button
 //                             key={product._id}
@@ -723,7 +1048,10 @@
 //                           >
 //                             {product.images?.[0] ? (
 //                               <img
-//                                 src={product.images[0]?.url || product.images[0]}
+//                                 src={
+//                                   product.images[0]?.url ||
+//                                   product.images[0]
+//                                 }
 //                                 alt={product.productName || product.name}
 //                                 className="h-10 w-10 rounded-lg object-cover bg-gray-100"
 //                               />
@@ -734,10 +1062,18 @@
 //                             )}
 //                             <div className="flex-1 min-w-0">
 //                               <p className="truncate text-sm font-medium text-gray-900">
-//                                 {product.productName || product.name || product.title}
+//                                 {product.productName ||
+//                                   product.name ||
+//                                   product.title}
 //                               </p>
-//                               <p className="text-sm font-semibold" style={{ color: ACCENT_COLOR }}>
-//                                 ৳{product.discountPrice || product.regularPrice || product.price}
+//                               <p
+//                                 className="text-sm font-semibold"
+//                                 style={{ color: ACCENT_COLOR }}
+//                               >
+//                                 ৳
+//                                 {product.discountPrice ||
+//                                   product.regularPrice ||
+//                                   product.price}
 //                               </p>
 //                             </div>
 //                           </button>
@@ -756,9 +1092,8 @@
 //               </div>
 //             </div>
 
-//             {/* ================= TOP INFORMATION ================= */}
+//             {/* TOP INFO */}
 //             <div className="ml-auto hidden items-center gap-6 lg:flex">
-//               {/* PHONE */}
 //               {navbarData?.topBar?.phone && (
 //                 <Link
 //                   href={navbarData.topBar.phoneLink || '/contact'}
@@ -769,42 +1104,39 @@
 //                 </Link>
 //               )}
 
-//               {/* OUR OUTLET */}
 //               {navbarData?.topBar?.showOutlet !== false && (
 //                 <button
 //                   onClick={() => setOutletModalOpen(true)}
 //                   className="flex items-center gap-1.5 whitespace-nowrap text-[11px] font-medium text-[#292725] transition hover:text-[#69272B]"
 //                 >
 //                   <MapPin size={17} strokeWidth={1.4} />
-//                   <span>{navbarData?.topBar?.outletText || 'Our Outlet'}</span>
+//                   <span>
+//                     {navbarData?.topBar?.outletText || 'Our Outlet'}
+//                   </span>
 //                 </button>
 //               )}
 
-//               {/* TRACK ORDER */}
 //               {navbarData?.topBar?.showTrackOrder !== false && (
 //                 <Link
 //                   href={navbarData.topBar.trackOrderLink || '/track'}
 //                   className="flex items-center gap-1.5 whitespace-nowrap text-[11px] font-medium text-[#292725] transition hover:text-[#69272B]"
 //                 >
 //                   <Truck size={19} strokeWidth={1.4} />
-//                   <span>{navbarData?.topBar?.trackOrderText || 'Track Order'}</span>
+//                   <span>
+//                     {navbarData?.topBar?.trackOrderText || 'Track Order'}
+//                   </span>
 //                 </Link>
 //               )}
 //             </div>
 //           </div>
 //         </div>
 
-//         {/* =================================================
-//             BOTTOM NAVBAR
-//         ================================================= */}
+//         {/* BOTTOM NAVBAR */}
 //         <div className="border-b border-[#dedcd2]">
 //           <div className="mx-auto flex h-[43px] max-w-[1600px] items-center px-4 lg:px-7">
-//             {/* Logo Space */}
 //             <div className="w-[100px] shrink-0" />
 
-//             {/* ================= DESKTOP NAV ================= */}
 //             <nav className="hidden items-center lg:flex">
-//               {/* ALL Button */}
 //               <button
 //                 type="button"
 //                 onClick={() => setCategorySidebarOpen(true)}
@@ -814,22 +1146,12 @@
 //                 <span>ALL</span>
 //               </button>
 
-//               {/* Nav Items from Backend */}
-//               {navItems.map((item, index) => renderDesktopNavItem(item, index, 'desktop-'))}
+//               {navItems.map((item, index) =>
+//                 renderDesktopNavItem(item, index, 'desktop-')
+//               )}
 //             </nav>
 
-//             {/* ================= RIGHT ICONS ================= */}
 //             <div className="ml-auto flex items-center gap-4">
-//               {/* Mobile Search Trigger */}
-//               <button
-//                 onClick={() => setMobileSearchOpen(true)}
-//                 className="mobile-search-trigger lg:hidden"
-//                 aria-label="Search"
-//               >
-//                 <Search size={20} strokeWidth={1.4} />
-//               </button>
-
-//               {/* Wishlist */}
 //               <Link
 //                 href="/wishlist"
 //                 aria-label="Wishlist"
@@ -838,7 +1160,6 @@
 //                 <Heart size={20} strokeWidth={1.4} />
 //               </Link>
 
-//               {/* Shopping Bag */}
 //               <button
 //                 onClick={() => setIsCartOpen(true)}
 //                 aria-label="Shopping bag"
@@ -855,7 +1176,6 @@
 //                 )}
 //               </button>
 
-//               {/* Account */}
 //               {user ? (
 //                 <div className="relative">
 //                   <button
@@ -875,7 +1195,6 @@
 //                     )}
 //                   </button>
 
-//                   {/* User Dropdown */}
 //                   {userMenuOpen && (
 //                     <>
 //                       <div
@@ -899,7 +1218,10 @@
 //                             }}
 //                             className="flex w-full items-center gap-3 px-4 py-2.5 text-sm text-gray-700 transition hover:bg-gray-50"
 //                           >
-//                             <LayoutDashboard className="h-4 w-4" style={{ color: ACCENT_COLOR }} />
+//                             <LayoutDashboard
+//                               className="h-4 w-4"
+//                               style={{ color: ACCENT_COLOR }}
+//                             />
 //                             <span>Dashboard</span>
 //                           </button>
 //                           <button
@@ -909,7 +1231,10 @@
 //                             }}
 //                             className="flex w-full items-center gap-3 px-4 py-2.5 text-sm text-gray-700 transition hover:bg-gray-50"
 //                           >
-//                             <Settings className="h-4 w-4" style={{ color: ACCENT_COLOR }} />
+//                             <Settings
+//                               className="h-4 w-4"
+//                               style={{ color: ACCENT_COLOR }}
+//                             />
 //                             <span>Settings</span>
 //                           </button>
 //                           <div className="my-1 border-t border-gray-100" />
@@ -937,148 +1262,30 @@
 //                   <User size={20} strokeWidth={1.4} />
 //                 </Link>
 //               )}
-
-//               {/* Mobile Menu Toggle */}
-//               <button
-//                 type="button"
-//                 onClick={() => setMobileMenuOpen((prev) => !prev)}
-//                 aria-label="Toggle menu"
-//                 className="lg:hidden"
-//               >
-//                 {mobileMenuOpen ? (
-//                   <X size={22} strokeWidth={1.5} />
-//                 ) : (
-//                   <Menu size={22} strokeWidth={1.5} />
-//                 )}
-//               </button>
 //             </div>
 //           </div>
 //         </div>
-
-//         {/* =================================================
-//             MOBILE MENU
-//         ================================================= */}
-//         {mobileMenuOpen && (
-//           <div className="border-b border-[#ededeb] bg-white lg:hidden">
-//             <nav className="flex flex-col px-4">
-//               {/* ALL Button */}
-//               <button
-//                 type="button"
-//                 onClick={() => {
-//                   setCategorySidebarOpen(true);
-//                   setMobileMenuOpen(false);
-//                 }}
-//                 className="flex min-h-[40px] items-center justify-between border-b border-[#eeeeee] text-left text-[12px] font-medium text-[#292725]"
-//               >
-//                 <span className="flex items-center gap-2">
-//                   <Menu size={17} strokeWidth={1.6} />
-//                   ALL
-//                 </span>
-//               </button>
-
-//               {/* Nav Items */}
-//               {navItems.map((item, index) => renderMobileNavItem(item, index))}
-//             </nav>
-//           </div>
-//         )}
 //       </header>
 
 //       {/* =====================================================
-//           MOBILE SEARCH OVERLAY
-//       ===================================================== */}
-//       {mobileSearchOpen && (
-//         <div className="fixed left-0 right-0 top-16 z-40 border-b border-[#E8E0D8] bg-white shadow-lg lg:hidden">
-//           <div className="mx-auto px-4 py-3" ref={mobileSearchRef}>
-//             <form onSubmit={handleSearchSubmit} className="relative">
-//               <input
-//                 type="text"
-//                 value={searchQuery}
-//                 onChange={(e) => setSearchQuery(e.target.value)}
-//                 placeholder="Search products here"
-//                 className="w-full rounded-lg border-2 border-transparent bg-[#F5EDE3] px-4 py-3 pr-20 text-sm text-[#3D3D3D] transition-all focus:border-[#69272B] focus:outline-none"
-//                 autoFocus
-//               />
-//               <div className="absolute right-2 top-1/2 flex -translate-y-1/2 items-center gap-2">
-//                 <button type="submit" className="p-1.5">
-//                   {searchLoading ? (
-//                     <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#69272B] border-t-transparent" />
-//                   ) : (
-//                     <Search className="h-4 w-4 text-[#69272B]" />
-//                   )}
-//                 </button>
-//                 <button
-//                   type="button"
-//                   onClick={() => {
-//                     setMobileSearchOpen(false);
-//                     setSearchQuery('');
-//                     setShowResults(false);
-//                   }}
-//                   className="p-1.5"
-//                 >
-//                   <X className="h-4 w-4 text-gray-500" />
-//                 </button>
-//               </div>
-//             </form>
-
-//             {/* Mobile Search Results */}
-//             {showResults && searchResults.length > 0 && (
-//               <div className="mt-3 max-h-80 overflow-y-auto rounded-lg border border-gray-200 bg-white">
-//                 {searchResults.map((product) => (
-//                   <button
-//                     key={product._id}
-//                     onMouseDown={(e) => {
-//                       e.preventDefault();
-//                       handleResultClick(product);
-//                     }}
-//                     className="flex w-full items-center gap-3 border-b border-gray-100 px-3 py-3 text-left transition hover:bg-gray-50 last:border-0"
-//                   >
-//                     {product.images?.[0] ? (
-//                       <img
-//                         src={product.images[0]?.url || product.images[0]}
-//                         alt={product.productName || product.name}
-//                         className="h-12 w-12 rounded-lg object-cover bg-gray-100"
-//                       />
-//                     ) : (
-//                       <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100">
-//                         <Package className="h-6 w-6 text-gray-400" />
-//                       </div>
-//                     )}
-//                     <div className="flex-1">
-//                       <p className="truncate text-sm font-medium text-gray-900">
-//                         {product.productName || product.name || product.title}
-//                       </p>
-//                       <p className="text-sm font-semibold" style={{ color: ACCENT_COLOR }}>
-//                         ৳{product.discountPrice || product.regularPrice || product.price}
-//                       </p>
-//                     </div>
-//                   </button>
-//                 ))}
-//                 <button
-//                   onClick={handleSearchSubmit}
-//                   className="w-full px-4 py-3 text-center text-sm font-medium border-t border-gray-100"
-//                   style={{ color: ACCENT_COLOR }}
-//                 >
-//                   View all results for &quot;{searchQuery}&quot; →
-//                 </button>
-//               </div>
-//             )}
-//           </div>
-//         </div>
-//       )}
-
-//       {/* =====================================================
-//           STICKY NAVBAR AFTER SCROLL
+//           STICKY NAVBAR AFTER SCROLL (DESKTOP ONLY)
 //       ===================================================== */}
 //       <div
 //         className={`
-//           fixed left-0 right-0 top-0 z-50 border-b border-[#dedcd2] bg-[#F1EFE3]
+//           fixed left-0 right-0 top-0 z-50 hidden border-b border-[#dedcd2] bg-[#F1EFE3] lg:block
 //           shadow-[0_2px_10px_rgba(0,0,0,0.04)] transition-all duration-300
-//           ${isScrolled ? 'translate-y-0 opacity-100' : '-translate-y-full pointer-events-none opacity-0'}
+//           ${
+//             isScrolled
+//               ? 'translate-y-0 opacity-100'
+//               : '-translate-y-full pointer-events-none opacity-0'
+//           }
 //         `}
 //       >
 //         <div className="mx-auto flex h-[52px] max-w-[1600px] items-center px-4 lg:px-7">
-//           {/* Small Logo */}
-//           <Link href="/" className="flex h-full w-[100px] shrink-0 items-center justify-start">
+//           <Link
+//             href="/"
+//             className="flex h-full w-[100px] shrink-0 items-center justify-start"
+//           >
 //             {navbarData?.logo?.logoUrl ? (
 //               <img
 //                 src={getLogoUrl(navbarData.logo.logoUrl)}
@@ -1087,14 +1294,16 @@
 //               />
 //             ) : (
 //               <div className="flex flex-col">
-//                 <span className="text-sm font-bold" style={{ color: styles.textColor }}>
+//                 <span
+//                   className="text-sm font-bold"
+//                   style={{ color: styles.textColor }}
+//                 >
 //                   {navbarData?.logo?.text || "Nishat's Collection"}
 //                 </span>
 //               </div>
 //             )}
 //           </Link>
 
-//           {/* Sticky Desktop Nav */}
 //           <nav className="hidden items-center lg:flex">
 //             <button
 //               type="button"
@@ -1105,12 +1314,17 @@
 //               ALL
 //             </button>
 
-//             {navItems.map((item, index) => renderDesktopNavItem(item, index, 'sticky-'))}
+//             {navItems.map((item, index) =>
+//               renderDesktopNavItem(item, index, 'sticky-')
+//             )}
 //           </nav>
 
-//           {/* Sticky Right Icons */}
 //           <div className="ml-auto flex items-center gap-4">
-//             <Link href="/wishlist" aria-label="Wishlist" className="text-[#292725] transition hover:text-[#69272B]">
+//             <Link
+//               href="/wishlist"
+//               aria-label="Wishlist"
+//               className="text-[#292725] transition hover:text-[#69272B]"
+//             >
 //               <Heart size={20} strokeWidth={1.4} />
 //             </Link>
 //             <button
@@ -1148,11 +1362,18 @@
 //                 </button>
 //                 {userMenuOpen && (
 //                   <>
-//                     <div className="fixed inset-0 z-40" onClick={() => setUserMenuOpen(false)} />
+//                     <div
+//                       className="fixed inset-0 z-40"
+//                       onClick={() => setUserMenuOpen(false)}
+//                     />
 //                     <div className="absolute right-0 top-full z-50 mt-3 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
 //                       <div className="border-b border-gray-100 bg-[#F5EDE3] px-4 py-3">
-//                         <p className="truncate text-sm font-semibold text-gray-900">{getDisplayName()}</p>
-//                         <p className="truncate text-xs text-gray-500">{user.email}</p>
+//                         <p className="truncate text-sm font-semibold text-gray-900">
+//                           {getDisplayName()}
+//                         </p>
+//                         <p className="truncate text-xs text-gray-500">
+//                           {user.email}
+//                         </p>
 //                       </div>
 //                       <div className="py-2">
 //                         <button
@@ -1162,7 +1383,10 @@
 //                           }}
 //                           className="flex w-full items-center gap-3 px-4 py-2.5 text-sm text-gray-700 transition hover:bg-gray-50"
 //                         >
-//                           <LayoutDashboard className="h-4 w-4" style={{ color: ACCENT_COLOR }} />
+//                           <LayoutDashboard
+//                             className="h-4 w-4"
+//                             style={{ color: ACCENT_COLOR }}
+//                           />
 //                           <span>Dashboard</span>
 //                         </button>
 //                         <button
@@ -1172,7 +1396,10 @@
 //                           }}
 //                           className="flex w-full items-center gap-3 px-4 py-2.5 text-sm text-gray-700 transition hover:bg-gray-50"
 //                         >
-//                           <Settings className="h-4 w-4" style={{ color: ACCENT_COLOR }} />
+//                           <Settings
+//                             className="h-4 w-4"
+//                             style={{ color: ACCENT_COLOR }}
+//                           />
 //                           <span>Settings</span>
 //                         </button>
 //                         <div className="my-1 border-t border-gray-100" />
@@ -1192,24 +1419,400 @@
 //                 )}
 //               </div>
 //             ) : (
-//               <Link href="/login" aria-label="Account" className="text-[#292725] transition hover:text-[#69272B]">
+//               <Link
+//                 href="/login"
+//                 aria-label="Account"
+//                 className="text-[#292725] transition hover:text-[#69272B]"
+//               >
 //                 <User size={20} strokeWidth={1.4} />
 //               </Link>
 //             )}
-//             <button
-//               type="button"
-//               onClick={() => setMobileMenuOpen((prev) => !prev)}
-//               aria-label="Toggle menu"
-//               className="lg:hidden"
-//             >
-//               {mobileMenuOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
-//             </button>
 //           </div>
 //         </div>
 //       </div>
 
 //       {/* =====================================================
-//           CATEGORY SIDEBAR
+//           MOBILE SIDEBAR MENU
+//       ===================================================== */}
+//       <AnimatePresence>
+//         {mobileMenuOpen && (
+//           <>
+//             {/* Overlay */}
+//             <motion.div
+//               initial={{ opacity: 0 }}
+//               animate={{ opacity: 1 }}
+//               exit={{ opacity: 0 }}
+//               transition={{ duration: 0.2 }}
+//               onClick={() => setMobileMenuOpen(false)}
+//               className="fixed inset-0 z-[90] bg-black/50 backdrop-blur-sm lg:hidden"
+//             />
+
+//             {/* Sidebar */}
+//             <motion.aside
+//               initial={{ x: '-100%' }}
+//               animate={{ x: 0 }}
+//               exit={{ x: '-100%' }}
+//               transition={{ type: 'spring', stiffness: 320, damping: 32 }}
+//               className="fixed left-0 top-0 z-[100] flex h-screen w-[85vw] max-w-[360px] flex-col bg-white shadow-2xl lg:hidden"
+//             >
+//               {/* Header */}
+//               <div className="flex h-[56px] shrink-0 items-center justify-between border-b border-gray-200 px-4">
+//                 <span className="text-sm font-semibold uppercase tracking-wide text-[#292725]">
+//                   Menu
+//                 </span>
+//                 <button
+//                   onClick={() => setMobileMenuOpen(false)}
+//                   aria-label="Close menu"
+//                   className="flex h-8 w-8 items-center justify-center rounded-full text-gray-500 transition hover:bg-gray-100"
+//                 >
+//                   <X size={20} strokeWidth={1.8} />
+//                 </button>
+//               </div>
+
+//               {/* Nav Items */}
+//               <div className="flex-1 overflow-y-auto">
+//                 <nav className="flex flex-col px-2 py-2">
+//                   {/* ========================================
+//                       ALL CATEGORIES — expands inline
+//                   ======================================== */}
+//                   <div>
+//                     <button
+//                       type="button"
+//                       onClick={() =>
+//                         toggleMobileCategory('__all_categories__')
+//                       }
+//                       className="flex min-h-[48px] w-full items-center justify-between rounded-lg px-3 text-left text-[13px] font-semibold text-[#292725] transition hover:bg-gray-50"
+//                     >
+//                       <span>ALL CATEGORIES</span>
+//                       <ChevronDown
+//                         size={16}
+//                         strokeWidth={1.8}
+//                         className={`transition-transform duration-200 ${
+//                           expandedMobileCategory === '__all_categories__'
+//                             ? 'rotate-180'
+//                             : ''
+//                         }`}
+//                       />
+//                     </button>
+
+//                     <AnimatePresence initial={false}>
+//                       {expandedMobileCategory === '__all_categories__' && (
+//                         <motion.div
+//                           initial={{ height: 0, opacity: 0 }}
+//                           animate={{ height: 'auto', opacity: 1 }}
+//                           exit={{ height: 0, opacity: 0 }}
+//                           transition={{ duration: 0.25, ease: 'easeOut' }}
+//                           className="overflow-hidden"
+//                         >
+//                           <div className="mb-2 ml-3 border-l border-[#eeeeee] py-1 pl-2">
+//                             {(navbarData?.categories || []).length === 0 ? (
+//                               <p className="px-3 py-3 text-[12px] text-gray-400">
+//                                 No categories found.
+//                               </p>
+//                             ) : (
+//                               (navbarData?.categories || []).map(
+//                                 (category) => {
+//                                   const categoryId =
+//                                     category._id || category.id;
+//                                   const categorySlug =
+//                                     category.slug || categoryId;
+//                                   const hasSubcategories =
+//                                     category.subcategories?.length > 0;
+//                                   const catKey = `cat-${categoryId}`;
+//                                   const isCatExpanded =
+//                                     expandedMobileCategory === catKey;
+
+//                                   return (
+//                                     <div key={categoryId}>
+//                                       {/* Category row */}
+//                                       <div className="flex items-center justify-between">
+//                                         <Link
+//                                           href={`/products?category=${categorySlug}`}
+//                                           onClick={() =>
+//                                             setMobileMenuOpen(false)
+//                                           }
+//                                           className="flex-1 rounded-md px-3 py-2.5 text-[12.5px] font-medium text-[#292725] transition hover:bg-gray-50 hover:text-[#69272B]"
+//                                         >
+//                                           {category.name}
+//                                         </Link>
+
+//                                         {hasSubcategories && (
+//                                           <button
+//                                             type="button"
+//                                             onClick={() =>
+//                                               toggleMobileCategory(
+//                                                 catKey
+//                                               )
+//                                             }
+//                                             aria-label="Toggle subcategories"
+//                                             className="flex h-7 w-7 items-center justify-center rounded-full text-gray-400 transition hover:bg-gray-100 hover:text-[#69272B]"
+//                                           >
+//                                             <ChevronDown
+//                                               size={14}
+//                                               strokeWidth={1.8}
+//                                               className={`transition-transform duration-200 ${
+//                                                 isCatExpanded
+//                                                   ? 'rotate-180'
+//                                                   : ''
+//                                               }`}
+//                                             />
+//                                           </button>
+//                                         )}
+//                                       </div>
+
+//                                       {/* Subcategories */}
+//                                       <AnimatePresence initial={false}>
+//                                         {hasSubcategories &&
+//                                           isCatExpanded && (
+//                                             <motion.div
+//                                               initial={{
+//                                                 height: 0,
+//                                                 opacity: 0,
+//                                               }}
+//                                               animate={{
+//                                                 height: 'auto',
+//                                                 opacity: 1,
+//                                               }}
+//                                               exit={{
+//                                                 height: 0,
+//                                                 opacity: 0,
+//                                               }}
+//                                               transition={{
+//                                                 duration: 0.2,
+//                                                 ease: 'easeOut',
+//                                               }}
+//                                               className="overflow-hidden"
+//                                             >
+//                                               <div className="ml-3 border-l border-[#eeeeee] py-0.5 pl-2">
+//                                                 {category.subcategories.map(
+//                                                   (sub) => {
+//                                                     const subId =
+//                                                       sub._id || sub.id;
+//                                                     const subSlug =
+//                                                       sub.slug || subId;
+//                                                     const hasChildren =
+//                                                       sub.children?.length >
+//                                                       0;
+//                                                     const subKey = `sub-${subId}`;
+//                                                     const isSubExpanded =
+//                                                       expandedMobileCategory ===
+//                                                       subKey;
+
+//                                                     return (
+//                                                       <div key={subId}>
+//                                                         <div className="flex items-center justify-between">
+//                                                           <Link
+//                                                             href={`/products?category=${categorySlug}&subcategory=${subSlug}`}
+//                                                             onClick={() =>
+//                                                               setMobileMenuOpen(
+//                                                                 false
+//                                                               )
+//                                                             }
+//                                                             className="flex-1 rounded-md px-3 py-2 text-[12px] text-gray-600 transition hover:bg-gray-50 hover:text-[#69272B]"
+//                                                           >
+//                                                             {sub.name}
+//                                                           </Link>
+
+//                                                           {hasChildren && (
+//                                                             <button
+//                                                               type="button"
+//                                                               onClick={() =>
+//                                                                 toggleMobileCategory(
+//                                                                   subKey
+//                                                                 )
+//                                                               }
+//                                                               aria-label="Toggle child subcategories"
+//                                                               className="flex h-6 w-6 items-center justify-center rounded-full text-gray-400 transition hover:bg-gray-100 hover:text-[#69272B]"
+//                                                             >
+//                                                               <ChevronDown
+//                                                                 size={12}
+//                                                                 strokeWidth={
+//                                                                   1.8
+//                                                                 }
+//                                                                 className={`transition-transform duration-200 ${
+//                                                                   isSubExpanded
+//                                                                     ? 'rotate-180'
+//                                                                     : ''
+//                                                                 }`}
+//                                                               />
+//                                                             </button>
+//                                                           )}
+//                                                         </div>
+
+//                                                         {/* Child subcategories */}
+//                                                         <AnimatePresence
+//                                                           initial={false}
+//                                                         >
+//                                                           {hasChildren &&
+//                                                             isSubExpanded && (
+//                                                               <motion.div
+//                                                                 initial={{
+//                                                                   height: 0,
+//                                                                   opacity: 0,
+//                                                                 }}
+//                                                                 animate={{
+//                                                                   height:
+//                                                                     'auto',
+//                                                                   opacity: 1,
+//                                                                 }}
+//                                                                 exit={{
+//                                                                   height: 0,
+//                                                                   opacity: 0,
+//                                                                 }}
+//                                                                 transition={{
+//                                                                   duration: 0.2,
+//                                                                   ease: 'easeOut',
+//                                                                 }}
+//                                                                 className="overflow-hidden"
+//                                                               >
+//                                                                 <div className="ml-3 border-l border-[#eeeeee] py-0.5 pl-2">
+//                                                                   {sub.children.map(
+//                                                                     (
+//                                                                       child
+//                                                                     ) => {
+//                                                                       const childId =
+//                                                                         child._id ||
+//                                                                         child.id;
+//                                                                       const childSlug =
+//                                                                         child.slug ||
+//                                                                         childId;
+//                                                                       return (
+//                                                                         <Link
+//                                                                           key={
+//                                                                             childId
+//                                                                           }
+//                                                                           href={`/products?category=${categorySlug}&subcategory=${subSlug}&child=${childSlug}`}
+//                                                                           onClick={() =>
+//                                                                             setMobileMenuOpen(
+//                                                                               false
+//                                                                             )
+//                                                                           }
+//                                                                           className="block rounded-md px-3 py-1.5 text-[11.5px] text-gray-500 transition hover:bg-gray-50 hover:text-[#69272B]"
+//                                                                         >
+//                                                                           {
+//                                                                             child.name
+//                                                                           }
+//                                                                         </Link>
+//                                                                       );
+//                                                                     }
+//                                                                   )}
+//                                                                 </div>
+//                                                               </motion.div>
+//                                                             )}
+//                                                         </AnimatePresence>
+//                                                       </div>
+//                                                     );
+//                                                   }
+//                                                 )}
+//                                               </div>
+//                                             </motion.div>
+//                                           )}
+//                                       </AnimatePresence>
+//                                     </div>
+//                                   );
+//                                 }
+//                               )
+//                             )}
+//                           </div>
+//                         </motion.div>
+//                       )}
+//                     </AnimatePresence>
+//                   </div>
+
+//                   {/* Nav items */}
+//                   {navItems.map((item, index) =>
+//                     renderMobileNavItem(item, index)
+//                   )}
+//                 </nav>
+//               </div>
+
+//               {/* Footer — user / auth */}
+//               <div className="shrink-0 border-t border-gray-200 p-4">
+//                 {user ? (
+//                   <div className="space-y-2">
+//                     <div className="flex items-center gap-3 rounded-lg bg-gray-50 p-3">
+//                       {getProfilePicture() && !profileImageError ? (
+//                         <img
+//                           src={getProfilePicture()}
+//                           alt={getDisplayName()}
+//                           onError={() => setProfileImageError(true)}
+//                           className="h-9 w-9 rounded-full object-cover"
+//                         />
+//                       ) : (
+//                         <div
+//                           className="flex h-9 w-9 items-center justify-center rounded-full text-sm font-semibold text-white"
+//                           style={{ backgroundColor: ACCENT_COLOR }}
+//                         >
+//                           {getInitials()}
+//                         </div>
+//                       )}
+//                       <div className="min-w-0 flex-1">
+//                         <p className="truncate text-sm font-medium text-[#292725]">
+//                           {getDisplayName()}
+//                         </p>
+//                         <p className="truncate text-xs text-gray-500">
+//                           {user.email}
+//                         </p>
+//                       </div>
+//                     </div>
+
+//                     <button
+//                       onClick={() => {
+//                         setMobileMenuOpen(false);
+//                         router.push(getDashboardLink());
+//                       }}
+//                       className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-[#292725] transition hover:bg-gray-50"
+//                     >
+//                       <LayoutDashboard
+//                         size={16}
+//                         style={{ color: ACCENT_COLOR }}
+//                       />
+//                       <span>Dashboard</span>
+//                     </button>
+
+//                     <button
+//                       onClick={() => {
+//                         setMobileMenuOpen(false);
+//                         router.push(getSettingsLink());
+//                       }}
+//                       className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-[#292725] transition hover:bg-gray-50"
+//                     >
+//                       <Settings
+//                         size={16}
+//                         style={{ color: ACCENT_COLOR }}
+//                       />
+//                       <span>Settings</span>
+//                     </button>
+
+//                     <button
+//                       onClick={() => {
+//                         setMobileMenuOpen(false);
+//                         logout();
+//                       }}
+//                       className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-red-500 transition hover:bg-red-50"
+//                     >
+//                       <LogOut size={16} />
+//                       <span>Logout</span>
+//                     </button>
+//                   </div>
+//                 ) : (
+//                   <Link
+//                     href="/login"
+//                     onClick={() => setMobileMenuOpen(false)}
+//                     className="flex w-full items-center justify-center rounded-lg py-3 text-sm font-medium text-white transition hover:opacity-90"
+//                     style={{ backgroundColor: ACCENT_COLOR }}
+//                   >
+//                     Sign In
+//                   </Link>
+//                 )}
+//               </div>
+//             </motion.aside>
+//           </>
+//         )}
+//       </AnimatePresence>
+
+//       {/* =====================================================
+//           CATEGORY SIDEBAR (desktop "ALL" button only)
 //       ===================================================== */}
 //       <CategorySidebar
 //         isOpen={categorySidebarOpen}
@@ -1236,7 +1839,6 @@
 //     </>
 //   );
 // }
-
 
 'use client';
 
@@ -1307,7 +1909,10 @@ export default function Navbar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
   const [profileImageError, setProfileImageError] = useState(false);
+
+  // ✅ Counts
   const [cartCount, setCartCount] = useState(0);
+  const [wishlistCount, setWishlistCount] = useState(0);
 
   // Mobile expansion state
   const [expandedMobileCategory, setExpandedMobileCategory] = useState(null);
@@ -1412,31 +2017,85 @@ export default function Navbar() {
   };
 
   // ============================================================
-  // AUTH + CART EVENTS
+  // ✅ FETCH WISHLIST COUNT
+  // ============================================================
+  const fetchWishlistCount = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const headers = {};
+
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      } else {
+        const sessionId = localStorage.getItem('wishlistSessionId');
+        if (sessionId) {
+          headers['x-session-id'] = sessionId;
+        } else {
+          // No session — nothing to fetch yet
+          setWishlistCount(0);
+          return;
+        }
+      }
+
+      const response = await fetch(`${API_URL}/api/wishlist`, { headers });
+
+      if (response.ok) {
+        const data = await response.json();
+        setWishlistCount(data.data?.totalItems || 0);
+      } else {
+        setWishlistCount(0);
+      }
+    } catch (error) {
+      console.error('Fetch wishlist count error:', error);
+      setWishlistCount(0);
+    }
+  };
+
+  // ============================================================
+  // AUTH + CART + WISHLIST EVENTS
   // ============================================================
   useEffect(() => {
     checkUserState();
     fetchCartCount();
+    fetchWishlistCount();
 
     const handleAuthChange = () => {
       checkUserState();
       fetchCartCount();
+      fetchWishlistCount();
+    };
+
+    const handleStorage = (e) => {
+      // Sync across tabs
+      if (
+        e.key === 'token' ||
+        e.key === 'cartSessionId' ||
+        e.key === 'wishlistSessionId'
+      ) {
+        fetchCartCount();
+        fetchWishlistCount();
+      }
     };
 
     window.addEventListener('auth-change', handleAuthChange);
     window.addEventListener('focus', handleAuthChange);
     window.addEventListener('cart-update', fetchCartCount);
+    window.addEventListener('wishlist-update', fetchWishlistCount);
+    window.addEventListener('storage', handleStorage);
 
     return () => {
       window.removeEventListener('auth-change', handleAuthChange);
       window.removeEventListener('focus', handleAuthChange);
       window.removeEventListener('cart-update', fetchCartCount);
+      window.removeEventListener('wishlist-update', fetchWishlistCount);
+      window.removeEventListener('storage', handleStorage);
     };
   }, []);
 
-  // Fetch cart when pathname changes
+  // Fetch cart + wishlist when pathname changes
   useEffect(() => {
     fetchCartCount();
+    fetchWishlistCount();
   }, [pathname]);
 
   // ============================================================
@@ -1560,9 +2219,11 @@ export default function Navbar() {
     localStorage.removeItem('user');
     setUser(null);
     setCartCount(0);
+    setWishlistCount(0);
     setUserMenuOpen(false);
 
     window.dispatchEvent(new Event('cart-update'));
+    window.dispatchEvent(new Event('wishlist-update'));
     window.dispatchEvent(new Event('auth-change'));
 
     toast.success('Logged out successfully!');
@@ -1871,34 +2532,15 @@ export default function Navbar() {
     <>
       {/* =====================================================
           MOBILE HEADER
-          TOP:
-            Search + Phone / Truck / MapPin
-          BOTTOM:
-            Menu + Logo + Wishlist / Bag / User
-
-          On scroll:
-            TOP ROW hides
-            BOTTOM ROW becomes fixed to top
       ===================================================== */}
-      {/* <header
+      <header
         className={`
-          block w-full bg-[#F1EFE3] text-[#292725] lg:hidden
+          relative z-40 block w-full bg-[#F1EFE3] text-[#292725] lg:hidden
           transition-all duration-300
           ${isScrolled ? 'pt-0' : '-mt-16'}
         `}
-      > */}
-
-      <header
-  className={`
-    relative z-40 block w-full bg-[#F1EFE3] text-[#292725] lg:hidden
-    transition-all duration-300
-    ${isScrolled ? 'pt-0' : '-mt-16'}
-  `}
->
-        {/* =================================================
-            MOBILE TOP ROW — hidden after scrolling
-            Height reduced: 52 → 42
-        ================================================= */}
+      >
+        {/* MOBILE TOP ROW — hidden after scrolling */}
         <div
           className={`
             overflow-hidden border-b border-[#dedcd2]
@@ -1935,11 +2577,8 @@ export default function Navbar() {
                 />
               </form>
 
-              {/* {showResults && searchResults.length > 0 && (
-                <div className="absolute left-0 right-0 top-[38px] z-[60] max-h-80 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg"> */}
-
-                {showResults && searchResults.length > 0 && (
-  <div className="absolute left-0 right-0 top-[38px] z-[9999] max-h-80 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-2xl">
+              {showResults && searchResults.length > 0 && (
+                <div className="absolute left-0 right-0 top-[38px] z-[9999] max-h-80 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-2xl">
                   {searchResults.map((product) => (
                     <button
                       key={product._id}
@@ -2023,10 +2662,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* =================================================
-            MOBILE BOTTOM ROW — becomes fixed on scroll
-            Height reduced: 56 → 48
-        ================================================= */}
+        {/* MOBILE BOTTOM ROW — becomes fixed on scroll */}
         <div
           className={`
             border-b border-[#dedcd2] bg-[#F1EFE3]
@@ -2087,12 +2723,21 @@ export default function Navbar() {
 
             {/* Right: Wishlist + Bag + Account */}
             <div className="ml-auto flex items-center gap-0.5">
+              {/* ✅ Wishlist with badge */}
               <Link
                 href="/wishlist"
                 aria-label="Wishlist"
-                className="flex h-8 w-8 items-center justify-center rounded-full text-[#292725] transition hover:bg-black/5"
+                className="relative flex h-8 w-8 items-center justify-center rounded-full text-[#292725] transition hover:bg-black/5"
               >
                 <Heart size={18} strokeWidth={1.5} />
+                {wishlistCount > 0 && (
+                  <span
+                    className="absolute right-0 top-0 flex h-[14px] min-w-[14px] items-center justify-center rounded-full px-1 text-[8px] font-semibold text-white"
+                    style={{ backgroundColor: ACCENT_COLOR }}
+                  >
+                    {wishlistCount > 9 ? '9+' : wishlistCount}
+                  </span>
+                )}
               </Link>
 
               <button
@@ -2141,9 +2786,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* =================================================
-            SPACER — matches new bottom row height (48)
-        ================================================= */}
+        {/* SPACER — matches new bottom row height (48) */}
         <div
           className={`
             transition-[height] duration-300 ease-out
@@ -2156,9 +2799,9 @@ export default function Navbar() {
       {/* =====================================================
           DESKTOP HEADER (hidden below lg)
       ===================================================== */}
-      {/* <header
+      <header
         className={`
-          relative hidden w-full bg-[#F1EFE3] text-[#292725] lg:-mt-16 lg:block
+          relative z-40 hidden w-full bg-[#F1EFE3] text-[#292725] lg:-mt-16 lg:block
           transition-all duration-300
           ${
             isScrolled
@@ -2166,19 +2809,7 @@ export default function Navbar() {
               : 'opacity-100'
           }
         `}
-      > */}
-
-      <header
-  className={`
-    relative z-40 hidden w-full bg-[#F1EFE3] text-[#292725] lg:-mt-16 lg:block
-    transition-all duration-300
-    ${
-      isScrolled
-        ? 'pointer-events-none opacity-0'
-        : 'opacity-100'
-    }
-  `}
->
+      >
         {/* LOGO */}
         <Link
           href="/"
@@ -2271,10 +2902,8 @@ export default function Navbar() {
                       </div>
                     </form>
 
-                    {/* {showResults && searchResults.length > 0 && (
-                      <div className="absolute top-full left-0 right-0 mt-2 max-h-80 overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-lg z-50"> */}
-                      {showResults && searchResults.length > 0 && (
-  <div className="absolute top-full left-0 right-0 mt-2 max-h-80 overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-2xl z-[9999]">
+                    {showResults && searchResults.length > 0 && (
+                      <div className="absolute top-full left-0 right-0 mt-2 max-h-80 overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-2xl z-[9999]">
                         {searchResults.map((product) => (
                           <button
                             key={product._id}
@@ -2390,12 +3019,21 @@ export default function Navbar() {
             </nav>
 
             <div className="ml-auto flex items-center gap-4">
+              {/* ✅ Wishlist with badge */}
               <Link
                 href="/wishlist"
                 aria-label="Wishlist"
-                className="text-[#292725] transition hover:text-[#69272B]"
+                className="relative text-[#292725] transition hover:text-[#69272B]"
               >
                 <Heart size={20} strokeWidth={1.4} />
+                {wishlistCount > 0 && (
+                  <span
+                    className="absolute -right-2 -top-2 flex h-[15px] min-w-[15px] items-center justify-center rounded-full px-1 text-[9px] font-semibold text-white"
+                    style={{ backgroundColor: ACCENT_COLOR }}
+                  >
+                    {wishlistCount > 9 ? '9+' : wishlistCount}
+                  </span>
+                )}
               </Link>
 
               <button
@@ -2558,13 +3196,23 @@ export default function Navbar() {
           </nav>
 
           <div className="ml-auto flex items-center gap-4">
+            {/* ✅ Wishlist with badge */}
             <Link
               href="/wishlist"
               aria-label="Wishlist"
-              className="text-[#292725] transition hover:text-[#69272B]"
+              className="relative text-[#292725] transition hover:text-[#69272B]"
             >
               <Heart size={20} strokeWidth={1.4} />
+              {wishlistCount > 0 && (
+                <span
+                  className="absolute -right-2 -top-2 flex h-[15px] min-w-[15px] items-center justify-center rounded-full px-1 text-[9px] font-semibold text-white"
+                  style={{ backgroundColor: ACCENT_COLOR }}
+                >
+                  {wishlistCount > 9 ? '9+' : wishlistCount}
+                </span>
+              )}
             </Link>
+
             <button
               onClick={() => setIsCartOpen(true)}
               aria-label="Shopping bag"
@@ -2710,9 +3358,7 @@ export default function Navbar() {
               {/* Nav Items */}
               <div className="flex-1 overflow-y-auto">
                 <nav className="flex flex-col px-2 py-2">
-                  {/* ========================================
-                      ALL CATEGORIES — expands inline
-                  ======================================== */}
+                  {/* ALL CATEGORIES — expands inline */}
                   <div>
                     <button
                       type="button"

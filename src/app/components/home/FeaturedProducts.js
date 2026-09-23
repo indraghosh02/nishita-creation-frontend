@@ -1082,39 +1082,122 @@ const FeaturedProductCard = ({
   const hasHalfStar = rating - fullStars >= 0.5;
   const hasMultipleImages = productImages.length > 1;
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    try {
-      const liked = JSON.parse(localStorage.getItem('wishlist') || '[]');
-      setIsLiked(liked.includes(productId));
-    } catch (_) {}
+  // useEffect(() => {
+  //   if (typeof window === 'undefined') return;
+  //   try {
+  //     const liked = JSON.parse(localStorage.getItem('wishlist') || '[]');
+  //     setIsLiked(liked.includes(productId));
+  //   } catch (_) {}
+  // }, [productId]);
+
+    useEffect(() => {
+    const fetchWishlistState = async () => {
+      if (!productId || productId === 'unknown') return;
+
+      try {
+        const token = localStorage.getItem('token');
+        const sessionId = localStorage.getItem('wishlistSessionId');
+
+        if (!token && !sessionId) return; // no session yet → not liked
+
+        const headers = {};
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+        else headers['x-session-id'] = sessionId;
+
+        const res = await fetch(
+          `http://localhost:5000/api/wishlist/check/${productId}`,
+          { headers }
+        );
+        const data = await res.json();
+        if (data.success) setIsLiked(data.data.inWishlist);
+      } catch (err) {
+        console.error('Wishlist check error:', err);
+      }
+    };
+
+    fetchWishlistState();
   }, [productId]);
 
-  const handleToggleLike = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setLikedLoading(true);
+  // const handleToggleLike = (e) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  //   setLikedLoading(true);
 
-    try {
-      const liked = JSON.parse(localStorage.getItem('wishlist') || '[]');
-      let updated;
-      if (liked.includes(productId)) {
-        updated = liked.filter((id) => id !== productId);
-        setIsLiked(false);
-        toast.success('Removed from wishlist');
-      } else {
-        updated = [...liked, productId];
-        setIsLiked(true);
-        toast.success('Added to wishlist');
-      }
-      localStorage.setItem('wishlist', JSON.stringify(updated));
-      window.dispatchEvent(new Event('wishlist-update'));
-    } catch (error) {
-      toast.error('Failed to update wishlist');
-    } finally {
-      setLikedLoading(false);
+  //   try {
+  //     const liked = JSON.parse(localStorage.getItem('wishlist') || '[]');
+  //     let updated;
+  //     if (liked.includes(productId)) {
+  //       updated = liked.filter((id) => id !== productId);
+  //       setIsLiked(false);
+  //       toast.success('Removed from wishlist');
+  //     } else {
+  //       updated = [...liked, productId];
+  //       setIsLiked(true);
+  //       toast.success('Added to wishlist');
+  //     }
+  //     localStorage.setItem('wishlist', JSON.stringify(updated));
+  //     window.dispatchEvent(new Event('wishlist-update'));
+  //   } catch (error) {
+  //     toast.error('Failed to update wishlist');
+  //   } finally {
+  //     setLikedLoading(false);
+  //   }
+  // };
+
+  const handleToggleLike = async (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  if (likedLoading) return;
+  setLikedLoading(true);
+
+  try {
+    const token = localStorage.getItem('token');
+    let sessionId = localStorage.getItem('wishlistSessionId');
+
+    // Generate a guest session if none exists
+    if (!token && !sessionId) {
+      sessionId = `wish_session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      localStorage.setItem('wishlistSessionId', sessionId);
     }
-  };
+
+    const headers = { 'Content-Type': 'application/json' };
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    } else {
+      headers['x-session-id'] = sessionId;
+    }
+
+    const response = await fetch('http://localhost:5000/api/wishlist', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ productId }),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      // Save returned sessionId (first-time guests)
+      if (data.sessionId && !token) {
+        localStorage.setItem('wishlistSessionId', data.sessionId);
+      }
+
+      const nowLiked = data.isInWishlist;
+      setIsLiked(nowLiked);
+
+      // ✅ Toggle heart visual + notify navbar
+      toast.success(nowLiked ? 'Added to wishlist' : 'Removed from wishlist');
+      window.dispatchEvent(new Event('wishlist-update'));
+    } else {
+      toast.error(data.error || 'Failed to update wishlist');
+    }
+  } catch (error) {
+    console.error('Wishlist toggle error:', error);
+    toast.error('Network error. Please try again.');
+  } finally {
+    setLikedLoading(false);
+  }
+};
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
