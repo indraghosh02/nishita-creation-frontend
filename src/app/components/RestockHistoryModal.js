@@ -455,9 +455,22 @@ export default function RestockHistoryModal({ item, onClose }) {
                         <span className="text-sm font-bold text-green-700">
                           +{log.addQuantity}
                         </span>
-                        <span className="text-[11px] text-gray-500">
+                        {/* <span className="text-[11px] text-gray-500">
                           {log.previousStock} → {log.newStock}
-                        </span>
+                        </span> */}
+
+                        <span className="text-[11px] text-gray-500">
+  {log.previousStock} → {log.newStock}
+</span>
+
+{/* ✅ base product snapshot for variant / sub-variant rows */}
+{(log.variantId || log.subVariantId) &&
+  log.baseStockBefore != null &&
+  log.baseStockAfter != null && (
+    <span className="text-[10px] text-gray-400">
+      · base: {log.baseStockBefore} → {log.baseStockAfter}
+    </span>
+  )}
                         {log.variantName && (
                           <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-purple-100 text-purple-700 border border-purple-200">
                             {log.variantName}
@@ -474,10 +487,10 @@ export default function RestockHistoryModal({ item, onClose }) {
                       <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 mt-1.5 text-[11px] text-gray-500">
                         <span className="flex items-center gap-1">
                           <FaUser className="w-2.5 h-2.5" />
-                          {log.restockedByName || 'Unknown'}
+                          {/* {log.restockedByName || 'Unknown'} */}
                           {log.restockedByEmail && (
                             <span className="text-gray-400">
-                              ({log.restockedByEmail})
+                              {log.restockedByEmail}
                             </span>
                           )}
                         </span>

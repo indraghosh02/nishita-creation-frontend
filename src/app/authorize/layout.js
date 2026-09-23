@@ -67,6 +67,7 @@ import {
   BookOpen,
    Boxes,          // for Inventory parent
   PackageCheck,
+  
 } from 'lucide-react';
 import DynamicLogo from '../components/DynamicLogo';
 import { FaChartLine } from 'react-icons/fa';
@@ -219,7 +220,10 @@ if (href === '/authorize/video-management') {
     }
 
     
-    
+    if (href === '/authorize/platform-sales') {
+  return currentPath === '/authorize/platform-sales' ||
+         currentPath.startsWith('/authorize/platform-sales/');
+}
     
     
     // Settings
@@ -262,6 +266,16 @@ if (href === '/authorize/video-management') {
     if (href === '/authorize/about-management') {
       return currentPath === '/authorize/about-management';
     }
+
+    if (href === '/authorize/duplicate-customer') {
+  return currentPath === '/authorize/duplicate-customer' ||
+         currentPath.startsWith('/authorize/duplicate-customer/');
+}
+
+if (href === '/authorize/stock-alert') {
+  return currentPath === '/authorize/stock-alert' ||
+         currentPath.startsWith('/authorize/stock-alert/');
+}
     
     // Manage Reviews
     if (href === '/authorize/manage-reviews') {
@@ -309,6 +323,7 @@ if (href === '/authorize/video-management') {
       'why_choose_us': 'manage_why_choose_us',
       'inventory': 'inventory',
       'returned_items': 'returned_items',
+      'stock_alert': 'stock_alert',
     };
     
     if (typeof menuItem === 'string') {
@@ -574,13 +589,32 @@ accessKey: 'barcode-scanner'
           icon: PackageCheck,
           accessKey: 'returned_items'
         },
+            {
+  name: 'Stock Alert',
+  href: '/authorize/stock-alert',
+  icon: PackageCheck,   // or AlertTriangle if you import it
+  accessKey: 'stock_alert',
+},
 
          {
           name: 'Restock Item',
           href: '/authorize/restock',
           icon: PackageCheck,
           accessKey: 'restock'
-        }
+        },
+         {
+      name: 'Duplicate Customer',
+      href: '/authorize/duplicate-customer',
+      icon: PackageCheck,   // or Users from lucide-react
+      accessKey: 'duplicate_customer'
+    },
+      {
+      name: 'Platform Sale Details',
+      href: '/authorize/platform-sales',
+      icon: PackageCheck,
+      accessKey: 'all_orders'
+    },
+
       ]
     },
     {

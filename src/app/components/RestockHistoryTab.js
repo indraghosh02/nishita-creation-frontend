@@ -956,7 +956,7 @@ export default function RestockHistoryTab({ onViewHistory }) {
                           {log.skuCode || log.barcode || '—'}
                         </p>
                       </td>
-                      <td className="px-4 py-3">
+                      {/* <td className="px-4 py-3">
                         {log.variantName || log.subVariantName ? (
                           <div className="flex flex-col gap-0.5">
                             {log.variantName && (
@@ -973,7 +973,27 @@ export default function RestockHistoryTab({ onViewHistory }) {
                         ) : (
                           <span className="text-[10px] text-gray-400">—</span>
                         )}
-                      </td>
+                      </td> */}
+                      <td className="px-4 py-3">
+  {log.variantName || log.subVariantName ? (
+    <div className="flex flex-col gap-0.5">
+      {log.variantName && (
+        <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-purple-100 text-purple-700 border border-purple-200 font-medium self-start">
+          {log.variantName}
+        </span>
+      )}
+      {log.subVariantName && (
+        <span className="text-[10px] text-gray-500">
+          ↳ {log.subVariantName}
+        </span>
+      )}
+    </div>
+  ) : (
+    <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-700 border border-blue-200 font-medium">
+      Base 
+    </span>
+  )}
+</td>
                       <td className="px-4 py-3 text-right">
                         <span className="text-sm font-bold text-green-700">
                           +{log.addQuantity ?? 0}
@@ -985,6 +1005,23 @@ export default function RestockHistoryTab({ onViewHistory }) {
                           {log.newStock ?? 0}
                         </span>
                       </td>
+
+    {/* <td className="px-4 py-3 text-center text-[11px] text-gray-600">
+  <div>
+    {log.previousStock ?? 0} →{' '}
+    <span className="font-semibold text-black">
+      {log.newStock ?? 0}
+    </span>
+  </div>
+
+  {(log.variantId || log.subVariantId) &&
+    log.baseStockBefore != null &&
+    log.baseStockAfter != null && (
+      <div className="text-[10px] text-gray-400 mt-0.5">
+        base: {log.baseStockBefore} → {log.baseStockAfter}
+      </div>
+    )}
+</td> */}
                       <td className="px-4 py-3 text-center">
                         <span className="text-xs font-bold text-blue-700">
                           +{log.totalRestocked ?? 0}
@@ -997,16 +1034,17 @@ export default function RestockHistoryTab({ onViewHistory }) {
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-1.5 text-[11px] text-gray-700">
-                          <FaUser className="w-2.5 h-2.5 text-gray-400" />
+                          <FaUser className="w-2.5 h-2.5 text-blue-600" />
                           <span className="font-medium">
-                            {log.restockedByName || 'Unknown'}
-                          </span>
-                        </div>
-                        {log.restockedByEmail && (
-                          <p className="text-[10px] text-gray-400 mt-0.5">
+                            {/* {log.restockedByName || 'Unknown'} */}
+                              {log.restockedByEmail && (
+                          <p className="text-[10px] text-blue-600 mt-0.5">
                             {log.restockedByEmail}
                           </p>
                         )}
+                          </span>
+                        </div>
+                      
                       </td>
                       <td className="px-4 py-3">
                         {safeDate ? (
