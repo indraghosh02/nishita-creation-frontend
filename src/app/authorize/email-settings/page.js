@@ -686,7 +686,7 @@ export default function EmailSettingsPage() {
   if (loading) {
     return (
       <div className="flex justify-center items-center py-20">
-        <FaSpinner className="w-8 h-8 animate-spin text-[#6F8167]" />
+        <FaSpinner className="w-8 h-8 animate-spin text-black" />
       </div>
     );
   }
@@ -694,19 +694,19 @@ export default function EmailSettingsPage() {
   const renderEmailSettings = (type, settings, status, onSave, onTest, isTesting) => {
     const isOrder = type === 'order';
     const title = isOrder ? 'Order Email Configuration' : 'System Email Configuration';
-    const icon = isOrder ? <FaShoppingBag className="text-[#6F8167]" /> : <FaCog className="text-[#6F8167]" />;
+    const icon = isOrder ? <FaShoppingBag className="text-black" /> : <FaCog className="text-black" />;
     const description = isOrder 
       ? 'Configure email settings for order confirmations, status updates, and invoices'
       : 'Configure email settings for password reset, admin notifications, and system alerts';
 
     return (
-      <div className="bg-white rounded-2xl border border-[#6F8167]/20 p-6 shadow-sm">
+      <div className="bg-white rounded-2xl border border-black/20 p-6 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             {icon}
             <div>
               <h3 className="text-lg font-bold text-[#2D1B2E]">{title}</h3>
-              <p className="text-xs text-[#6F8167]/60">{description}</p>
+              <p className="text-xs text-black/60">{description}</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -726,7 +726,7 @@ export default function EmailSettingsPage() {
           {/* SMTP Host */}
           <div>
             <label className="block text-sm font-medium text-[#2D1B2E] mb-1">
-              SMTP Host <span className="text-[#6F8167]">*</span>
+              SMTP Host <span className="text-black">*</span>
             </label>
             <input
               type="text"
@@ -734,14 +734,14 @@ export default function EmailSettingsPage() {
               value={settings.smtpHost || ''}
               onChange={(e) => handleInputChange(type, e)}
               placeholder="e.g., smtp.gmail.com"
-              className="w-full px-3 py-2 border border-[#F7C7D3]/50 rounded-xl focus:ring-2 focus:ring-[#6F8167] focus:border-transparent bg-white hover:border-[#6F8167]/30"
+              className="w-full px-3 py-2 border border-[#F7C7D3]/50 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white hover:border-black/30"
             />
           </div>
 
           {/* SMTP Port */}
           <div>
             <label className="block text-sm font-medium text-[#2D1B2E] mb-1">
-              SMTP Port <span className="text-[#6F8167]">*</span>
+              SMTP Port <span className="text-black">*</span>
             </label>
             <input
               type="text"
@@ -749,14 +749,14 @@ export default function EmailSettingsPage() {
               value={settings.smtpPort || ''}
               onChange={(e) => handleInputChange(type, e)}
               placeholder="e.g., 587 or 465"
-              className="w-full px-3 py-2 border border-[#F7C7D3]/50 rounded-xl focus:ring-2 focus:ring-[#6F8167] focus:border-transparent bg-white hover:border-[#6F8167]/30"
+              className="w-full px-3 py-2 border border-[#F7C7D3]/50 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white hover:border-black/30"
             />
           </div>
 
           {/* SMTP Username */}
           <div>
             <label className="block text-sm font-medium text-[#2D1B2E] mb-1">
-              SMTP Username <span className="text-[#6F8167]">*</span>
+              SMTP Username <span className="text-black">*</span>
             </label>
             <input
               type="text"
@@ -764,14 +764,14 @@ export default function EmailSettingsPage() {
               value={settings.smtpUser || ''}
               onChange={(e) => handleInputChange(type, e)}
               placeholder="e.g., order@yourdomain.com"
-              className="w-full px-3 py-2 border border-[#F7C7D3]/50 rounded-xl focus:ring-2 focus:ring-[#6F8167] focus:border-transparent bg-white hover:border-[#6F8167]/30"
+              className="w-full px-3 py-2 border border-[#F7C7D3]/50 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white hover:border-black/30"
             />
           </div>
 
           {/* SMTP Password */}
           <div>
             <label className="block text-sm font-medium text-[#2D1B2E] mb-1">
-              SMTP Password <span className="text-[#6F8167]">*</span>
+              SMTP Password <span className="text-black">*</span>
             </label>
             <input
               type="text"
@@ -779,7 +779,7 @@ export default function EmailSettingsPage() {
               value={settings.smtpPassword || ''}
               onChange={(e) => handleInputChange(type, e)}
               placeholder="Enter your SMTP password"
-              className="w-full px-3 py-2 border border-[#F7C7D3]/50 rounded-xl focus:ring-2 focus:ring-[#6F8167] focus:border-transparent bg-white hover:border-[#6F8167]/30"
+              className="w-full px-3 py-2 border border-[#F7C7D3]/50 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white hover:border-black/30"
             />
             {settings.smtpPassword && (
               <p className="text-xs text-green-600 mt-1">
@@ -796,12 +796,12 @@ export default function EmailSettingsPage() {
               name="smtpSecure"
               checked={settings.smtpSecure || false}
               onChange={(e) => handleInputChange(type, e)}
-              className="w-4 h-4 rounded border-[#F7C7D3]/50 text-[#6F8167] focus:ring-[#6F8167]"
+              className="w-4 h-4 rounded border-[#F7C7D3]/50 text-black focus:ring-black"
             />
             <label className="text-sm font-medium text-[#2D1B2E]">
               Use Secure Connection (SSL/TLS)
             </label>
-            <span className="text-xs text-[#6F8167]/40 ml-2">
+            <span className="text-xs text-black/40 ml-2">
               (Check for port 465, uncheck for port 587)
             </span>
           </div>
@@ -809,7 +809,7 @@ export default function EmailSettingsPage() {
           {/* From Email */}
           <div>
             <label className="block text-sm font-medium text-[#2D1B2E] mb-1">
-              From Email <span className="text-[#6F8167]">*</span>
+              From Email <span className="text-black">*</span>
             </label>
             <input
               type="email"
@@ -817,7 +817,7 @@ export default function EmailSettingsPage() {
               value={settings.fromEmail || ''}
               onChange={(e) => handleInputChange(type, e)}
               placeholder="e.g., orders@yourdomain.com"
-              className="w-full px-3 py-2 border border-[#F7C7D3]/50 rounded-xl focus:ring-2 focus:ring-[#6F8167] focus:border-transparent bg-white hover:border-[#6F8167]/30"
+              className="w-full px-3 py-2 border border-[#F7C7D3]/50 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white hover:border-black/30"
             />
           </div>
 
@@ -832,14 +832,14 @@ export default function EmailSettingsPage() {
               value={settings.fromName || 'Beauty Bucket'}
               onChange={(e) => handleInputChange(type, e)}
               placeholder="e.g., Beauty Bucket Orders"
-              className="w-full px-3 py-2 border border-[#F7C7D3]/50 rounded-xl focus:ring-2 focus:ring-[#6F8167] focus:border-transparent bg-white hover:border-[#6F8167]/30"
+              className="w-full px-3 py-2 border border-[#F7C7D3]/50 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white hover:border-black/30"
             />
           </div>
 
           {/* Owner Email */}
           <div className="md:col-span-2">
             <label className="block text-sm font-medium text-[#2D1B2E] mb-1">
-              Owner/Admin Email <span className="text-[#6F8167]">*</span>
+              Owner/Admin Email <span className="text-black">*</span>
             </label>
             <input
               type="email"
@@ -847,9 +847,9 @@ export default function EmailSettingsPage() {
               value={settings.ownerEmail || ''}
               onChange={(e) => handleInputChange(type, e)}
               placeholder="e.g., admin@yourdomain.com"
-              className="w-full px-3 py-2 border border-[#F7C7D3]/50 rounded-xl focus:ring-2 focus:ring-[#6F8167] focus:border-transparent bg-white hover:border-[#6F8167]/30"
+              className="w-full px-3 py-2 border border-[#F7C7D3]/50 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white hover:border-black/30"
             />
-            <p className="text-xs text-[#6F8167]/40 mt-1">
+            <p className="text-xs text-black/40 mt-1">
               {isOrder ? 'Order notifications will be sent to this email' : 'System notifications will be sent to this email'}
             </p>
           </div>
@@ -860,7 +860,7 @@ export default function EmailSettingsPage() {
           <button
             onClick={() => onSave(type)}
             disabled={saving}
-            className="px-6 py-2 bg-[#6F8167] text-white rounded-xl hover:shadow-lg hover:shadow-[#6F8167]/25 transition-all disabled:opacity-50 flex items-center gap-2"
+            className="px-6 py-2 bg-black text-white rounded-xl hover:shadow-lg hover:shadow-black/25 transition-all disabled:opacity-50 flex items-center gap-2"
           >
             {saving ? (
               <><FaSpinner className="w-4 h-4 animate-spin" /> Saving...</>
@@ -872,7 +872,7 @@ export default function EmailSettingsPage() {
           <button
             onClick={() => onTest(type)}
             disabled={isTesting}
-            className="px-6 py-2 border border-[#6F8167] text-[#6F8167] rounded-xl hover:bg-[#6F8167] hover:text-white transition-colors disabled:opacity-50 flex items-center gap-2"
+            className="px-6 py-2 border border-black text-black rounded-xl hover:bg-black hover:text-white transition-colors disabled:opacity-50 flex items-center gap-2"
           >
             {isTesting ? (
               <><FaSpinner className="w-4 h-4 animate-spin" /> Sending Test...</>
@@ -891,7 +891,7 @@ export default function EmailSettingsPage() {
               {status.lastTestResult ? <FaCheckCircle className="w-4 h-4" /> : <FaTimesCircle className="w-4 h-4" />}
               {status.lastTestMessage}
               {status.lastTestedAt && (
-                <span className="text-xs text-[#6F8167]/40 ml-2">
+                <span className="text-xs text-black/40 ml-2">
                   ({new Date(status.lastTestedAt).toLocaleString()})
                 </span>
               )}
@@ -907,10 +907,10 @@ export default function EmailSettingsPage() {
     <div className="space-y-6 p-6 bg-white min-h-screen">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-[#2D1B2E] flex items-center gap-3">
-          <FaMailBulk className="text-[#6F8167]" />
+          <FaMailBulk className="text-black" />
           Email Configuration
         </h2>
-        <div className="text-sm text-[#6F8167]/60">
+        <div className="text-sm text-black/60">
           Configure separate email settings for different services
         </div>
       </div>
@@ -936,9 +936,9 @@ export default function EmailSettingsPage() {
       )}
 
       {/* Info Box */}
-      <div className="bg-[#FFF5F6] border border-[#6F8167]/20 rounded-xl p-4">
+      <div className="bg-[#FFF5F6] border border-black/20 rounded-xl p-4">
         <div className="flex items-start gap-3">
-          <FaEnvelope className="w-5 h-5 text-[#6F8167] mt-0.5" />
+          <FaEnvelope className="w-5 h-5 text-black mt-0.5" />
           <div>
             <h4 className="text-sm font-semibold text-[#2D1B2E]">Email Service Usage</h4>
             <ul className="text-xs text-[#2D1B2E]/70 mt-1 space-y-1">

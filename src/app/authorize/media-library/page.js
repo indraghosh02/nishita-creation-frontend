@@ -68,9 +68,9 @@
         
 //         <p className="text-gray-600 mb-2">
 //           {isSingle ? (
-//             <>Are you sure you want to delete <span className="font-semibold text-[#708268]">"{itemName}"</span>?</>
+//             <>Are you sure you want to delete <span className="font-semibold text-black">"{itemName}"</span>?</>
 //           ) : (
-//             <>Are you sure you want to delete <span className="font-semibold text-[#708268]">{itemCount}</span> items?</>
+//             <>Are you sure you want to delete <span className="font-semibold text-black">{itemCount}</span> items?</>
 //           )}
 //         </p>
 //         <p className="text-sm text-gray-500 mb-6">
@@ -387,7 +387,7 @@
 
 //   return (
 //     <ProtectedRoute pageKey="media_library">
-//     <div className="min-h-screen bg-gradient-to-br from-[#004767]/5 via-white to-[#708268]/5">
+//     <div className="min-h-screen bg-gradient-to-br from-[#004767]/5 via-white to-black/5">
 //       {/* Delete Confirmation Modal */}
 //       <DeleteConfirmationModal
 //         isOpen={deleteModal.isOpen}
@@ -399,7 +399,7 @@
 //       />
 
 //       {/* Header */}
-//       <div className="bg-white border-b border-[#708268]/20 sticky top-0 z-10 shadow-lg">
+//       <div className="bg-white border-b border-black/20 sticky top-0 z-10 shadow-lg">
 //         <div className="px-4 sm:px-6 py-3 sm:py-4">
 //           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
 //             <div className="flex items-center gap-2 sm:gap-4">
@@ -407,7 +407,7 @@
 //               <div className="min-w-0 flex-1">
 //                 <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
 //                   <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-black flex items-center gap-2">
-//                     <FolderTree className="w-5 h-5 sm:w-6 sm:h-6 text-[#708268]" />
+//                     <FolderTree className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
 //                     Media Library
 //                   </h1>
 //                 </div>
@@ -420,7 +420,7 @@
 //             <div className="flex items-center gap-2 flex-wrap">
 //               <button
 //                 onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
-//                 className="p-2 text-[#708268]/70 hover:bg-[#708268]/20 rounded-lg transition-colors hover:text-[#708268]"
+//                 className="p-2 text-black/70 hover:bg-black/20 rounded-lg transition-colors hover:text-black"
 //                 title={viewMode === 'grid' ? 'List view' : 'Grid view'}
 //               >
 //                 {viewMode === 'grid' ? <List className="w-4 h-4" /> : <Grid3x3 className="w-4 h-4" />}
@@ -441,7 +441,7 @@
 //               <button
 //                 onClick={() => loadItems(true)}
 //                 disabled={loading}
-//                 className="p-2 text-[#708268]/70 hover:bg-[#708268]/20 rounded-lg transition-colors hover:text-[#708268] disabled:opacity-50"
+//                 className="p-2 text-black/70 hover:bg-black/20 rounded-lg transition-colors hover:text-black disabled:opacity-50"
 //                 title="Refresh"
 //               >
 //                 <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
@@ -450,7 +450,7 @@
 //               <button
 //                 onClick={() => fileInputRef.current?.click()}
 //                 disabled={uploading}
-//                 className="flex items-center gap-1.5 px-3 py-1.5 bg-[#708268] text-white text-xs font-semibold rounded-lg hover:bg-pink-700 transition-colors disabled:opacity-50"
+//                 className="flex items-center gap-1.5 px-3 py-1.5 bg-black text-white text-xs font-semibold rounded-lg hover:bg-pink-700 transition-colors disabled:opacity-50"
 //               >
 //                 {uploading ? (
 //                   <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -475,20 +475,20 @@
 //       {/* Main Content */}
 //       <div className="p-4 sm:p-6">
 //         {/* Stats Bar */}
-//         <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-[#708268]/20 p-4 mb-6 flex flex-wrap items-center justify-between gap-3">
+//         <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-black/20 p-4 mb-6 flex flex-wrap items-center justify-between gap-3">
 //           <div className="flex items-center gap-4 text-sm">
 //             <span className="text-gray-500">Total: <strong className="text-[#004767]">{stats.total}</strong></span>
-//             <span className="text-gray-500">Images: <strong className="text-[#708268]">{stats.images}</strong></span>
+//             <span className="text-gray-500">Images: <strong className="text-black">{stats.images}</strong></span>
 //             <span className="text-gray-500">Videos: <strong className="text-purple-600">{stats.videos}</strong></span>
 //           </div>
 //           <div className="flex items-center gap-2 text-xs text-gray-500">
 //             <HardDrive className="w-3.5 h-3.5" />
-//             <span>Folder: <strong className="text-[#708268]">{ROOT_FOLDER}</strong></span>
+//             <span>Folder: <strong className="text-black">{ROOT_FOLDER}</strong></span>
 //           </div>
 //         </div>
 
 //         {/* Filters */}
-//         <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-[#708268]/20 p-4 mb-6">
+//         <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-black/20 p-4 mb-6">
 //           <div className="flex flex-wrap items-center gap-3">
 //             {/* Search */}
 //             <div className="relative flex-1 min-w-[200px]">
@@ -498,7 +498,7 @@
 //                 placeholder="Search by filename..."
 //                 value={searchTerm}
 //                 onChange={(e) => setSearchTerm(e.target.value)}
-//                 className="w-full pl-10 pr-4 py-2 text-sm border border-[#708268]/20 rounded-lg focus:ring-2 focus:ring-[#708268] focus:border-transparent outline-none bg-white hover:border-[#708268]/40 transition-colors"
+//                 className="w-full pl-10 pr-4 py-2 text-sm border border-black/20 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none bg-white hover:border-black/40 transition-colors"
 //               />
 //             </div>
 
@@ -544,7 +544,7 @@
 //               <select
 //                 value={folder}
 //                 onChange={(e) => setFolder(e.target.value)}
-//                 className="w-full pl-10 pr-8 py-2 text-sm border border-[#708268]/20 rounded-lg focus:ring-2 focus:ring-[#708268] focus:border-transparent outline-none bg-white hover:border-[#708268]/40 appearance-none cursor-pointer"
+//                 className="w-full pl-10 pr-8 py-2 text-sm border border-black/20 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none bg-white hover:border-black/40 appearance-none cursor-pointer"
 //               >
 //                 {folders.map(f => (
 //                   <option key={f} value={f}>{f}</option>
@@ -560,7 +560,7 @@
 //                 {canDelete && (
 //                   <button
 //                     onClick={selectAll}
-//                     className="px-3 py-1.5 text-xs text-[#708268] hover:bg-[#708268]/10 rounded-lg transition-colors"
+//                     className="px-3 py-1.5 text-xs text-black hover:bg-black/10 rounded-lg transition-colors"
 //                   >
 //                     Select All
 //                   </button>
@@ -580,9 +580,9 @@
 
 //         {/* Media Grid / List */}
 //         {items.length === 0 && !loading ? (
-//           <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-[#708268]/20 p-12 text-center">
+//           <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-black/20 p-12 text-center">
 //             <div className="flex flex-col items-center gap-3">
-//               <FolderTree className="w-16 h-16 text-[#708268]/30" />
+//               <FolderTree className="w-16 h-16 text-black/30" />
 //               <h3 className="text-lg font-semibold text-gray-700">No media found</h3>
 //               <p className="text-sm text-gray-500">
 //                 {searchTerm 
@@ -591,7 +591,7 @@
 //               </p>
 //               <button
 //                 onClick={() => fileInputRef.current?.click()}
-//                 className="mt-3 px-4 py-2 bg-[#708268] text-[#004767] font-semibold rounded-lg hover:bg-[#0891B2] transition-colors flex items-center gap-2"
+//                 className="mt-3 px-4 py-2 bg-black text-[#004767] font-semibold rounded-lg hover:bg-[#0891B2] transition-colors flex items-center gap-2"
 //               >
 //                 <Upload className="w-4 h-4" />
 //                 Upload Media
@@ -612,8 +612,8 @@
 //                   key={item.public_id}
 //                   className={`relative aspect-square rounded-xl overflow-hidden border-2 cursor-pointer transition-all bg-white shadow-sm ${
 //                     isSelected
-//                       ? 'border-[#708268] ring-2 ring-[#708268]/50 shadow-lg'
-//                       : 'border-[#708268]/20 hover:border-[#708268]/50 hover:shadow-md'
+//                       ? 'border-black ring-2 ring-black/50 shadow-lg'
+//                       : 'border-black/20 hover:border-black/50 hover:shadow-md'
 //                   }`}
 //                   // ✅ Use canDelete instead of isAdmin
 //                   onClick={() => canDelete && toggleSelect(item.public_id)}
@@ -657,7 +657,7 @@
 //                     <div className="absolute top-2 right-2">
 //                       <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
 //                         isSelected
-//                           ? 'bg-[#708268] border-[#708268] text-white'
+//                           ? 'bg-black border-black text-white'
 //                           : 'border-white/70 bg-black/30'
 //                       }`}>
 //                         {isSelected && <CheckCircle className="w-3.5 h-3.5" />}
@@ -708,10 +708,10 @@
 //           </div>
 //         ) : (
 //           /* List View */
-//           <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-[#708268]/20 overflow-hidden">
+//           <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-black/20 overflow-hidden">
 //             <div className="overflow-x-auto">
 //               <table className="w-full">
-//                 <thead className="bg-gradient-to-r from-[#708268]/5 to-[#004767]/5">
+//                 <thead className="bg-gradient-to-r from-black/5 to-[#004767]/5">
 //                   <tr>
 //                     <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Preview</th>
 //                     <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
@@ -721,7 +721,7 @@
 //                     <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
 //                   </tr>
 //                 </thead>
-//                 <tbody className="divide-y divide-[#708268]/10">
+//                 <tbody className="divide-y divide-black/10">
 //                   {items.map((item) => {
 //                     const isSelected = selected.has(item.public_id);
 //                     const filename = item.filename || item.public_id.split('/').pop();
@@ -730,12 +730,12 @@
 //                     return (
 //                       <tr 
 //                         key={item.public_id}
-//                         className={`hover:bg-[#708268]/5 transition-colors ${isSelected ? 'bg-[#708268]/10' : ''}`}
+//                         className={`hover:bg-black/5 transition-colors ${isSelected ? 'bg-black/10' : ''}`}
 //                         // ✅ Use canDelete instead of isAdmin
 //                         onClick={() => canDelete && toggleSelect(item.public_id)}
 //                       >
 //                         <td className="px-4 py-3">
-//                           <div className="w-12 h-12 rounded-lg overflow-hidden border border-[#708268]/20 bg-gray-100 flex-shrink-0">
+//                           <div className="w-12 h-12 rounded-lg overflow-hidden border border-black/20 bg-gray-100 flex-shrink-0">
 //                             {isVideo ? (
 //                               <video src={item.url} className="w-full h-full object-cover" muted playsInline />
 //                             ) : (
@@ -746,7 +746,7 @@
 //                         <td className="px-4 py-3">
 //                           <div className="flex items-center gap-2">
 //                             {canDelete && (
-//                               <div className={`w-4 h-4 rounded border ${isSelected ? 'bg-[#708268] border-[#708268]' : 'border-gray-300'}`}>
+//                               <div className={`w-4 h-4 rounded border ${isSelected ? 'bg-black border-black' : 'border-gray-300'}`}>
 //                                 {isSelected && <CheckCircle className="w-3 h-3 text-white m-0.5" />}
 //                               </div>
 //                             )}
@@ -781,14 +781,14 @@
 //                                 e.stopPropagation();
 //                                 setPreviewItem(item);
 //                               }}
-//                               className="p-1.5 text-gray-400 hover:text-[#708268] hover:bg-[#708268]/10 rounded-lg transition-colors"
+//                               className="p-1.5 text-gray-400 hover:text-black hover:bg-black/10 rounded-lg transition-colors"
 //                             >
 //                               <Eye className="w-4 h-4" />
 //                             </button>
 //                             <button
 //                               title="Copy URL"
 //                               onClick={(e) => copyUrl(item.url, e)}
-//                               className="p-1.5 text-gray-400 hover:text-[#708268] hover:bg-[#708268]/10 rounded-lg transition-colors"
+//                               className="p-1.5 text-gray-400 hover:text-black hover:bg-black/10 rounded-lg transition-colors"
 //                             >
 //                               <Copy className="w-4 h-4" />
 //                             </button>
@@ -819,7 +819,7 @@
 //             <button
 //               onClick={() => loadItems(false)}
 //               disabled={loading}
-//               className="px-6 py-2.5 bg-white border border-[#708268]/20 text-[#004767] rounded-xl text-sm font-medium hover:bg-[#708268]/10 transition-colors disabled:opacity-50 shadow-sm"
+//               className="px-6 py-2.5 bg-white border border-black/20 text-[#004767] rounded-xl text-sm font-medium hover:bg-black/10 transition-colors disabled:opacity-50 shadow-sm"
 //             >
 //               {loading ? (
 //                 <span className="flex items-center gap-2">
@@ -840,13 +840,13 @@
 //             onClick={() => setPreviewItem(null)}
 //           >
 //             <div
-//               className="bg-white rounded-2xl shadow-2xl overflow-hidden max-w-4xl w-full max-h-[90vh] flex flex-col border border-[#708268]/20"
+//               className="bg-white rounded-2xl shadow-2xl overflow-hidden max-w-4xl w-full max-h-[90vh] flex flex-col border border-black/20"
 //               onClick={(e) => e.stopPropagation()}
 //             >
 //               {/* Header */}
-//               <div className="flex items-center justify-between px-6 py-4 border-b border-[#708268]/20 bg-gradient-to-r from-[#708268]/5 to-[#004767]/5">
+//               <div className="flex items-center justify-between px-6 py-4 border-b border-black/20 bg-gradient-to-r from-black/5 to-[#004767]/5">
 //                 <div className="flex items-center gap-3 min-w-0">
-//                   <div className="w-10 h-10 rounded-lg overflow-hidden border border-[#708268]/20 flex-shrink-0">
+//                   <div className="w-10 h-10 rounded-lg overflow-hidden border border-black/20 flex-shrink-0">
 //                     {previewItem.resource_type === 'video' ? (
 //                       <video src={previewItem.url} className="w-full h-full object-cover" muted />
 //                     ) : (
@@ -864,7 +864,7 @@
 //                 </div>
 //                 <button
 //                   onClick={() => setPreviewItem(null)}
-//                   className="p-2 hover:bg-[#708268]/10 rounded-lg transition-colors text-gray-500 hover:text-gray-700"
+//                   className="p-2 hover:bg-black/10 rounded-lg transition-colors text-gray-500 hover:text-gray-700"
 //                 >
 //                   <X className="w-5 h-5" />
 //                 </button>
@@ -889,7 +889,7 @@
 //               </div>
 
 //               {/* Footer */}
-//               <div className="px-6 py-4 border-t border-[#708268]/20 bg-gradient-to-r from-[#708268]/5 to-[#004767]/5 flex flex-wrap items-center justify-between gap-3">
+//               <div className="px-6 py-4 border-t border-black/20 bg-gradient-to-r from-black/5 to-[#004767]/5 flex flex-wrap items-center justify-between gap-3">
 //                 <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500">
 //                   <span>
 //                     <span className="font-medium text-gray-700">Type:</span>{' '}
@@ -918,7 +918,7 @@
 //                   {previewItem.folder && (
 //                     <span>
 //                       <span className="font-medium text-gray-700">Folder:</span>{' '}
-//                       <span className="text-[#708268]">{previewItem.folder}</span>
+//                       <span className="text-black">{previewItem.folder}</span>
 //                     </span>
 //                   )}
 //                 </div>
@@ -1021,9 +1021,9 @@ const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm, itemCount, itemNa
         
         <p className="text-gray-600 mb-2">
           {isSingle ? (
-            <>Are you sure you want to delete <span className="font-semibold text-[#708268]">"{itemName}"</span>?</>
+            <>Are you sure you want to delete <span className="font-semibold text-black">"{itemName}"</span>?</>
           ) : (
-            <>Are you sure you want to delete <span className="font-semibold text-[#708268]">{itemCount}</span> items?</>
+            <>Are you sure you want to delete <span className="font-semibold text-black">{itemCount}</span> items?</>
           )}
         </p>
         <p className="text-sm text-gray-500 mb-6">
@@ -1338,7 +1338,7 @@ export default function MediaLibrary() {
 
   return (
     <ProtectedRoute pageKey="media_library">
-    <div className="min-h-screen bg-gradient-to-br from-[#004767]/5 via-white to-[#708268]/5">
+    <div className="min-h-screen bg-gradient-to-br from-[#004767]/5 via-white to-black/5">
       {/* Delete Confirmation Modal */}
       <DeleteConfirmationModal
         isOpen={deleteModal.isOpen}
@@ -1350,14 +1350,14 @@ export default function MediaLibrary() {
       />
 
       {/* Header */}
-      <div className="bg-white border-b border-[#708268]/20 sticky top-0 z-10 shadow-lg">
+      <div className="bg-white border-b border-black/20 sticky top-0 z-10 shadow-lg">
         <div className="px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="flex items-center gap-2 sm:gap-4">
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
                   <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-black flex items-center gap-2">
-                    <FolderTree className="w-5 h-5 sm:w-6 sm:h-6 text-[#708268]" />
+                    <FolderTree className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
                     Media Library
                   </h1>
                 </div>
@@ -1370,7 +1370,7 @@ export default function MediaLibrary() {
             <div className="flex items-center gap-2 flex-wrap">
               <button
                 onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
-                className="p-2 text-[#708268]/70 hover:bg-[#708268]/20 rounded-lg transition-colors hover:text-[#708268]"
+                className="p-2 text-black/70 hover:bg-black/20 rounded-lg transition-colors hover:text-black"
                 title={viewMode === 'grid' ? 'List view' : 'Grid view'}
               >
                 {viewMode === 'grid' ? <List className="w-4 h-4" /> : <Grid3x3 className="w-4 h-4" />}
@@ -1390,7 +1390,7 @@ export default function MediaLibrary() {
               <button
                 onClick={loadItems}
                 disabled={loading}
-                className="p-2 text-[#708268]/70 hover:bg-[#708268]/20 rounded-lg transition-colors hover:text-[#708268] disabled:opacity-50"
+                className="p-2 text-black/70 hover:bg-black/20 rounded-lg transition-colors hover:text-black disabled:opacity-50"
                 title="Refresh"
               >
                 <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
@@ -1399,7 +1399,7 @@ export default function MediaLibrary() {
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-[#708268] text-white text-xs font-semibold rounded-lg hover:bg-[#404a3c] transition-colors disabled:opacity-50"
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-black text-white text-xs font-semibold rounded-lg hover:bg-[#404a3c] transition-colors disabled:opacity-50"
               >
                 {uploading ? (
                   <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -1424,20 +1424,20 @@ export default function MediaLibrary() {
       {/* Main Content */}
       <div className="p-4 sm:p-6">
         {/* Stats Bar */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-[#708268]/20 p-4 mb-6 flex flex-wrap items-center justify-between gap-3">
+        <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-black/20 p-4 mb-6 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-4 text-sm">
             <span className="text-gray-500">Total: <strong className="text-[#004767]">{stats.total}</strong></span>
-            <span className="text-gray-500">Images: <strong className="text-[#708268]">{stats.images}</strong></span>
+            <span className="text-gray-500">Images: <strong className="text-black">{stats.images}</strong></span>
             <span className="text-gray-500">Videos: <strong className="text-purple-600">{stats.videos}</strong></span>
           </div>
           <div className="flex items-center gap-2 text-xs text-gray-500">
             <HardDrive className="w-3.5 h-3.5" />
-            <span>Folder: <strong className="text-[#708268]">{ROOT_FOLDER}</strong></span>
+            <span>Folder: <strong className="text-black">{ROOT_FOLDER}</strong></span>
           </div>
         </div>
 
         {/* Filters */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-[#708268]/20 p-4 mb-6">
+        <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-black/20 p-4 mb-6">
           <div className="flex flex-wrap items-center gap-3">
             {/* Search */}
             <div className="relative flex-1 min-w-[200px]">
@@ -1447,7 +1447,7 @@ export default function MediaLibrary() {
                 placeholder="Search by filename..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 text-sm border border-[#708268]/20 rounded-lg focus:ring-2 focus:ring-[#708268] focus:border-transparent outline-none bg-white hover:border-[#708268]/40 transition-colors"
+                className="w-full pl-10 pr-4 py-2 text-sm border border-black/20 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none bg-white hover:border-black/40 transition-colors"
               />
             </div>
 
@@ -1493,7 +1493,7 @@ export default function MediaLibrary() {
               <select
                 value={folder}
                 onChange={(e) => setFolder(e.target.value)}
-                className="w-full pl-10 pr-8 py-2 text-sm border border-[#708268]/20 rounded-lg focus:ring-2 focus:ring-[#708268] focus:border-transparent outline-none bg-white hover:border-[#708268]/40 appearance-none cursor-pointer"
+                className="w-full pl-10 pr-8 py-2 text-sm border border-black/20 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none bg-white hover:border-black/40 appearance-none cursor-pointer"
               >
                 {folders.map(f => (
                   <option key={f} value={f}>{f}</option>
@@ -1508,7 +1508,7 @@ export default function MediaLibrary() {
                 {canDelete && (
                   <button
                     onClick={selectAll}
-                    className="px-3 py-1.5 text-xs text-[#708268] hover:bg-[#708268]/10 rounded-lg transition-colors"
+                    className="px-3 py-1.5 text-xs text-black hover:bg-black/10 rounded-lg transition-colors"
                   >
                     Select All
                   </button>
@@ -1528,9 +1528,9 @@ export default function MediaLibrary() {
 
         {/* Media Grid / List */}
         {items.length === 0 && !loading ? (
-          <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-[#708268]/20 p-12 text-center">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-black/20 p-12 text-center">
             <div className="flex flex-col items-center gap-3">
-              <FolderTree className="w-16 h-16 text-[#708268]/30" />
+              <FolderTree className="w-16 h-16 text-black/30" />
               <h3 className="text-lg font-semibold text-gray-700">No media found</h3>
               <p className="text-sm text-gray-500">
                 {searchTerm 
@@ -1539,7 +1539,7 @@ export default function MediaLibrary() {
               </p>
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="mt-3 px-4 py-2 bg-[#708268] text-[#004767] font-semibold rounded-lg hover:bg-[#0891B2] transition-colors flex items-center gap-2"
+                className="mt-3 px-4 py-2 bg-black text-[#004767] font-semibold rounded-lg hover:bg-[#0891B2] transition-colors flex items-center gap-2"
               >
                 <Upload className="w-4 h-4" />
                 Upload Media
@@ -1563,8 +1563,8 @@ export default function MediaLibrary() {
                   key={uniqueKey}
                   className={`relative aspect-square rounded-xl overflow-hidden border-2 cursor-pointer transition-all bg-white shadow-sm ${
                     isSelected
-                      ? 'border-[#708268] ring-2 ring-[#708268]/50 shadow-lg'
-                      : 'border-[#708268]/20 hover:border-[#708268]/50 hover:shadow-md'
+                      ? 'border-black ring-2 ring-black/50 shadow-lg'
+                      : 'border-black/20 hover:border-black/50 hover:shadow-md'
                   }`}
                   onClick={() => canDelete && toggleSelect(item.public_id)}
                   onMouseEnter={() => setHoverId(item.public_id)}
@@ -1607,7 +1607,7 @@ export default function MediaLibrary() {
                     <div className="absolute top-2 right-2">
                       <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                         isSelected
-                          ? 'bg-[#708268] border-[#708268] text-white'
+                          ? 'bg-black border-black text-white'
                           : 'border-white/70 bg-black/30'
                       }`}>
                         {isSelected && <CheckCircle className="w-3.5 h-3.5" />}
@@ -1657,10 +1657,10 @@ export default function MediaLibrary() {
           </div>
         ) : (
           /* List View */
-          <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-[#708268]/20 overflow-hidden">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-black/20 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gradient-to-r from-[#708268]/5 to-[#004767]/5">
+                <thead className="bg-gradient-to-r from-black/5 to-[#004767]/5">
                   <tr>
                     <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Preview</th>
                     <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
@@ -1670,7 +1670,7 @@ export default function MediaLibrary() {
                     <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#708268]/10">
+                <tbody className="divide-y divide-black/10">
                   {items.map((item) => {
                     const isSelected = selected.has(item.public_id);
                     const filename = item.filename || item.public_id.split('/').pop();
@@ -1681,11 +1681,11 @@ export default function MediaLibrary() {
                     return (
                       <tr 
                         key={uniqueKey}
-                        className={`hover:bg-[#708268]/5 transition-colors ${isSelected ? 'bg-[#708268]/10' : ''}`}
+                        className={`hover:bg-black/5 transition-colors ${isSelected ? 'bg-black/10' : ''}`}
                         onClick={() => canDelete && toggleSelect(item.public_id)}
                       >
                         <td className="px-4 py-3">
-                          <div className="w-12 h-12 rounded-lg overflow-hidden border border-[#708268]/20 bg-gray-100 flex-shrink-0">
+                          <div className="w-12 h-12 rounded-lg overflow-hidden border border-black/20 bg-gray-100 flex-shrink-0">
                             {isVideo ? (
                               <video src={item.url} className="w-full h-full object-cover" muted playsInline />
                             ) : (
@@ -1696,7 +1696,7 @@ export default function MediaLibrary() {
                         <td className="px-4 py-3">
                           <div className="flex items-center gap-2">
                             {canDelete && (
-                              <div className={`w-4 h-4 rounded border ${isSelected ? 'bg-[#708268] border-[#708268]' : 'border-gray-300'}`}>
+                              <div className={`w-4 h-4 rounded border ${isSelected ? 'bg-black border-black' : 'border-gray-300'}`}>
                                 {isSelected && <CheckCircle className="w-3 h-3 text-white m-0.5" />}
                               </div>
                             )}
@@ -1731,14 +1731,14 @@ export default function MediaLibrary() {
                                 e.stopPropagation();
                                 setPreviewItem(item);
                               }}
-                              className="p-1.5 text-gray-400 hover:text-[#708268] hover:bg-[#708268]/10 rounded-lg transition-colors"
+                              className="p-1.5 text-gray-400 hover:text-black hover:bg-black/10 rounded-lg transition-colors"
                             >
                               <Eye className="w-4 h-4" />
                             </button>
                             <button
                               title="Copy URL"
                               onClick={(e) => copyUrl(item.url, e)}
-                              className="p-1.5 text-gray-400 hover:text-[#708268] hover:bg-[#708268]/10 rounded-lg transition-colors"
+                              className="p-1.5 text-gray-400 hover:text-black hover:bg-black/10 rounded-lg transition-colors"
                             >
                               <Copy className="w-4 h-4" />
                             </button>
@@ -1769,13 +1769,13 @@ export default function MediaLibrary() {
             onClick={() => setPreviewItem(null)}
           >
             <div
-              className="bg-white rounded-2xl shadow-2xl overflow-hidden max-w-4xl w-full max-h-[90vh] flex flex-col border border-[#708268]/20"
+              className="bg-white rounded-2xl shadow-2xl overflow-hidden max-w-4xl w-full max-h-[90vh] flex flex-col border border-black/20"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
-              <div className="flex items-center justify-between px-6 py-4 border-b border-[#708268]/20 bg-gradient-to-r from-[#708268]/5 to-[#004767]/5">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-black/20 bg-gradient-to-r from-black/5 to-[#004767]/5">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-10 h-10 rounded-lg overflow-hidden border border-[#708268]/20 flex-shrink-0">
+                  <div className="w-10 h-10 rounded-lg overflow-hidden border border-black/20 flex-shrink-0">
                     {previewItem.resource_type === 'video' ? (
                       <video src={previewItem.url} className="w-full h-full object-cover" muted />
                     ) : (
@@ -1793,7 +1793,7 @@ export default function MediaLibrary() {
                 </div>
                 <button
                   onClick={() => setPreviewItem(null)}
-                  className="p-2 hover:bg-[#708268]/10 rounded-lg transition-colors text-gray-500 hover:text-gray-700"
+                  className="p-2 hover:bg-black/10 rounded-lg transition-colors text-gray-500 hover:text-gray-700"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -1818,7 +1818,7 @@ export default function MediaLibrary() {
               </div>
 
               {/* Footer */}
-              <div className="px-6 py-4 border-t border-[#708268]/20 bg-gradient-to-r from-[#708268]/5 to-[#004767]/5 flex flex-wrap items-center justify-between gap-3">
+              <div className="px-6 py-4 border-t border-black/20 bg-gradient-to-r from-black/5 to-[#004767]/5 flex flex-wrap items-center justify-between gap-3">
                 <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500">
                   <span>
                     <span className="font-medium text-gray-700">Type:</span>{' '}
@@ -1847,7 +1847,7 @@ export default function MediaLibrary() {
                   {previewItem.folder && (
                     <span>
                       <span className="font-medium text-gray-700">Folder:</span>{' '}
-                      <span className="text-[#708268]">{previewItem.folder}</span>
+                      <span className="text-black">{previewItem.folder}</span>
                     </span>
                   )}
                 </div>

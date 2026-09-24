@@ -67,6 +67,15 @@ import {
   BookOpen,
    Boxes,          // for Inventory parent
   PackageCheck,
+  PackageX,
+  TriangleAlert,
+  PackagePlus,
+  RotateCcw,
+  CopyCheck,
+  BadgeDollarSign,
+  BadgeCheck,
+  Calculator,
+  TicketPercent
   
 } from 'lucide-react';
 import DynamicLogo from '../components/DynamicLogo';
@@ -196,6 +205,15 @@ export default function AuthorizeLayout({ children }) {
     // Delivery
     if (href === '/authorize/delivery-settings') {
       return currentPath === '/authorize/delivery-settings';
+    } 
+
+    
+    if (href === '/authorize/courses') {
+      return currentPath === '/authorize/courses';
+    }
+    
+    if (href === '/authorize/coupon') {
+      return currentPath === '/authorize/coupon';
     }
     
     // Banners
@@ -276,6 +294,11 @@ if (href === '/authorize/stock-alert') {
   return currentPath === '/authorize/stock-alert' ||
          currentPath.startsWith('/authorize/stock-alert/');
 }
+
+if (href === '/authorize/showroom-pos') {
+  return currentPath === '/authorize/showroom-pos' ||
+         currentPath.startsWith('/authorize/showroom-pos/');
+}
     
     // Manage Reviews
     if (href === '/authorize/manage-reviews') {
@@ -324,6 +347,7 @@ if (href === '/authorize/stock-alert') {
       'inventory': 'inventory',
       'returned_items': 'returned_items',
       'stock_alert': 'stock_alert',
+      'showroom_pos': 'showroom_pos',
     };
     
     if (typeof menuItem === 'string') {
@@ -430,7 +454,7 @@ if (href === '/authorize/stock-alert') {
         { 
           name: 'Courier Score', 
           href: '/authorize/courier-score-page', 
-          icon: Bike,
+          icon: BadgeCheck,
           accessKey: 'courier_score'
         }
       ]
@@ -456,7 +480,7 @@ if (href === '/authorize/stock-alert') {
         { 
           name: 'Cost Settings', 
           href: '/authorize/product-cost', 
-          icon: Gift,
+          icon: Calculator,
           accessKey: 'product_cost'
         },
         { 
@@ -586,34 +610,40 @@ accessKey: 'barcode-scanner'
         {
           name: 'Returned Items',
           href: '/authorize/returned-items',
-          icon: PackageCheck,
+          icon: RotateCcw,
           accessKey: 'returned_items'
         },
             {
   name: 'Stock Alert',
   href: '/authorize/stock-alert',
-  icon: PackageCheck,   // or AlertTriangle if you import it
+  icon: TriangleAlert,   // or AlertTriangle if you import it
   accessKey: 'stock_alert',
 },
 
          {
           name: 'Restock Item',
           href: '/authorize/restock',
-          icon: PackageCheck,
+          icon: PackagePlus,
           accessKey: 'restock'
         },
          {
       name: 'Duplicate Customer',
       href: '/authorize/duplicate-customer',
-      icon: PackageCheck,   // or Users from lucide-react
+      icon: CopyCheck,   // or Users from lucide-react
       accessKey: 'duplicate_customer'
     },
       {
       name: 'Platform Sale Details',
       href: '/authorize/platform-sales',
-      icon: PackageCheck,
+      icon: BadgeDollarSign,
       accessKey: 'all_orders'
     },
+          {
+  name: 'Showroom POS',
+  href: '/authorize/showroom-pos',
+  icon: ScanBarcode,     // already imported
+  accessKey: 'showroom_pos',
+},
 
       ]
     },
@@ -650,7 +680,7 @@ accessKey: 'barcode-scanner'
      { 
       name: 'Manage Coupon', 
       href: '/authorize/coupon', 
-      icon: BookOpen,
+      icon: TicketPercent,
       accessKey: 'coupons'
     },
     { 
@@ -688,7 +718,8 @@ accessKey: 'barcode-scanner'
           href: '/authorize/role-management', 
           icon: ShieldCheck,
           accessKey: 'role_management'
-        }
+        },
+  
       ]
     },
     { 

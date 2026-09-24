@@ -277,7 +277,7 @@ export default function DeliverySettingsPage() {
     return (
       <div className="flex items-center justify-center min-h-[60vh] bg-[#FFF5F6]">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-12 h-12 border-4 border-[#73856B] border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-12 h-12 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
           <p className="text-gray-600 font-medium">Loading delivery settings...</p>
         </div>
       </div>
@@ -288,27 +288,27 @@ export default function DeliverySettingsPage() {
      <ProtectedRoute pageKey="delivery_settings">
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <div className="bg-white border-b border-[#73856B]/20 shadow-lg sticky top-0 z-10">
+      <div className="bg-white border-b border-black/20 shadow-lg sticky top-0 z-10">
         <div className="px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div>
                 <div className="flex items-center gap-2">
-                  <FaTruck className="w-6 h-6 text-[#73856B]" />
+                  <FaTruck className="w-6 h-6 text-black" />
                   <h1 className="text-xl font-bold text-[#2D1B2E]">Delivery Charge Settings</h1>
                 </div>
-                <p className="text-sm text-[#73856B]/60 mt-1">Configure shipping costs for different zones</p>
+                <p className="text-sm text-black/60 mt-1">Configure shipping costs for different zones</p>
               </div>
             </div>
-            <Sparkles className="w-5 h-5 text-[#73856B]" />
+            <Sparkles className="w-5 h-5 text-black" />
           </div>
         </div>
       </div>
 
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-[#73856B]/20 overflow-hidden">
-          <div className="p-6 bg-[#73856B]">
+        <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-black/20 overflow-hidden">
+          <div className="p-6 bg-black">
             <h2 className="text-white text-lg font-semibold flex items-center gap-2">
               <FaTruck className="w-5 h-5" />
               Configure Shipping Costs
@@ -326,7 +326,7 @@ export default function DeliverySettingsPage() {
                 Inside Dhaka City (Default)
               </label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#73856B] font-semibold">৳</span>
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black font-semibold">৳</span>
                 <input
                   type="number"
                   name="insideDhaka"
@@ -337,10 +337,10 @@ export default function DeliverySettingsPage() {
                   min="0"
                   step="10"
                   placeholder="Enter default delivery charge for Dhaka"
-                  className="w-full pl-8 pr-4 py-3 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#73856B] focus:border-transparent transition-all bg-white hover:border-[#73856B]/30"
+                  className="w-full pl-8 pr-4 py-3 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-white hover:border-black/30"
                 />
               </div>
-              <p className="text-xs text-[#73856B]/60 flex items-center gap-1">
+              <p className="text-xs text-black/60 flex items-center gap-1">
                 <span className="w-1 h-1 rounded-full bg-emerald-400"></span>
                 Default delivery charge for Dhaka city (applies unless overridden)
               </p>
@@ -351,28 +351,28 @@ export default function DeliverySettingsPage() {
               <div>
                 <label className="flex items-center gap-2 text-sm font-medium text-[#2D1B2E]">
                   <div className="p-1.5 bg-[#F7C7D3]/30 rounded-lg">
-                    <FaLayerGroup className="w-4 h-4 text-[#73856B]" />
+                    <FaLayerGroup className="w-4 h-4 text-black" />
                   </div>
                   Upazila/Thana Level Charges
                 </label>
-                <p className="text-xs text-[#73856B]/60 mt-1">
+                <p className="text-xs text-black/60 mt-1">
                   Set custom delivery charges for specific upazilas/thanas within Dhaka city
                 </p>
               </div>
 
               {/* Add new sub-city charge */}
-              <div className="bg-[#FFF5F6] rounded-lg p-4 border border-[#73856B]/20">
+              <div className="bg-[#FFF5F6] rounded-lg p-4 border border-black/20">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <div>
                     <label className="block text-xs font-medium text-[#2D1B2E] mb-1">
                       Upazila/Thana
                     </label>
                     <div className="relative">
-                      <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-[#73856B]/40 w-3.5 h-3.5" />
+                      <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40 w-3.5 h-3.5" />
                       <select
                         value={subCityForm.upazila}
                         onChange={(e) => setSubCityForm(prev => ({ ...prev, upazila: e.target.value }))}
-                        className="w-full pl-9 pr-3 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#73856B] focus:border-transparent outline-none bg-white text-sm"
+                        className="w-full pl-9 pr-3 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none bg-white text-sm"
                       >
                         <option value="">Select Upazila</option>
                         {filteredUpazilas.map(upazila => (
@@ -387,7 +387,7 @@ export default function DeliverySettingsPage() {
                       Custom Charge (৳)
                     </label>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#73856B] font-semibold">৳</span>
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-black font-semibold">৳</span>
                       <input
                         type="number"
                         value={subCityForm.charge}
@@ -395,7 +395,7 @@ export default function DeliverySettingsPage() {
                         min="0"
                         step="10"
                         placeholder="Enter charge"
-                        className="w-full pl-8 pr-3 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#73856B] focus:border-transparent outline-none bg-white text-sm"
+                        className="w-full pl-8 pr-3 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none bg-white text-sm"
                       />
                     </div>
                   </div>
@@ -404,7 +404,7 @@ export default function DeliverySettingsPage() {
                     <button
                       type="button"
                       onClick={addSubCityCharge}
-                      className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-[#73856B] text-white rounded-lg hover:shadow-lg hover:shadow-[#73856B]/25 transition-all text-sm font-medium"
+                      className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-black text-white rounded-lg hover:shadow-lg hover:shadow-black/25 transition-all text-sm font-medium"
                     >
                       <FaPlus className="w-3.5 h-3.5" />
                       Add Charge
@@ -418,14 +418,14 @@ export default function DeliverySettingsPage() {
                 <div className="space-y-2">
                   <p className="text-xs font-medium text-[#2D1B2E]">Upazila Charges Applied:</p>
                   {settings.subCityCharges.map((sc, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-white rounded-lg border border-[#73856B]/20">
+                    <div key={index} className="flex items-center justify-between p-3 bg-white rounded-lg border border-black/20">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-[#FFF5F6] rounded-full flex items-center justify-center">
-                          <FaMapMarkerAlt className="w-4 h-4 text-[#73856B]" />
+                          <FaMapMarkerAlt className="w-4 h-4 text-black" />
                         </div>
                         <div>
                           <p className="text-sm font-medium text-[#2D1B2E]">{sc.upazila}</p>
-                          <p className="text-xs text-[#73856B]/60">Custom charge: <span className="font-semibold text-[#73856B]">৳{sc.charge}</span></p>
+                          <p className="text-xs text-black/60">Custom charge: <span className="font-semibold text-black">৳{sc.charge}</span></p>
                         </div>
                       </div>
                       <button
@@ -450,24 +450,24 @@ export default function DeliverySettingsPage() {
                   </div>
                   Union/Area Level Charges
                 </label>
-                <p className="text-xs text-[#73856B]/60 mt-1">
+                <p className="text-xs text-black/60 mt-1">
                   Set custom delivery charges for specific unions/areas within Dhaka upazilas
                 </p>
               </div>
 
               {/* Add new union charge */}
-              <div className="bg-[#FFF5F6] rounded-lg p-4 border border-[#73856B]/20">
+              <div className="bg-[#FFF5F6] rounded-lg p-4 border border-black/20">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <div>
                     <label className="block text-xs font-medium text-[#2D1B2E] mb-1">
                       Upazila/Thana
                     </label>
                     <div className="relative">
-                      <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-[#73856B]/40 w-3.5 h-3.5" />
+                      <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40 w-3.5 h-3.5" />
                       <select
                         value={unionForm.upazila}
                         onChange={(e) => setUnionForm(prev => ({ ...prev, upazila: e.target.value }))}
-                        className="w-full pl-9 pr-3 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#73856B] focus:border-transparent outline-none bg-white text-sm"
+                        className="w-full pl-9 pr-3 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none bg-white text-sm"
                       >
                         <option value="">Select Upazila</option>
                         {dhakaUpazilas.map(upazila => (
@@ -482,12 +482,12 @@ export default function DeliverySettingsPage() {
                       Union/Area
                     </label>
                     <div className="relative">
-                      <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-[#73856B]/40 w-3.5 h-3.5" />
+                      <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40 w-3.5 h-3.5" />
                       <select
                         value={unionForm.union}
                         onChange={(e) => setUnionForm(prev => ({ ...prev, union: e.target.value }))}
                         disabled={!unionForm.upazila}
-                        className="w-full pl-9 pr-3 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#73856B] focus:border-transparent outline-none bg-white text-sm disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        className="w-full pl-9 pr-3 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none bg-white text-sm disabled:bg-gray-100 disabled:cursor-not-allowed"
                       >
                         <option value="">{unionForm.upazila ? "Select Union/Area" : "Select Upazila First"}</option>
                         {filteredUnions.map(union => (
@@ -502,7 +502,7 @@ export default function DeliverySettingsPage() {
                       Custom Charge (৳)
                     </label>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#73856B] font-semibold">৳</span>
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-black font-semibold">৳</span>
                       <input
                         type="number"
                         value={unionForm.charge}
@@ -510,7 +510,7 @@ export default function DeliverySettingsPage() {
                         min="0"
                         step="10"
                         placeholder="Enter charge"
-                        className="w-full pl-8 pr-3 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#73856B] focus:border-transparent outline-none bg-white text-sm"
+                        className="w-full pl-8 pr-3 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none bg-white text-sm"
                       />
                     </div>
                   </div>
@@ -532,14 +532,14 @@ export default function DeliverySettingsPage() {
                 <div className="space-y-2">
                   <p className="text-xs font-medium text-[#2D1B2E]">Union Charges Applied:</p>
                   {settings.unionCharges.map((uc, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-white rounded-lg border border-[#73856B]/20">
+                    <div key={index} className="flex items-center justify-between p-3 bg-white rounded-lg border border-black/20">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
                           <FaMapMarkerAlt className="w-4 h-4 text-purple-600" />
                         </div>
                         <div>
-                          <p className="text-sm font-medium text-[#2D1B2E]">{uc.union} <span className="text-xs text-[#73856B]/60">({uc.upazila})</span></p>
-                          <p className="text-xs text-[#73856B]/60">Custom charge: <span className="font-semibold text-purple-600">৳{uc.charge}</span></p>
+                          <p className="text-sm font-medium text-[#2D1B2E]">{uc.union} <span className="text-xs text-black/60">({uc.upazila})</span></p>
+                          <p className="text-xs text-black/60">Custom charge: <span className="font-semibold text-purple-600">৳{uc.charge}</span></p>
                         </div>
                       </div>
                       <button
@@ -564,7 +564,7 @@ export default function DeliverySettingsPage() {
                 Outside Dhaka (Other Districts)
               </label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#73856B] font-semibold">৳</span>
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black font-semibold">৳</span>
                 <input
                   type="number"
                   name="outsideDhaka"
@@ -575,23 +575,23 @@ export default function DeliverySettingsPage() {
                   min="0"
                   step="10"
                   placeholder="Enter delivery charge for outside Dhaka"
-                  className="w-full pl-8 pr-4 py-3 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#73856B] focus:border-transparent transition-all bg-white hover:border-[#73856B]/30"
+                  className="w-full pl-8 pr-4 py-3 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-white hover:border-black/30"
                 />
               </div>
-              <p className="text-xs text-[#73856B]/60 flex items-center gap-1">
+              <p className="text-xs text-black/60 flex items-center gap-1">
                 <span className="w-1 h-1 rounded-full bg-orange-400"></span>
                 Delivery charge for addresses outside Dhaka city
               </p>
             </div>
 
             {/* Preview Section */}
-            <div className="bg-[#FFF5F6] rounded-lg p-4 border border-[#73856B]/20">
+            <div className="bg-[#FFF5F6] rounded-lg p-4 border border-black/20">
               <h3 className="text-sm font-semibold text-[#2D1B2E] mb-3 flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-[#73856B]" />
+                <CheckCircle className="w-4 h-4 text-black" />
                 Preview
               </h3>
               <div className="space-y-2 text-sm">
-                <div className="flex justify-between items-center p-2 bg-white/50 rounded-lg border border-[#73856B]/20">
+                <div className="flex justify-between items-center p-2 bg-white/50 rounded-lg border border-black/20">
                   <span className="text-[#2D1B2E] flex items-center gap-2">
                     <FaMapMarkerAlt className="w-3.5 h-3.5 text-emerald-500" />
                     Inside Dhaka (Default):
@@ -600,25 +600,25 @@ export default function DeliverySettingsPage() {
                 </div>
                 
                 {settings.subCityCharges.length > 0 && (
-                  <div className="p-2 bg-white/50 rounded-lg border border-[#73856B]/20">
-                    <p className="text-xs text-[#73856B]/60 mb-2">Upazila Charges:</p>
+                  <div className="p-2 bg-white/50 rounded-lg border border-black/20">
+                    <p className="text-xs text-black/60 mb-2">Upazila Charges:</p>
                     {settings.subCityCharges.map((sc, idx) => (
-                      <div key={idx} className="flex justify-between items-center py-1 border-b border-[#73856B]/10 last:border-0">
+                      <div key={idx} className="flex justify-between items-center py-1 border-b border-black/10 last:border-0">
                         <span className="text-[#2D1B2E] text-xs flex items-center gap-1">
-                          <FaMapMarkerAlt className="w-3 h-3 text-[#73856B]" />
+                          <FaMapMarkerAlt className="w-3 h-3 text-black" />
                           {sc.upazila}:
                         </span>
-                        <span className="font-semibold text-[#73856B] text-xs">৳{sc.charge}</span>
+                        <span className="font-semibold text-black text-xs">৳{sc.charge}</span>
                       </div>
                     ))}
                   </div>
                 )}
 
                 {settings.unionCharges.length > 0 && (
-                  <div className="p-2 bg-white/50 rounded-lg border border-[#73856B]/20">
-                    <p className="text-xs text-[#73856B]/60 mb-2">Union Charges:</p>
+                  <div className="p-2 bg-white/50 rounded-lg border border-black/20">
+                    <p className="text-xs text-black/60 mb-2">Union Charges:</p>
                     {settings.unionCharges.map((uc, idx) => (
-                      <div key={idx} className="flex justify-between items-center py-1 border-b border-[#73856B]/10 last:border-0">
+                      <div key={idx} className="flex justify-between items-center py-1 border-b border-black/10 last:border-0">
                         <span className="text-[#2D1B2E] text-xs flex items-center gap-1">
                           <FaMapMarkerAlt className="w-3 h-3 text-purple-500" />
                           {uc.union} ({uc.upazila}):
@@ -629,7 +629,7 @@ export default function DeliverySettingsPage() {
                   </div>
                 )}
                 
-                <div className="flex justify-between items-center p-2 bg-white/50 rounded-lg border border-[#73856B]/20">
+                <div className="flex justify-between items-center p-2 bg-white/50 rounded-lg border border-black/20">
                   <span className="text-[#2D1B2E] flex items-center gap-2">
                     <FaTruck className="w-3.5 h-3.5 text-orange-500" />
                     Outside Dhaka:
@@ -644,7 +644,7 @@ export default function DeliverySettingsPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#73856B] text-white rounded-lg hover:shadow-lg hover:shadow-[#73856B]/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-md font-medium"
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-black text-white rounded-lg hover:shadow-lg hover:shadow-black/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-md font-medium"
               >
                 {saving ? (
                   <>

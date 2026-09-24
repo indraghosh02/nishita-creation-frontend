@@ -144,7 +144,7 @@ const ImageUpload = ({ imageUrl, onImageChange, onImageRemove }) => {
     <div className="space-y-2">
       {preview ? (
         <div className="relative inline-block">
-          <div className="flex h-40 w-full max-w-sm items-center justify-center overflow-hidden rounded-xl border-2 border-[#8B9D83]/30 bg-gray-50">
+          <div className="flex h-40 w-full max-w-sm items-center justify-center overflow-hidden rounded-xl border-2 border-black/30 bg-gray-50">
             <img
               src={preview}
               alt="Course Image"
@@ -167,16 +167,16 @@ const ImageUpload = ({ imageUrl, onImageChange, onImageRemove }) => {
       ) : (
         <div
           onClick={() => fileInputRef.current?.click()}
-          className="flex h-40 w-full max-w-sm cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-[#8B9D83]/40 bg-gray-50 transition-colors hover:border-[#8B9D83] hover:bg-[#8B9D83]/5"
+          className="flex h-40 w-full max-w-sm cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-black/40 bg-gray-50 transition-colors hover:border-black hover:bg-black/5"
         >
           {isUploading ? (
             <>
-              <Loader2 className="h-8 w-8 animate-spin text-[#8B9D83]" />
+              <Loader2 className="h-8 w-8 animate-spin text-black" />
               <p className="mt-2 text-sm text-gray-500">Uploading...</p>
             </>
           ) : (
             <>
-              <ImageIcon className="h-10 w-10 text-[#8B9D83]/60" />
+              <ImageIcon className="h-10 w-10 text-black/60" />
               <p className="mt-2 text-sm font-medium text-gray-600">
                 Click to upload image
               </p>
@@ -360,7 +360,7 @@ const CourseFormModal = ({ isOpen, onClose, course, onSave }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-[#8B9D83]/5">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-black/5">
           <h2 className="text-xl font-semibold text-[#2D1B2E]">
             {course ? 'Edit Course' : 'Create New Course'}
           </h2>
@@ -385,7 +385,7 @@ const CourseFormModal = ({ isOpen, onClose, course, onSave }) => {
               onChange={(e) =>
                 setFormData({ ...formData, courseName: e.target.value })
               }
-              className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none ${
+              className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none ${
                 errors.courseName ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="e.g., Basic Computer Course"
@@ -406,7 +406,7 @@ const CourseFormModal = ({ isOpen, onClose, course, onSave }) => {
                 setFormData({ ...formData, courseDetails: e.target.value })
               }
               rows={4}
-              className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none resize-none ${
+              className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none resize-none ${
                 errors.courseDetails ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="Describe the course content, what students will learn, etc."
@@ -429,7 +429,7 @@ const CourseFormModal = ({ isOpen, onClose, course, onSave }) => {
                 onChange={(e) =>
                   setFormData({ ...formData, contactNumber: e.target.value })
                 }
-                className={`w-full pl-10 pr-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none ${
+                className={`w-full pl-10 pr-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none ${
                   errors.contactNumber ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="e.g., 01712345678"
@@ -467,7 +467,7 @@ const CourseFormModal = ({ isOpen, onClose, course, onSave }) => {
                 onChange={(e) =>
                   setFormData({ ...formData, startDate: e.target.value })
                 }
-                className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none ${
+                className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none ${
                   errors.startDate ? 'border-red-500' : 'border-gray-300'
                 }`}
               />
@@ -485,7 +485,7 @@ const CourseFormModal = ({ isOpen, onClose, course, onSave }) => {
                 onChange={(e) =>
                   setFormData({ ...formData, endDate: e.target.value })
                 }
-                className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none ${
+                className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none ${
                   errors.endDate ? 'border-red-500' : 'border-gray-300'
                 }`}
               />
@@ -507,7 +507,7 @@ const CourseFormModal = ({ isOpen, onClose, course, onSave }) => {
                 onChange={(e) =>
                   setFormData({ ...formData, classTime: e.target.value })
                 }
-                className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none ${
+                className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none ${
                   errors.classTime ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="e.g., 10:00 AM - 12:00 PM"
@@ -528,7 +528,7 @@ const CourseFormModal = ({ isOpen, onClose, course, onSave }) => {
                   setFormData({ ...formData, totalClasses: e.target.value })
                 }
                 onWheel={(e) => e.target.blur()}
-                className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none ${
+                className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none ${
                   errors.totalClasses ? 'border-red-500' : 'border-gray-300'
                 }`}
               />
@@ -553,7 +553,7 @@ const CourseFormModal = ({ isOpen, onClose, course, onSave }) => {
                   setFormData({ ...formData, courseFee: e.target.value })
                 }
                 onWheel={(e) => e.target.blur()}
-                className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none ${
+                className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none ${
                   errors.courseFee ? 'border-red-500' : 'border-gray-300'
                 }`}
               />
@@ -573,7 +573,7 @@ const CourseFormModal = ({ isOpen, onClose, course, onSave }) => {
                   setFormData({ ...formData, maxRegistrations: e.target.value })
                 }
                 onWheel={(e) => e.target.blur()}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none"
                 placeholder="Leave empty for unlimited"
               />
             </div>
@@ -590,7 +590,7 @@ const CourseFormModal = ({ isOpen, onClose, course, onSave }) => {
               onChange={(e) =>
                 setFormData({ ...formData, registrationDeadline: e.target.value })
               }
-              className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none ${
+              className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none ${
                 errors.registrationDeadline ? 'border-red-500' : 'border-gray-300'
               }`}
             />
@@ -610,7 +610,7 @@ const CourseFormModal = ({ isOpen, onClose, course, onSave }) => {
                 onChange={(e) =>
                   setFormData({ ...formData, isActive: e.target.checked })
                 }
-                className="h-4 w-4 rounded border-gray-300 text-[#8B9D83] focus:ring-[#8B9D83]"
+                className="h-4 w-4 rounded border-gray-300 text-black focus:ring-black"
               />
               <span className="text-sm font-medium text-gray-700">Course Active</span>
             </label>
@@ -631,7 +631,7 @@ const CourseFormModal = ({ isOpen, onClose, course, onSave }) => {
           <button
             onClick={handleSubmit}
             disabled={saving}
-            className="flex items-center gap-2 px-6 py-2 text-sm font-medium text-white bg-[#8B9D83] rounded-xl hover:bg-[#6B7D63] disabled:opacity-50"
+            className="flex items-center gap-2 px-6 py-2 text-sm font-medium text-white bg-black rounded-xl hover:bg-[#6B7D63] disabled:opacity-50"
           >
             {saving ? (
               <>
@@ -744,7 +744,7 @@ const ManualRegistrationModal = ({ isOpen, onClose, courseId, onSuccess }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-[#8B9D83]/5">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-black/5">
           <h2 className="text-lg font-semibold text-[#2D1B2E]">Manual Registration</h2>
           <button
             onClick={onClose}
@@ -765,7 +765,7 @@ const ManualRegistrationModal = ({ isOpen, onClose, courseId, onSuccess }) => {
               onChange={(e) =>
                 setFormData({ ...formData, fullName: e.target.value })
               }
-              className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none ${
+              className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none ${
                 errors.fullName ? 'border-red-500' : 'border-gray-300'
               }`}
             />
@@ -782,7 +782,7 @@ const ManualRegistrationModal = ({ isOpen, onClose, courseId, onSuccess }) => {
               type="text"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none ${
+              className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none ${
                 errors.phone ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="01XXXXXXXXX"
@@ -800,7 +800,7 @@ const ManualRegistrationModal = ({ isOpen, onClose, courseId, onSuccess }) => {
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none"
             />
           </div>
 
@@ -812,7 +812,7 @@ const ManualRegistrationModal = ({ isOpen, onClose, courseId, onSuccess }) => {
               value={formData.address}
               onChange={(e) => setFormData({ ...formData, address: e.target.value })}
               rows={2}
-              className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none resize-none ${
+              className={`w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none resize-none ${
                 errors.address ? 'border-red-500' : 'border-gray-300'
               }`}
             />
@@ -832,7 +832,7 @@ const ManualRegistrationModal = ({ isOpen, onClose, courseId, onSuccess }) => {
                 onChange={(e) =>
                   setFormData({ ...formData, facebookId: e.target.value })
                 }
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none"
                 placeholder="facebook.com/username"
               />
             </div>
@@ -846,7 +846,7 @@ const ManualRegistrationModal = ({ isOpen, onClose, courseId, onSuccess }) => {
                 onChange={(e) =>
                   setFormData({ ...formData, whatsappNumber: e.target.value })
                 }
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none"
                 placeholder="01XXXXXXXXX"
               />
             </div>
@@ -859,7 +859,7 @@ const ManualRegistrationModal = ({ isOpen, onClose, courseId, onSuccess }) => {
             <select
               value={formData.status}
               onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none"
             >
               <option value="confirmed">Confirmed</option>
               <option value="pending">Pending</option>
@@ -880,7 +880,7 @@ const ManualRegistrationModal = ({ isOpen, onClose, courseId, onSuccess }) => {
                   onChange={(e) =>
                     setFormData({ ...formData, paymentStatus: e.target.value })
                   }
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none"
                 >
                   <option value="unpaid">Unpaid</option>
                   <option value="partial">Partial</option>
@@ -899,7 +899,7 @@ const ManualRegistrationModal = ({ isOpen, onClose, courseId, onSuccess }) => {
                     setFormData({ ...formData, paymentAmount: e.target.value })
                   }
                   onWheel={(e) => e.target.blur()}
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none"
                 />
               </div>
             </div>
@@ -913,7 +913,7 @@ const ManualRegistrationModal = ({ isOpen, onClose, courseId, onSuccess }) => {
                 onChange={(e) =>
                   setFormData({ ...formData, paymentMethod: e.target.value })
                 }
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none"
                 placeholder="e.g., bKash, Cash"
               />
             </div>
@@ -929,7 +929,7 @@ const ManualRegistrationModal = ({ isOpen, onClose, courseId, onSuccess }) => {
                 setFormData({ ...formData, adminNotes: e.target.value })
               }
               rows={2}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none resize-none"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none resize-none"
             />
           </div>
         </div>
@@ -944,7 +944,7 @@ const ManualRegistrationModal = ({ isOpen, onClose, courseId, onSuccess }) => {
           <button
             onClick={handleSubmit}
             disabled={saving}
-            className="flex items-center gap-2 px-6 py-2 text-sm font-medium text-white bg-[#8B9D83] rounded-xl hover:bg-[#6B7D63] disabled:opacity-50"
+            className="flex items-center gap-2 px-6 py-2 text-sm font-medium text-white bg-black rounded-xl hover:bg-[#6B7D63] disabled:opacity-50"
           >
             {saving ? (
               <>
@@ -1153,7 +1153,7 @@ const CourseDetailsModal = ({ isOpen, onClose, courseId, onRefresh }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-[#8B9D83]/5">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-black/5">
           <div className="flex items-center gap-3">
             <button
               onClick={onClose}
@@ -1168,7 +1168,7 @@ const CourseDetailsModal = ({ isOpen, onClose, courseId, onRefresh }) => {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowManualModal(true)}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#8B9D83] rounded-xl hover:bg-[#6B7D63]"
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-black rounded-xl hover:bg-[#6B7D63]"
             >
               <UserPlus className="h-4 w-4" />
               Add Student
@@ -1184,7 +1184,7 @@ const CourseDetailsModal = ({ isOpen, onClose, courseId, onRefresh }) => {
 
         {loading ? (
           <div className="flex-1 flex items-center justify-center">
-            <Loader2 className="h-8 w-8 animate-spin text-[#8B9D83]" />
+            <Loader2 className="h-8 w-8 animate-spin text-black" />
           </div>
         ) : (
           <div className="flex-1 overflow-y-auto">
@@ -1250,7 +1250,7 @@ const CourseDetailsModal = ({ isOpen, onClose, courseId, onRefresh }) => {
                       <div className="bg-white rounded-xl p-3 border border-gray-200">
                         <p className="text-xs text-gray-500 mb-1">Contact</p>
                         <p className="text-sm font-medium text-gray-800 flex items-center gap-1">
-                          <Phone className="h-3 w-3 text-[#8B9D83]" />
+                          <Phone className="h-3 w-3 text-black" />
                           {course.contactNumber}
                         </p>
                       </div>
@@ -1286,7 +1286,7 @@ const CourseDetailsModal = ({ isOpen, onClose, courseId, onRefresh }) => {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                   placeholder="Search by name, phone, email..."
-                  className="w-full pl-9 pr-4 py-2 text-sm border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none"
+                  className="w-full pl-9 pr-4 py-2 text-sm border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none"
                 />
               </div>
               <select
@@ -1295,7 +1295,7 @@ const CourseDetailsModal = ({ isOpen, onClose, courseId, onRefresh }) => {
                   setStatusFilter(e.target.value);
                   setPage(1);
                 }}
-                className="px-3 py-2 text-sm border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none"
+                className="px-3 py-2 text-sm border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none"
               >
                 <option value="all">All Status</option>
                 <option value="pending">Pending</option>
@@ -1305,7 +1305,7 @@ const CourseDetailsModal = ({ isOpen, onClose, courseId, onRefresh }) => {
               </select>
               <button
                 onClick={handleSearch}
-                className="px-4 py-2 text-sm font-medium text-white bg-[#8B9D83] rounded-xl hover:bg-[#6B7D63]"
+                className="px-4 py-2 text-sm font-medium text-white bg-black rounded-xl hover:bg-[#6B7D63]"
               >
                 Search
               </button>
@@ -1570,7 +1570,7 @@ const CourseCard = ({
   const hasImage = !!course.image;
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 p-5 hover:border-[#8B9D83]/40 hover:shadow-[0_8px_24px_-16px_rgba(41,54,47,0.2)] transition-all">
+    <div className="bg-white rounded-2xl border border-gray-200 p-5 hover:border-black/40 hover:shadow-[0_8px_24px_-16px_rgba(41,54,47,0.2)] transition-all">
       {/* ✅ Always use horizontal layout — thumbnail is ALWAYS small */}
       <div className="flex items-start gap-4">
         {/* ==================================================
@@ -1630,28 +1630,28 @@ const CourseCard = ({
           {/* Meta row */}
           <div className="flex flex-wrap gap-x-4 gap-y-2 mt-3 text-sm">
             <div className="flex items-center gap-1.5 text-gray-600">
-              <Calendar className="h-4 w-4 text-[#8B9D83] flex-shrink-0" />
+              <Calendar className="h-4 w-4 text-black flex-shrink-0" />
               <span className="text-xs">
                 {formatDate(course.startDate)} — {formatDate(course.endDate)}
               </span>
             </div>
             <div className="flex items-center gap-1.5 text-gray-600">
-              <Clock className="h-4 w-4 text-[#8B9D83] flex-shrink-0" />
+              <Clock className="h-4 w-4 text-black flex-shrink-0" />
               <span className="text-xs">{course.classTime}</span>
             </div>
             <div className="flex items-center gap-1.5 text-gray-600">
-              <BookOpen className="h-4 w-4 text-[#8B9D83] flex-shrink-0" />
+              <BookOpen className="h-4 w-4 text-black flex-shrink-0" />
               <span className="text-xs">{course.totalClasses} classes</span>
             </div>
             <div className="flex items-center gap-1.5 text-gray-600">
-              <DollarSign className="h-4 w-4 text-[#8B9D83] flex-shrink-0" />
+              <DollarSign className="h-4 w-4 text-black flex-shrink-0" />
               <span className="text-xs">
                 ৳{course.courseFee?.toLocaleString()}
               </span>
             </div>
             {course.contactNumber && (
               <div className="flex items-center gap-1.5 text-gray-600">
-                <Phone className="h-4 w-4 text-[#8B9D83] flex-shrink-0" />
+                <Phone className="h-4 w-4 text-black flex-shrink-0" />
                 <span className="text-xs">{course.contactNumber}</span>
               </div>
             )}
@@ -1681,14 +1681,14 @@ const CourseCard = ({
             <div className="flex items-center gap-2 flex-shrink-0">
               <button
                 onClick={() => onViewDetails(course._id)}
-                className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-[#8B9D83] border border-[#8B9D83] rounded-xl hover:bg-[#8B9D83]/10 transition-colors"
+                className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-black border border-black rounded-xl hover:bg-black/10 transition-colors"
               >
                 <Users className="h-4 w-4" />
                 Registrations
               </button>
               <button
                 onClick={() => onEdit(course)}
-                className="p-2 text-gray-500 hover:text-[#8B9D83] hover:bg-[#8B9D83]/10 rounded-lg"
+                className="p-2 text-gray-500 hover:text-black hover:bg-black/10 rounded-lg"
                 title="Edit"
               >
                 <Edit className="h-4 w-4" />
@@ -1861,7 +1861,7 @@ export default function CourseManagementPage() {
         <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-[#2D1B2E] flex items-center gap-2">
-              <BookOpen className="h-6 w-6 text-[#8B9D83]" />
+              <BookOpen className="h-6 w-6 text-black" />
               Course Management
             </h1>
             <p className="text-sm text-gray-500 mt-1">
@@ -1871,14 +1871,14 @@ export default function CourseManagementPage() {
           <div className="flex items-center gap-2">
             <button
               onClick={fetchCourses}
-              className="p-2 text-[#8B9D83] hover:bg-[#8B9D83]/10 rounded-lg"
+              className="p-2 text-black hover:bg-black/10 rounded-lg"
               title="Refresh"
             >
               <RefreshCw className="h-5 w-5" />
             </button>
             <button
               onClick={openCreateModal}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#8B9D83] rounded-xl hover:bg-[#6B7D63]"
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-black rounded-xl hover:bg-[#6B7D63]"
             >
               <Plus className="h-4 w-4" />
               Create Course
@@ -1896,7 +1896,7 @@ export default function CourseManagementPage() {
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               placeholder="Search courses..."
-              className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none bg-white"
+              className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none bg-white"
             />
           </div>
           <select
@@ -1905,7 +1905,7 @@ export default function CourseManagementPage() {
               setIsActiveFilter(e.target.value);
               setPage(1);
             }}
-            className="px-3 py-2.5 text-sm border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none bg-white"
+            className="px-3 py-2.5 text-sm border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none bg-white"
           >
             <option value="">All Status</option>
             <option value="true">Active</option>
@@ -1913,7 +1913,7 @@ export default function CourseManagementPage() {
           </select>
           <button
             onClick={handleSearch}
-            className="px-4 py-2.5 text-sm font-medium text-white bg-[#8B9D83] rounded-xl hover:bg-[#6B7D63]"
+            className="px-4 py-2.5 text-sm font-medium text-white bg-black rounded-xl hover:bg-[#6B7D63]"
           >
             Search
           </button>
@@ -1922,7 +1922,7 @@ export default function CourseManagementPage() {
         {/* Courses List */}
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-[#8B9D83]" />
+            <Loader2 className="h-8 w-8 animate-spin text-black" />
           </div>
         ) : courses.length === 0 ? (
           <div className="text-center py-20 bg-white rounded-2xl border border-gray-200">
@@ -1935,7 +1935,7 @@ export default function CourseManagementPage() {
             </p>
             <button
               onClick={openCreateModal}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#8B9D83] rounded-xl hover:bg-[#6B7D63]"
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-black rounded-xl hover:bg-[#6B7D63]"
             >
               <Plus className="h-4 w-4" />
               Create Course
