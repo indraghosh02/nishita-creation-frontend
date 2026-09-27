@@ -2263,7 +2263,7 @@ export default function ShowroomPosPage() {
 
   // ========== RENDER ==========
   return (
-    <ProtectedRoute pageKey="all_orders">
+    <ProtectedRoute pageKey="showroom_pos">
       <div className="min-h-screen bg-gray-50">
         {/* HEADER */}
         <div className="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm">

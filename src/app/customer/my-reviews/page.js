@@ -55,62 +55,57 @@
 //   const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'your_cloud_name';
 //   const CLOUDINARY_UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || 'your_upload_preset';
 
-//   // Add this function after the Cloudinary configuration
-// const compressImageSmart = async (file) => {
-//   return new Promise((resolve, reject) => {
-//     const reader = new FileReader();
-//     reader.readAsDataURL(file);
-    
-//     reader.onload = (event) => {
-//       const img = new Image();
-//       img.src = event.target.result;
+//   const compressImageSmart = async (file) => {
+//     return new Promise((resolve, reject) => {
+//       const reader = new FileReader();
+//       reader.readAsDataURL(file);
       
-//       img.onload = () => {
-//         const canvas = document.createElement('canvas');
-//         canvas.width = img.width;
-//         canvas.height = img.height;
+//       reader.onload = (event) => {
+//         const img = new Image();
+//         img.src = event.target.result;
         
-//         const ctx = canvas.getContext('2d');
-//         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+//         img.onload = () => {
+//           const canvas = document.createElement('canvas');
+//           canvas.width = img.width;
+//           canvas.height = img.height;
+          
+//           const ctx = canvas.getContext('2d');
+//           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          
+//           let quality = 0.4;
+          
+//           if (file.size > 5 * 1024 * 1024) {
+//             quality = 0.25;
+//           } else if (file.size > 2 * 1024 * 1024) {
+//             quality = 0.3;
+//           } else if (file.size > 1 * 1024 * 1024) {
+//             quality = 0.35;
+//           } else if (file.size > 500 * 1024) {
+//             quality = 0.45;
+//           } else {
+//             quality = 0.55;
+//           }
+          
+//           canvas.toBlob(
+//             (blob) => {
+//               const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, '.jpg'), {
+//                 type: 'image/jpeg',
+//                 lastModified: Date.now(),
+//               });
+//               console.log(`📸 Review Image Compressed: ${(file.size / 1024).toFixed(0)}KB → ${(blob.size / 1024).toFixed(0)}KB`);              resolve(compressedFile);
+//             },
+//             'image/jpeg',
+//             quality
+//           );
+//         };
         
-//         // MORE AGGRESSIVE compression - target under 300KB
-//         let quality = 0.4; // Default 40% quality
-        
-//         if (file.size > 5 * 1024 * 1024) {
-//           quality = 0.25; // 25% quality for 5MB+ files
-//         } else if (file.size > 2 * 1024 * 1024) {
-//           quality = 0.3; // 30% quality for 2-5MB files
-//         } else if (file.size > 1 * 1024 * 1024) {
-//           quality = 0.35; // 35% quality for 1-2MB files
-//         } else if (file.size > 500 * 1024) {
-//           quality = 0.45; // 45% quality for 500KB-1MB files
-//         } else {
-//           quality = 0.55; // 55% quality for smaller files
-//         }
-        
-//         canvas.toBlob(
-//           (blob) => {
-//             const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, '.jpg'), {
-//               type: 'image/jpeg',
-//               lastModified: Date.now(),
-//             });
-//             const reduction = ((file.size - blob.size) / file.size * 100).toFixed(1);
-//             console.log(`📸 Review Image Compressed: ${(file.size / 1024).toFixed(0)}KB → ${(blob.size / 1024).toFixed(0)}KB (${reduction}% reduction)`);
-//             resolve(compressedFile);
-//           },
-//           'image/jpeg',
-//           quality
-//         );
+//         img.onerror = () => reject(new Error('Failed to load image'));
 //       };
       
-//       img.onerror = () => reject(new Error('Failed to load image'));
-//     };
-    
-//     reader.onerror = () => reject(new Error('Failed to read file'));
-//   });
-// };
+//       reader.onerror = () => reject(new Error('Failed to read file'));
+//     });
+//   };
 
-//   // Initialize form when review changes
 //   useEffect(() => {
 //     if (review && isOpen) {
 //       setEditForm({
@@ -127,7 +122,6 @@
 //     }
 //   }, [review, isOpen]);
 
-//   // Cleanup on unmount
 //   useEffect(() => {
 //     return () => {
 //       editForm.newImages.forEach(img => {
@@ -137,62 +131,56 @@
 //     };
 //   }, []);
 
-//   // Upload to Cloudinary with compression
-// const uploadToCloudinary = async (file, type, fileId) => {
-//   let fileToUpload = file;
-  
-//   // Compress images before upload
-//   if (type === 'image') {
+//   const uploadToCloudinary = async (file, type, fileId) => {
+//     let fileToUpload = file;
+    
+//     if (type === 'image') {
+//       try {
+//         fileToUpload = await compressImageSmart(file);
+//       } catch (error) {
+//         console.error('Compression error, using original file:', error);
+//         fileToUpload = file;
+//       }
+//     }
+    
+//     const formData = new FormData();
+//     formData.append('file', fileToUpload);
+//     formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+    
+//     const folder = type === 'image' ? 'reviews/images' : 'reviews/videos';
+//     formData.append('folder', folder);
+
+//     const abortController = new AbortController();
+//     uploadAbortControllers.current[fileId] = abortController;
+
 //     try {
-//       fileToUpload = await compressImageSmart(file);
+//       const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${type === 'image' ? 'image' : 'video'}/upload`, {
+//         method: 'POST',
+//         body: formData,
+//         signal: abortController.signal
+//       });
+
+//       if (!response.ok) {
+//         const errorData = await response.json();
+//         throw new Error(errorData.error?.message || 'Upload failed');
+//       }
+
+//       const data = await response.json();
+      
+//       return {
+//         url: data.secure_url,
+//         publicId: data.public_id
+//       };
 //     } catch (error) {
-//       console.error('Compression error, using original file:', error);
-//       fileToUpload = file;
+//       if (error.name === 'AbortError') {
+//         return null;
+//       }
+//       throw error;
+//     } finally {
+//       delete uploadAbortControllers.current[fileId];
 //     }
-//   }
-  
-//   const formData = new FormData();
-//   formData.append('file', fileToUpload);
-//   formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-  
-//   const folder = type === 'image' ? 'reviews/images' : 'reviews/videos';
-//   formData.append('folder', folder);
+//   };
 
-//   const abortController = new AbortController();
-//   uploadAbortControllers.current[fileId] = abortController;
-
-//   try {
-//     const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${type === 'image' ? 'image' : 'video'}/upload`, {
-//       method: 'POST',
-//       body: formData,
-//       signal: abortController.signal
-//     });
-
-//     if (!response.ok) {
-//       const errorData = await response.json();
-//       throw new Error(errorData.error?.message || 'Upload failed');
-//     }
-
-//     const data = await response.json();
-    
-//     if (type === 'video') {
-//       console.log(`🎥 Video uploaded successfully`);
-//     }
-    
-//     return {
-//       url: data.secure_url,
-//       publicId: data.public_id
-//     };
-//   } catch (error) {
-//     if (error.name === 'AbortError') {
-//       return null;
-//     }
-//     throw error;
-//   } finally {
-//     delete uploadAbortControllers.current[fileId];
-//   }
-// };
-//   // Handle image upload
 //   const handleImageUpload = async (e) => {
 //     const files = Array.from(e.target.files);
     
@@ -279,7 +267,6 @@
 //     if (imageInputRef.current) imageInputRef.current.value = '';
 //   };
 
-//   // Handle video upload
 //   const handleVideoUpload = async (e) => {
 //     const file = e.target.files[0];
     
@@ -353,7 +340,6 @@
 //     if (videoInputRef.current) videoInputRef.current.value = '';
 //   };
 
-//   // Remove existing image
 //   const removeExistingImage = (index) => {
 //     setEditForm(prev => ({
 //       ...prev,
@@ -362,7 +348,6 @@
 //     }));
 //   };
 
-//   // Remove new image
 //   const removeNewImage = (id) => {
 //     if (uploadAbortControllers.current[id]) {
 //       uploadAbortControllers.current[id].abort();
@@ -375,7 +360,6 @@
 //     }));
 //   };
 
-//   // Remove existing video
 //   const removeExistingVideo = () => {
 //     setEditForm(prev => ({
 //       ...prev,
@@ -384,7 +368,6 @@
 //     }));
 //   };
 
-//   // Remove new video
 //   const removeNewVideo = () => {
 //     if (uploadAbortControllers.current[editForm.newVideo?.id]) {
 //       uploadAbortControllers.current[editForm.newVideo.id].abort();
@@ -399,7 +382,6 @@
 //       return;
 //     }
     
-//     // Prepare data for save
 //     const saveData = {
 //       rating: editForm.rating,
 //       title: editForm.title,
@@ -459,12 +441,12 @@
 //               initial={{ opacity: 0, scale: 0.95, y: 20 }}
 //               animate={{ opacity: 1, scale: 1, y: 0 }}
 //               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-//               className="relative bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-[#F7C7D3]/40"
+//               className="relative bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-[#c5d5be]/40"
 //             >
-//               <div className="sticky top-0 bg-gradient-to-r from-[#EE4275] to-[#FF6B9D] px-6 py-4 rounded-t-2xl z-10">
+//               <div className="sticky top-0 bg-gradient-to-r from-[#8B9D83] to-[#6b7d63] px-6 py-4 rounded-t-2xl z-10">
 //                 <div className="flex items-center justify-between">
 //                   <div>
-//                     <h2 className="text-xl font-bold text-white">Edit Your Review</h2>
+//                     <h2 className="text-xl font-light text-white">Edit Your Review</h2>
 //                     <p className="text-white/80 text-sm mt-1">Update your feedback</p>
 //                   </div>
 //                   <button onClick={onClose} className="text-white hover:bg-white/20 rounded-full p-1 transition-colors">
@@ -475,58 +457,58 @@
               
 //               <div className="p-6 space-y-5">
 //                 {/* Product Info */}
-//                 <div className="bg-[#FFF5F6] rounded-xl p-3 border border-[#F7C7D3]/40">
-//                   <p className="text-xs text-[#EE4275]/60 mb-1">Product</p>
-//                   <p className="font-medium text-[#2D1B2E]">{review.productName || 'N/A'}</p>
+//                 <div className="bg-[#f0f5ed] rounded-xl p-3 border border-[#c5d5be]/40">
+//                   <p className="text-xs text-[#53645a] mb-1">Product</p>
+//                   <p className="font-medium text-[#263b32]">{review.productName || 'N/A'}</p>
 //                 </div>
                 
 //                 {/* Rating */}
 //                 <div>
-//                   <label className="block text-sm font-semibold text-[#2D1B2E] mb-2">
-//                     Rating <span className="text-[#EE4275]">*</span>
+//                   <label className="block text-sm font-medium text-[#263b32] mb-2">
+//                     Rating <span className="text-[#8B9D83]">*</span>
 //                   </label>
 //                   {renderStars(editForm.rating, true)}
 //                 </div>
                 
 //                 {/* Title */}
 //                 <div>
-//                   <label className="block text-sm font-semibold text-[#2D1B2E] mb-2">Review Title</label>
+//                   <label className="block text-sm font-medium text-[#263b32] mb-2">Review Title</label>
 //                   <input
 //                     type="text"
 //                     value={editForm.title}
 //                     onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
-//                     className="w-full px-4 py-2.5 border-2 border-[#F7C7D3]/50 rounded-xl focus:ring-2 focus:ring-[#EE4275] focus:border-transparent outline-none bg-white hover:border-[#EE4275]/30"
+//                     className="w-full px-4 py-2.5 border-2 border-[#c5d5be]/50 rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
 //                     placeholder="Review title"
 //                     maxLength={100}
 //                   />
-//                   <p className="text-xs text-[#EE4275]/40 mt-1">{editForm.title.length}/100 characters</p>
+//                   <p className="text-xs text-[#53645a] mt-1">{editForm.title.length}/100 characters</p>
 //                 </div>
                 
 //                 {/* Comment */}
 //                 <div>
-//                   <label className="block text-sm font-semibold text-[#2D1B2E] mb-2">Comment <span className="text-[#EE4275]">*</span></label>
+//                   <label className="block text-sm font-medium text-[#263b32] mb-2">Comment <span className="text-[#8B9D83]">*</span></label>
 //                   <textarea
 //                     value={editForm.comment}
 //                     onChange={(e) => setEditForm({ ...editForm, comment: e.target.value })}
 //                     rows={4}
-//                     className="w-full px-4 py-2.5 border-2 border-[#F7C7D3]/50 rounded-xl focus:ring-2 focus:ring-[#EE4275] focus:border-transparent outline-none resize-none bg-white hover:border-[#EE4275]/30"
+//                     className="w-full px-4 py-2.5 border-2 border-[#c5d5be]/50 rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none resize-none bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
 //                     placeholder="Share your experience..."
 //                   />
-//                   <p className="text-xs text-[#EE4275]/40 mt-1">{editForm.comment.length}/500 characters (minimum 10)</p>
+//                   <p className="text-xs text-[#53645a] mt-1">{editForm.comment.length}/500 characters (minimum 10)</p>
 //                 </div>
                  
 //                 {/* Actions */}
 //                 <div className="flex gap-3 pt-4">
 //                   <button
 //                     onClick={onClose}
-//                     className="flex-1 px-4 py-2.5 border-2 border-[#F7C7D3]/50 text-[#2D1B2E] font-semibold rounded-xl hover:bg-[#FFF5F6] transition-all"
+//                     className="flex-1 px-4 py-2.5 border-2 border-[#c5d5be]/50 text-[#263b32] font-medium rounded-xl hover:bg-[#f0f5ed] transition-all"
 //                   >
 //                     Cancel
 //                   </button>
 //                   <button
 //                     onClick={handleSave}
 //                     disabled={saving || uploading}
-//                     className="flex-1 px-4 py-2.5 bg-gradient-to-r from-[#EE4275] to-[#FF6B9D] text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-[#EE4275]/25 transition-all disabled:opacity-50"
+//                     className="flex-1 px-4 py-2.5 bg-gradient-to-r from-[#8B9D83] to-[#6b7d63] text-white font-medium rounded-xl hover:shadow-lg hover:shadow-[#8B9D83]/25 transition-all disabled:opacity-50"
 //                   >
 //                     {saving ? (
 //                       <div className="flex items-center justify-center gap-2">
@@ -601,12 +583,12 @@
 //               initial={{ opacity: 0, scale: 0.95, y: 20 }}
 //               animate={{ opacity: 1, scale: 1, y: 0 }}
 //               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-//               className="relative bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-[#F7C7D3]/40"
+//               className="relative bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-[#c5d5be]/40"
 //             >
-//               <div className="sticky top-0 bg-gradient-to-r from-[#EE4275] to-[#FF6B9D] px-6 py-4 rounded-t-2xl">
+//               <div className="sticky top-0 bg-gradient-to-r from-[#8B9D83] to-[#6b7d63] px-6 py-4 rounded-t-2xl">
 //                 <div className="flex items-center justify-between">
 //                   <div>
-//                     <h2 className="text-xl font-bold text-white">Your Review</h2>
+//                     <h2 className="text-xl font-light text-white">Your Review</h2>
 //                     <p className="text-white/80 text-sm mt-1">Review Details</p>
 //                   </div>
 //                   <button onClick={onClose} className="text-white hover:bg-white/20 rounded-full p-1 transition-colors">
@@ -617,42 +599,42 @@
               
 //               <div className="p-6 space-y-4">
 //                 {/* Product Info */}
-//                 <div className="bg-[#FFF5F6] rounded-xl p-4 border border-[#F7C7D3]/40">
-//                   <h3 className="font-semibold text-[#2D1B2E] mb-2">Product</h3>
+//                 <div className="bg-[#f0f5ed] rounded-xl p-4 border border-[#c5d5be]/40">
+//                   <h3 className="font-medium text-[#263b32] mb-2">Product</h3>
 //                   <Link
 //                     href={`/product/${review.product?.slug || review.product?._id}`}
 //                     target="_blank"
-//                     className="text-[#EE4275] hover:underline font-medium"
+//                     className="text-[#8B9D83] hover:underline font-medium"
 //                   >
 //                     {review.productName || 'N/A'}
 //                   </Link>
 //                 </div>
                 
 //                 {/* Review Content */}
-//                 <div className="bg-[#FFF5F6] rounded-xl p-4 border border-[#F7C7D3]/40">
-//                   <h3 className="font-semibold text-[#2D1B2E] mb-3">Review Content</h3>
+//                 <div className="bg-[#f0f5ed] rounded-xl p-4 border border-[#c5d5be]/40">
+//                   <h3 className="font-medium text-[#263b32] mb-3">Review Content</h3>
 //                   <div className="space-y-3">
 //                     <div className="flex items-center justify-between">
-//                       <span className="text-sm text-[#EE4275]/60">Rating:</span>
+//                       <span className="text-sm text-[#53645a]">Rating:</span>
 //                       {renderStars(review.rating)}
 //                     </div>
 //                     {review.title && (
 //                       <div>
-//                         <span className="text-sm text-[#EE4275]/60">Title:</span>
-//                         <p className="font-medium text-[#2D1B2E] mt-1">{review.title}</p>
+//                         <span className="text-sm text-[#53645a]">Title:</span>
+//                         <p className="font-medium text-[#263b32] mt-1">{review.title}</p>
 //                       </div>
 //                     )}
 //                     <div>
-//                       <span className="text-sm text-[#EE4275]/60">Comment:</span>
-//                       <p className="text-[#2D1B2E] mt-1 whitespace-pre-wrap">{review.comment}</p>
+//                       <span className="text-sm text-[#53645a]">Comment:</span>
+//                       <p className="text-[#263b32] mt-1 whitespace-pre-wrap">{review.comment}</p>
 //                     </div>
-//                     <div className="flex items-center justify-between pt-2 border-t border-[#F7C7D3]/40">
-//                       <span className="text-sm text-[#EE4275]/60">Status:</span>
+//                     <div className="flex items-center justify-between pt-2 border-t border-[#c5d5be]/40">
+//                       <span className="text-sm text-[#53645a]">Status:</span>
 //                       {getStatusBadge(review.status)}
 //                     </div>
 //                     <div className="flex items-center justify-between">
-//                       <span className="text-sm text-[#EE4275]/60">Submitted:</span>
-//                       <span className="text-sm text-[#2D1B2E]">
+//                       <span className="text-sm text-[#53645a]">Submitted:</span>
+//                       <span className="text-sm text-[#263b32]">
 //                         {new Date(review.createdAt).toLocaleDateString()}
 //                       </span>
 //                     </div>
@@ -661,18 +643,18 @@
                 
 //                 {/* Media */}
 //                 {(review.images?.length > 0 || review.video?.url) && (
-//                   <div className="bg-[#FFF5F6] rounded-xl p-4 border border-[#F7C7D3]/40">
-//                     <h3 className="font-semibold text-[#2D1B2E] mb-3">Your Media</h3>
+//                   <div className="bg-[#f0f5ed] rounded-xl p-4 border border-[#c5d5be]/40">
+//                     <h3 className="font-medium text-[#263b32] mb-3">Your Media</h3>
 //                     {review.images?.length > 0 && (
 //                       <div className="mb-3">
-//                         <p className="text-xs text-[#EE4275]/60 mb-2">Images ({review.images.length})</p>
+//                         <p className="text-xs text-[#53645a] mb-2">Images ({review.images.length})</p>
 //                         <div className="grid grid-cols-4 gap-2">
 //                           {review.images.slice(0, 4).map((img, idx) => (
 //                             <img
 //                               key={idx}
 //                               src={img.url}
 //                               alt={`Review image ${idx + 1}`}
-//                               className="w-full h-20 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity border border-[#F7C7D3]/40"
+//                               className="w-full h-20 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity border border-[#c5d5be]/40"
 //                               onClick={() => window.open(img.url, '_blank')}
 //                             />
 //                           ))}
@@ -681,7 +663,7 @@
 //                     )}
 //                     {review.video?.url && (
 //                       <div>
-//                         <p className="text-xs text-[#EE4275]/60 mb-2">Video</p>
+//                         <p className="text-xs text-[#53645a] mb-2">Video</p>
 //                         <video
 //                           src={review.video.url}
 //                           controls
@@ -694,10 +676,10 @@
                 
 //                 {/* Admin Reply */}
 //                 {review.reply?.text && (
-//                   <div className="bg-[#FFF5F6] rounded-xl p-4 border border-[#EE4275]/20">
-//                     <h3 className="font-semibold text-[#EE4275] mb-2">Admin Response</h3>
-//                     <p className="text-[#2D1B2E]">{review.reply.text}</p>
-//                     <p className="text-xs text-[#EE4275]/60 mt-2">
+//                   <div className="bg-[#f0f5ed] rounded-xl p-4 border border-[#8B9D83]/20">
+//                     <h3 className="font-medium text-[#8B9D83] mb-2">Admin Response</h3>
+//                     <p className="text-[#263b32]">{review.reply.text}</p>
+//                     <p className="text-xs text-[#53645a] mt-2">
 //                       Replied on {new Date(review.reply.repliedAt).toLocaleString()}
 //                     </p>
 //                   </div>
@@ -799,42 +781,38 @@
 //     fetchMyReviews();
 //   }, []);
 
-//   // Update review with media changes
-// const handleUpdateReview = async (saveData) => {
-//   if (!selectedReview) return;
-  
-//   setSaving(true);
-//   try {
-//     const token = localStorage.getItem('token');
+//   const handleUpdateReview = async (saveData) => {
+//     if (!selectedReview) return;
     
-//     console.log('Sending update data:', saveData); // Debug log
-    
-//     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/reviews/${selectedReview._id}`, {
-//       method: 'PUT',
-//       headers: {
-//         'Authorization': `Bearer ${token}`,
-//         'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify(saveData)
-//     });
-    
-//     const data = await response.json();
-//     console.log('Update response:', data); // Debug log
-    
-//     if (data.success) {
-//       toast.success('Review updated successfully');
-//       setIsEditModalOpen(false);
-//       fetchMyReviews(); // Refresh the list
-//     } else {
-//       toast.error(data.error || 'Failed to update review');
+//     setSaving(true);
+//     try {
+//       const token = localStorage.getItem('token');
+      
+//       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/reviews/${selectedReview._id}`, {
+//         method: 'PUT',
+//         headers: {
+//           'Authorization': `Bearer ${token}`,
+//           'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(saveData)
+//       });
+      
+//       const data = await response.json();
+      
+//       if (data.success) {
+//         toast.success('Review updated successfully');
+//         setIsEditModalOpen(false);
+//         fetchMyReviews();
+//       } else {
+//         toast.error(data.error || 'Failed to update review');
+//       }
+//     } catch (error) {
+//       console.error('Error updating review:', error);
+//       toast.error('Failed to update review');
+//     } finally {
+//       setSaving(false);
 //     }
-//   } catch (error) {
-//     console.error('Error updating review:', error);
-//     toast.error('Failed to update review');
-//   } finally {
-//     setSaving(false);
-//   }
-// };
+//   };
 
 //   const getStatusBadge = (status) => {
 //     switch (status) {
@@ -887,28 +865,28 @@
 //   };
 
 //   return (
-//     <div className="min-h-screen bg-[#FFF5F6]">
+//     <div className="min-h-screen bg-[#f8f7f2]">
 //       <div className="container mx-auto px-4 py-8">
 //         <div className="mb-8">
-//           <h1 className="text-3xl font-bold text-[#2D1B2E] mb-2">My Reviews</h1>
-//           <p className="text-[#EE4275]/60">View and manage all the reviews you've written</p>
+//           <h1 className="text-3xl font-light text-[#263b32] mb-2">My Reviews</h1>
+//           <p className="text-[#53645a]">View and manage all the reviews you've written</p>
 //         </div>
         
-//         {/* Stats Cards */}
+//         {/* Stats Cards - Green Theme */}
 //         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-//           <div className="bg-white rounded-xl p-4 shadow-sm border border-[#F7C7D3]/40">
+//           <div className="bg-white rounded-xl p-4 shadow-sm border border-[#c5d5be]/40">
 //             <div className="flex items-center justify-between">
 //               <div>
-//                 <p className="text-sm text-[#EE4275]/60">Total Reviews</p>
-//                 <p className="text-2xl font-bold text-[#2D1B2E]">{reviews.length}</p>
+//                 <p className="text-sm text-[#53645a]">Total Reviews</p>
+//                 <p className="text-2xl font-bold text-[#263b32]">{reviews.length}</p>
 //               </div>
-//               <MessageSquare className="w-8 h-8 text-[#EE4275] opacity-50" />
+//               <MessageSquare className="w-8 h-8 text-[#8B9D83] opacity-50" />
 //             </div>
 //           </div>
-//           <div className="bg-white rounded-xl p-4 shadow-sm border border-[#F7C7D3]/40">
+//           <div className="bg-white rounded-xl p-4 shadow-sm border border-[#c5d5be]/40">
 //             <div className="flex items-center justify-between">
 //               <div>
-//                 <p className="text-sm text-[#EE4275]/60">Pending</p>
+//                 <p className="text-sm text-[#53645a]">Pending</p>
 //                 <p className="text-2xl font-bold text-yellow-600">
 //                   {reviews.filter(r => r.status === 'pending').length}
 //                 </p>
@@ -916,10 +894,10 @@
 //               <Clock className="w-8 h-8 text-yellow-500 opacity-50" />
 //             </div>
 //           </div>
-//           <div className="bg-white rounded-xl p-4 shadow-sm border border-[#F7C7D3]/40">
+//           <div className="bg-white rounded-xl p-4 shadow-sm border border-[#c5d5be]/40">
 //             <div className="flex items-center justify-between">
 //               <div>
-//                 <p className="text-sm text-[#EE4275]/60">Approved</p>
+//                 <p className="text-sm text-[#53645a]">Approved</p>
 //                 <p className="text-2xl font-bold text-green-600">
 //                   {reviews.filter(r => r.status === 'approved').length}
 //                 </p>
@@ -927,10 +905,10 @@
 //               <CheckCircle className="w-8 h-8 text-green-500 opacity-50" />
 //             </div>
 //           </div>
-//           <div className="bg-white rounded-xl p-4 shadow-sm border border-[#F7C7D3]/40">
+//           <div className="bg-white rounded-xl p-4 shadow-sm border border-[#c5d5be]/40">
 //             <div className="flex items-center justify-between">
 //               <div>
-//                 <p className="text-sm text-[#EE4275]/60">Avg Rating</p>
+//                 <p className="text-sm text-[#53645a]">Avg Rating</p>
 //                 <p className="text-2xl font-bold text-[#FFD93D]">
 //                   {reviews.length > 0 
 //                     ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)
@@ -942,25 +920,25 @@
 //           </div>
 //         </div>
         
-//         {/* Filters */}
-//         <div className="bg-white rounded-xl shadow-sm border border-[#F7C7D3]/40 p-4 mb-6">
+//         {/* Filters - Green Theme */}
+//         <div className="bg-white rounded-xl shadow-sm border border-[#c5d5be]/40 p-4 mb-6">
 //           <div className="flex flex-wrap gap-4 items-center justify-between">
 //             <div className="flex flex-wrap gap-3">
 //               <div className="relative">
-//                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#EE4275]/40" />
+//                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#8B9D83]/40" />
 //                 <input
 //                   type="text"
 //                   placeholder="Search by product or review..."
 //                   value={searchTerm}
 //                   onChange={(e) => setSearchTerm(e.target.value)}
-//                   className="pl-9 pr-4 py-2 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#EE4275] focus:border-transparent outline-none w-64 bg-white hover:border-[#EE4275]/30"
+//                   className="pl-9 pr-4 py-2 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none w-64 bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
 //                 />
 //               </div>
               
 //               <select
 //                 value={statusFilter}
 //                 onChange={(e) => setStatusFilter(e.target.value)}
-//                 className="px-4 py-2 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#EE4275] focus:border-transparent outline-none bg-white hover:border-[#EE4275]/30"
+//                 className="px-4 py-2 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
 //               >
 //                 <option value="all">All Status</option>
 //                 <option value="pending">Pending</option>
@@ -971,7 +949,7 @@
 //               <select
 //                 value={ratingFilter}
 //                 onChange={(e) => setRatingFilter(e.target.value)}
-//                 className="px-4 py-2 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#EE4275] focus:border-transparent outline-none bg-white hover:border-[#EE4275]/30"
+//                 className="px-4 py-2 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
 //               >
 //                 <option value="all">All Ratings</option>
 //                 <option value="5">5 Stars</option>
@@ -990,20 +968,19 @@
 //                 </button>
 //               )}
 //             </div>
-            
 //           </div>
 //         </div>
         
-//         {/* Reviews Table */}
-//         <div className="bg-white rounded-xl shadow-sm border border-[#F7C7D3]/40 overflow-hidden">
+//         {/* Reviews Table - Green Theme */}
+//         <div className="bg-white rounded-xl shadow-sm border border-[#c5d5be]/40 overflow-hidden">
 //           {loading ? (
 //             <div className="flex items-center justify-center py-20">
-//               <Loader2 className="w-8 h-8 animate-spin text-[#EE4275]" />
+//               <Loader2 className="w-8 h-8 animate-spin text-[#8B9D83]" />
 //             </div>
 //           ) : filteredReviews.length === 0 ? (
 //             <div className="text-center py-20">
-//               <MessageSquare className="w-16 h-16 text-[#EE4275]/30 mx-auto mb-4" />
-//               <p className="text-[#EE4275]/60 mb-2">
+//               <MessageSquare className="w-16 h-16 text-[#8B9D83]/30 mx-auto mb-4" />
+//               <p className="text-[#53645a] mb-2">
 //                 {reviews.length === 0 
 //                   ? "You haven't written any reviews yet" 
 //                   : "No reviews match your filters"}
@@ -1011,14 +988,14 @@
 //               {reviews.length === 0 ? (
 //                 <Link
 //                   href="/products"
-//                   className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#EE4275] to-[#FF6B9D] text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-[#EE4275]/25 transition-all"
+//                   className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#8B9D83] to-[#6b7d63] text-white font-medium rounded-lg hover:shadow-lg hover:shadow-[#8B9D83]/25 transition-all"
 //                 >
 //                   Browse Products
 //                 </Link>
 //               ) : (
 //                 <button
 //                   onClick={resetFilters}
-//                   className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#EE4275] to-[#FF6B9D] text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-[#EE4275]/25 transition-all"
+//                   className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#8B9D83] to-[#6b7d63] text-white font-medium rounded-lg hover:shadow-lg hover:shadow-[#8B9D83]/25 transition-all"
 //                 >
 //                   Clear Filters
 //                 </button>
@@ -1028,24 +1005,24 @@
 //             <>
 //               <div className="overflow-x-auto">
 //                 <table className="w-full min-w-[800px]">
-//                   <thead className="bg-[#FFF5F6] border-b border-[#F7C7D3]/40">
+//                   <thead className="bg-[#f0f5ed] border-b border-[#c5d5be]/40">
 //                     <tr>
-//                       <th className="px-4 py-3 text-left text-xs font-semibold text-[#EE4275]/60 uppercase whitespace-nowrap">Product</th>
-//                       <th className="px-4 py-3 text-left text-xs font-semibold text-[#EE4275]/60 uppercase whitespace-nowrap">Rating</th>
-//                       <th className="px-4 py-3 text-left text-xs font-semibold text-[#EE4275]/60 uppercase whitespace-nowrap">Review</th>
-//                       <th className="px-4 py-3 text-left text-xs font-semibold text-[#EE4275]/60 uppercase whitespace-nowrap">Status</th>
-//                       <th className="px-4 py-3 text-left text-xs font-semibold text-[#EE4275]/60 uppercase whitespace-nowrap">Date</th>
-//                       <th className="px-4 py-3 text-right text-xs font-semibold text-[#EE4275]/60 uppercase whitespace-nowrap">Actions</th>
+//                       <th className="px-4 py-3 text-left text-xs font-medium text-[#53645a] uppercase whitespace-nowrap">Product</th>
+//                       <th className="px-4 py-3 text-left text-xs font-medium text-[#53645a] uppercase whitespace-nowrap">Rating</th>
+//                       <th className="px-4 py-3 text-left text-xs font-medium text-[#53645a] uppercase whitespace-nowrap">Review</th>
+//                       <th className="px-4 py-3 text-left text-xs font-medium text-[#53645a] uppercase whitespace-nowrap">Status</th>
+//                       <th className="px-4 py-3 text-left text-xs font-medium text-[#53645a] uppercase whitespace-nowrap">Date</th>
+//                       <th className="px-4 py-3 text-right text-xs font-medium text-[#53645a] uppercase whitespace-nowrap">Actions</th>
 //                     </tr>
 //                   </thead>
-//                   <tbody className="divide-y divide-[#F7C7D3]/20">
+//                   <tbody className="divide-y divide-[#c5d5be]/20">
 //                     {paginatedReviews.map((review) => (
-//                       <tr key={review._id} className="hover:bg-[#FFF5F6] transition-colors">
+//                       <tr key={review._id} className="hover:bg-[#f0f5ed] transition-colors">
 //                         <td className="px-4 py-3">
 //                           <Link
 //                             href={`/product/${review.product?.slug || review.product?._id}`}
 //                             target="_blank"
-//                             className="text-sm text-[#EE4275] hover:underline font-medium truncate max-w-[200px] block"
+//                             className="text-sm text-[#8B9D83] hover:underline font-medium truncate max-w-[200px] block"
 //                           >
 //                             {review.productName || 'N/A'}
 //                           </Link>
@@ -1054,7 +1031,7 @@
 //                           {renderStars(review.rating)}
 //                         </td>
 //                         <td className="px-4 py-3">
-//                           <p className="text-sm text-[#2D1B2E] truncate max-w-[250px]">
+//                           <p className="text-sm text-[#263b32] truncate max-w-[250px]">
 //                             {review.title || review.comment}
 //                           </p>
 //                         </td>
@@ -1062,7 +1039,7 @@
 //                           {getStatusBadge(review.status)}
 //                         </td>
 //                         <td className="px-4 py-3">
-//                           <span className="text-sm text-[#EE4275]/60 whitespace-nowrap">
+//                           <span className="text-sm text-[#53645a] whitespace-nowrap">
 //                             {new Date(review.createdAt).toLocaleDateString()}
 //                           </span>
 //                         </td>
@@ -1073,7 +1050,7 @@
 //                                 setSelectedReview(review);
 //                                 setIsViewModalOpen(true);
 //                               }}
-//                               className="p-1.5 text-[#EE4275] hover:bg-[#FFF5F6] rounded-lg transition-colors"
+//                               className="p-1.5 text-[#8B9D83] hover:bg-[#f0f5ed] rounded-lg transition-colors"
 //                               title="View"
 //                             >
 //                               <Eye className="w-4 h-4" />
@@ -1099,22 +1076,22 @@
 //               </div>
               
 //               {totalPages > 1 && (
-//                 <div className="flex items-center justify-between px-6 py-4 border-t border-[#F7C7D3]/40">
-//                   <div className="text-sm text-[#EE4275]/60">
+//                 <div className="flex items-center justify-between px-6 py-4 border-t border-[#c5d5be]/40">
+//                   <div className="text-sm text-[#53645a]">
 //                     Showing {((currentPage - 1) * itemsPerPage) + 1} - {Math.min(currentPage * itemsPerPage, filteredReviews.length)} of {filteredReviews.length} reviews
 //                   </div>
 //                   <div className="flex gap-2">
 //                     <button
 //                       onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
 //                       disabled={currentPage === 1}
-//                       className="p-2 text-[#EE4275]/60 hover:bg-[#FFF5F6] rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+//                       className="p-2 text-[#53645a] hover:bg-[#f0f5ed] rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
 //                     >
 //                       <ChevronLeft className="w-5 h-5" />
 //                     </button>
 //                     <button
 //                       onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
 //                       disabled={currentPage === totalPages}
-//                       className="p-2 text-[#EE4275]/60 hover:bg-[#FFF5F6] rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+//                       className="p-2 text-[#53645a] hover:bg-[#f0f5ed] rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
 //                     >
 //                       <ChevronRight className="w-5 h-5" />
 //                     </button>
@@ -1586,9 +1563,9 @@ const EditReviewModal = ({
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-[#c5d5be]/40"
+              className="relative bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-200"
             >
-              <div className="sticky top-0 bg-gradient-to-r from-[#8B9D83] to-[#6b7d63] px-6 py-4 rounded-t-2xl z-10">
+              <div className="sticky top-0 bg-black px-6 py-4 rounded-t-2xl z-10">
                 <div className="flex items-center justify-between">
                   <div>
                     <h2 className="text-xl font-light text-white">Edit Your Review</h2>
@@ -1602,58 +1579,58 @@ const EditReviewModal = ({
               
               <div className="p-6 space-y-5">
                 {/* Product Info */}
-                <div className="bg-[#f0f5ed] rounded-xl p-3 border border-[#c5d5be]/40">
-                  <p className="text-xs text-[#53645a] mb-1">Product</p>
-                  <p className="font-medium text-[#263b32]">{review.productName || 'N/A'}</p>
+                <div className="bg-gray-50 rounded-xl p-3 border border-gray-200">
+                  <p className="text-xs text-gray-500 mb-1">Product</p>
+                  <p className="font-medium text-black">{review.productName || 'N/A'}</p>
                 </div>
                 
                 {/* Rating */}
                 <div>
-                  <label className="block text-sm font-medium text-[#263b32] mb-2">
-                    Rating <span className="text-[#8B9D83]">*</span>
+                  <label className="block text-sm font-medium text-black mb-2">
+                    Rating <span className="text-black">*</span>
                   </label>
                   {renderStars(editForm.rating, true)}
                 </div>
                 
                 {/* Title */}
                 <div>
-                  <label className="block text-sm font-medium text-[#263b32] mb-2">Review Title</label>
+                  <label className="block text-sm font-medium text-black mb-2">Review Title</label>
                   <input
                     type="text"
                     value={editForm.title}
                     onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
-                    className="w-full px-4 py-2.5 border-2 border-[#c5d5be]/50 rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
+                    className="w-full px-4 py-2.5 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none bg-white hover:border-gray-400 text-black"
                     placeholder="Review title"
                     maxLength={100}
                   />
-                  <p className="text-xs text-[#53645a] mt-1">{editForm.title.length}/100 characters</p>
+                  <p className="text-xs text-gray-500 mt-1">{editForm.title.length}/100 characters</p>
                 </div>
                 
                 {/* Comment */}
                 <div>
-                  <label className="block text-sm font-medium text-[#263b32] mb-2">Comment <span className="text-[#8B9D83]">*</span></label>
+                  <label className="block text-sm font-medium text-black mb-2">Comment <span className="text-black">*</span></label>
                   <textarea
                     value={editForm.comment}
                     onChange={(e) => setEditForm({ ...editForm, comment: e.target.value })}
                     rows={4}
-                    className="w-full px-4 py-2.5 border-2 border-[#c5d5be]/50 rounded-xl focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none resize-none bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
+                    className="w-full px-4 py-2.5 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none resize-none bg-white hover:border-gray-400 text-black"
                     placeholder="Share your experience..."
                   />
-                  <p className="text-xs text-[#53645a] mt-1">{editForm.comment.length}/500 characters (minimum 10)</p>
+                  <p className="text-xs text-gray-500 mt-1">{editForm.comment.length}/500 characters (minimum 10)</p>
                 </div>
                  
                 {/* Actions */}
                 <div className="flex gap-3 pt-4">
                   <button
                     onClick={onClose}
-                    className="flex-1 px-4 py-2.5 border-2 border-[#c5d5be]/50 text-[#263b32] font-medium rounded-xl hover:bg-[#f0f5ed] transition-all"
+                    className="flex-1 px-4 py-2.5 border-2 border-gray-300 text-black font-medium rounded-xl hover:bg-gray-50 transition-all"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleSave}
                     disabled={saving || uploading}
-                    className="flex-1 px-4 py-2.5 bg-gradient-to-r from-[#8B9D83] to-[#6b7d63] text-white font-medium rounded-xl hover:shadow-lg hover:shadow-[#8B9D83]/25 transition-all disabled:opacity-50"
+                    className="flex-1 px-4 py-2.5 bg-black text-white font-medium rounded-xl hover:bg-gray-800 transition-all disabled:opacity-50"
                   >
                     {saving ? (
                       <div className="flex items-center justify-center gap-2">
@@ -1728,9 +1705,9 @@ const ViewReviewModal = ({ isOpen, onClose, review }) => {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-[#c5d5be]/40"
+              className="relative bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-200"
             >
-              <div className="sticky top-0 bg-gradient-to-r from-[#8B9D83] to-[#6b7d63] px-6 py-4 rounded-t-2xl">
+              <div className="sticky top-0 bg-black px-6 py-4 rounded-t-2xl">
                 <div className="flex items-center justify-between">
                   <div>
                     <h2 className="text-xl font-light text-white">Your Review</h2>
@@ -1744,42 +1721,42 @@ const ViewReviewModal = ({ isOpen, onClose, review }) => {
               
               <div className="p-6 space-y-4">
                 {/* Product Info */}
-                <div className="bg-[#f0f5ed] rounded-xl p-4 border border-[#c5d5be]/40">
-                  <h3 className="font-medium text-[#263b32] mb-2">Product</h3>
+                <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                  <h3 className="font-medium text-black mb-2">Product</h3>
                   <Link
                     href={`/product/${review.product?.slug || review.product?._id}`}
                     target="_blank"
-                    className="text-[#8B9D83] hover:underline font-medium"
+                    className="text-black hover:underline font-medium"
                   >
                     {review.productName || 'N/A'}
                   </Link>
                 </div>
                 
                 {/* Review Content */}
-                <div className="bg-[#f0f5ed] rounded-xl p-4 border border-[#c5d5be]/40">
-                  <h3 className="font-medium text-[#263b32] mb-3">Review Content</h3>
+                <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                  <h3 className="font-medium text-black mb-3">Review Content</h3>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-[#53645a]">Rating:</span>
+                      <span className="text-sm text-gray-500">Rating:</span>
                       {renderStars(review.rating)}
                     </div>
                     {review.title && (
                       <div>
-                        <span className="text-sm text-[#53645a]">Title:</span>
-                        <p className="font-medium text-[#263b32] mt-1">{review.title}</p>
+                        <span className="text-sm text-gray-500">Title:</span>
+                        <p className="font-medium text-black mt-1">{review.title}</p>
                       </div>
                     )}
                     <div>
-                      <span className="text-sm text-[#53645a]">Comment:</span>
-                      <p className="text-[#263b32] mt-1 whitespace-pre-wrap">{review.comment}</p>
+                      <span className="text-sm text-gray-500">Comment:</span>
+                      <p className="text-black mt-1 whitespace-pre-wrap">{review.comment}</p>
                     </div>
-                    <div className="flex items-center justify-between pt-2 border-t border-[#c5d5be]/40">
-                      <span className="text-sm text-[#53645a]">Status:</span>
+                    <div className="flex items-center justify-between pt-2 border-t border-gray-200">
+                      <span className="text-sm text-gray-500">Status:</span>
                       {getStatusBadge(review.status)}
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-[#53645a]">Submitted:</span>
-                      <span className="text-sm text-[#263b32]">
+                      <span className="text-sm text-gray-500">Submitted:</span>
+                      <span className="text-sm text-black">
                         {new Date(review.createdAt).toLocaleDateString()}
                       </span>
                     </div>
@@ -1788,18 +1765,18 @@ const ViewReviewModal = ({ isOpen, onClose, review }) => {
                 
                 {/* Media */}
                 {(review.images?.length > 0 || review.video?.url) && (
-                  <div className="bg-[#f0f5ed] rounded-xl p-4 border border-[#c5d5be]/40">
-                    <h3 className="font-medium text-[#263b32] mb-3">Your Media</h3>
+                  <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                    <h3 className="font-medium text-black mb-3">Your Media</h3>
                     {review.images?.length > 0 && (
                       <div className="mb-3">
-                        <p className="text-xs text-[#53645a] mb-2">Images ({review.images.length})</p>
+                        <p className="text-xs text-gray-500 mb-2">Images ({review.images.length})</p>
                         <div className="grid grid-cols-4 gap-2">
                           {review.images.slice(0, 4).map((img, idx) => (
                             <img
                               key={idx}
                               src={img.url}
                               alt={`Review image ${idx + 1}`}
-                              className="w-full h-20 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity border border-[#c5d5be]/40"
+                              className="w-full h-20 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity border border-gray-200"
                               onClick={() => window.open(img.url, '_blank')}
                             />
                           ))}
@@ -1808,7 +1785,7 @@ const ViewReviewModal = ({ isOpen, onClose, review }) => {
                     )}
                     {review.video?.url && (
                       <div>
-                        <p className="text-xs text-[#53645a] mb-2">Video</p>
+                        <p className="text-xs text-gray-500 mb-2">Video</p>
                         <video
                           src={review.video.url}
                           controls
@@ -1821,10 +1798,10 @@ const ViewReviewModal = ({ isOpen, onClose, review }) => {
                 
                 {/* Admin Reply */}
                 {review.reply?.text && (
-                  <div className="bg-[#f0f5ed] rounded-xl p-4 border border-[#8B9D83]/20">
-                    <h3 className="font-medium text-[#8B9D83] mb-2">Admin Response</h3>
-                    <p className="text-[#263b32]">{review.reply.text}</p>
-                    <p className="text-xs text-[#53645a] mt-2">
+                  <div className="bg-gray-50 rounded-xl p-4 border border-black/20">
+                    <h3 className="font-medium text-black mb-2">Admin Response</h3>
+                    <p className="text-black">{review.reply.text}</p>
+                    <p className="text-xs text-gray-500 mt-2">
                       Replied on {new Date(review.reply.repliedAt).toLocaleString()}
                     </p>
                   </div>
@@ -2010,28 +1987,28 @@ export default function CustomerMyReviews() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f7f2]">
+    <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-light text-[#263b32] mb-2">My Reviews</h1>
-          <p className="text-[#53645a]">View and manage all the reviews you've written</p>
+          <h1 className="text-3xl font-light text-black mb-2">My Reviews</h1>
+          <p className="text-gray-500">View and manage all the reviews you've written</p>
         </div>
         
-        {/* Stats Cards - Green Theme */}
+        {/* Stats Cards - Black & White Theme */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-white rounded-xl p-4 shadow-sm border border-[#c5d5be]/40">
+          <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-[#53645a]">Total Reviews</p>
-                <p className="text-2xl font-bold text-[#263b32]">{reviews.length}</p>
+                <p className="text-sm text-gray-500">Total Reviews</p>
+                <p className="text-2xl font-bold text-black">{reviews.length}</p>
               </div>
-              <MessageSquare className="w-8 h-8 text-[#8B9D83] opacity-50" />
+              <MessageSquare className="w-8 h-8 text-black opacity-50" />
             </div>
           </div>
-          <div className="bg-white rounded-xl p-4 shadow-sm border border-[#c5d5be]/40">
+          <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-[#53645a]">Pending</p>
+                <p className="text-sm text-gray-500">Pending</p>
                 <p className="text-2xl font-bold text-yellow-600">
                   {reviews.filter(r => r.status === 'pending').length}
                 </p>
@@ -2039,10 +2016,10 @@ export default function CustomerMyReviews() {
               <Clock className="w-8 h-8 text-yellow-500 opacity-50" />
             </div>
           </div>
-          <div className="bg-white rounded-xl p-4 shadow-sm border border-[#c5d5be]/40">
+          <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-[#53645a]">Approved</p>
+                <p className="text-sm text-gray-500">Approved</p>
                 <p className="text-2xl font-bold text-green-600">
                   {reviews.filter(r => r.status === 'approved').length}
                 </p>
@@ -2050,10 +2027,10 @@ export default function CustomerMyReviews() {
               <CheckCircle className="w-8 h-8 text-green-500 opacity-50" />
             </div>
           </div>
-          <div className="bg-white rounded-xl p-4 shadow-sm border border-[#c5d5be]/40">
+          <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-[#53645a]">Avg Rating</p>
+                <p className="text-sm text-gray-500">Avg Rating</p>
                 <p className="text-2xl font-bold text-[#FFD93D]">
                   {reviews.length > 0 
                     ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)
@@ -2065,25 +2042,25 @@ export default function CustomerMyReviews() {
           </div>
         </div>
         
-        {/* Filters - Green Theme */}
-        <div className="bg-white rounded-xl shadow-sm border border-[#c5d5be]/40 p-4 mb-6">
+        {/* Filters - Black & White Theme */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-6">
           <div className="flex flex-wrap gap-4 items-center justify-between">
             <div className="flex flex-wrap gap-3">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#8B9D83]/40" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
                   type="text"
                   placeholder="Search by product or review..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-9 pr-4 py-2 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none w-64 bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
+                  className="pl-9 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none w-64 bg-white hover:border-gray-400 text-black"
                 />
               </div>
               
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-4 py-2 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none bg-white hover:border-gray-400 text-black"
               >
                 <option value="all">All Status</option>
                 <option value="pending">Pending</option>
@@ -2094,7 +2071,7 @@ export default function CustomerMyReviews() {
               <select
                 value={ratingFilter}
                 onChange={(e) => setRatingFilter(e.target.value)}
-                className="px-4 py-2 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent outline-none bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none bg-white hover:border-gray-400 text-black"
               >
                 <option value="all">All Ratings</option>
                 <option value="5">5 Stars</option>
@@ -2116,16 +2093,16 @@ export default function CustomerMyReviews() {
           </div>
         </div>
         
-        {/* Reviews Table - Green Theme */}
-        <div className="bg-white rounded-xl shadow-sm border border-[#c5d5be]/40 overflow-hidden">
+        {/* Reviews Table - Black & White Theme */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           {loading ? (
             <div className="flex items-center justify-center py-20">
-              <Loader2 className="w-8 h-8 animate-spin text-[#8B9D83]" />
+              <Loader2 className="w-8 h-8 animate-spin text-black" />
             </div>
           ) : filteredReviews.length === 0 ? (
             <div className="text-center py-20">
-              <MessageSquare className="w-16 h-16 text-[#8B9D83]/30 mx-auto mb-4" />
-              <p className="text-[#53645a] mb-2">
+              <MessageSquare className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+              <p className="text-gray-500 mb-2">
                 {reviews.length === 0 
                   ? "You haven't written any reviews yet" 
                   : "No reviews match your filters"}
@@ -2133,14 +2110,14 @@ export default function CustomerMyReviews() {
               {reviews.length === 0 ? (
                 <Link
                   href="/products"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#8B9D83] to-[#6b7d63] text-white font-medium rounded-lg hover:shadow-lg hover:shadow-[#8B9D83]/25 transition-all"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-all"
                 >
                   Browse Products
                 </Link>
               ) : (
                 <button
                   onClick={resetFilters}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#8B9D83] to-[#6b7d63] text-white font-medium rounded-lg hover:shadow-lg hover:shadow-[#8B9D83]/25 transition-all"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-all"
                 >
                   Clear Filters
                 </button>
@@ -2150,24 +2127,24 @@ export default function CustomerMyReviews() {
             <>
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[800px]">
-                  <thead className="bg-[#f0f5ed] border-b border-[#c5d5be]/40">
+                  <thead className="bg-gray-50 border-b border-gray-200">
                     <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-[#53645a] uppercase whitespace-nowrap">Product</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-[#53645a] uppercase whitespace-nowrap">Rating</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-[#53645a] uppercase whitespace-nowrap">Review</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-[#53645a] uppercase whitespace-nowrap">Status</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-[#53645a] uppercase whitespace-nowrap">Date</th>
-                      <th className="px-4 py-3 text-right text-xs font-medium text-[#53645a] uppercase whitespace-nowrap">Actions</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Product</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Rating</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Review</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Status</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Date</th>
+                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#c5d5be]/20">
+                  <tbody className="divide-y divide-gray-100">
                     {paginatedReviews.map((review) => (
-                      <tr key={review._id} className="hover:bg-[#f0f5ed] transition-colors">
+                      <tr key={review._id} className="hover:bg-gray-50 transition-colors">
                         <td className="px-4 py-3">
                           <Link
                             href={`/product/${review.product?.slug || review.product?._id}`}
                             target="_blank"
-                            className="text-sm text-[#8B9D83] hover:underline font-medium truncate max-w-[200px] block"
+                            className="text-sm text-black hover:underline font-medium truncate max-w-[200px] block"
                           >
                             {review.productName || 'N/A'}
                           </Link>
@@ -2176,7 +2153,7 @@ export default function CustomerMyReviews() {
                           {renderStars(review.rating)}
                         </td>
                         <td className="px-4 py-3">
-                          <p className="text-sm text-[#263b32] truncate max-w-[250px]">
+                          <p className="text-sm text-black truncate max-w-[250px]">
                             {review.title || review.comment}
                           </p>
                         </td>
@@ -2184,7 +2161,7 @@ export default function CustomerMyReviews() {
                           {getStatusBadge(review.status)}
                         </td>
                         <td className="px-4 py-3">
-                          <span className="text-sm text-[#53645a] whitespace-nowrap">
+                          <span className="text-sm text-gray-500 whitespace-nowrap">
                             {new Date(review.createdAt).toLocaleDateString()}
                           </span>
                         </td>
@@ -2195,7 +2172,7 @@ export default function CustomerMyReviews() {
                                 setSelectedReview(review);
                                 setIsViewModalOpen(true);
                               }}
-                              className="p-1.5 text-[#8B9D83] hover:bg-[#f0f5ed] rounded-lg transition-colors"
+                              className="p-1.5 text-black hover:bg-gray-100 rounded-lg transition-colors"
                               title="View"
                             >
                               <Eye className="w-4 h-4" />
@@ -2221,22 +2198,22 @@ export default function CustomerMyReviews() {
               </div>
               
               {totalPages > 1 && (
-                <div className="flex items-center justify-between px-6 py-4 border-t border-[#c5d5be]/40">
-                  <div className="text-sm text-[#53645a]">
+                <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">
+                  <div className="text-sm text-gray-500">
                     Showing {((currentPage - 1) * itemsPerPage) + 1} - {Math.min(currentPage * itemsPerPage, filteredReviews.length)} of {filteredReviews.length} reviews
                   </div>
                   <div className="flex gap-2">
                     <button
                       onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                       disabled={currentPage === 1}
-                      className="p-2 text-[#53645a] hover:bg-[#f0f5ed] rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="p-2 text-gray-500 hover:bg-gray-100 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                       <ChevronLeft className="w-5 h-5" />
                     </button>
                     <button
                       onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                       disabled={currentPage === totalPages}
-                      className="p-2 text-[#53645a] hover:bg-[#f0f5ed] rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="p-2 text-gray-500 hover:bg-gray-100 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                       <ChevronRight className="w-5 h-5" />
                     </button>

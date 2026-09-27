@@ -1334,7 +1334,7 @@ export default function DuplicateCustomerPage() {
   };
 
   return (
-    <ProtectedRoute pageKey="all_orders">
+    <ProtectedRoute pageKey="duplicate_customer">
       <div className="min-h-screen bg-pink-100/20 pb-12 pt-6">
         <div className="container mx-auto px-4 max-w-7xl">
           {/* ========== HEADER ========== */}

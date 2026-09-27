@@ -779,6 +779,7 @@ import {
   Scan, Eye, Copy, Check, Printer
 } from 'lucide-react';
 import Script from 'next/script';
+import ProtectedRoute from '@/app/components/ProtectedRoute';
 
 export default function BarcodeScannerPage() {
   const router = useRouter();
@@ -994,7 +995,9 @@ export default function BarcodeScannerPage() {
   if (product?.childSubcategoryName) categoryHierarchy.push(product.childSubcategoryName);
 
   return (
+       <ProtectedRoute pageKey="barcode_scanner"> 
     <>
+     
       <Script 
         src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"
         strategy="afterInteractive"
@@ -1488,6 +1491,8 @@ export default function BarcodeScannerPage() {
           .prose blockquote { border-left: 3px solid #CA1C33; padding-left: 1em; margin: 0.5em 0; color: #666; font-style: italic; }
         `}</style>
       </div>
+     
     </>
+       </ProtectedRoute> 
   );
 }

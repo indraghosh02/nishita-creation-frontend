@@ -1,3 +1,4 @@
+// app/checkout/page.js
 import { Suspense } from 'react';
 import CheckoutClient from './CheckoutClient';
 
@@ -5,15 +6,15 @@ import CheckoutClient from './CheckoutClient';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 
-// Loading fallback component for Checkout page
+// Loading fallback component for Checkout page - Nishita's Creation themed
 function CheckoutLoading() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-[#F0F7FF] pt-20 sm:pt-24">
+      <div className="min-h-screen bg-[#f7f4ef] pt-20 sm:pt-24">
         <div className="container mx-auto px-3 sm:px-4 max-w-6xl">
           <div className="flex items-center justify-center py-20">
-            <div className="w-6 h-6 sm:w-8 sm:h-8 border-4 border-[#2563EB] border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-6 h-6 sm:w-8 sm:h-8 border-4 border-[#29362f] border-t-transparent rounded-full animate-spin"></div>
           </div>
         </div>
       </div>
@@ -22,46 +23,46 @@ function CheckoutLoading() {
   );
 }
 
-// Smart Gadget Checkout Page SEO Metadata
+// Nishita's Creation Checkout Page SEO Metadata
 export const metadata = {
-  title: "Secure Checkout | Complete Your Gadget Order - Smart Gadget Bangladesh",
-  description: "Secure checkout for your premium gadgets at Smart Gadget Bangladesh. ✓ Cash on Delivery ✓ bKash/Nagad ✓ Credit Card ✓ Official Warranty ✓ Free delivery on orders over 3000 BDT. Complete your purchase safely.",
+  title: "Secure Checkout | Complete Your Handicraft Order - Nishita's Creation Bangladesh",
+  description: "Secure checkout for your authentic handicraft products at Nishita's Creation Bangladesh. ✓ Cash on Delivery ✓ bKash/Nagad ✓ Credit Card ✓ 100% Original Handmade ✓ Free delivery on orders over 3000 BDT. Complete your purchase safely.",
   keywords: [
     // Checkout specific
     "secure checkout bangladesh",
-    "gadget checkout page",
-    "complete order electronics bd",
-    "smart gadget checkout",
-    "payment checkout gadgets",
+    "handicraft checkout page",
+    "complete order handicraft bd",
+    "nishitas creation checkout",
+    "payment checkout batik",
     "secure online payment bd",
     
     // Payment methods
     "cash on delivery checkout",
     "bkash payment online bd",
     "nagad payment gateway",
-    "credit card payment gadgets",
+    "credit card payment handicraft",
     "online payment bd",
     "mobile payment bd",
-    "digital payment electronics",
-    "emi payment gadgets bd",
+    "digital payment handicraft",
+    "emi payment batik bd",
     
     // Customer info
     "shipping address bd",
-    "delivery information gadgets",
-    "billing details electronics",
+    "delivery information handicraft",
+    "billing details handicraft",
     "order confirmation bd",
     "buyer information bd",
     
     // Order summary
     "review order before payment",
-    "gadget cart checkout",
-    "finalize purchase electronics",
-    "place order gadgets bd",
-    "tech product checkout",
+    "batik cart checkout",
+    "finalize purchase handicraft",
+    "place order batik bd",
+    "deshi product checkout",
     
     // Security
     "secure payment bd",
-    "safe online shopping electronics",
+    "safe online shopping handicraft",
     "encrypted checkout",
     "ssl commerce payment",
     "secure transaction bd",
@@ -69,48 +70,56 @@ export const metadata = {
     "payment security bd",
     
     // Delivery
-    "free delivery on gadgets",
+    "free delivery on handicraft",
     "home delivery bd",
-    "gadget shipping charges",
+    "batik shipping charges",
     "delivery inside dhaka",
     "delivery outside dhaka",
-    "express delivery gadgets",
+    "express delivery handicraft",
     "same day delivery dhaka",
     
     // Coupon & discount
-    "gadget coupon code",
-    "discount on electronics bd",
-    "promo code gadgets",
-    "offer on tech purchase",
+    "batik coupon code",
+    "discount on handicraft bd",
+    "promo code batik",
+    "offer on handicraft purchase",
     "festival offer bd",
     
     // Trust signals
     "7 day return policy",
-    "secure gadget shopping",
+    "secure handicraft shopping",
     "verified checkout",
-    "official warranty",
+    "100% original handmade",
     "authentic products bd",
-    "trusted electronics store",
+    "trusted handicraft store",
     
     // Additional
-    "gadget purchase bd",
-    "electronics checkout process",
+    "batik purchase bd",
+    "handicraft checkout process",
     "order tracking bd",
     "invoice generation bd",
     "payment confirmation",
-    "order receipt bd"
+    "order receipt bd",
+    
+    // Craft-specific
+    "buy batik online bd",
+    "block print saree checkout",
+    "applique three piece order",
+    "panjabi kurti purchase bd",
+    "jashore handicraft order",
+    "deshi products checkout"
   ],
   openGraph: {
-    title: "Secure Checkout - Smart Gadget | Complete Your Premium Gadget Order",
-    description: "Safe and secure checkout for your gadget purchase. Pay with Cash on Delivery, bKash, Nagad, or Credit Card. Free delivery on orders over 3000 BDT. Official warranty included.",
-    url: process.env.NEXT_PUBLIC_BASE_URL + '/checkout' || 'https://smartgadget.com.bd/checkout',
-    siteName: "Smart Gadget",
+    title: "Secure Checkout - Nishita's Creation | Complete Your Handicraft Order",
+    description: "Safe and secure checkout for your handicraft purchase. Pay with Cash on Delivery, bKash, Nagad, or Credit Card. Free delivery on orders over 3000 BDT. 100% original handmade products.",
+    url: (process.env.NEXT_PUBLIC_BASE_URL || 'https://nishitascreation.com') + '/checkout',
+    siteName: "Nishita's Creation",
     images: [
       {
-        url: '/checkout-og-smartgadget.jpg',
+        url: '/checkout-og-nishitas-creation.jpg',
         width: 1200,
         height: 630,
-        alt: 'Smart Gadget Secure Checkout - Complete Your Premium Gadget Order',
+        alt: "Nishita's Creation Secure Checkout - Complete Your Handicraft Order",
       },
     ],
     type: 'website',
@@ -119,11 +128,11 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@SmartGadgetBD',
-    creator: '@SmartGadgetBD',
-    title: "Secure Checkout | Smart Gadget Bangladesh",
-    description: "Complete your premium gadget purchase securely. COD, bKash, Nagad, and Credit Card accepted. Free delivery over 3000 BDT. Official warranty.",
-    images: ['/checkout-twitter-smartgadget.jpg'],
+    site: '@NishitasCreation',
+    creator: '@NishitasCreation',
+    title: "Secure Checkout | Nishita's Creation Bangladesh",
+    description: "Complete your handicraft purchase securely. COD, bKash, Nagad, and Credit Card accepted. Free delivery over 3000 BDT. 100% original handmade products.",
+    images: ['/checkout-twitter-nishitas-creation.jpg'],
   },
   alternates: {
     canonical: '/checkout',
@@ -145,15 +154,15 @@ export const metadata = {
   },
   // Additional metadata for better SEO
   other: {
-    'application-name': 'Smart Gadget Checkout',
-    'msapplication-TileColor': '#2563EB',
-    'theme-color': '#2563EB',
+    'application-name': "Nishita's Creation Checkout",
+    'msapplication-TileColor': '#29362f',
+    'theme-color': '#29362f',
     'page-type': 'checkout',
     'user-action': 'complete-purchase',
     'payment-methods': 'cod,bkash,nagad,credit-card',
     'secure-checkout': 'true',
     'return-policy': '7 Days Return Policy',
-    'warranty': 'Official Brand Warranty Available',
+    'quality-guarantee': '100% Original Handmade Products',
     'delivery-estimate': '1-3 business days',
     'free-delivery-threshold': '3000 BDT',
     
@@ -166,12 +175,22 @@ export const metadata = {
     'order-tracking': 'Available',
     'invoice-format': 'Digital Invoice',
     'payment-confirmation': 'Instant Confirmation',
-    'customer-support': '24/7 Support Available',
+    'customer-support': '10:00 AM - 10:00 PM (Everyday)',
     
     // Order types
-    'accepted-orders': 'Individual, Corporate, Bulk',
+    'accepted-orders': 'Individual, Corporate, Bulk, Wholesale',
     'gift-option': 'Available',
     'tax-included': 'Yes (VAT Included)',
+    
+    // Craft-specific
+    'product-categories': 'Batik, Block Print, Applique, Saree, Three Piece, Panjabi, Kurti, Bedsheet, Dupatta, Deshi Collection',
+    'craft-techniques': 'Hand Block Print, Batik Print, Applique Work, Hand Embroidery',
+    'fabric-types': 'Cotton, Handloom Cotton, Soft Cotton, Muslin, Khadi',
+    'origin': 'Jashore, Khulna, Bangladesh',
+    'artisan-info': 'Made by skilled local artisans in our own factory',
+    'occasion': 'Daily Wear, Eid, Puja, Wedding, Casual, Party, Office',
+    'special-features': 'Own Factory, Skilled Artisans, Traditional Craft, Handmade, Authentic Deshi Products',
+    'customer-support-email': 'support@nishitascreation.com',
   },
 };
 

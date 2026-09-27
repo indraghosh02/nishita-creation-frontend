@@ -1,179 +1,4 @@
-// import { Suspense } from 'react';
-// import AboutClient from './AboutClient';
-
-// // Import for loading state
-// import Navbar from '../components/layout/Navbar';
-// import Footer from '../components/layout/Footer';
-
-// // Loading fallback component for About page
-// function AboutLoading() {
-//   return (
-//     <>
-//       <Navbar />
-//       <div className="min-h-screen bg-gradient-to-br from-[#2D1B2E] via-[#EE4275] to-[#FF6B9D] flex items-center justify-center">
-//         <div className="text-center">
-//           <div className="w-16 h-16 mx-auto bg-white/20 rounded-full animate-pulse mb-4"></div>
-//           <div className="h-6 w-48 bg-white/20 rounded mx-auto animate-pulse"></div>
-//           <div className="h-4 w-64 bg-white/20 rounded mx-auto mt-3 animate-pulse"></div>
-//         </div>
-//       </div>
-//       <Footer />
-//     </>
-//   );
-// }
-
-// // Beauty Bucket About Us Page SEO Metadata
-// export const metadata = {
-//   title: "About Beauty Bucket | Bangladesh's Trusted Premium Beauty & Cosmetics Store",
-//   description: "Learn about Beauty Bucket - Bangladesh's premier online beauty store. We provide authentic skincare, makeup, fragrances, hair care, body care & beauty accessories with quality guarantee and best prices.",
-//   keywords: [
-//     // About us specific
-//     "about beauty bucket",
-//     "premium beauty store bangladesh",
-//     "cosmetics company bd",
-//     "beauty bucket story",
-//     "cosmetics shop dhaka about",
-//     "beauty brand bangladesh",
-    
-//     // Mission & values
-//     "beauty company mission",
-//     "cosmetics store values",
-//     "authentic beauty products bangladesh",
-//     "quality cosmetics bd",
-//     "quality guarantee beauty products",
-    
-//     // Trust signals
-//     "why choose beauty bucket",
-//     "trusted beauty store bd",
-//     "verified cosmetics bd",
-//     "genuine beauty products bangladesh",
-//     "premium cosmetics store bd",
-//     "authentic makeup store bd",
-    
-//     // Team & milestones
-//     "beauty bucket team",
-//     "cosmetics company journey bd",
-//     "beauty industry bangladesh",
-//     "skincare company bangladesh",
-    
-//     // Company info
-//     "online beauty store about",
-//     "cosmetics retailer bangladesh",
-//     "premium beauty store dhaka",
-//     "authorized beauty seller bd",
-//     "authentic cosmetics bangladesh",
-    
-//     // Social proof
-//     "happy customers beauty bd",
-//     "beauty enthusiasts bangladesh",
-//     "beauty bucket reviews",
-//     "customer trust cosmetics bd",
-//     "satisfied buyers bd",
-//     "recommended beauty store bd",
-//     "trusted makeup store bd",
-    
-//     // Beauty categories
-//     "skincare products bd",
-//     "makeup products bangladesh",
-//     "fragrances store bd",
-//     "hair care products bangladesh",
-//     "body care cosmetics bd",
-//     "k beauty products bangladesh",
-//     "natural skincare bd",
-    
-//     // Additional keywords
-//     "best beauty price bd",
-//     "authentic cosmetics warranty bd",
-//     "certified beauty seller bangladesh",
-//     "trusted cosmetics provider dhaka",
-//     "quality assurance beauty bd",
-//     "beauty consultation service bd",
-//     "skincare expert bd",
-//     "makeup artist recommended bd"
-//   ],
-//   openGraph: {
-//     title: "About Beauty Bucket - Our Story | Premium Beauty & Cosmetics Store Bangladesh",
-//     description: "Discover the Beauty Bucket story. We're on a mission to provide authentic premium beauty products at the best prices across Bangladesh. Quality guarantee, expert consultation, and exceptional service.",
-//     url: process.env.NEXT_PUBLIC_BASE_URL + '/about' || 'https://beautybucket.com.bd/about',
-//     siteName: "Beauty Bucket",
-//     images: [
-//       {
-//         url: '/about-og-beautybucket.jpg',
-//         width: 1200,
-//         height: 630,
-//         alt: 'About Beauty Bucket - Bangladesh\'s Premium Beauty & Cosmetics Store',
-//       },
-//     ],
-//     type: 'website',
-//     locale: 'en_BD',
-//     alternateLocale: ['bn_BD'],
-//   },
-//   twitter: {
-//     card: 'summary_large_image',
-//     site: '@BeautyBucketBD',
-//     creator: '@BeautyBucketBD',
-//     title: "About Beauty Bucket | Premium Beauty Store Bangladesh",
-//     description: "Learn about our mission to provide authentic premium beauty products with quality guarantee. Join thousands of satisfied beauty lovers!",
-//     images: ['/about-twitter-beautybucket.jpg'],
-//   },
-//   alternates: {
-//     canonical: '/about',
-//     languages: {
-//       'en': '/about',
-//       'bn': '/bn/about',
-//     },
-//   },
-//   robots: {
-//     index: true,
-//     follow: true,
-//     googleBot: {
-//       index: true,
-//       follow: true,
-//       'max-snippet': -1,
-//       'max-image-preview': 'large',
-//       'max-video-preview': -1,
-//     },
-//   },
-//   // Additional metadata
-//   other: {
-//     'application-name': 'Beauty Bucket About',
-//     'msapplication-TileColor': '#EE4275',
-//     'theme-color': '#EE4275',
-//     'page-type': 'about-us',
-//     'business-type': 'ecommerce-beauty-store',
-//     'founded-year': '2020',
-//     'headquarters': 'Dhaka, Bangladesh',
-//     'service-area': 'Nationwide Delivery',
-//     'product-categories': 'Skincare, Makeup, Fragrances, Hair Care, Body Care, Beauty Accessories, Natural Beauty, K-Beauty',
-//     'brands': 'L\'Oréal, Maybelline, NYX, MAC, Estée Lauder, Clinique, Kiehl\'s, The Ordinary, Cosrx, Innisfree, Laneige, Nivea, Pond\'s, Garnier, Vaseline',
-//     'quality-guarantee': '100% Authentic Beauty Products',
-//     'certifications': 'Authorized Beauty Retailer, Quality Assured Store',
-//     'employee-count': '30+ Beauty Experts',
-//     'customer-count': '5,000+ Satisfied Beauty Lovers',
-//     'social-responsibility': 'Promoting Beauty & Wellness in Bangladesh',
-//     'contact-email': 'support@beautybucket.com',
-//     'contact-phone': '+880123456789',
-//     'business-hours': '10:00 AM - 10:00 PM (Everyday)',
-//     'payment-methods': 'Cash on Delivery, bKash, Nagad, Rocket, Credit Card',
-//     'beauty-consultants': 'Available for Expert Advice',
-//     'skin-types': 'All Skin Types, Dry Skin, Oily Skin, Combination Skin, Sensitive Skin, Acne-Prone Skin, Mature Skin',
-//     'ingredients': 'Vitamin C, Hyaluronic Acid, Retinol, Niacinamide, Salicylic Acid, Glycolic Acid, Ceramides, Peptides, Squalane, Rosehip Oil, Shea Butter, Aloe Vera',
-//     'ethical-features': 'Cruelty Free Options, Vegan Options, Eco-Friendly Packaging Options',
-//     'safety-features': 'Dermatologically Tested, Hypoallergenic, Non-Comedogenic, Fragrance Free (Options Available), Paraben Free (Options Available)',
-//     'beauty-commitment': 'Empowering beauty and confidence through authentic products',
-//   },
-// };
-
-// // Server component with Suspense
-// export default function AboutPage() {
-//   return (
-//     <Suspense fallback={<AboutLoading />}>
-//       <AboutClient />
-//     </Suspense>
-//   );
-// }
-
-
+// app/about/page.js
 import { Suspense } from 'react';
 import AboutClient from './AboutClient';
 
@@ -181,16 +6,16 @@ import AboutClient from './AboutClient';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 
-// Loading fallback component for About page
+// Loading fallback component for About page - Nishita's Creation themed
 function AboutLoading() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gradient-to-br from-[#29362f] via-[#52665a] to-[#71816F] flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-[#F1EFE3] via-[#e8e4d5] to-[#A8B8A0] flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 mx-auto bg-white/20 rounded-full animate-pulse mb-4"></div>
-          <div className="h-6 w-48 bg-white/20 rounded mx-auto animate-pulse"></div>
-          <div className="h-4 w-64 bg-white/20 rounded mx-auto mt-3 animate-pulse"></div>
+          <div className="w-16 h-16 mx-auto bg-[#29362f]/15 rounded-full animate-pulse mb-4"></div>
+          <div className="h-6 w-48 bg-[#29362f]/20 rounded mx-auto animate-pulse"></div>
+          <div className="h-4 w-64 bg-[#5a6660]/20 rounded mx-auto mt-3 animate-pulse"></div>
         </div>
       </div>
       <Footer />
@@ -198,86 +23,91 @@ function AboutLoading() {
   );
 }
 
-// Beauty Bucket About Us Page SEO Metadata
+// Nishita's Creation - About Us Page SEO Metadata
 export const metadata = {
-  title: "About Beauty Bucket | Bangladesh's Trusted Premium Beauty & Cosmetics Store",
-  description: "Learn about Beauty Bucket - Bangladesh's premier online beauty store. We provide authentic skincare, makeup, fragrances, hair care, body care & beauty accessories with quality guarantee and best prices.",
+  title: "About Nishita's Creation | Authentic Batik, Block Print & Deshi Products from Jashore",
+  description: "Learn about Nishita's Creation - Bangladesh's trusted store for authentic Batik, Block Print & Applique deshi products. Our own factory & skilled artisans craft every product with love in Jashore. Quality guarantee and best prices.",
   keywords: [
     // About us specific
-    "about beauty bucket",
-    "premium beauty store bangladesh",
-    "cosmetics company bd",
-    "beauty bucket story",
-    "cosmetics shop dhaka about",
-    "beauty brand bangladesh",
+    "about nishitas creation",
+    "batik store bangladesh",
+    "block print company bd",
+    "applique brand bangladesh",
+    "deshi products store bd",
+    "jashore handicraft company",
+    "traditional crafts brand bangladesh",
     
     // Mission & values
-    "beauty company mission",
-    "cosmetics store values",
-    "authentic beauty products bangladesh",
-    "quality cosmetics bd",
-    "quality guarantee beauty products",
+    "handicraft company mission",
+    "batik store values",
+    "authentic deshi products bangladesh",
+    "quality batik bd",
+    "quality guarantee handicrafts",
+    "own factory handicraft bangladesh",
+    "skilled artisans bangladesh",
     
     // Trust signals
-    "why choose beauty bucket",
-    "trusted beauty store bd",
-    "verified cosmetics bd",
-    "genuine beauty products bangladesh",
-    "premium cosmetics store bd",
-    "authentic makeup store bd",
+    "why choose nishitas creation",
+    "trusted batik store bd",
+    "verified handicraft store bd",
+    "genuine deshi products bangladesh",
+    "authentic block print store bd",
+    "premium handicraft store bd",
+    "authentic batik store bd",
     
     // Team & milestones
-    "beauty bucket team",
-    "cosmetics company journey bd",
-    "beauty industry bangladesh",
-    "skincare company bangladesh",
+    "nishitas creation team",
+    "handicraft company journey bd",
+    "craft industry bangladesh",
+    "traditional textile company bangladesh",
+    "artisan team jashore",
     
     // Company info
-    "online beauty store about",
-    "cosmetics retailer bangladesh",
-    "premium beauty store dhaka",
-    "authorized beauty seller bd",
-    "authentic cosmetics bangladesh",
+    "online handicraft store about",
+    "batik retailer bangladesh",
+    "traditional crafts store jashore",
+    "authorized deshi seller bd",
+    "authentic handicraft bangladesh",
     
     // Social proof
-    "happy customers beauty bd",
-    "beauty enthusiasts bangladesh",
-    "beauty bucket reviews",
-    "customer trust cosmetics bd",
+    "happy customers handicraft bd",
+    "deshi product lovers bangladesh",
+    "nishitas creation reviews",
+    "customer trust handicraft bd",
     "satisfied buyers bd",
-    "recommended beauty store bd",
-    "trusted makeup store bd",
+    "recommended batik store bd",
+    "trusted deshi store bd",
     
-    // Beauty categories
-    "skincare products bd",
-    "makeup products bangladesh",
-    "fragrances store bd",
-    "hair care products bangladesh",
-    "body care cosmetics bd",
-    "k beauty products bangladesh",
-    "natural skincare bd",
+    // Product categories
+    "batik products bd",
+    "block print products bangladesh",
+    "applique store bd",
+    "traditional saree bangladesh",
+    "three piece store bd",
+    "panjabi bangladesh",
+    "deshi kurti bd",
     
     // Additional keywords
-    "best beauty price bd",
-    "authentic cosmetics warranty bd",
-    "certified beauty seller bangladesh",
-    "trusted cosmetics provider dhaka",
-    "quality assurance beauty bd",
-    "beauty consultation service bd",
-    "skincare expert bd",
-    "makeup artist recommended bd"
+    "best batik price bd",
+    "authentic handicraft warranty bd",
+    "certified craft seller bangladesh",
+    "trusted deshi provider jashore",
+    "quality assurance handicraft bd",
+    "traditional craft consultation bd",
+    "batik expert bd",
+    "block print artisan bangladesh"
   ],
   openGraph: {
-    title: "About Beauty Bucket - Our Story | Premium Beauty & Cosmetics Store Bangladesh",
-    description: "Discover the Beauty Bucket story. We're on a mission to provide authentic premium beauty products at the best prices across Bangladesh. Quality guarantee, expert consultation, and exceptional service.",
-    url: process.env.NEXT_PUBLIC_BASE_URL + '/about' || 'https://beautybucket.com.bd/about',
-    siteName: "Beauty Bucket",
+    title: "About Nishita's Creation - Our Story | Batik, Block Print & Deshi Products Bangladesh",
+    description: "Discover the Nishita's Creation story. From our own factory in Jashore to your doorstep — we're on a mission to bring authentic Batik, Block Print & Applique deshi products to every household in Bangladesh.",
+    url: (process.env.NEXT_PUBLIC_BASE_URL || 'https://nishitascreation.com') + '/about',
+    siteName: "Nishita's Creation",
     images: [
       {
-        url: '/about-og-beautybucket.jpg',
+        url: '/about-og-nishitas-creation.jpg',
         width: 1200,
         height: 630,
-        alt: 'About Beauty Bucket - Bangladesh\'s Premium Beauty & Cosmetics Store',
+        alt: "About Nishita's Creation - Authentic Batik, Block Print & Applique Products from Jashore, Bangladesh",
       },
     ],
     type: 'website',
@@ -286,11 +116,11 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@BeautyBucketBD',
-    creator: '@BeautyBucketBD',
-    title: "About Beauty Bucket | Premium Beauty Store Bangladesh",
-    description: "Learn about our mission to provide authentic premium beauty products with quality guarantee. Join thousands of satisfied beauty lovers!",
-    images: ['/about-twitter-beautybucket.jpg'],
+    site: '@NishitasCreation',
+    creator: '@NishitasCreation',
+    title: "About Nishita's Creation | Batik, Block Print & Deshi Products Bangladesh",
+    description: "Learn about our mission to provide authentic Batik, Block Print & Applique deshi products with quality guarantee. Made with love by Jashore artisans!",
+    images: ['/about-twitter-nishitas-creation.jpg'],
   },
   alternates: {
     canonical: '/about',
@@ -312,31 +142,33 @@ export const metadata = {
   },
   // Additional metadata
   other: {
-    'application-name': 'Beauty Bucket About',
-    'msapplication-TileColor': '#52665a',
-    'theme-color': '#52665a',
+    'application-name': "Nishita's Creation About",
+    'msapplication-TileColor': '#29362f',
+    'theme-color': '#29362f',
     'page-type': 'about-us',
-    'business-type': 'ecommerce-beauty-store',
+    'business-type': 'ecommerce-handicraft-store',
     'founded-year': '2020',
-    'headquarters': 'Dhaka, Bangladesh',
+    'headquarters': 'Jashore, Khulna, Bangladesh',
     'service-area': 'Nationwide Delivery',
-    'product-categories': 'Skincare, Makeup, Fragrances, Hair Care, Body Care, Beauty Accessories, Natural Beauty, K-Beauty',
-    'brands': 'L\'Oréal, Maybelline, NYX, MAC, Estée Lauder, Clinique, Kiehl\'s, The Ordinary, Cosrx, Innisfree, Laneige, Nivea, Pond\'s, Garnier, Vaseline',
-    'quality-guarantee': '100% Authentic Beauty Products',
-    'certifications': 'Authorized Beauty Retailer, Quality Assured Store',
-    'employee-count': '30+ Beauty Experts',
-    'customer-count': '5,000+ Satisfied Beauty Lovers',
-    'social-responsibility': 'Promoting Beauty & Wellness in Bangladesh',
-    'contact-email': 'support@beautybucket.com',
+    'product-categories': 'Batik, Block Print, Applique, Saree, Three Piece, Panjabi, Kurti, Bedsheet, Dupatta, Deshi Collection',
+    'craft-techniques': 'Hand Block Print, Batik Print, Applique Work, Hand Embroidery',
+    'fabric-types': 'Cotton, Handloom Cotton, Soft Cotton, Muslin, Khadi',
+    'quality-guarantee': '100% Original Handmade Products',
+    'certifications': 'Authorized Handicraft Retailer, Own Factory Production',
+    'employee-count': 'Skilled Local Artisans Team',
+    'customer-count': '5,000+ Satisfied Deshi Product Lovers',
+    'social-responsibility': 'Empowering Local Artisans & Traditional Crafts in Bangladesh',
+    'contact-email': 'support@nishitascreation.com',
     'contact-phone': '+880123456789',
     'business-hours': '10:00 AM - 10:00 PM (Everyday)',
     'payment-methods': 'Cash on Delivery, bKash, Nagad, Rocket, Credit Card',
-    'beauty-consultants': 'Available for Expert Advice',
-    'skin-types': 'All Skin Types, Dry Skin, Oily Skin, Combination Skin, Sensitive Skin, Acne-Prone Skin, Mature Skin',
-    'ingredients': 'Vitamin C, Hyaluronic Acid, Retinol, Niacinamide, Salicylic Acid, Glycolic Acid, Ceramides, Peptides, Squalane, Rosehip Oil, Shea Butter, Aloe Vera',
-    'ethical-features': 'Cruelty Free Options, Vegan Options, Eco-Friendly Packaging Options',
-    'safety-features': 'Dermatologically Tested, Hypoallergenic, Non-Comedogenic, Fragrance Free (Options Available), Paraben Free (Options Available)',
-    'beauty-commitment': 'Empowering beauty and confidence through authentic products',
+    'special-features': 'Own Factory, Skilled Artisans, Traditional Craft, Handmade, Authentic Deshi Products',
+    'artisan-info': 'Made by skilled local artisans in our own factory',
+    'care-instructions': 'Hand Wash Recommended, Do Not Bleach, Dry in Shade',
+    'color-options': 'Traditional, Natural, Earthy, Vibrant, Pastel Tones',
+    'occasion': 'Daily Wear, Eid, Puja, Wedding, Casual, Party, Office',
+    'origin': 'Jashore, Khulna, Bangladesh',
+    'craft-commitment': 'Preserving traditional Bangladeshi crafts through authentic handmade products',
   },
 };
 

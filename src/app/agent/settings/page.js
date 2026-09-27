@@ -1,6 +1,4 @@
 
-
-
 // 'use client';
 
 // import { useState, useEffect } from 'react';
@@ -309,32 +307,32 @@
 
 //   if (loading) {
 //     return (
-//       <div className="min-h-screen bg-[#FFF5F6] flex items-center justify-center">
+//       <div className="min-h-screen bg-[#f8f7f2] flex items-center justify-center">
 //         <div className="text-center">
-//           <div className="w-16 h-16 border-4 border-[#EE4275] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-//           <p className="text-gray-600 font-medium">Loading your profile...</p>
+//           <div className="w-16 h-16 border-4 border-[#8B9D83] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+//           <p className="text-[#53645a] font-medium">Loading your profile...</p>
 //         </div>
 //       </div>
 //     );
 //   }
 
 //   return (
-//     <div className="min-h-screen bg-[#FFF5F6] py-8">
+//     <div className="min-h-screen bg-[#f8f7f2] py-8">
 //       <div className="container mx-auto px-4 max-w-6xl">
-//         {/* Header - Pink Theme */}
+//         {/* Header - Green Theme */}
 //         <div className="mb-8">
 //           <div className="flex items-center gap-3 mb-1">
-//             <div className="p-2 bg-gradient-to-r from-[#EE4275] to-[#FF6B9D] rounded-xl shadow-md shadow-[#EE4275]/25">
+//             <div className="p-2 bg-gradient-to-r from-[#8B9D83] to-[#6b7d63] rounded-xl shadow-md shadow-[#8B9D83]/25">
 //               <Headphones className="w-6 h-6 text-white" />
 //             </div>
-//             <h1 className="text-3xl font-bold text-[#2D1B2E]">Agent Profile</h1>
-//             <Sparkles className="w-5 h-5 text-[#EE4275] ml-1" />
+//             <h1 className="text-3xl font-light text-[#263b32]">Agent Profile</h1>
+//             <Sparkles className="w-5 h-5 text-[#8B9D83] ml-1" />
 //           </div>
-//           <p className="text-[#EE4275]/60 text-sm ml-14">Manage your call center agent account information</p>
+//           <p className="text-[#53645a] text-sm ml-14">Manage your call center agent account information</p>
 //         </div>
 
-//         {/* Tabs - Pink Theme */}
-//         <div className="mb-6 border-b border-[#F7C7D3]/40 bg-white rounded-t-xl px-4 shadow-sm">
+//         {/* Tabs - Green Theme */}
+//         <div className="mb-6 border-b border-[#c5d5be]/40 bg-white rounded-t-xl px-4 shadow-sm">
 //           <div className="flex gap-1 overflow-x-auto">
 //             {[
 //               { id: 'view', label: 'Profile Info', icon: Info },
@@ -346,18 +344,18 @@
 //                 onClick={() => setActiveTab(tab.id)}
 //                 className={`px-6 py-3 text-sm font-medium transition-all relative whitespace-nowrap ${
 //                   activeTab === tab.id
-//                     ? 'text-[#EE4275]'
-//                     : 'text-[#2D1B2E]/60 hover:text-[#EE4275]'
+//                     ? 'text-[#8B9D83]'
+//                     : 'text-[#263b32]/60 hover:text-[#8B9D83]'
 //                 }`}
 //               >
 //                 <div className="flex items-center gap-2">
-//                   <tab.icon className={`w-4 h-4 ${activeTab === tab.id ? 'text-[#EE4275]' : 'text-[#EE4275]/40'}`} />
+//                   <tab.icon className={`w-4 h-4 ${activeTab === tab.id ? 'text-[#8B9D83]' : 'text-[#8B9D83]/40'}`} />
 //                   {tab.label}
 //                 </div>
 //                 {activeTab === tab.id && (
 //                   <motion.div
 //                     layoutId="activeTab"
-//                     className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#EE4275]"
+//                     className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#8B9D83]"
 //                     initial={false}
 //                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
 //                   />
@@ -378,27 +376,27 @@
 //           >
 //             {/* Profile Info Tab */}
 //             {activeTab === 'view' && (
-//               <div className="bg-white rounded-xl shadow-lg border border-[#F7C7D3]/40 overflow-hidden">
-//                 <div className="px-6 py-4 border-b border-[#F7C7D3]/40 bg-[#FFF5F6]">
-//                   <h2 className="text-lg font-semibold text-[#2D1B2E]">Profile Information</h2>
-//                   <p className="text-sm text-[#EE4275]/60 mt-0.5">Your personal details and account information</p>
+//               <div className="bg-white rounded-xl shadow-lg border border-[#c5d5be]/40 overflow-hidden">
+//                 <div className="px-6 py-4 border-b border-[#c5d5be]/40 bg-[#f0f5ed]">
+//                   <h2 className="text-lg font-medium text-[#263b32]">Profile Information</h2>
+//                   <p className="text-sm text-[#53645a] mt-0.5">Your personal details and account information</p>
 //                 </div>
 
 //                 <div className="p-6">
 //                   {/* Profile Header */}
-//                   <div className="flex items-center gap-4 mb-6 pb-6 border-b border-[#F7C7D3]/40">
-//                     <div className="w-20 h-20 rounded-full bg-gradient-to-r from-[#EE4275] to-[#FF6B9D] flex items-center justify-center text-white text-2xl font-bold shadow-lg shadow-[#EE4275]/25">
+//                   <div className="flex items-center gap-4 mb-6 pb-6 border-b border-[#c5d5be]/40">
+//                     <div className="w-20 h-20 rounded-full bg-gradient-to-r from-[#8B9D83] to-[#6b7d63] flex items-center justify-center text-white text-2xl font-medium shadow-lg shadow-[#8B9D83]/25">
 //                       {userData.contactPerson?.charAt(0) || '?'}
 //                     </div>
 //                     <div>
-//                       <h3 className="text-xl font-bold text-[#2D1B2E]">{userData.contactPerson}</h3>
+//                       <h3 className="text-xl font-medium text-[#263b32]">{userData.contactPerson}</h3>
 //                       <div className="flex flex-wrap items-center gap-2 mt-1">
-//                         <span className="px-3 py-1 bg-[#FFF5F6] text-[#EE4275] rounded-full text-xs font-medium border border-[#EE4275]/30">
+//                         <span className="px-3 py-1 bg-[#f0f5ed] text-[#8B9D83] rounded-full text-xs font-medium border border-[#8B9D83]/30">
 //                           Call Center Agent
 //                         </span>
-//                         <Headphones className="w-4 h-4 text-[#EE4275]" />
+//                         <Headphones className="w-4 h-4 text-[#8B9D83]" />
 //                         {userData.companyName && (
-//                           <span className="px-3 py-1 bg-[#F7C7D3]/20 text-[#2D1B2E] rounded-full text-xs font-medium border border-[#2D1B2E]/20">
+//                           <span className="px-3 py-1 bg-[#c5d5be]/20 text-[#263b32] rounded-full text-xs font-medium border border-[#263b32]/20">
 //                             <Building2 className="w-3 h-3 inline mr-1" />
 //                             {userData.companyName}
 //                           </span>
@@ -410,42 +408,42 @@
 //                   {/* Information Grid */}
 //                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 //                     <div className="space-y-4">
-//                       <h4 className="text-sm font-semibold text-[#EE4275] flex items-center gap-2">
+//                       <h4 className="text-sm font-medium text-[#8B9D83] flex items-center gap-2">
 //                         <User className="w-4 h-4" />
 //                         Personal Information
 //                       </h4>
 
 //                       <div className="space-y-3">
-//                         <div className="flex items-start gap-3 p-3 bg-[#FFF5F6] rounded-lg border border-[#F7C7D3]/40">
-//                           <User className="w-4 h-4 text-[#EE4275] mt-0.5" />
+//                         <div className="flex items-start gap-3 p-3 bg-[#f0f5ed] rounded-lg border border-[#c5d5be]/40">
+//                           <User className="w-4 h-4 text-[#8B9D83] mt-0.5" />
 //                           <div>
-//                             <p className="text-xs text-[#EE4275]/60">Full Name</p>
-//                             <p className="text-sm font-medium text-[#2D1B2E]">{userData.contactPerson}</p>
+//                             <p className="text-xs text-[#53645a]">Full Name</p>
+//                             <p className="text-sm font-medium text-[#263b32]">{userData.contactPerson}</p>
 //                           </div>
 //                         </div>
 
-//                         <div className="flex items-start gap-3 p-3 bg-[#FFF5F6] rounded-lg border border-[#F7C7D3]/40">
-//                           <Mail className="w-4 h-4 text-[#EE4275] mt-0.5" />
+//                         <div className="flex items-start gap-3 p-3 bg-[#f0f5ed] rounded-lg border border-[#c5d5be]/40">
+//                           <Mail className="w-4 h-4 text-[#8B9D83] mt-0.5" />
 //                           <div>
-//                             <p className="text-xs text-[#EE4275]/60">Email Address</p>
-//                             <p className="text-sm font-medium text-[#2D1B2E]">{userData.email}</p>
+//                             <p className="text-xs text-[#53645a]">Email Address</p>
+//                             <p className="text-sm font-medium text-[#263b32]">{userData.email}</p>
 //                           </div>
 //                         </div>
 
-//                         <div className="flex items-start gap-3 p-3 bg-[#FFF5F6] rounded-lg border border-[#F7C7D3]/40">
-//                           <Phone className="w-4 h-4 text-[#EE4275] mt-0.5" />
+//                         <div className="flex items-start gap-3 p-3 bg-[#f0f5ed] rounded-lg border border-[#c5d5be]/40">
+//                           <Phone className="w-4 h-4 text-[#8B9D83] mt-0.5" />
 //                           <div>
-//                             <p className="text-xs text-[#EE4275]/60">Phone Number</p>
-//                             <p className="text-sm font-medium text-[#2D1B2E]">{userData.phone || 'Not provided'}</p>
+//                             <p className="text-xs text-[#53645a]">Phone Number</p>
+//                             <p className="text-sm font-medium text-[#263b32]">{userData.phone || 'Not provided'}</p>
 //                           </div>
 //                         </div>
 
 //                         {userData.companyName && (
-//                           <div className="flex items-start gap-3 p-3 bg-[#FFF5F6] rounded-lg border border-[#F7C7D3]/40">
-//                             <Building2 className="w-4 h-4 text-[#EE4275] mt-0.5" />
+//                           <div className="flex items-start gap-3 p-3 bg-[#f0f5ed] rounded-lg border border-[#c5d5be]/40">
+//                             <Building2 className="w-4 h-4 text-[#8B9D83] mt-0.5" />
 //                             <div>
-//                               <p className="text-xs text-[#EE4275]/60">Company</p>
-//                               <p className="text-sm font-medium text-[#2D1B2E]">{userData.companyName}</p>
+//                               <p className="text-xs text-[#53645a]">Company</p>
+//                               <p className="text-sm font-medium text-[#263b32]">{userData.companyName}</p>
 //                             </div>
 //                           </div>
 //                         )}
@@ -453,52 +451,52 @@
 //                     </div>
 
 //                     <div className="space-y-4">
-//                       <h4 className="text-sm font-semibold text-[#EE4275] flex items-center gap-2">
+//                       <h4 className="text-sm font-medium text-[#8B9D83] flex items-center gap-2">
 //                         <MapPin className="w-4 h-4" />
 //                         Address Information
 //                       </h4>
 
 //                       <div className="space-y-3">
-//                         <div className="flex items-start gap-3 p-3 bg-[#FFF5F6] rounded-lg border border-[#F7C7D3]/40">
-//                           <MapPin className="w-4 h-4 text-[#EE4275] mt-0.5" />
+//                         <div className="flex items-start gap-3 p-3 bg-[#f0f5ed] rounded-lg border border-[#c5d5be]/40">
+//                           <MapPin className="w-4 h-4 text-[#8B9D83] mt-0.5" />
 //                           <div>
-//                             <p className="text-xs text-[#EE4275]/60">Street Address</p>
-//                             <p className="text-sm font-medium text-[#2D1B2E]">{userData.address || 'Not provided'}</p>
+//                             <p className="text-xs text-[#53645a]">Street Address</p>
+//                             <p className="text-sm font-medium text-[#263b32]">{userData.address || 'Not provided'}</p>
 //                           </div>
 //                         </div>
 
 //                         <div className="grid grid-cols-2 gap-2">
-//                           <div className="flex items-start gap-3 p-3 bg-[#FFF5F6] rounded-lg border border-[#F7C7D3]/40">
-//                             <MapPin className="w-4 h-4 text-[#EE4275] mt-0.5" />
+//                           <div className="flex items-start gap-3 p-3 bg-[#f0f5ed] rounded-lg border border-[#c5d5be]/40">
+//                             <MapPin className="w-4 h-4 text-[#8B9D83] mt-0.5" />
 //                             <div>
-//                               <p className="text-xs text-[#EE4275]/60">City</p>
-//                               <p className="text-sm font-medium text-[#2D1B2E]">{userData.city || 'Not provided'}</p>
+//                               <p className="text-xs text-[#53645a]">City</p>
+//                               <p className="text-sm font-medium text-[#263b32]">{userData.city || 'Not provided'}</p>
 //                             </div>
 //                           </div>
-//                           <div className="flex items-start gap-3 p-3 bg-[#FFF5F6] rounded-lg border border-[#F7C7D3]/40">
-//                             <MapPin className="w-4 h-4 text-[#EE4275] mt-0.5" />
+//                           <div className="flex items-start gap-3 p-3 bg-[#f0f5ed] rounded-lg border border-[#c5d5be]/40">
+//                             <MapPin className="w-4 h-4 text-[#8B9D83] mt-0.5" />
 //                             <div>
-//                               <p className="text-xs text-[#EE4275]/60">Country</p>
-//                               <p className="text-sm font-medium text-[#2D1B2E]">{userData.country || 'Not provided'}</p>
+//                               <p className="text-xs text-[#53645a]">Country</p>
+//                               <p className="text-sm font-medium text-[#263b32]">{userData.country || 'Not provided'}</p>
 //                             </div>
 //                           </div>
 //                         </div>
 //                       </div>
 
 //                       {/* Account Stats */}
-//                       <div className="mt-4 pt-4 border-t border-[#F7C7D3]/40">
-//                         <h4 className="text-sm font-semibold text-[#EE4275] flex items-center gap-2 mb-3">
+//                       <div className="mt-4 pt-4 border-t border-[#c5d5be]/40">
+//                         <h4 className="text-sm font-medium text-[#8B9D83] flex items-center gap-2 mb-3">
 //                           <Clock className="w-4 h-4" />
 //                           Account Activity
 //                         </h4>
 //                         <div className="grid grid-cols-2 gap-2">
-//                           <div className="p-2 bg-[#FFF5F6] rounded-lg border border-[#F7C7D3]/40 text-center">
-//                             <p className="text-xs text-[#EE4275]/60">Login Count</p>
-//                             <p className="text-sm font-semibold text-[#2D1B2E]">{userData.loginCount}</p>
+//                           <div className="p-2 bg-[#f0f5ed] rounded-lg border border-[#c5d5be]/40 text-center">
+//                             <p className="text-xs text-[#53645a]">Login Count</p>
+//                             <p className="text-sm font-medium text-[#263b32]">{userData.loginCount}</p>
 //                           </div>
-//                           <div className="p-2 bg-[#FFF5F6] rounded-lg border border-[#F7C7D3]/40 text-center">
-//                             <p className="text-xs text-[#EE4275]/60">Last Login</p>
-//                             <p className="text-sm font-semibold text-[#2D1B2E]">{formatDate(userData.lastLogin)}</p>
+//                           <div className="p-2 bg-[#f0f5ed] rounded-lg border border-[#c5d5be]/40 text-center">
+//                             <p className="text-xs text-[#53645a]">Last Login</p>
+//                             <p className="text-sm font-medium text-[#263b32]">{formatDate(userData.lastLogin)}</p>
 //                           </div>
 //                         </div>
 //                       </div>
@@ -506,19 +504,19 @@
 //                   </div>
 
 //                   {/* Action Buttons */}
-//                   <div className="mt-6 pt-6 border-t border-[#F7C7D3]/40 flex flex-wrap gap-3">
+//                   <div className="mt-6 pt-6 border-t border-[#c5d5be]/40 flex flex-wrap gap-3">
 //                     <button
 //                       onClick={() => setActiveTab('edit')}
-//                       className="px-6 py-2.5 bg-gradient-to-r from-[#EE4275] to-[#FF6B9D] text-white rounded-lg hover:shadow-lg hover:shadow-[#EE4275]/25 transition-all text-sm font-medium flex items-center gap-2 shadow-md"
+//                       className="px-6 py-2.5 bg-gradient-to-r from-[#8B9D83] to-[#6b7d63] text-white rounded-lg hover:shadow-lg hover:shadow-[#8B9D83]/25 transition-all text-sm font-medium flex items-center gap-2 shadow-md"
 //                     >
 //                       <Edit className="w-4 h-4" />
 //                       Edit Profile
 //                     </button>
 //                     <button
 //                       onClick={() => setActiveTab('security')}
-//                       className="px-6 py-2.5 border border-[#F7C7D3]/50 text-[#2D1B2E] rounded-lg hover:bg-[#FFF5F6] hover:border-[#EE4275]/30 transition-all text-sm font-medium flex items-center gap-2"
+//                       className="px-6 py-2.5 border border-[#c5d5be]/50 text-[#263b32] rounded-lg hover:bg-[#f0f5ed] hover:border-[#8B9D83]/30 transition-all text-sm font-medium flex items-center gap-2"
 //                     >
-//                       <Key className="w-4 h-4 text-[#EE4275]" />
+//                       <Key className="w-4 h-4 text-[#8B9D83]" />
 //                       Change Password
 //                     </button>
 //                   </div>
@@ -528,17 +526,17 @@
 
 //             {/* Edit Profile Tab */}
 //             {activeTab === 'edit' && (
-//               <div className="bg-white rounded-xl shadow-lg border border-[#F7C7D3]/40 overflow-hidden">
-//                 <div className="px-6 py-4 border-b border-[#F7C7D3]/40 bg-[#FFF5F6]">
-//                   <h2 className="text-lg font-semibold text-[#2D1B2E]">Edit Profile</h2>
-//                   <p className="text-sm text-[#EE4275]/60 mt-0.5">Update your personal information</p>
+//               <div className="bg-white rounded-xl shadow-lg border border-[#c5d5be]/40 overflow-hidden">
+//                 <div className="px-6 py-4 border-b border-[#c5d5be]/40 bg-[#f0f5ed]">
+//                   <h2 className="text-lg font-medium text-[#263b32]">Edit Profile</h2>
+//                   <p className="text-sm text-[#53645a] mt-0.5">Update your personal information</p>
 //                 </div>
 
 //                 <form onSubmit={handleProfileUpdate} className="p-6">
 //                   <div className="space-y-5">
 //                     <div>
-//                       <label className="block text-sm font-medium text-[#2D1B2E] mb-1">
-//                         Full Name <span className="text-[#EE4275]">*</span>
+//                       <label className="block text-sm font-medium text-[#263b32] mb-1">
+//                         Full Name <span className="text-[#8B9D83]">*</span>
 //                       </label>
 //                       <input
 //                         type="text"
@@ -546,75 +544,75 @@
 //                         value={editFormData.contactPerson}
 //                         onChange={handleEditChange}
 //                         required
-//                         className="w-full px-4 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#EE4275] focus:border-transparent transition-all bg-white hover:border-[#EE4275]/30"
+//                         className="w-full px-4 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
 //                         placeholder="Your full name"
 //                       />
 //                     </div>
 
 //                     <div>
-//                       <label className="block text-sm font-medium text-[#2D1B2E] mb-1">
+//                       <label className="block text-sm font-medium text-[#263b32] mb-1">
 //                         Company Name
 //                       </label>
 //                       <div className="relative">
-//                         <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#EE4275]/40" />
+//                         <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8B9D83]/40" />
 //                         <input
 //                           type="text"
 //                           name="companyName"
 //                           value={editFormData.companyName}
 //                           onChange={handleEditChange}
-//                           className="w-full pl-10 pr-4 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#EE4275] focus:border-transparent transition-all bg-white hover:border-[#EE4275]/30"
+//                           className="w-full pl-10 pr-4 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
 //                           placeholder="Your company name"
 //                         />
 //                       </div>
 //                     </div>
 
 //                     <div>
-//                       <label className="block text-sm font-medium text-[#2D1B2E] mb-1">
+//                       <label className="block text-sm font-medium text-[#263b32] mb-1">
 //                         Email Address
 //                       </label>
 //                       <div className="relative">
-//                         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#EE4275]/40" />
+//                         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8B9D83]/40" />
 //                         <input
 //                           type="email"
 //                           value={userData.email}
 //                           disabled
-//                           className="w-full pl-10 pr-4 py-2.5 border border-[#F7C7D3]/50 rounded-lg bg-[#FFF5F6] text-[#EE4275]/60 cursor-not-allowed"
+//                           className="w-full pl-10 pr-4 py-2.5 border border-[#c5d5be]/50 rounded-lg bg-[#f0f5ed] text-[#53645a] cursor-not-allowed"
 //                         />
 //                       </div>
-//                       <p className="text-xs text-[#EE4275]/40 mt-1">Email cannot be changed</p>
+//                       <p className="text-xs text-[#53645a]/60 mt-1">Email cannot be changed</p>
 //                     </div>
 
 //                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 //                       <div>
-//                         <label className="block text-sm font-medium text-[#2D1B2E] mb-1">
-//                           Phone Number <span className="text-[#EE4275]">*</span>
+//                         <label className="block text-sm font-medium text-[#263b32] mb-1">
+//                           Phone Number <span className="text-[#8B9D83]">*</span>
 //                         </label>
 //                         <div className="relative">
-//                           <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#EE4275]/40" />
+//                           <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8B9D83]/40" />
 //                           <input
 //                             type="tel"
 //                             name="phone"
 //                             value={editFormData.phone}
 //                             onChange={handleEditChange}
 //                             required
-//                             className="w-full pl-10 pr-4 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#EE4275] focus:border-transparent transition-all bg-white hover:border-[#EE4275]/30"
+//                             className="w-full pl-10 pr-4 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
 //                             placeholder="+880 1234 567890"
 //                           />
 //                         </div>
 //                       </div>
 
 //                       <div>
-//                         <label className="block text-sm font-medium text-[#2D1B2E] mb-1">
+//                         <label className="block text-sm font-medium text-[#263b32] mb-1">
 //                           WhatsApp Number
 //                         </label>
 //                         <div className="relative">
-//                           <Smartphone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#EE4275]/40" />
+//                           <Smartphone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8B9D83]/40" />
 //                           <input
 //                             type="tel"
 //                             name="whatsapp"
 //                             value={editFormData.whatsapp}
 //                             onChange={handleEditChange}
-//                             className="w-full pl-10 pr-4 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#EE4275] focus:border-transparent transition-all bg-white hover:border-[#EE4275]/30"
+//                             className="w-full pl-10 pr-4 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
 //                             placeholder="+880 1234 567890"
 //                           />
 //                         </div>
@@ -623,8 +621,8 @@
 
 //                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 //                       <div>
-//                         <label className="block text-sm font-medium text-[#2D1B2E] mb-1">
-//                           Country <span className="text-[#EE4275]">*</span>
+//                         <label className="block text-sm font-medium text-[#263b32] mb-1">
+//                           Country <span className="text-[#8B9D83]">*</span>
 //                         </label>
 //                         <input
 //                           type="text"
@@ -632,14 +630,14 @@
 //                           value={editFormData.country}
 //                           onChange={handleEditChange}
 //                           required
-//                           className="w-full px-4 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#EE4275] focus:border-transparent transition-all bg-white hover:border-[#EE4275]/30"
+//                           className="w-full px-4 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
 //                           placeholder="Bangladesh"
 //                         />
 //                       </div>
 
 //                       <div>
-//                         <label className="block text-sm font-medium text-[#2D1B2E] mb-1">
-//                           City <span className="text-[#EE4275]">*</span>
+//                         <label className="block text-sm font-medium text-[#263b32] mb-1">
+//                           City <span className="text-[#8B9D83]">*</span>
 //                         </label>
 //                         <input
 //                           type="text"
@@ -647,15 +645,15 @@
 //                           value={editFormData.city}
 //                           onChange={handleEditChange}
 //                           required
-//                           className="w-full px-4 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#EE4275] focus:border-transparent transition-all bg-white hover:border-[#EE4275]/30"
+//                           className="w-full px-4 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
 //                           placeholder="Dhaka"
 //                         />
 //                       </div>
 //                     </div>
 
 //                     <div>
-//                       <label className="block text-sm font-medium text-[#2D1B2E] mb-1">
-//                         Street Address <span className="text-[#EE4275]">*</span>
+//                       <label className="block text-sm font-medium text-[#263b32] mb-1">
+//                         Street Address <span className="text-[#8B9D83]">*</span>
 //                       </label>
 //                       <input
 //                         type="text"
@@ -663,14 +661,14 @@
 //                         value={editFormData.address}
 //                         onChange={handleEditChange}
 //                         required
-//                         className="w-full px-4 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#EE4275] focus:border-transparent transition-all bg-white hover:border-[#EE4275]/30"
+//                         className="w-full px-4 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
 //                         placeholder="Your street address"
 //                       />
 //                     </div>
 
 //                     <div>
-//                       <label className="block text-sm font-medium text-[#2D1B2E] mb-1">
-//                         ZIP / Postal Code <span className="text-[#EE4275]">*</span>
+//                       <label className="block text-sm font-medium text-[#263b32] mb-1">
+//                         ZIP / Postal Code <span className="text-[#8B9D83]">*</span>
 //                       </label>
 //                       <input
 //                         type="text"
@@ -678,7 +676,7 @@
 //                         value={editFormData.zipCode}
 //                         onChange={handleEditChange}
 //                         required
-//                         className="w-full px-4 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#EE4275] focus:border-transparent transition-all bg-white hover:border-[#EE4275]/30"
+//                         className="w-full px-4 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
 //                         placeholder="1230"
 //                       />
 //                     </div>
@@ -687,14 +685,14 @@
 //                       <button
 //                         type="button"
 //                         onClick={() => setActiveTab('view')}
-//                         className="flex-1 px-6 py-2.5 border border-[#F7C7D3]/50 rounded-lg hover:bg-[#FFF5F6] transition-all font-medium text-[#2D1B2E]"
+//                         className="flex-1 px-6 py-2.5 border border-[#c5d5be]/50 rounded-lg hover:bg-[#f0f5ed] transition-all font-medium text-[#263b32]"
 //                       >
 //                         Cancel
 //                       </button>
 //                       <button
 //                         type="submit"
 //                         disabled={saving}
-//                         className="flex-1 px-6 py-2.5 bg-gradient-to-r from-[#EE4275] to-[#FF6B9D] text-white rounded-lg hover:shadow-lg hover:shadow-[#EE4275]/25 transition-all font-medium flex items-center justify-center gap-2 disabled:opacity-50 shadow-md"
+//                         className="flex-1 px-6 py-2.5 bg-gradient-to-r from-[#8B9D83] to-[#6b7d63] text-white rounded-lg hover:shadow-lg hover:shadow-[#8B9D83]/25 transition-all font-medium flex items-center justify-center gap-2 disabled:opacity-50 shadow-md"
 //                       >
 //                         {saving ? (
 //                           <>
@@ -716,33 +714,33 @@
 
 //             {/* Security Tab */}
 //             {activeTab === 'security' && (
-//               <div className="bg-white rounded-xl shadow-lg border border-[#F7C7D3]/40 overflow-hidden">
-//                 <div className="px-6 py-4 border-b border-[#F7C7D3]/40 bg-[#FFF5F6]">
-//                   <h2 className="text-lg font-semibold text-[#2D1B2E]">Security Settings</h2>
-//                   <p className="text-sm text-[#EE4275]/60 mt-0.5">Change your password to keep your account secure</p>
+//               <div className="bg-white rounded-xl shadow-lg border border-[#c5d5be]/40 overflow-hidden">
+//                 <div className="px-6 py-4 border-b border-[#c5d5be]/40 bg-[#f0f5ed]">
+//                   <h2 className="text-lg font-medium text-[#263b32]">Security Settings</h2>
+//                   <p className="text-sm text-[#53645a] mt-0.5">Change your password to keep your account secure</p>
 //                 </div>
 
 //                 <form onSubmit={handlePasswordChange} className="p-6">
 //                   <div className="space-y-5">
 //                     <div>
-//                       <label className="block text-sm font-medium text-[#2D1B2E] mb-1">
-//                         Current Password <span className="text-[#EE4275]">*</span>
+//                       <label className="block text-sm font-medium text-[#263b32] mb-1">
+//                         Current Password <span className="text-[#8B9D83]">*</span>
 //                       </label>
 //                       <div className="relative">
-//                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#EE4275]/40" />
+//                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8B9D83]/40" />
 //                         <input
 //                           type={showCurrentPassword ? "text" : "password"}
 //                           name="currentPassword"
 //                           value={passwordData.currentPassword}
 //                           onChange={handlePasswordInputChange}
 //                           required
-//                           className="w-full pl-10 pr-10 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#EE4275] focus:border-transparent transition-all bg-white hover:border-[#EE4275]/30"
+//                           className="w-full pl-10 pr-10 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
 //                           placeholder="Enter your current password"
 //                         />
 //                         <button
 //                           type="button"
 //                           onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-//                           className="absolute right-3 top-1/2 -translate-y-1/2 text-[#EE4275]/40 hover:text-[#EE4275]"
+//                           className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8B9D83]/40 hover:text-[#8B9D83]"
 //                         >
 //                           {showCurrentPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
 //                         </button>
@@ -750,24 +748,24 @@
 //                     </div>
 
 //                     <div>
-//                       <label className="block text-sm font-medium text-[#2D1B2E] mb-1">
-//                         New Password <span className="text-[#EE4275]">*</span>
+//                       <label className="block text-sm font-medium text-[#263b32] mb-1">
+//                         New Password <span className="text-[#8B9D83]">*</span>
 //                       </label>
 //                       <div className="relative">
-//                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#EE4275]/40" />
+//                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8B9D83]/40" />
 //                         <input
 //                           type={showNewPassword ? "text" : "password"}
 //                           name="newPassword"
 //                           value={passwordData.newPassword}
 //                           onChange={handlePasswordInputChange}
 //                           required
-//                           className="w-full pl-10 pr-10 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#EE4275] focus:border-transparent transition-all bg-white hover:border-[#EE4275]/30"
+//                           className="w-full pl-10 pr-10 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
 //                           placeholder="Enter new password (min. 8 characters)"
 //                         />
 //                         <button
 //                           type="button"
 //                           onClick={() => setShowNewPassword(!showNewPassword)}
-//                           className="absolute right-3 top-1/2 -translate-y-1/2 text-[#EE4275]/40 hover:text-[#EE4275]"
+//                           className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8B9D83]/40 hover:text-[#8B9D83]"
 //                         >
 //                           {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
 //                         </button>
@@ -781,13 +779,13 @@
 //                                 key={level}
 //                                 className={`h-1 flex-1 rounded-full ${
 //                                   level <= passwordStrength
-//                                     ? level <= 2 ? 'bg-[#EE4275]' : level <= 4 ? 'bg-[#EE4275]' : 'bg-green-500'
-//                                     : 'bg-[#F7C7D3]'
+//                                     ? level <= 2 ? 'bg-[#8B9D83]' : level <= 4 ? 'bg-[#8B9D83]' : 'bg-green-500'
+//                                     : 'bg-[#c5d5be]'
 //                                 }`}
 //                               />
 //                             ))}
 //                           </div>
-//                           <p className="text-xs text-[#EE4275]/60">
+//                           <p className="text-xs text-[#53645a]">
 //                             {passwordStrength <= 2 ? 'Weak' : passwordStrength <= 4 ? 'Medium' : 'Strong'} password
 //                           </p>
 //                         </div>
@@ -795,24 +793,24 @@
 //                     </div>
 
 //                     <div>
-//                       <label className="block text-sm font-medium text-[#2D1B2E] mb-1">
-//                         Confirm New Password <span className="text-[#EE4275]">*</span>
+//                       <label className="block text-sm font-medium text-[#263b32] mb-1">
+//                         Confirm New Password <span className="text-[#8B9D83]">*</span>
 //                       </label>
 //                       <div className="relative">
-//                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#EE4275]/40" />
+//                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8B9D83]/40" />
 //                         <input
 //                           type={showConfirmPassword ? "text" : "password"}
 //                           name="confirmPassword"
 //                           value={passwordData.confirmPassword}
 //                           onChange={handlePasswordInputChange}
 //                           required
-//                           className="w-full pl-10 pr-10 py-2.5 border border-[#F7C7D3]/50 rounded-lg focus:ring-2 focus:ring-[#EE4275] focus:border-transparent transition-all bg-white hover:border-[#EE4275]/30"
+//                           className="w-full pl-10 pr-10 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
 //                           placeholder="Confirm your new password"
 //                         />
 //                         <button
 //                           type="button"
 //                           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-//                           className="absolute right-3 top-1/2 -translate-y-1/2 text-[#EE4275]/40 hover:text-[#EE4275]"
+//                           className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8B9D83]/40 hover:text-[#8B9D83]"
 //                         >
 //                           {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
 //                         </button>
@@ -822,7 +820,7 @@
 //                         <p className={`text-xs mt-1 flex items-center gap-1 ${
 //                           passwordData.newPassword === passwordData.confirmPassword
 //                             ? 'text-green-600'
-//                             : 'text-[#EE4275]'
+//                             : 'text-[#8B9D83]'
 //                         }`}>
 //                           {passwordData.newPassword === passwordData.confirmPassword ? (
 //                             <>✓ Passwords match</>
@@ -837,14 +835,14 @@
 //                       <button
 //                         type="button"
 //                         onClick={() => setActiveTab('view')}
-//                         className="flex-1 px-6 py-2.5 border border-[#F7C7D3]/50 rounded-lg hover:bg-[#FFF5F6] transition-all font-medium text-[#2D1B2E]"
+//                         className="flex-1 px-6 py-2.5 border border-[#c5d5be]/50 rounded-lg hover:bg-[#f0f5ed] transition-all font-medium text-[#263b32]"
 //                       >
 //                         Cancel
 //                       </button>
 //                       <button
 //                         type="submit"
 //                         disabled={changingPassword}
-//                         className="flex-1 px-6 py-2.5 bg-gradient-to-r from-[#EE4275] to-[#FF6B9D] text-white rounded-lg hover:shadow-lg hover:shadow-[#EE4275]/25 transition-all font-medium flex items-center justify-center gap-2 disabled:opacity-50 shadow-md"
+//                         className="flex-1 px-6 py-2.5 bg-gradient-to-r from-[#8B9D83] to-[#6b7d63] text-white rounded-lg hover:shadow-lg hover:shadow-[#8B9D83]/25 transition-all font-medium flex items-center justify-center gap-2 disabled:opacity-50 shadow-md"
 //                       >
 //                         {changingPassword ? (
 //                           <>
@@ -869,6 +867,9 @@
 //     </div>
 //   );
 // }
+
+
+
 
 
 'use client';
@@ -1179,32 +1180,32 @@ export default function AgentSettings() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#f8f7f2] flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-[#8B9D83] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-[#53645a] font-medium">Loading your profile...</p>
+          <div className="w-16 h-16 border-4 border-black border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-500 font-medium">Loading your profile...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#f8f7f2] py-8">
+    <div className="min-h-screen bg-white py-8">
       <div className="container mx-auto px-4 max-w-6xl">
-        {/* Header - Green Theme */}
+        {/* Header - Black & White Theme */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-1">
-            <div className="p-2 bg-gradient-to-r from-[#8B9D83] to-[#6b7d63] rounded-xl shadow-md shadow-[#8B9D83]/25">
+            <div className="p-2 bg-black rounded-xl shadow-md shadow-black/25">
               <Headphones className="w-6 h-6 text-white" />
             </div>
-            <h1 className="text-3xl font-light text-[#263b32]">Agent Profile</h1>
-            <Sparkles className="w-5 h-5 text-[#8B9D83] ml-1" />
+            <h1 className="text-3xl font-light text-black">Agent Profile</h1>
+            <Sparkles className="w-5 h-5 text-black ml-1" />
           </div>
-          <p className="text-[#53645a] text-sm ml-14">Manage your call center agent account information</p>
+          <p className="text-gray-500 text-sm ml-14">Manage your call center agent account information</p>
         </div>
 
-        {/* Tabs - Green Theme */}
-        <div className="mb-6 border-b border-[#c5d5be]/40 bg-white rounded-t-xl px-4 shadow-sm">
+        {/* Tabs - Black & White Theme */}
+        <div className="mb-6 border-b border-gray-200 bg-white rounded-t-xl px-4 shadow-sm">
           <div className="flex gap-1 overflow-x-auto">
             {[
               { id: 'view', label: 'Profile Info', icon: Info },
@@ -1216,18 +1217,18 @@ export default function AgentSettings() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`px-6 py-3 text-sm font-medium transition-all relative whitespace-nowrap ${
                   activeTab === tab.id
-                    ? 'text-[#8B9D83]'
-                    : 'text-[#263b32]/60 hover:text-[#8B9D83]'
+                    ? 'text-black'
+                    : 'text-gray-500 hover:text-black'
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  <tab.icon className={`w-4 h-4 ${activeTab === tab.id ? 'text-[#8B9D83]' : 'text-[#8B9D83]/40'}`} />
+                  <tab.icon className={`w-4 h-4 ${activeTab === tab.id ? 'text-black' : 'text-gray-400'}`} />
                   {tab.label}
                 </div>
                 {activeTab === tab.id && (
                   <motion.div
                     layoutId="activeTab"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#8B9D83]"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-black"
                     initial={false}
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   />
@@ -1248,27 +1249,27 @@ export default function AgentSettings() {
           >
             {/* Profile Info Tab */}
             {activeTab === 'view' && (
-              <div className="bg-white rounded-xl shadow-lg border border-[#c5d5be]/40 overflow-hidden">
-                <div className="px-6 py-4 border-b border-[#c5d5be]/40 bg-[#f0f5ed]">
-                  <h2 className="text-lg font-medium text-[#263b32]">Profile Information</h2>
-                  <p className="text-sm text-[#53645a] mt-0.5">Your personal details and account information</p>
+              <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                  <h2 className="text-lg font-medium text-black">Profile Information</h2>
+                  <p className="text-sm text-gray-500 mt-0.5">Your personal details and account information</p>
                 </div>
 
                 <div className="p-6">
                   {/* Profile Header */}
-                  <div className="flex items-center gap-4 mb-6 pb-6 border-b border-[#c5d5be]/40">
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-r from-[#8B9D83] to-[#6b7d63] flex items-center justify-center text-white text-2xl font-medium shadow-lg shadow-[#8B9D83]/25">
+                  <div className="flex items-center gap-4 mb-6 pb-6 border-b border-gray-200">
+                    <div className="w-20 h-20 rounded-full bg-black flex items-center justify-center text-white text-2xl font-medium shadow-lg shadow-black/25">
                       {userData.contactPerson?.charAt(0) || '?'}
                     </div>
                     <div>
-                      <h3 className="text-xl font-medium text-[#263b32]">{userData.contactPerson}</h3>
+                      <h3 className="text-xl font-medium text-black">{userData.contactPerson}</h3>
                       <div className="flex flex-wrap items-center gap-2 mt-1">
-                        <span className="px-3 py-1 bg-[#f0f5ed] text-[#8B9D83] rounded-full text-xs font-medium border border-[#8B9D83]/30">
+                        <span className="px-3 py-1 bg-gray-100 text-black rounded-full text-xs font-medium border border-gray-300">
                           Call Center Agent
                         </span>
-                        <Headphones className="w-4 h-4 text-[#8B9D83]" />
+                        <Headphones className="w-4 h-4 text-black" />
                         {userData.companyName && (
-                          <span className="px-3 py-1 bg-[#c5d5be]/20 text-[#263b32] rounded-full text-xs font-medium border border-[#263b32]/20">
+                          <span className="px-3 py-1 bg-gray-100 text-black rounded-full text-xs font-medium border border-gray-300">
                             <Building2 className="w-3 h-3 inline mr-1" />
                             {userData.companyName}
                           </span>
@@ -1280,42 +1281,42 @@ export default function AgentSettings() {
                   {/* Information Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-4">
-                      <h4 className="text-sm font-medium text-[#8B9D83] flex items-center gap-2">
+                      <h4 className="text-sm font-medium text-black flex items-center gap-2">
                         <User className="w-4 h-4" />
                         Personal Information
                       </h4>
 
                       <div className="space-y-3">
-                        <div className="flex items-start gap-3 p-3 bg-[#f0f5ed] rounded-lg border border-[#c5d5be]/40">
-                          <User className="w-4 h-4 text-[#8B9D83] mt-0.5" />
+                        <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                          <User className="w-4 h-4 text-black mt-0.5" />
                           <div>
-                            <p className="text-xs text-[#53645a]">Full Name</p>
-                            <p className="text-sm font-medium text-[#263b32]">{userData.contactPerson}</p>
+                            <p className="text-xs text-gray-500">Full Name</p>
+                            <p className="text-sm font-medium text-black">{userData.contactPerson}</p>
                           </div>
                         </div>
 
-                        <div className="flex items-start gap-3 p-3 bg-[#f0f5ed] rounded-lg border border-[#c5d5be]/40">
-                          <Mail className="w-4 h-4 text-[#8B9D83] mt-0.5" />
+                        <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                          <Mail className="w-4 h-4 text-black mt-0.5" />
                           <div>
-                            <p className="text-xs text-[#53645a]">Email Address</p>
-                            <p className="text-sm font-medium text-[#263b32]">{userData.email}</p>
+                            <p className="text-xs text-gray-500">Email Address</p>
+                            <p className="text-sm font-medium text-black">{userData.email}</p>
                           </div>
                         </div>
 
-                        <div className="flex items-start gap-3 p-3 bg-[#f0f5ed] rounded-lg border border-[#c5d5be]/40">
-                          <Phone className="w-4 h-4 text-[#8B9D83] mt-0.5" />
+                        <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                          <Phone className="w-4 h-4 text-black mt-0.5" />
                           <div>
-                            <p className="text-xs text-[#53645a]">Phone Number</p>
-                            <p className="text-sm font-medium text-[#263b32]">{userData.phone || 'Not provided'}</p>
+                            <p className="text-xs text-gray-500">Phone Number</p>
+                            <p className="text-sm font-medium text-black">{userData.phone || 'Not provided'}</p>
                           </div>
                         </div>
 
                         {userData.companyName && (
-                          <div className="flex items-start gap-3 p-3 bg-[#f0f5ed] rounded-lg border border-[#c5d5be]/40">
-                            <Building2 className="w-4 h-4 text-[#8B9D83] mt-0.5" />
+                          <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                            <Building2 className="w-4 h-4 text-black mt-0.5" />
                             <div>
-                              <p className="text-xs text-[#53645a]">Company</p>
-                              <p className="text-sm font-medium text-[#263b32]">{userData.companyName}</p>
+                              <p className="text-xs text-gray-500">Company</p>
+                              <p className="text-sm font-medium text-black">{userData.companyName}</p>
                             </div>
                           </div>
                         )}
@@ -1323,52 +1324,52 @@ export default function AgentSettings() {
                     </div>
 
                     <div className="space-y-4">
-                      <h4 className="text-sm font-medium text-[#8B9D83] flex items-center gap-2">
+                      <h4 className="text-sm font-medium text-black flex items-center gap-2">
                         <MapPin className="w-4 h-4" />
                         Address Information
                       </h4>
 
                       <div className="space-y-3">
-                        <div className="flex items-start gap-3 p-3 bg-[#f0f5ed] rounded-lg border border-[#c5d5be]/40">
-                          <MapPin className="w-4 h-4 text-[#8B9D83] mt-0.5" />
+                        <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                          <MapPin className="w-4 h-4 text-black mt-0.5" />
                           <div>
-                            <p className="text-xs text-[#53645a]">Street Address</p>
-                            <p className="text-sm font-medium text-[#263b32]">{userData.address || 'Not provided'}</p>
+                            <p className="text-xs text-gray-500">Street Address</p>
+                            <p className="text-sm font-medium text-black">{userData.address || 'Not provided'}</p>
                           </div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-2">
-                          <div className="flex items-start gap-3 p-3 bg-[#f0f5ed] rounded-lg border border-[#c5d5be]/40">
-                            <MapPin className="w-4 h-4 text-[#8B9D83] mt-0.5" />
+                          <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                            <MapPin className="w-4 h-4 text-black mt-0.5" />
                             <div>
-                              <p className="text-xs text-[#53645a]">City</p>
-                              <p className="text-sm font-medium text-[#263b32]">{userData.city || 'Not provided'}</p>
+                              <p className="text-xs text-gray-500">City</p>
+                              <p className="text-sm font-medium text-black">{userData.city || 'Not provided'}</p>
                             </div>
                           </div>
-                          <div className="flex items-start gap-3 p-3 bg-[#f0f5ed] rounded-lg border border-[#c5d5be]/40">
-                            <MapPin className="w-4 h-4 text-[#8B9D83] mt-0.5" />
+                          <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                            <MapPin className="w-4 h-4 text-black mt-0.5" />
                             <div>
-                              <p className="text-xs text-[#53645a]">Country</p>
-                              <p className="text-sm font-medium text-[#263b32]">{userData.country || 'Not provided'}</p>
+                              <p className="text-xs text-gray-500">Country</p>
+                              <p className="text-sm font-medium text-black">{userData.country || 'Not provided'}</p>
                             </div>
                           </div>
                         </div>
                       </div>
 
                       {/* Account Stats */}
-                      <div className="mt-4 pt-4 border-t border-[#c5d5be]/40">
-                        <h4 className="text-sm font-medium text-[#8B9D83] flex items-center gap-2 mb-3">
+                      <div className="mt-4 pt-4 border-t border-gray-200">
+                        <h4 className="text-sm font-medium text-black flex items-center gap-2 mb-3">
                           <Clock className="w-4 h-4" />
                           Account Activity
                         </h4>
                         <div className="grid grid-cols-2 gap-2">
-                          <div className="p-2 bg-[#f0f5ed] rounded-lg border border-[#c5d5be]/40 text-center">
-                            <p className="text-xs text-[#53645a]">Login Count</p>
-                            <p className="text-sm font-medium text-[#263b32]">{userData.loginCount}</p>
+                          <div className="p-2 bg-gray-50 rounded-lg border border-gray-200 text-center">
+                            <p className="text-xs text-gray-500">Login Count</p>
+                            <p className="text-sm font-medium text-black">{userData.loginCount}</p>
                           </div>
-                          <div className="p-2 bg-[#f0f5ed] rounded-lg border border-[#c5d5be]/40 text-center">
-                            <p className="text-xs text-[#53645a]">Last Login</p>
-                            <p className="text-sm font-medium text-[#263b32]">{formatDate(userData.lastLogin)}</p>
+                          <div className="p-2 bg-gray-50 rounded-lg border border-gray-200 text-center">
+                            <p className="text-xs text-gray-500">Last Login</p>
+                            <p className="text-sm font-medium text-black">{formatDate(userData.lastLogin)}</p>
                           </div>
                         </div>
                       </div>
@@ -1376,19 +1377,19 @@ export default function AgentSettings() {
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="mt-6 pt-6 border-t border-[#c5d5be]/40 flex flex-wrap gap-3">
+                  <div className="mt-6 pt-6 border-t border-gray-200 flex flex-wrap gap-3">
                     <button
                       onClick={() => setActiveTab('edit')}
-                      className="px-6 py-2.5 bg-gradient-to-r from-[#8B9D83] to-[#6b7d63] text-white rounded-lg hover:shadow-lg hover:shadow-[#8B9D83]/25 transition-all text-sm font-medium flex items-center gap-2 shadow-md"
+                      className="px-6 py-2.5 bg-black text-white rounded-lg hover:bg-gray-800 transition-all text-sm font-medium flex items-center gap-2 shadow-md"
                     >
                       <Edit className="w-4 h-4" />
                       Edit Profile
                     </button>
                     <button
                       onClick={() => setActiveTab('security')}
-                      className="px-6 py-2.5 border border-[#c5d5be]/50 text-[#263b32] rounded-lg hover:bg-[#f0f5ed] hover:border-[#8B9D83]/30 transition-all text-sm font-medium flex items-center gap-2"
+                      className="px-6 py-2.5 border border-gray-300 text-black rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all text-sm font-medium flex items-center gap-2"
                     >
-                      <Key className="w-4 h-4 text-[#8B9D83]" />
+                      <Key className="w-4 h-4 text-black" />
                       Change Password
                     </button>
                   </div>
@@ -1398,17 +1399,17 @@ export default function AgentSettings() {
 
             {/* Edit Profile Tab */}
             {activeTab === 'edit' && (
-              <div className="bg-white rounded-xl shadow-lg border border-[#c5d5be]/40 overflow-hidden">
-                <div className="px-6 py-4 border-b border-[#c5d5be]/40 bg-[#f0f5ed]">
-                  <h2 className="text-lg font-medium text-[#263b32]">Edit Profile</h2>
-                  <p className="text-sm text-[#53645a] mt-0.5">Update your personal information</p>
+              <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                  <h2 className="text-lg font-medium text-black">Edit Profile</h2>
+                  <p className="text-sm text-gray-500 mt-0.5">Update your personal information</p>
                 </div>
 
                 <form onSubmit={handleProfileUpdate} className="p-6">
                   <div className="space-y-5">
                     <div>
-                      <label className="block text-sm font-medium text-[#263b32] mb-1">
-                        Full Name <span className="text-[#8B9D83]">*</span>
+                      <label className="block text-sm font-medium text-black mb-1">
+                        Full Name <span className="text-black">*</span>
                       </label>
                       <input
                         type="text"
@@ -1416,75 +1417,75 @@ export default function AgentSettings() {
                         value={editFormData.contactPerson}
                         onChange={handleEditChange}
                         required
-                        className="w-full px-4 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-white hover:border-gray-400 text-black placeholder-gray-400"
                         placeholder="Your full name"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-[#263b32] mb-1">
+                      <label className="block text-sm font-medium text-black mb-1">
                         Company Name
                       </label>
                       <div className="relative">
-                        <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8B9D83]/40" />
+                        <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                         <input
                           type="text"
                           name="companyName"
                           value={editFormData.companyName}
                           onChange={handleEditChange}
-                          className="w-full pl-10 pr-4 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
+                          className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-white hover:border-gray-400 text-black placeholder-gray-400"
                           placeholder="Your company name"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-[#263b32] mb-1">
+                      <label className="block text-sm font-medium text-black mb-1">
                         Email Address
                       </label>
                       <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8B9D83]/40" />
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                         <input
                           type="email"
                           value={userData.email}
                           disabled
-                          className="w-full pl-10 pr-4 py-2.5 border border-[#c5d5be]/50 rounded-lg bg-[#f0f5ed] text-[#53645a] cursor-not-allowed"
+                          className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg bg-gray-100 text-gray-500 cursor-not-allowed"
                         />
                       </div>
-                      <p className="text-xs text-[#53645a]/60 mt-1">Email cannot be changed</p>
+                      <p className="text-xs text-gray-400 mt-1">Email cannot be changed</p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-[#263b32] mb-1">
-                          Phone Number <span className="text-[#8B9D83]">*</span>
+                        <label className="block text-sm font-medium text-black mb-1">
+                          Phone Number <span className="text-black">*</span>
                         </label>
                         <div className="relative">
-                          <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8B9D83]/40" />
+                          <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                           <input
                             type="tel"
                             name="phone"
                             value={editFormData.phone}
                             onChange={handleEditChange}
                             required
-                            className="w-full pl-10 pr-4 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
+                            className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-white hover:border-gray-400 text-black placeholder-gray-400"
                             placeholder="+880 1234 567890"
                           />
                         </div>
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-[#263b32] mb-1">
+                        <label className="block text-sm font-medium text-black mb-1">
                           WhatsApp Number
                         </label>
                         <div className="relative">
-                          <Smartphone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8B9D83]/40" />
+                          <Smartphone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                           <input
                             type="tel"
                             name="whatsapp"
                             value={editFormData.whatsapp}
                             onChange={handleEditChange}
-                            className="w-full pl-10 pr-4 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
+                            className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-white hover:border-gray-400 text-black placeholder-gray-400"
                             placeholder="+880 1234 567890"
                           />
                         </div>
@@ -1493,8 +1494,8 @@ export default function AgentSettings() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-[#263b32] mb-1">
-                          Country <span className="text-[#8B9D83]">*</span>
+                        <label className="block text-sm font-medium text-black mb-1">
+                          Country <span className="text-black">*</span>
                         </label>
                         <input
                           type="text"
@@ -1502,14 +1503,14 @@ export default function AgentSettings() {
                           value={editFormData.country}
                           onChange={handleEditChange}
                           required
-                          className="w-full px-4 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
+                          className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-white hover:border-gray-400 text-black placeholder-gray-400"
                           placeholder="Bangladesh"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-[#263b32] mb-1">
-                          City <span className="text-[#8B9D83]">*</span>
+                        <label className="block text-sm font-medium text-black mb-1">
+                          City <span className="text-black">*</span>
                         </label>
                         <input
                           type="text"
@@ -1517,15 +1518,15 @@ export default function AgentSettings() {
                           value={editFormData.city}
                           onChange={handleEditChange}
                           required
-                          className="w-full px-4 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
+                          className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-white hover:border-gray-400 text-black placeholder-gray-400"
                           placeholder="Dhaka"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-[#263b32] mb-1">
-                        Street Address <span className="text-[#8B9D83]">*</span>
+                      <label className="block text-sm font-medium text-black mb-1">
+                        Street Address <span className="text-black">*</span>
                       </label>
                       <input
                         type="text"
@@ -1533,14 +1534,14 @@ export default function AgentSettings() {
                         value={editFormData.address}
                         onChange={handleEditChange}
                         required
-                        className="w-full px-4 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-white hover:border-gray-400 text-black placeholder-gray-400"
                         placeholder="Your street address"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-[#263b32] mb-1">
-                        ZIP / Postal Code <span className="text-[#8B9D83]">*</span>
+                      <label className="block text-sm font-medium text-black mb-1">
+                        ZIP / Postal Code <span className="text-black">*</span>
                       </label>
                       <input
                         type="text"
@@ -1548,7 +1549,7 @@ export default function AgentSettings() {
                         value={editFormData.zipCode}
                         onChange={handleEditChange}
                         required
-                        className="w-full px-4 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-white hover:border-gray-400 text-black placeholder-gray-400"
                         placeholder="1230"
                       />
                     </div>
@@ -1557,14 +1558,14 @@ export default function AgentSettings() {
                       <button
                         type="button"
                         onClick={() => setActiveTab('view')}
-                        className="flex-1 px-6 py-2.5 border border-[#c5d5be]/50 rounded-lg hover:bg-[#f0f5ed] transition-all font-medium text-[#263b32]"
+                        className="flex-1 px-6 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all font-medium text-black"
                       >
                         Cancel
                       </button>
                       <button
                         type="submit"
                         disabled={saving}
-                        className="flex-1 px-6 py-2.5 bg-gradient-to-r from-[#8B9D83] to-[#6b7d63] text-white rounded-lg hover:shadow-lg hover:shadow-[#8B9D83]/25 transition-all font-medium flex items-center justify-center gap-2 disabled:opacity-50 shadow-md"
+                        className="flex-1 px-6 py-2.5 bg-black text-white rounded-lg hover:bg-gray-800 transition-all font-medium flex items-center justify-center gap-2 disabled:opacity-50 shadow-md"
                       >
                         {saving ? (
                           <>
@@ -1586,33 +1587,33 @@ export default function AgentSettings() {
 
             {/* Security Tab */}
             {activeTab === 'security' && (
-              <div className="bg-white rounded-xl shadow-lg border border-[#c5d5be]/40 overflow-hidden">
-                <div className="px-6 py-4 border-b border-[#c5d5be]/40 bg-[#f0f5ed]">
-                  <h2 className="text-lg font-medium text-[#263b32]">Security Settings</h2>
-                  <p className="text-sm text-[#53645a] mt-0.5">Change your password to keep your account secure</p>
+              <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                  <h2 className="text-lg font-medium text-black">Security Settings</h2>
+                  <p className="text-sm text-gray-500 mt-0.5">Change your password to keep your account secure</p>
                 </div>
 
                 <form onSubmit={handlePasswordChange} className="p-6">
                   <div className="space-y-5">
                     <div>
-                      <label className="block text-sm font-medium text-[#263b32] mb-1">
-                        Current Password <span className="text-[#8B9D83]">*</span>
+                      <label className="block text-sm font-medium text-black mb-1">
+                        Current Password <span className="text-black">*</span>
                       </label>
                       <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8B9D83]/40" />
+                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                         <input
                           type={showCurrentPassword ? "text" : "password"}
                           name="currentPassword"
                           value={passwordData.currentPassword}
                           onChange={handlePasswordInputChange}
                           required
-                          className="w-full pl-10 pr-10 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
+                          className="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-white hover:border-gray-400 text-black placeholder-gray-400"
                           placeholder="Enter your current password"
                         />
                         <button
                           type="button"
                           onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8B9D83]/40 hover:text-[#8B9D83]"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black"
                         >
                           {showCurrentPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                         </button>
@@ -1620,24 +1621,24 @@ export default function AgentSettings() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-[#263b32] mb-1">
-                        New Password <span className="text-[#8B9D83]">*</span>
+                      <label className="block text-sm font-medium text-black mb-1">
+                        New Password <span className="text-black">*</span>
                       </label>
                       <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8B9D83]/40" />
+                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                         <input
                           type={showNewPassword ? "text" : "password"}
                           name="newPassword"
                           value={passwordData.newPassword}
                           onChange={handlePasswordInputChange}
                           required
-                          className="w-full pl-10 pr-10 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
+                          className="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-white hover:border-gray-400 text-black placeholder-gray-400"
                           placeholder="Enter new password (min. 8 characters)"
                         />
                         <button
                           type="button"
                           onClick={() => setShowNewPassword(!showNewPassword)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8B9D83]/40 hover:text-[#8B9D83]"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black"
                         >
                           {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                         </button>
@@ -1651,13 +1652,13 @@ export default function AgentSettings() {
                                 key={level}
                                 className={`h-1 flex-1 rounded-full ${
                                   level <= passwordStrength
-                                    ? level <= 2 ? 'bg-[#8B9D83]' : level <= 4 ? 'bg-[#8B9D83]' : 'bg-green-500'
-                                    : 'bg-[#c5d5be]'
+                                    ? level <= 2 ? 'bg-gray-400' : level <= 4 ? 'bg-gray-600' : 'bg-green-500'
+                                    : 'bg-gray-200'
                                 }`}
                               />
                             ))}
                           </div>
-                          <p className="text-xs text-[#53645a]">
+                          <p className="text-xs text-gray-500">
                             {passwordStrength <= 2 ? 'Weak' : passwordStrength <= 4 ? 'Medium' : 'Strong'} password
                           </p>
                         </div>
@@ -1665,24 +1666,24 @@ export default function AgentSettings() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-[#263b32] mb-1">
-                        Confirm New Password <span className="text-[#8B9D83]">*</span>
+                      <label className="block text-sm font-medium text-black mb-1">
+                        Confirm New Password <span className="text-black">*</span>
                       </label>
                       <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8B9D83]/40" />
+                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                         <input
                           type={showConfirmPassword ? "text" : "password"}
                           name="confirmPassword"
                           value={passwordData.confirmPassword}
                           onChange={handlePasswordInputChange}
                           required
-                          className="w-full pl-10 pr-10 py-2.5 border border-[#c5d5be]/50 rounded-lg focus:ring-2 focus:ring-[#8B9D83] focus:border-transparent transition-all bg-white hover:border-[#8B9D83]/30 text-[#263b32]"
+                          className="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-white hover:border-gray-400 text-black placeholder-gray-400"
                           placeholder="Confirm your new password"
                         />
                         <button
                           type="button"
                           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8B9D83]/40 hover:text-[#8B9D83]"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black"
                         >
                           {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                         </button>
@@ -1692,7 +1693,7 @@ export default function AgentSettings() {
                         <p className={`text-xs mt-1 flex items-center gap-1 ${
                           passwordData.newPassword === passwordData.confirmPassword
                             ? 'text-green-600'
-                            : 'text-[#8B9D83]'
+                            : 'text-gray-500'
                         }`}>
                           {passwordData.newPassword === passwordData.confirmPassword ? (
                             <>✓ Passwords match</>
@@ -1707,14 +1708,14 @@ export default function AgentSettings() {
                       <button
                         type="button"
                         onClick={() => setActiveTab('view')}
-                        className="flex-1 px-6 py-2.5 border border-[#c5d5be]/50 rounded-lg hover:bg-[#f0f5ed] transition-all font-medium text-[#263b32]"
+                        className="flex-1 px-6 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all font-medium text-black"
                       >
                         Cancel
                       </button>
                       <button
                         type="submit"
                         disabled={changingPassword}
-                        className="flex-1 px-6 py-2.5 bg-gradient-to-r from-[#8B9D83] to-[#6b7d63] text-white rounded-lg hover:shadow-lg hover:shadow-[#8B9D83]/25 transition-all font-medium flex items-center justify-center gap-2 disabled:opacity-50 shadow-md"
+                        className="flex-1 px-6 py-2.5 bg-black text-white rounded-lg hover:bg-gray-800 transition-all font-medium flex items-center justify-center gap-2 disabled:opacity-50 shadow-md"
                       >
                         {changingPassword ? (
                           <>

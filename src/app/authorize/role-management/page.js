@@ -1057,7 +1057,19 @@ import {
   ChartLine,
   ChevronUp,
   Zap,
-  Award
+  Award,
+  QrCode,
+  ScanBarcode,
+  Video,
+ 
+  RotateCcw,
+  TriangleAlert,
+  PackagePlus,
+  CopyCheck,
+  BadgeDollarSign,
+  BookOpen,
+  TicketPercent,
+  Boxes,
 } from 'lucide-react';
 import ProtectedRoute from '@/app/components/ProtectedRoute';
 
@@ -1065,19 +1077,84 @@ import ProtectedRoute from '@/app/components/ProtectedRoute';
 // COMPLETE PAGE PERMISSIONS LIST
 // ============================================
 
+// const PAGE_PERMISSIONS = {
+//   // Dashboard
+//   dashboard: { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, category: 'Dashboard' },
+//   profitMargin: { key: 'profit_margin', label: 'Profit Margin', icon: ChartLine, category: 'Dashboard' },
+  
+//   // Orders Group
+//   createOrder: { key: 'create_order', label: 'Create Order', icon: ShoppingBag, category: 'Orders' },
+//   allOrders: { key: 'all_orders', label: 'All Orders', icon: MessageSquare, category: 'Orders' },
+//   incompleteOrders: { key: 'incomplete_orders', label: 'Incomplete Orders', icon: CircleAlert, category: 'Orders' },
+//   orderRestrictions: { key: 'order_restrictions', label: 'Order Restrictions', icon: Ban, category: 'Orders' },
+//   courierSettings: { key: 'courier_settings', label: 'Courier Settings', icon: Bike, category: 'Orders' },
+//   courierScore: { key: 'courier_score', label: 'Courier Score', icon: Bike, category: 'Orders' },
+  
+//   // Products Group
+//   allProducts: { key: 'all_products', label: 'All Products', icon: ShoppingBag, category: 'Products' },
+//   createProducts: { key: 'create_products', label: 'Create Products', icon: Gift, category: 'Products' },
+//   productCost: { key: 'product_cost', label: 'Cost Settings', icon: Gift, category: 'Products' },
+//   createCategory: { key: 'create_category', label: 'Create Category', icon: FolderPlus, category: 'Products' },
+//   manageBrands: { key: 'manage_brands', label: 'Manage Brands', icon: Tag, category: 'Products' },
+//   manageTags: { key: 'manage_tags', label: 'Manage Tags', icon: Layers, category: 'Products' },
+  
+//   // Website Layout Group
+//   manageNavbar: { key: 'manage_navbar', label: 'Manage Navbar', icon: Menu, category: 'Website Layout' },
+//   createBanner: { key: 'create_banner', label: 'Create Banner', icon: PanelTop, category: 'Website Layout' },
+//   // manageBanner: { key: 'manage_banner', label: 'Manage Banner', icon: LayoutTemplate, category: 'Website Layout' },
+//   manageHomepage: { key: 'manage_homepage', label: 'Manage Homepage', icon: Store, category: 'Website Layout' },
+//   manageFooter: { key: 'manage_footer', label: 'Manage Footer', icon: Globe, category: 'Website Layout' },
+//    manageWhyChooseUs: { key: 'manage_why_choose_us', label: 'Manage Why Choose Us', icon: Shield, category: 'Website Layout' },
+//   termsManagement: { key: 'terms_management', label: 'Terms Management', icon: FileText, category: 'Website Layout' },
+//     trustResultsManagement: { 
+//     key: 'trust_results_management', 
+//     label: 'Trust Results', 
+//     icon: Award,  // or ShieldCheck, add to imports
+//     category: 'Website Layout' 
+//   },
+//   dealManagement: { 
+//     key: 'deal_management', 
+//     label: 'Deal Management', 
+//     icon: Gift,  // add GiftIcon or Gift to imports
+//     category: 'Website Layout' 
+//   },
+//   privacyManagement: { key: 'privacy_management', label: 'Privacy Management', icon: Shield, category: 'Website Layout' },
+//   contactManagement: { key: 'contact_management', label: 'Contact Management', icon: Phone, category: 'Website Layout' },
+//   aboutManagement: { key: 'about_management', label: 'About Management', icon: Building2, category: 'Website Layout' },
+  
+//   // Pixel Group
+//   pixelSettings: { key: 'pixel_settings', label: 'Pixel Settings', icon: Database, category: 'Pixel' },
+//   customCode: { key: 'custom_code', label: 'Custom Code', icon: Code2, category: 'Pixel' },
+  
+//   // Reviews
+//   manageReviews: { key: 'manage_reviews', label: 'Manage Reviews', icon: Star, category: 'Reviews' },
+  
+//   // User Management Group
+//   createUsers: { key: 'create_users', label: 'Create Users', icon: UserPlus, category: 'User Management' },
+//   manageUsers: { key: 'manage_users', label: 'Manage Users', icon: UserCog, category: 'User Management' },
+//   manageCustomers: { key: 'manage_customers', label: 'Create & Manage Customers', icon: UsersRound, category: 'User Management' },
+//   roleManagement: { key: 'role_management', label: 'Role Management', icon: ShieldCheck, category: 'User Management' },
+  
+//   // Settings
+//   deliverySettings: { key: 'delivery_settings', label: 'Delivery Settings', icon: Truck, category: 'Settings' },
+//   mediaLibrary: { key: 'media_library', label: 'Media Library', icon: Images, category: 'Settings' },
+//   emailSettings: { key: 'email_settings', label: 'Email Settings', icon: Mail, category: 'Settings' },
+//   settings: { key: 'settings', label: 'Settings', icon: Settings, category: 'Settings' }
+// };
+
 const PAGE_PERMISSIONS = {
   // Dashboard
   dashboard: { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, category: 'Dashboard' },
   profitMargin: { key: 'profit_margin', label: 'Profit Margin', icon: ChartLine, category: 'Dashboard' },
-  
-  // Orders Group
+
+  // Orders Group (unchanged)
   createOrder: { key: 'create_order', label: 'Create Order', icon: ShoppingBag, category: 'Orders' },
   allOrders: { key: 'all_orders', label: 'All Orders', icon: MessageSquare, category: 'Orders' },
   incompleteOrders: { key: 'incomplete_orders', label: 'Incomplete Orders', icon: CircleAlert, category: 'Orders' },
   orderRestrictions: { key: 'order_restrictions', label: 'Order Restrictions', icon: Ban, category: 'Orders' },
   courierSettings: { key: 'courier_settings', label: 'Courier Settings', icon: Bike, category: 'Orders' },
   courierScore: { key: 'courier_score', label: 'Courier Score', icon: Bike, category: 'Orders' },
-  
+
   // Products Group
   allProducts: { key: 'all_products', label: 'All Products', icon: ShoppingBag, category: 'Products' },
   createProducts: { key: 'create_products', label: 'Create Products', icon: Gift, category: 'Products' },
@@ -1085,44 +1162,51 @@ const PAGE_PERMISSIONS = {
   createCategory: { key: 'create_category', label: 'Create Category', icon: FolderPlus, category: 'Products' },
   manageBrands: { key: 'manage_brands', label: 'Manage Brands', icon: Tag, category: 'Products' },
   manageTags: { key: 'manage_tags', label: 'Manage Tags', icon: Layers, category: 'Products' },
-  
-  // Website Layout Group
+  // ⭐ NEW — Barcodes under Products
+  allBarcodes: { key: 'all_barcodes', label: 'All Barcodes', icon: QrCode, category: 'Products' },
+  barcodeScanner: { key: 'barcode_scanner', label: 'Barcode Scanner', icon: ScanBarcode, category: 'Products' },
+
+  // Website Layout Group (existing)
   manageNavbar: { key: 'manage_navbar', label: 'Manage Navbar', icon: Menu, category: 'Website Layout' },
   createBanner: { key: 'create_banner', label: 'Create Banner', icon: PanelTop, category: 'Website Layout' },
-  // manageBanner: { key: 'manage_banner', label: 'Manage Banner', icon: LayoutTemplate, category: 'Website Layout' },
   manageHomepage: { key: 'manage_homepage', label: 'Manage Homepage', icon: Store, category: 'Website Layout' },
   manageFooter: { key: 'manage_footer', label: 'Manage Footer', icon: Globe, category: 'Website Layout' },
-   manageWhyChooseUs: { key: 'manage_why_choose_us', label: 'Manage Why Choose Us', icon: Shield, category: 'Website Layout' },
+  // manageWhyChooseUs: { key: 'manage_why_choose_us', label: 'Manage Why Choose Us', icon: Shield, category: 'Website Layout' },
   termsManagement: { key: 'terms_management', label: 'Terms Management', icon: FileText, category: 'Website Layout' },
-    trustResultsManagement: { 
-    key: 'trust_results_management', 
-    label: 'Trust Results', 
-    icon: Award,  // or ShieldCheck, add to imports
-    category: 'Website Layout' 
-  },
-  dealManagement: { 
-    key: 'deal_management', 
-    label: 'Deal Management', 
-    icon: Gift,  // add GiftIcon or Gift to imports
-    category: 'Website Layout' 
-  },
   privacyManagement: { key: 'privacy_management', label: 'Privacy Management', icon: Shield, category: 'Website Layout' },
   contactManagement: { key: 'contact_management', label: 'Contact Management', icon: Phone, category: 'Website Layout' },
   aboutManagement: { key: 'about_management', label: 'About Management', icon: Building2, category: 'Website Layout' },
-  
+  dealManagement: { key: 'deal_management', label: 'Deal Management', icon: Gift, category: 'Website Layout' },
+  // trustResultsManagement: { key: 'trust_results_management', label: 'Trust Results', icon: Award, category: 'Website Layout' },
+  // ⭐ NEW — Website additions
+  videoManagement: { key: 'video_management', label: 'Video Management', icon: Video, category: 'Website Layout' },
+  achievementManagement: { key: 'achievement_management', label: 'Achievement Management', icon: Award, category: 'Website Layout' },
+
   // Pixel Group
   pixelSettings: { key: 'pixel_settings', label: 'Pixel Settings', icon: Database, category: 'Pixel' },
   customCode: { key: 'custom_code', label: 'Custom Code', icon: Code2, category: 'Pixel' },
-  
+
   // Reviews
   manageReviews: { key: 'manage_reviews', label: 'Manage Reviews', icon: Star, category: 'Reviews' },
-  
+
+  // ⭐ NEW — Content (Courses + Coupons)
+  manageCourses: { key: 'manage_courses', label: 'Manage Courses', icon: BookOpen, category: 'Content' },
+  manageCoupons: { key: 'coupons', label: 'Manage Coupons', icon: TicketPercent, category: 'Content' },
+
   // User Management Group
   createUsers: { key: 'create_users', label: 'Create Users', icon: UserPlus, category: 'User Management' },
   manageUsers: { key: 'manage_users', label: 'Manage Users', icon: UserCog, category: 'User Management' },
   manageCustomers: { key: 'manage_customers', label: 'Create & Manage Customers', icon: UsersRound, category: 'User Management' },
   roleManagement: { key: 'role_management', label: 'Role Management', icon: ShieldCheck, category: 'User Management' },
-  
+
+  // ⭐ NEW — Inventory Group
+  returnedItems: { key: 'returned_items', label: 'Returned Items', icon: RotateCcw, category: 'Inventory' },
+  stockAlert: { key: 'stock_alert', label: 'Stock Alert', icon: TriangleAlert, category: 'Inventory' },
+  restock: { key: 'restock', label: 'Restock Item', icon: PackagePlus, category: 'Inventory' },
+  duplicateCustomer: { key: 'duplicate_customer', label: 'Duplicate Customer', icon: CopyCheck, category: 'Inventory' },
+  platformSales: { key: 'platform_sales', label: 'Platform Sale Details', icon: BadgeDollarSign, category: 'Inventory' },
+  showroomPos: { key: 'showroom_pos', label: 'Showroom POS', icon: ScanBarcode, category: 'Inventory' },
+
   // Settings
   deliverySettings: { key: 'delivery_settings', label: 'Delivery Settings', icon: Truck, category: 'Settings' },
   mediaLibrary: { key: 'media_library', label: 'Media Library', icon: Images, category: 'Settings' },

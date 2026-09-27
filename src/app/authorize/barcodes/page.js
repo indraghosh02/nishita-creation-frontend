@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import Script from 'next/script';
+import ProtectedRoute from '@/app/components/ProtectedRoute';
 
 export default function BarcodeManagement() {
   const router = useRouter();
@@ -332,79 +333,6 @@ export default function BarcodeManagement() {
     toast.success('Barcode copied to clipboard');
   };
 
-  // const handlePrintBarcode = (barcode) => {
-  //   const printWindow = window.open('', '_blank');
-  //   const barcodeNumber = barcode.barcodeNumber;
-  //   const barcodeImageUrl = barcode.barcodeImageUrl;
-    
-  //   printWindow.document.write(`
-  //     <!DOCTYPE html>
-  //     <html>
-  //       <head>
-  //         <title>Barcode - ${barcodeNumber}</title>
-  //         <style>
-  //           @page {
-  //             size: 80mm 40mm;
-  //             margin: 5mm;
-  //           }
-  //           body {
-  //             font-family: 'Courier New', monospace;
-  //             margin: 0;
-  //             padding: 10px;
-  //             display: flex;
-  //             justify-content: center;
-  //             align-items: center;
-  //             min-height: 100vh;
-  //             background: white;
-  //           }
-  //           .barcode-container {
-  //             text-align: center;
-  //             padding: 15px;
-  //             border: 1px solid #ddd;
-  //             border-radius: 8px;
-  //             background: white;
-  //           }
-  //           .barcode-image {
-  //             max-width: 250px;
-  //             height: auto;
-  //           }
-  //           .barcode-number {
-  //             font-size: 14px;
-  //             font-family: 'Courier New', monospace;
-  //             letter-spacing: 1px;
-  //             margin-top: 10px;
-  //             color: #333;
-  //           }
-  //         </style>
-  //       </head>
-  //       <body>
-  //         <div class="barcode-container">
-  //           ${barcodeImageUrl ? 
-  //             `<img src="${barcodeImageUrl}" class="barcode-image" alt="Barcode" />` :
-  //             `<div id="barcode-print"></div>`
-  //           }
-  //           <div class="barcode-number">${barcodeNumber}</div>
-  //         </div>
-  //         ${!barcodeImageUrl ? `
-  //           <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>
-  //           <script>
-  //             JsBarcode("#barcode-print", "${barcodeNumber}", {
-  //               format: "CODE128",
-  //               lineColor: "#000000",
-  //               width: 2,
-  //               height: 60,
-  //               displayValue: false,
-  //               fontSize: 14,
-  //               margin: 10
-  //             });
-  //             setTimeout(() => { window.print(); }, 500);
-  //           <\/script>
-  //         ` : '<script>setTimeout(() => { window.print(); }, 500);<\/script>'}
-  //       </body>
-  //     </html>
-  //   `);
-  //   printWindow.document.close();
-  // };
 
 const handlePrintBarcode = (barcode) => {
   const printWindow = window.open('', '_blank');
@@ -711,6 +639,7 @@ const handlePrintBarcode = (barcode) => {
   };
 
   return (
+     <ProtectedRoute pageKey="all_barcodes">  
     <div className="min-h-screen bg-[#FFF9F0]">
       <div className="container mx-auto px-4 py-8">
         {/* Scanner Status Bar */}
@@ -1260,5 +1189,6 @@ const handlePrintBarcode = (barcode) => {
         }}
       />
     </div>
+     </ProtectedRoute>  
   );
 }

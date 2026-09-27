@@ -6,97 +6,97 @@ import LoginClient from './LoginClient';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 
-// Loading fallback component for Login page
+// Loading fallback component for Login page - Nishita's Creation themed
 function LoginLoading() {
   return (
     <>
       <Navbar />
       <div className="min-h-screen bg-[#f7f4ef] flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-[#52665a] border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-4 border-[#29362f] border-t-transparent rounded-full animate-spin"></div>
       </div>
       <Footer />
     </>
   );
 }
 
-// Beauty Bucket Login Page SEO Metadata
+// Nishita's Creation Login Page SEO Metadata
 export const metadata = {
-  title: "Login to Beauty Bucket | Sign In for Premium Beauty Products in Bangladesh",
-  description: "Login to your Beauty Bucket account to shop premium skincare, makeup, fragrances, hair care & more. Track orders, save wishlist, get beauty tips, and exclusive beauty deals.",
+  title: "Login to Nishita's Creation | Sign In / Sign Up for Authentic Batik, Block Print & Handicraft Products",
+  description: "Login to your Nishita's Creation account to shop authentic Batik, Block Print, Applique, Saree, Three Piece, Panjabi & deshi products. Track orders, save wishlist, get craft tips, and exclusive handicraft deals.",
   keywords: [
     // Login specific
-    "login beauty bucket",
-    "sign in cosmetics store bd",
-    "customer login bangladesh beauty",
-    "beauty bucket account access",
-    "member login cosmetics",
+    "login nishitas creation",
+    "sign in handicraft store bd",
+    "customer login bangladesh handicraft",
+    "nishitas creation account access",
+    "member login handicraft",
     
     // Account related
-    "my beauty account",
-    "cosmetics shopping login",
-    "beauty products account bd",
-    "premium cosmetics login",
-    "beauty bucket member sign in",
+    "my handicraft account",
+    "batik shopping login",
+    "handicraft products account bd",
+    "premium handicraft login",
+    "nishitas creation member sign in",
     
     // Benefits
-    "track beauty orders",
-    "save wishlist login beauty",
-    "exclusive beauty deals",
-    "skincare discount for members",
-    "beauty product discount",
+    "track handicraft orders",
+    "save wishlist login handicraft",
+    "exclusive handicraft deals",
+    "batik discount for members",
+    "handicraft product discount",
     
     // Authentication
-    "secure login cosmetics",
-    "beauty store authentication",
-    "online cosmetics shop login bd",
-    "beauty bucket customer portal",
+    "secure login handicraft",
+    "handicraft store authentication",
+    "online handicraft shop login bd",
+    "nishitas creation customer portal",
     
     // User intent
-    "access my beauty account",
-    "login to buy cosmetics online",
-    "beauty shopping account bd",
-    "cosmetics store sign in",
+    "access my handicraft account",
+    "login to buy batik online",
+    "handicraft shopping account bd",
+    "handicraft store sign in",
     
-    // Beauty specific
-    "skincare account login",
-    "makeup store login bd",
-    "fragrance account access",
-    "hair care store sign in",
-    "beauty products login bd",
-    "cosmetics account access",
-    "skincare routine account",
-    "beauty consultation login",
+    // Craft specific
+    "batik account login",
+    "block print store login bd",
+    "applique account access",
+    "saree store sign in",
+    "three piece login bd",
+    "panjabi account access",
+    "kurti account login",
+    "deshi products login",
     
     // Local keywords
-    "login bd beauty store",
-    "premium cosmetics account",
-    "beauty store customer login",
-    "beauty shopping account bd",
+    "login jashore handicraft store",
+    "premium handicraft account",
+    "handicraft store customer login",
+    "handicraft shopping account bd",
     
-    // Beauty enthusiast
-    "beauty lover account",
-    "skincare enthusiast login",
-    "makeup lover account bd",
-    "beauty community login",
-    "beauty tips account",
+    // Craft enthusiast
+    "handicraft lover account",
+    "batik enthusiast login",
+    "traditional crafts lover account bd",
+    "handicraft community login",
+    "deshi product tips account",
     
     // New customer
-    "create beauty account",
-    "register beauty store bd",
-    "new beauty customer",
-    "beauty account sign up"
+    "create handicraft account",
+    "register handicraft store bd",
+    "new handicraft customer",
+    "handicraft account sign up"
   ],
   openGraph: {
-    title: "Login to Beauty Bucket - Your Premium Beauty Account | Bangladesh",
-    description: "Sign in to your Beauty Bucket account to shop premium skincare, makeup, fragrances, hair care, body care & more. Quality guarantee & best prices!",
-    url: process.env.NEXT_PUBLIC_BASE_URL + '/login' || 'https://beautybucket.com.bd/login',
-    siteName: "Beauty Bucket",
+    title: "Login to Nishita's Creation - Your Handicraft Account | Bangladesh",
+    description: "Sign in to your Nishita's Creation account to shop authentic Batik, Block Print, Applique, Saree, Three Piece, Panjabi & more. 100% original handmade products!",
+    url: (process.env.NEXT_PUBLIC_BASE_URL || 'https://nishitascreation.com') + '/login',
+    siteName: "Nishita's Creation",
     images: [
       {
-        url: '/login-og-beautybucket.jpg',
+        url: '/login-og-nishitas-creation.jpg',
         width: 1200,
         height: 630,
-        alt: 'Beauty Bucket Login - Sign in to Your Premium Beauty Account',
+        alt: "Nishita's Creation Login - Sign in to Your Handicraft Account",
       },
     ],
     type: 'website',
@@ -105,11 +105,11 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@BeautyBucketBD',
-    creator: '@BeautyBucketBD',
-    title: "Login to Beauty Bucket | Premium Beauty Store Bangladesh",
-    description: "Sign in to access your beauty account, track orders, save favorites, get skincare advice, and exclusive member deals!",
-    images: ['/login-twitter-beautybucket.jpg'],
+    site: '@NishitasCreation',
+    creator: '@NishitasCreation',
+    title: "Login to Nishita's Creation | Handicraft Store Bangladesh",
+    description: "Sign in to access your handicraft account, track orders, save favorites, get craft tips, and exclusive member deals!",
+    images: ['/login-twitter-nishitas-creation.jpg'],
   },
   alternates: {
     canonical: '/login',
@@ -131,57 +131,69 @@ export const metadata = {
   },
   // Additional metadata
   other: {
-    'application-name': 'Beauty Bucket Login',
-    'msapplication-TileColor': '#52665a',
-    'theme-color': '#52665a',
+    'application-name': "Nishita's Creation Login",
+    'msapplication-TileColor': '#29362f',
+    'theme-color': '#29362f',
     'page-type': 'login',
     'user-action': 'authentication',
-    'business-name': 'Beauty Bucket Bangladesh',
-    'business-type': 'E-commerce Beauty & Cosmetics Store',
+    'business-name': "Nishita's Creation Bangladesh",
+    'business-type': 'E-commerce Handicraft & Deshi Products Store',
     'secure-login': '256-bit SSL Encrypted',
     'session-timeout': '7 days',
     
-    // Beauty specific benefits
-    'beauty-consultation': 'Available with Account',
-    'personalized-recommendations': 'Based on Skin Type & Preferences',
-    'skin-routine-saver': 'Save Your Skincare Routine',
-    'wishlist-feature': 'Save Favorite Products',
+    // Craft specific benefits
+    'craft-consultation': 'Available with Account',
+    'personalized-recommendations': 'Based on Purchase History & Preferences',
+    'style-saver': 'Save Your Style & Fabric Preferences',
+    'wishlist-feature': 'Save Favorite Handicraft Products',
     'price-alerts': 'Get Notified on Price Drops',
     'exclusive-offers': 'Member-Only Discounts',
-    'early-access': 'Early Access to New Products',
-    'beauty-tips': 'Exclusive Beauty Tips & Tutorials',
+    'early-access': 'Early Access to New Collections',
+    'craft-tips': 'Exclusive Craft Tips & Care Guides',
     'order-tracking': 'Real-time Order Tracking',
     
     // Account features
-    'saved-skin-type': 'Store Your Skin Type Preferences',
-    'saved-allergies': 'Ingredient Allergy Preferences (Optional)',
-    'shade-preferences': 'Makeup Shade Preferences (Optional)',
-    'fragrance-preferences': 'Fragrance Preferences (Optional)',
+    'saved-preferences': 'Store Your Fabric & Style Preferences',
+    'color-preferences': 'Color Preferences (Optional)',
+    'size-preferences': 'Size & Fit Preferences (Optional)',
+    'occasion-preferences': 'Occasion Preferences (Optional)',
     'product-reviews': 'Write & Read Product Reviews',
-    'beauty-history': 'View Purchase History',
-    'consultation-history': 'View Beauty Consultation History',
+    'purchase-history': 'View Purchase History',
+    'craft-consultation-history': 'View Craft Consultation History',
     
-    // Beauty categories
-    'product-categories': 'Skincare, Makeup, Fragrances, Hair Care, Body Care, Beauty Accessories, Natural Beauty, K-Beauty',
-    'skin-types': 'All Skin Types, Dry Skin, Oily Skin, Combination Skin, Sensitive Skin, Acne-Prone Skin, Mature Skin',
-    'brands-available': 'L\'Oréal, Maybelline, NYX, MAC, Estée Lauder, Clinique, Kiehl\'s, The Ordinary, Cosrx, Innisfree, Laneige, Nivea, Pond\'s, Garnier, Vaseline',
+    // Product categories
+    'product-categories': 'Batik, Block Print, Applique, Saree, Three Piece, Panjabi, Kurti, Bedsheet, Dupatta, Deshi Collection',
+    'craft-techniques': 'Hand Block Print, Batik Print, Applique Work, Hand Embroidery',
+    'fabric-types': 'Cotton, Handloom Cotton, Soft Cotton, Muslin, Khadi',
+    'origin': 'Jashore, Khulna, Bangladesh',
+    'artisan-info': 'Made by skilled local artisans in our own factory',
+    'occasion': 'Daily Wear, Eid, Puja, Wedding, Casual, Party, Office',
     
     // Security
     'two-factor-auth': 'Available for Enhanced Security',
     'password-recovery': 'Secure Password Recovery',
     'data-protection': 'GDPR & CCPA Compliant',
+    'customer-support': 'support@nishitascreation.com',
+    'support-hours': '10:00 AM - 10:00 PM (Everyday)',
+    
+    // Payment & delivery
+    'payment-methods': 'Cash on Delivery, bKash, Nagad, Rocket, Credit Card',
+    'free-delivery': 'Orders over 3000 BDT',
+    'return-policy': '7 Days Return Policy',
   },
 };
 
 // Generate JSON-LD structured data
 export const generateJsonLd = () => {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://nishitascreation.com';
+  
   return {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    '@id': process.env.NEXT_PUBLIC_BASE_URL + '/login' || 'https://beautybucket.com.bd/login',
-    name: 'Login - Beauty Bucket',
-    description: 'Login to your Beauty Bucket account to shop premium beauty products, skincare, makeup, and cosmetics.',
-    url: process.env.NEXT_PUBLIC_BASE_URL + '/login' || 'https://beautybucket.com.bd/login',
+    '@id': `${BASE_URL}/login`,
+    name: "Login - Nishita's Creation",
+    description: "Login to your Nishita's Creation account to shop authentic Batik, Block Print & Applique handicraft products.",
+    url: `${BASE_URL}/login`,
     inLanguage: 'en',
     breadcrumb: {
       '@type': 'BreadcrumbList',
@@ -190,20 +202,20 @@ export const generateJsonLd = () => {
           '@type': 'ListItem',
           position: 1,
           name: 'Home',
-          item: process.env.NEXT_PUBLIC_BASE_URL || 'https://beautybucket.com.bd'
+          item: BASE_URL
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'Login',
-          item: process.env.NEXT_PUBLIC_BASE_URL + '/login' || 'https://beautybucket.com.bd/login'
+          item: `${BASE_URL}/login`
         }
       ]
     },
     mainEntity: {
       '@type': 'WebApplication',
       name: 'Customer Login System',
-      description: 'Login to access your beauty account, track orders, and get personalized recommendations',
+      description: 'Login to access your handicraft account, track orders, and get personalized craft recommendations',
       applicationCategory: 'BusinessApplication',
       operatingSystem: 'All',
       browserRequirements: 'Requires modern browser'

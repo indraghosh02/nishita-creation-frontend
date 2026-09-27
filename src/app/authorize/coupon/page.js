@@ -2159,6 +2159,7 @@ import {
   Info,
 } from 'lucide-react';
 import { toast } from 'sonner';
+import ProtectedRoute from '@/app/components/ProtectedRoute';
 
 // ============================================================
 // DISCOUNT TYPES — neutral admin palette
@@ -3620,6 +3621,8 @@ export default function AdminCouponManager() {
   };
 
   return (
+
+    <ProtectedRoute pageKey="coupons"> 
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white border-b shadow-sm sticky top-0 z-10">
@@ -4808,5 +4811,6 @@ export default function AdminCouponManager() {
         </div>
       )}
     </div>
+      </ProtectedRoute>  
   );
 }

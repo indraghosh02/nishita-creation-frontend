@@ -493,14 +493,14 @@ if (href === '/authorize/showroom-pos') {
           name: 'All Barcodes',
            href: '/authorize/barcodes', 
            icon: QrCode,
-           accessKey: 'all-barcodes'
+           accessKey: 'all_barcodes'
            
            },
     { 
       name: ' Barcodes Scan',
        href: '/authorize/barcode-scanner', 
        icon: ScanBarcode,
-accessKey: 'barcode-scanner'
+accessKey: 'barcode_scanner'
       },
 
         { 
@@ -556,12 +556,12 @@ accessKey: 'barcode-scanner'
   accessKey: 'achievement_management'
 },
 
-        {
-          name: 'Trust Results',
-          href: '/authorize/trust-results-management',
-          icon: ShieldCheck,
-          accessKey: 'trust_results_management'
-        },
+        // {
+        //   name: 'Trust Results',
+        //   href: '/authorize/trust-results-management',
+        //   icon: ShieldCheck,
+        //   accessKey: 'trust_results_management'
+        // },
         { 
           name: 'Manage Homepage', 
           href: '/authorize/homepage-management', 
@@ -636,7 +636,7 @@ accessKey: 'barcode-scanner'
       name: 'Platform Sale Details',
       href: '/authorize/platform-sales',
       icon: BadgeDollarSign,
-      accessKey: 'all_orders'
+      accessKey: 'platform_sales'
     },
           {
   name: 'Showroom POS',
@@ -673,7 +673,7 @@ accessKey: 'barcode-scanner'
       name: 'Manage Courses', 
       href: '/authorize/courses', 
       icon: BookOpen,
-      accessKey: 'courses'
+      accessKey: 'manage_courses'
     },
 
 
