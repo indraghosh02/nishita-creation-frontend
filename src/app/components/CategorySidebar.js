@@ -219,7 +219,9 @@ export default function CategorySidebar({ isOpen, onClose, categories = [] }) {
                                                 return (
                                                   <li key={childId}>
                                                     <Link
-                                                      href={`/products?category=${categorySlug}&subcategory=${subSlug}&child=${childSlug}`}
+                                                      // href={`/products?category=${categorySlug}&subcategory=${subSlug}&child=${childSlug}`}
+
+                                                      href={`/products?category=${categorySlug}&subcategory=${subSlug}&childSubcategory=${childSlug}`}
                                                       onClick={onClose}
                                                       className="
                                                         flex items-center

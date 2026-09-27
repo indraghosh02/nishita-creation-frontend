@@ -69,7 +69,10 @@
 //   const [userMenuOpen, setUserMenuOpen] = useState(false);
 //   const [authLoading, setAuthLoading] = useState(true);
 //   const [profileImageError, setProfileImageError] = useState(false);
+
+//   // ✅ Counts
 //   const [cartCount, setCartCount] = useState(0);
+//   const [wishlistCount, setWishlistCount] = useState(0);
 
 //   // Mobile expansion state
 //   const [expandedMobileCategory, setExpandedMobileCategory] = useState(null);
@@ -174,31 +177,85 @@
 //   };
 
 //   // ============================================================
-//   // AUTH + CART EVENTS
+//   // ✅ FETCH WISHLIST COUNT
+//   // ============================================================
+//   const fetchWishlistCount = async () => {
+//     try {
+//       const token = localStorage.getItem('token');
+//       const headers = {};
+
+//       if (token) {
+//         headers['Authorization'] = `Bearer ${token}`;
+//       } else {
+//         const sessionId = localStorage.getItem('wishlistSessionId');
+//         if (sessionId) {
+//           headers['x-session-id'] = sessionId;
+//         } else {
+//           // No session — nothing to fetch yet
+//           setWishlistCount(0);
+//           return;
+//         }
+//       }
+
+//       const response = await fetch(`${API_URL}/api/wishlist`, { headers });
+
+//       if (response.ok) {
+//         const data = await response.json();
+//         setWishlistCount(data.data?.totalItems || 0);
+//       } else {
+//         setWishlistCount(0);
+//       }
+//     } catch (error) {
+//       console.error('Fetch wishlist count error:', error);
+//       setWishlistCount(0);
+//     }
+//   };
+
+//   // ============================================================
+//   // AUTH + CART + WISHLIST EVENTS
 //   // ============================================================
 //   useEffect(() => {
 //     checkUserState();
 //     fetchCartCount();
+//     fetchWishlistCount();
 
 //     const handleAuthChange = () => {
 //       checkUserState();
 //       fetchCartCount();
+//       fetchWishlistCount();
+//     };
+
+//     const handleStorage = (e) => {
+//       // Sync across tabs
+//       if (
+//         e.key === 'token' ||
+//         e.key === 'cartSessionId' ||
+//         e.key === 'wishlistSessionId'
+//       ) {
+//         fetchCartCount();
+//         fetchWishlistCount();
+//       }
 //     };
 
 //     window.addEventListener('auth-change', handleAuthChange);
 //     window.addEventListener('focus', handleAuthChange);
 //     window.addEventListener('cart-update', fetchCartCount);
+//     window.addEventListener('wishlist-update', fetchWishlistCount);
+//     window.addEventListener('storage', handleStorage);
 
 //     return () => {
 //       window.removeEventListener('auth-change', handleAuthChange);
 //       window.removeEventListener('focus', handleAuthChange);
 //       window.removeEventListener('cart-update', fetchCartCount);
+//       window.removeEventListener('wishlist-update', fetchWishlistCount);
+//       window.removeEventListener('storage', handleStorage);
 //     };
 //   }, []);
 
-//   // Fetch cart when pathname changes
+//   // Fetch cart + wishlist when pathname changes
 //   useEffect(() => {
 //     fetchCartCount();
+//     fetchWishlistCount();
 //   }, [pathname]);
 
 //   // ============================================================
@@ -322,9 +379,11 @@
 //     localStorage.removeItem('user');
 //     setUser(null);
 //     setCartCount(0);
+//     setWishlistCount(0);
 //     setUserMenuOpen(false);
 
 //     window.dispatchEvent(new Event('cart-update'));
+//     window.dispatchEvent(new Event('wishlist-update'));
 //     window.dispatchEvent(new Event('auth-change'));
 
 //     toast.success('Logged out successfully!');
@@ -633,34 +692,15 @@
 //     <>
 //       {/* =====================================================
 //           MOBILE HEADER
-//           TOP:
-//             Search + Phone / Truck / MapPin
-//           BOTTOM:
-//             Menu + Logo + Wishlist / Bag / User
-
-//           On scroll:
-//             TOP ROW hides
-//             BOTTOM ROW becomes fixed to top
 //       ===================================================== */}
-//       {/* <header
+//       <header
 //         className={`
-//           block w-full bg-[#F1EFE3] text-[#292725] lg:hidden
+//           relative z-40 block w-full bg-[#F1EFE3] text-[#292725] lg:hidden
 //           transition-all duration-300
 //           ${isScrolled ? 'pt-0' : '-mt-16'}
 //         `}
-//       > */}
-
-//       <header
-//   className={`
-//     relative z-40 block w-full bg-[#F1EFE3] text-[#292725] lg:hidden
-//     transition-all duration-300
-//     ${isScrolled ? 'pt-0' : '-mt-16'}
-//   `}
-// >
-//         {/* =================================================
-//             MOBILE TOP ROW — hidden after scrolling
-//             Height reduced: 52 → 42
-//         ================================================= */}
+//       >
+//         {/* MOBILE TOP ROW — hidden after scrolling */}
 //         <div
 //           className={`
 //             overflow-hidden border-b border-[#dedcd2]
@@ -697,11 +737,8 @@
 //                 />
 //               </form>
 
-//               {/* {showResults && searchResults.length > 0 && (
-//                 <div className="absolute left-0 right-0 top-[38px] z-[60] max-h-80 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg"> */}
-
-//                 {showResults && searchResults.length > 0 && (
-//   <div className="absolute left-0 right-0 top-[38px] z-[9999] max-h-80 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-2xl">
+//               {showResults && searchResults.length > 0 && (
+//                 <div className="absolute left-0 right-0 top-[38px] z-[9999] max-h-80 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-2xl">
 //                   {searchResults.map((product) => (
 //                     <button
 //                       key={product._id}
@@ -785,10 +822,7 @@
 //           </div>
 //         </div>
 
-//         {/* =================================================
-//             MOBILE BOTTOM ROW — becomes fixed on scroll
-//             Height reduced: 56 → 48
-//         ================================================= */}
+//         {/* MOBILE BOTTOM ROW — becomes fixed on scroll */}
 //         <div
 //           className={`
 //             border-b border-[#dedcd2] bg-[#F1EFE3]
@@ -849,12 +883,21 @@
 
 //             {/* Right: Wishlist + Bag + Account */}
 //             <div className="ml-auto flex items-center gap-0.5">
+//               {/* ✅ Wishlist with badge */}
 //               <Link
 //                 href="/wishlist"
 //                 aria-label="Wishlist"
-//                 className="flex h-8 w-8 items-center justify-center rounded-full text-[#292725] transition hover:bg-black/5"
+//                 className="relative flex h-8 w-8 items-center justify-center rounded-full text-[#292725] transition hover:bg-black/5"
 //               >
 //                 <Heart size={18} strokeWidth={1.5} />
+//                 {wishlistCount > 0 && (
+//                   <span
+//                     className="absolute right-0 top-0 flex h-[14px] min-w-[14px] items-center justify-center rounded-full px-1 text-[8px] font-semibold text-white"
+//                     style={{ backgroundColor: ACCENT_COLOR }}
+//                   >
+//                     {wishlistCount > 9 ? '9+' : wishlistCount}
+//                   </span>
+//                 )}
 //               </Link>
 
 //               <button
@@ -903,9 +946,7 @@
 //           </div>
 //         </div>
 
-//         {/* =================================================
-//             SPACER — matches new bottom row height (48)
-//         ================================================= */}
+//         {/* SPACER — matches new bottom row height (48) */}
 //         <div
 //           className={`
 //             transition-[height] duration-300 ease-out
@@ -918,9 +959,9 @@
 //       {/* =====================================================
 //           DESKTOP HEADER (hidden below lg)
 //       ===================================================== */}
-//       {/* <header
+//       <header
 //         className={`
-//           relative hidden w-full bg-[#F1EFE3] text-[#292725] lg:-mt-16 lg:block
+//           relative z-40 hidden w-full bg-[#F1EFE3] text-[#292725] lg:-mt-16 lg:block
 //           transition-all duration-300
 //           ${
 //             isScrolled
@@ -928,19 +969,7 @@
 //               : 'opacity-100'
 //           }
 //         `}
-//       > */}
-
-//       <header
-//   className={`
-//     relative z-40 hidden w-full bg-[#F1EFE3] text-[#292725] lg:-mt-16 lg:block
-//     transition-all duration-300
-//     ${
-//       isScrolled
-//         ? 'pointer-events-none opacity-0'
-//         : 'opacity-100'
-//     }
-//   `}
-// >
+//       >
 //         {/* LOGO */}
 //         <Link
 //           href="/"
@@ -1033,10 +1062,8 @@
 //                       </div>
 //                     </form>
 
-//                     {/* {showResults && searchResults.length > 0 && (
-//                       <div className="absolute top-full left-0 right-0 mt-2 max-h-80 overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-lg z-50"> */}
-//                       {showResults && searchResults.length > 0 && (
-//   <div className="absolute top-full left-0 right-0 mt-2 max-h-80 overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-2xl z-[9999]">
+//                     {showResults && searchResults.length > 0 && (
+//                       <div className="absolute top-full left-0 right-0 mt-2 max-h-80 overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-2xl z-[9999]">
 //                         {searchResults.map((product) => (
 //                           <button
 //                             key={product._id}
@@ -1152,12 +1179,21 @@
 //             </nav>
 
 //             <div className="ml-auto flex items-center gap-4">
+//               {/* ✅ Wishlist with badge */}
 //               <Link
 //                 href="/wishlist"
 //                 aria-label="Wishlist"
-//                 className="text-[#292725] transition hover:text-[#69272B]"
+//                 className="relative text-[#292725] transition hover:text-[#69272B]"
 //               >
 //                 <Heart size={20} strokeWidth={1.4} />
+//                 {wishlistCount > 0 && (
+//                   <span
+//                     className="absolute -right-2 -top-2 flex h-[15px] min-w-[15px] items-center justify-center rounded-full px-1 text-[9px] font-semibold text-white"
+//                     style={{ backgroundColor: ACCENT_COLOR }}
+//                   >
+//                     {wishlistCount > 9 ? '9+' : wishlistCount}
+//                   </span>
+//                 )}
 //               </Link>
 
 //               <button
@@ -1320,13 +1356,23 @@
 //           </nav>
 
 //           <div className="ml-auto flex items-center gap-4">
+//             {/* ✅ Wishlist with badge */}
 //             <Link
 //               href="/wishlist"
 //               aria-label="Wishlist"
-//               className="text-[#292725] transition hover:text-[#69272B]"
+//               className="relative text-[#292725] transition hover:text-[#69272B]"
 //             >
 //               <Heart size={20} strokeWidth={1.4} />
+//               {wishlistCount > 0 && (
+//                 <span
+//                   className="absolute -right-2 -top-2 flex h-[15px] min-w-[15px] items-center justify-center rounded-full px-1 text-[9px] font-semibold text-white"
+//                   style={{ backgroundColor: ACCENT_COLOR }}
+//                 >
+//                   {wishlistCount > 9 ? '9+' : wishlistCount}
+//                 </span>
+//               )}
 //             </Link>
+
 //             <button
 //               onClick={() => setIsCartOpen(true)}
 //               aria-label="Shopping bag"
@@ -1472,9 +1518,7 @@
 //               {/* Nav Items */}
 //               <div className="flex-1 overflow-y-auto">
 //                 <nav className="flex flex-col px-2 py-2">
-//                   {/* ========================================
-//                       ALL CATEGORIES — expands inline
-//                   ======================================== */}
+//                   {/* ALL CATEGORIES — expands inline */}
 //                   <div>
 //                     <button
 //                       type="button"
@@ -1839,6 +1883,9 @@
 //     </>
 //   );
 // }
+
+
+
 
 'use client';
 
@@ -2373,7 +2420,7 @@ export default function Navbar() {
                           key={child._id || child.id}
                           href={`/products?category=${
                             item.category.slug || item.category._id
-                          }&subcategory=${subSlug}&child=${
+                          }&subcategory=${subSlug}&childSubcategory=${
                             child.slug || child._id
                           }`}
                           className="block px-4 py-2 text-[12px] text-gray-600 transition hover:bg-gray-50 hover:text-[#69272B]"
@@ -3565,7 +3612,7 @@ export default function Navbar() {
                                                                           key={
                                                                             childId
                                                                           }
-                                                                          href={`/products?category=${categorySlug}&subcategory=${subSlug}&child=${childSlug}`}
+                                                                          href={`/products?category=${categorySlug}&subcategory=${subSlug}&childSubcategory=${childSlug}`}
                                                                           onClick={() =>
                                                                             setMobileMenuOpen(
                                                                               false
