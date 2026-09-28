@@ -1,5 +1,4 @@
 
-
 // // utils/invoicePDF.js
 // import jsPDF from 'jspdf';
 // import 'jspdf-autotable';
@@ -26,23 +25,29 @@
 //   });
 // };
 
-// // ========== BEAUTY BUCKET COLORS - ALL PINK THEME ==========
+// // ========== NISHITA'S COLORS - RED / BLACK / WHITE THEME ==========
+// // Palette matched to Product page + Review cards + Navbar:
+// //   - brand red           : #CF1B34, #a81428
+// //   - ink blacks          : #1a1a1a, #333333
+// //   - muted grays         : #6b6b6b, #9a9a9a
+// //   - warm cream          : #F2F1E6 (review card base)
+// //   - warm border         : #e6e4d8
 // const COLORS = {
-//   primary: '#EE4275',
-//   primaryLight: '#FF6B9D',
-//   primaryDark: '#D63A6A',
-//   secondary: '#FF6B9D',
-//   accent: '#FF8FAB',
-//   blush: '#FFD2DB',
+//   primary: '#CF1B34',         // Nishita brand red (main)
+//   primaryLight: '#e33a52',    // Lighter red (accents)
+//   primaryDark: '#a81428',     // Deep red (headers, hover)
+//   secondary: '#1a1a1a',       // Ink black
+//   accent: '#6b6b6b',          // Muted gray
+//   blush: '#e6e4d8',           // Warm cream border
 //   white: '#FFFFFF',
-//   lightGray: '#FFF5F6',
-//   border: '#FFD2DB',
-//   text: '#2D1B2E',
-//   textLight: '#8B7A8C',
-//   textMuted: '#C4B5C5',
-//   paid: '#4CAF50',
-//   unpaid: '#EF4444',
-//   partial: '#FF8C00'
+//   lightGray: '#F2F1E6',       // Warm cream (matches review cards)
+//   border: '#e6e4d8',          // Warm border
+//   text: '#1a1a1a',            // Ink (readable)
+//   textLight: '#333333',       // Deep ink
+//   textMuted: '#9a9a9a',       // Soft muted
+//   paid: '#4c8a5b',            // Kept green for "Paid" success
+//   unpaid: '#a81428',          // Deep red (Unpaid / cancel)
+//   partial: '#b8860b'          // Deep amber (Partial)
 // };
 
 // // ========== GET COLOR HEX - SUPPORTS BOTH HEX AND COLOR NAMES ==========
@@ -110,6 +115,37 @@
 //   }
 // };
 
+// // ========== FETCH CONTACT INFO FOR PHONE / EMAIL / ADDRESS ==========
+// const fetchContactInfo = async () => {
+//   try {
+//     const response = await fetch(
+//       `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/contact`,
+//       { cache: 'no-store' }
+//     );
+//     const data = await response.json();
+
+//     if (data.success && data.data && Array.isArray(data.data.quickContacts)) {
+//       const findContact = (iconName) =>
+//         data.data.quickContacts.find((c) => c.icon === iconName);
+
+//       const phoneCard = findContact('FaPhone');
+//       const emailCard = findContact('FaEnvelope');
+//       const addressCard = findContact('FaMapMarkerAlt');
+
+//       return {
+//         phone: phoneCard?.value || '+8801XXXXXXXXX',
+//         email: emailCard?.value || 'info@nishitas.com',
+//         address: addressCard?.value || 'Dhaka, Bangladesh',
+//       };
+//     }
+
+//     return null;
+//   } catch (error) {
+//     console.error('Error fetching contact info:', error);
+//     return null;
+//   }
+// };
+
 // // ========== CONVERT IMAGE TO BASE64 ==========
 // const imageToBase64 = async (imageUrl) => {
 //   try {
@@ -160,7 +196,7 @@
 
 // // Get company initials for logo fallback
 // const getCompanyInitials = (companyName) => {
-//   if (!companyName) return 'BB';
+//   if (!companyName) return 'NC';
 //   return companyName
 //     .split(' ')
 //     .map(word => word[0])
@@ -616,8 +652,26 @@
 //       console.warn('Failed to load logo from navbar:', error);
 //     }
 
+//     // ========== FETCH DYNAMIC CONTACT INFO ==========
+//     let contactInfo = {
+//       phone: '+8801XXXXXXXXX',
+//       email: 'info@nishitas.com',
+//       address: 'Dhaka, Bangladesh',
+//     };
+
+//     try {
+//       const fetched = await fetchContactInfo();
+//       if (fetched) {
+//         contactInfo = fetched;
+//         console.log('✅ Contact info loaded:', contactInfo);
+//       }
+//     } catch (error) {
+//       console.warn('Failed to load contact info, using defaults:', error);
+//     }
+
 //     // ==================== HEADER ====================
-//     doc.setFillColor(238, 66, 117);
+//     // Brand red header bar
+//     doc.setFillColor(207, 27, 52);   // #CF1B34
 //     doc.rect(0, 0, pageWidth, 32, 'F');
 
 //     doc.setFillColor(COLORS.white);
@@ -659,8 +713,8 @@
 //         console.log('✅ Logo added to PDF');
 //       } catch (error) {
 //         console.error('Error adding logo to PDF:', error);
-//         const initials = getCompanyInitials('Beauty Bucket');
-//         doc.setFillColor(238, 66, 117);
+//         const initials = getCompanyInitials("Nishita's Creation");
+//         doc.setFillColor(207, 27, 52);   // #CF1B34
 //         doc.roundedRect(logoX, logoY, logoSize, logoSize, 2, 2, 'F');
 //         doc.setFontSize(9);
 //         doc.setFont('helvetica', 'bold');
@@ -668,8 +722,8 @@
 //         doc.text(initials, logoX + logoSize/2, logoY + logoSize/2 + 1, { align: 'center' });
 //       }
 //     } else {
-//       const initials = getCompanyInitials('Beauty Bucket');
-//       doc.setFillColor(238, 66, 117);
+//       const initials = getCompanyInitials("Nishita's Creation");
+//       doc.setFillColor(207, 27, 52);   // #CF1B34
 //       doc.roundedRect(logoX, logoY, logoSize, logoSize, 2, 2, 'F');
 //       doc.setFontSize(9);
 //       doc.setFont('helvetica', 'bold');
@@ -679,32 +733,36 @@
 
 //     const companyX = logoX + logoSize + 8;
 
-//     // ========== BEAUTY BUCKET COMPANY NAME ==========
+//     // ========== NISHITA'S COLLECTION COMPANY NAME ==========
 //     doc.setFontSize(12);
 //     doc.setFont('helvetica', 'bold');
 
-//     doc.setTextColor(45, 27, 46);
-//     doc.text('Beauty', companyX, logoY + 4);
+//     // "Nishita's" in ink, "Collection" in brand red
+//     doc.setTextColor(26, 26, 26);   // #1a1a1a
+//     doc.text("Nishita's", companyX, logoY + 4);
 
-//     const beautyWidth = doc.getTextWidth('Beauty');
-//     doc.setTextColor(238, 66, 117);
-//     doc.text('Bucket', companyX + beautyWidth, logoY + 4);
+//     const brandWidth = doc.getTextWidth("Nishita's");
+//     doc.setTextColor(207, 27, 52);   // #CF1B34
+//     doc.text(' Creation', companyX + brandWidth, logoY + 4);
 
 //     doc.setFontSize(7);
 //     doc.setFont('helvetica', 'normal');
 //     doc.setTextColor(COLORS.textLight);
 
+//     // Dynamic phone from contact backend
 //     doc.setFont('helvetica', 'bold');
 //     doc.text('Contact: ', companyX, logoY + 9);
 //     const contactLabelWidth = doc.getTextWidth('Contact: ');
 //     doc.setFont('helvetica', 'normal');
-//     doc.text('+8801XXXXXXXXX', companyX + contactLabelWidth, logoY + 9);
+//     doc.text(contactInfo.phone, companyX + contactLabelWidth, logoY + 9);
 
+//     // Dynamic email from contact backend
 //     doc.setFontSize(6.5);
-//     doc.text('info@beautybucket.com', companyX, logoY + 13);
+//     doc.text(contactInfo.email, companyX, logoY + 13);
 
+//     // Dynamic address from contact backend
 //     doc.setFontSize(6);
-//     const companyAddressLines = doc.splitTextToSize('Mirpur DOHS, Dhaka, Bangladesh', 70);
+//     const companyAddressLines = doc.splitTextToSize(contactInfo.address, 70);
 //     doc.text(companyAddressLines, companyX, logoY + 17);
 
 //     const rightAlignX = pageWidth - margin - 5;
@@ -766,7 +824,8 @@
 //     const colHeight = Math.max(leftColHeight, rightColHeight, 35);
 
 //     // Left Column - Customer Info
-//     doc.setFillColor(255, 245, 246);
+//     // Warm cream background (#F2F1E6)
+//     doc.setFillColor(242, 241, 230);
 //     doc.roundedRect(margin, yPos, customerColWidth, colHeight, 2, 2, 'F');
 
 //     doc.setFontSize(8);
@@ -811,7 +870,7 @@
 
 //     // Right Column - Delivery Address
 //     const addressColX = margin + customerColWidth + 6;
-//     doc.setFillColor(255, 245, 246);
+//     doc.setFillColor(242, 241, 230);   // #F2F1E6
 //     doc.roundedRect(addressColX, yPos, addressColWidth, colHeight, 2, 2, 'F');
 
 //     doc.setFontSize(8);
@@ -865,8 +924,7 @@
 //     doc.text('ORDER ITEMS', margin, yPos);
 //     yPos += 5;
 
-//     // ========== NEW COLUMN POSITIONS (no Color column) ==========
-//     // Product column is now wider; Color column removed.
+//     // ========== COLUMN POSITIONS (no Color column) ==========
 //     const colPositions = {
 //       item: margin + 3,
 //       product: margin + 10,
@@ -878,7 +936,8 @@
 
 //     // Draw table header function (used for page breaks)
 //     const drawTableHeader = () => {
-//       doc.setFillColor(238, 66, 117);
+//       // Brand red table header
+//       doc.setFillColor(207, 27, 52);   // #CF1B34
 //       doc.rect(margin, yPos, contentWidth, 7, 'F');
 
 //       doc.setFontSize(7);
@@ -924,18 +983,18 @@
 //         const hidePrice = row.showPrice === false || isHeaderOnly;
 //         const hideTotal = row.showTotal === false || isHeaderOnly;
 
-//         // Row background (alternating)
+//         // Row background (alternating) — warm cream #F2F1E6
 //         if (rowCount % 2 === 0) {
-//           doc.setFillColor(255, 245, 246);
+//           doc.setFillColor(242, 241, 230);   // #F2F1E6
 //           doc.rect(margin, yPos - 2, contentWidth, rowHeight, 'F');
 //         }
 
-//         // Indent-based tint
+//         // Indent-based tint (soft red instead of sage)
 //         if (indent === 2) {
-//           doc.setFillColor(248, 244, 255);
+//           doc.setFillColor(248, 235, 237);   // very soft red tint
 //           doc.rect(margin, yPos - 2, contentWidth, rowHeight, 'F');
 //         } else if (indent === 1) {
-//           doc.setFillColor(255, 250, 252);
+//           doc.setFillColor(252, 244, 245);   // lighter red tint
 //           doc.rect(margin, yPos - 2, contentWidth, rowHeight, 'F');
 //         }
 
@@ -954,7 +1013,7 @@
 //         if (indent === 1) nameX += 4;
 //         if (indent === 2) nameX += 8;
 
-//         // Arrow marker for indent (ASCII only — jsPDF helvetica can't render ▸ / →)
+//         // Arrow marker for indent
 //         if (indent > 0) {
 //           doc.setTextColor(COLORS.textMuted);
 //           doc.setFontSize(6);
@@ -968,8 +1027,8 @@
 //         doc.setFont('helvetica', nameFont);
 //         doc.setTextColor(
 //           isProductHeader ? COLORS.text :
-//           indent === 1 ? '#7C3AED' :
-//           indent === 2 ? '#6B7280' :
+//           indent === 1 ? '#a81428' :   // deep red for variant
+//           indent === 2 ? '#6b6b6b' :   // muted gray for sub-variant
 //           COLORS.text
 //         );
 
@@ -983,19 +1042,6 @@
 //           displayName = displayName.substring(0, displayName.length - 3) + '...';
 //         }
 //         doc.text(displayName, nameX, textY);
-
-//         // "See variants below" note (only for product header of variant product)
-//         if (isProductHeader) {
-//           const nameWidth = doc.getTextWidth(displayName);
-//           const noteX = nameX + nameWidth + 2;
-//           doc.setFontSize(5);
-//           doc.setFont('helvetica', 'italic');
-//           doc.setTextColor(COLORS.textMuted);
-//           doc.text('', noteX, textY);
-//           doc.setFontSize(6.5);
-//           doc.setFont('helvetica', 'normal');
-//           doc.setTextColor(COLORS.text);
-//         }
 
 //         // ===== Unit column =====
 //         if (!isHeaderOnly) {
@@ -1016,7 +1062,7 @@
 //           doc.text((row.quantity || 0).toString(), colPositions.qty, textY, { align: 'right' });
 //         }
 
-//         // ===== Price column (only discounted price, no strikethrough) =====
+//         // ===== Price column =====
 //         if (hidePrice) {
 //           doc.setTextColor(COLORS.textMuted);
 //           doc.text('-', colPositions.price, textY, { align: 'right' });
@@ -1056,8 +1102,9 @@
 //       yPos = margin + 10;
 //     }
 
-//     doc.setFillColor(255, 245, 246);
-//     doc.setDrawColor(COLORS.primary);
+//     // Warm cream summary box with brand red border
+//     doc.setFillColor(242, 241, 230);   // #F2F1E6
+//     doc.setDrawColor(207, 27, 52);     // #CF1B34
 //     doc.setLineWidth(0.3);
 //     doc.roundedRect(summaryX, yPos, summaryWidth, 45, 2, 2, 'FD');
 
@@ -1143,8 +1190,8 @@
 //     doc.setFont('helvetica', 'normal');
 //     doc.setTextColor(COLORS.textMuted);
 
-//     doc.text('Thank you for shopping with Beauty Bucket!', pageWidth / 2, footerY, { align: 'center' });
-//     doc.text('For any queries, contact us at support@beautybucket.com', pageWidth / 2, footerY + 4, { align: 'center' });
+//     doc.text("Thank you for shopping with Nishita's Creation!", pageWidth / 2, footerY, { align: 'center' });
+//     doc.text(`For any queries, contact us at ${contactInfo.email}`, pageWidth / 2, footerY + 4, { align: 'center' });
 
 //     // ==================== SAVE PDF ====================
 //     const pdfBlob = doc.output('blob');
@@ -1164,6 +1211,7 @@
 //     throw error;
 //   }
 // };
+
 
 
 // utils/invoicePDF.js
@@ -1192,27 +1240,29 @@ const formatDate = (dateString) => {
   });
 };
 
-// ========== BEAUTY BUCKET COLORS - SAGE / CREAM THEME ==========
-// Palette matched to About + Featured Products pages:
-//   - sage / olive green  : #8B9D83, #65705d, #53604f, #465641, #52665a
-//   - warm cream / beige  : #FDF7EF, #faf9f5, #f7f4ef, #dfe1d7
-//   - deep text           : #263b32, #29362f, #303b34
+// ========== NISHITA'S COLORS - RED / BLACK / WHITE THEME ==========
+// Palette matched to Product page + Review cards + Navbar:
+//   - brand red           : #CF1B34, #a81428
+//   - ink blacks          : #1a1a1a, #333333
+//   - muted grays         : #6b6b6b, #9a9a9a
+//   - warm cream          : #F2F1E6 (review card base)
+//   - warm border         : #e6e4d8
 const COLORS = {
-  primary: '#65705d',         // Deep sage green (main brand)
-  primaryLight: '#8B9D83',    // Lighter sage (accents, "In Stock")
-  primaryDark: '#465641',     // Darkest olive (headers, emphasis)
-  secondary: '#8B9D83',       // Sage
-  accent: '#a9afa5',          // Muted sage-gray
-  blush: '#e2e3dd',           // Very soft sage-tinted border
+  primary: '#CF1B34',         // Nishita brand red (main)
+  primaryLight: '#e33a52',    // Lighter red (accents)
+  primaryDark: '#a81428',     // Deep red (headers, hover)
+  secondary: '#1a1a1a',       // Ink black
+  accent: '#6b6b6b',          // Muted gray
+  blush: '#e6e4d8',           // Warm cream border
   white: '#FFFFFF',
-  lightGray: '#FDF7EF',       // Warm cream background (cards)
-  border: '#e2e3dd',          // Soft sage border
-  text: '#263b32',            // Deep forest text (readable)
-  textLight: '#53645a',       // Muted deep sage
-  textMuted: '#8a9284',       // Soft muted sage
-  paid: '#5b7d4f',            // Deep natural green (Paid / success)
-  unpaid: '#a14b3a',          // Deep terracotta (Unpaid / cancel)
-  partial: '#a67a2e'          // Deep amber (Partial)
+  lightGray: '#F2F1E6',       // Warm cream (matches review cards)
+  border: '#e6e4d8',          // Warm border
+  text: '#1a1a1a',            // Ink (readable)
+  textLight: '#333333',       // Deep ink
+  textMuted: '#9a9a9a',       // Soft muted
+  paid: '#4c8a5b',            // Kept green for "Paid" success
+  unpaid: '#a81428',          // Deep red (Unpaid / cancel)
+  partial: '#b8860b'          // Deep amber (Partial)
 };
 
 // ========== GET COLOR HEX - SUPPORTS BOTH HEX AND COLOR NAMES ==========
@@ -1280,6 +1330,37 @@ const fetchNavbarData = async () => {
   }
 };
 
+// ========== FETCH CONTACT INFO FOR PHONE / EMAIL / ADDRESS ==========
+const fetchContactInfo = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/contact`,
+      { cache: 'no-store' }
+    );
+    const data = await response.json();
+
+    if (data.success && data.data && Array.isArray(data.data.quickContacts)) {
+      const findContact = (iconName) =>
+        data.data.quickContacts.find((c) => c.icon === iconName);
+
+      const phoneCard = findContact('FaPhone');
+      const emailCard = findContact('FaEnvelope');
+      const addressCard = findContact('FaMapMarkerAlt');
+
+      return {
+        phone: phoneCard?.value || '+8801XXXXXXXXX',
+        email: emailCard?.value || 'info@nishitas.com',
+        address: addressCard?.value || 'Dhaka, Bangladesh',
+      };
+    }
+
+    return null;
+  } catch (error) {
+    console.error('Error fetching contact info:', error);
+    return null;
+  }
+};
+
 // ========== CONVERT IMAGE TO BASE64 ==========
 const imageToBase64 = async (imageUrl) => {
   try {
@@ -1330,7 +1411,7 @@ const getItemPrice = (item) => {
 
 // Get company initials for logo fallback
 const getCompanyInitials = (companyName) => {
-  if (!companyName) return 'BB';
+  if (!companyName) return 'NC';
   return companyName
     .split(' ')
     .map(word => word[0])
@@ -1786,9 +1867,26 @@ export const generateInvoicePDF = async (order) => {
       console.warn('Failed to load logo from navbar:', error);
     }
 
+    // ========== FETCH DYNAMIC CONTACT INFO ==========
+    let contactInfo = {
+      phone: '+8801XXXXXXXXX',
+      email: 'info@nishitas.com',
+      address: 'Dhaka, Bangladesh',
+    };
+
+    try {
+      const fetched = await fetchContactInfo();
+      if (fetched) {
+        contactInfo = fetched;
+        console.log('✅ Contact info loaded:', contactInfo);
+      }
+    } catch (error) {
+      console.warn('Failed to load contact info, using defaults:', error);
+    }
+
     // ==================== HEADER ====================
-    // Deep sage green header bar
-    doc.setFillColor(101, 112, 93);   // #65705d
+    // Brand red header bar
+    doc.setFillColor(207, 27, 52);   // #CF1B34
     doc.rect(0, 0, pageWidth, 32, 'F');
 
     doc.setFillColor(COLORS.white);
@@ -1830,8 +1928,8 @@ export const generateInvoicePDF = async (order) => {
         console.log('✅ Logo added to PDF');
       } catch (error) {
         console.error('Error adding logo to PDF:', error);
-        const initials = getCompanyInitials('Beauty Bucket');
-        doc.setFillColor(101, 112, 93);   // #65705d
+        const initials = getCompanyInitials("Nishita's Creation");
+        doc.setFillColor(207, 27, 52);   // #CF1B34
         doc.roundedRect(logoX, logoY, logoSize, logoSize, 2, 2, 'F');
         doc.setFontSize(9);
         doc.setFont('helvetica', 'bold');
@@ -1839,8 +1937,8 @@ export const generateInvoicePDF = async (order) => {
         doc.text(initials, logoX + logoSize/2, logoY + logoSize/2 + 1, { align: 'center' });
       }
     } else {
-      const initials = getCompanyInitials('Beauty Bucket');
-      doc.setFillColor(101, 112, 93);   // #65705d
+      const initials = getCompanyInitials("Nishita's Creation");
+      doc.setFillColor(207, 27, 52);   // #CF1B34
       doc.roundedRect(logoX, logoY, logoSize, logoSize, 2, 2, 'F');
       doc.setFontSize(9);
       doc.setFont('helvetica', 'bold');
@@ -1850,33 +1948,36 @@ export const generateInvoicePDF = async (order) => {
 
     const companyX = logoX + logoSize + 8;
 
-    // ========== BEAUTY BUCKET COMPANY NAME ==========
+    // ========== NISHITA'S COLLECTION COMPANY NAME ==========
     doc.setFontSize(12);
     doc.setFont('helvetica', 'bold');
 
-    // "Beauty" in deep forest, "Bucket" in sage green
-    doc.setTextColor(38, 59, 50);   // #263b32
-    doc.text('Beauty', companyX, logoY + 4);
+    // "Nishita's" in ink, "Collection" in brand red
+    doc.setTextColor(26, 26, 26);   // #1a1a1a
+    doc.text("Nishita's", companyX, logoY + 4);
 
-    const beautyWidth = doc.getTextWidth('Beauty');
-    doc.setTextColor(101, 112, 93);   // #65705d
-    doc.text('Bucket', companyX + beautyWidth, logoY + 4);
+    const brandWidth = doc.getTextWidth("Nishita's");
+    doc.setTextColor(207, 27, 52);   // #CF1B34
+    doc.text(' Creation', companyX + brandWidth, logoY + 4);
 
     doc.setFontSize(7);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(COLORS.textLight);
 
+    // Dynamic phone from contact backend
     doc.setFont('helvetica', 'bold');
     doc.text('Contact: ', companyX, logoY + 9);
     const contactLabelWidth = doc.getTextWidth('Contact: ');
     doc.setFont('helvetica', 'normal');
-    doc.text('+8801XXXXXXXXX', companyX + contactLabelWidth, logoY + 9);
+    doc.text(contactInfo.phone, companyX + contactLabelWidth, logoY + 9);
 
+    // Dynamic email from contact backend
     doc.setFontSize(6.5);
-    doc.text('info@beautybucket.com', companyX, logoY + 13);
+    doc.text(contactInfo.email, companyX, logoY + 13);
 
+    // Dynamic address from contact backend
     doc.setFontSize(6);
-    const companyAddressLines = doc.splitTextToSize('Mirpur DOHS, Dhaka, Bangladesh', 70);
+    const companyAddressLines = doc.splitTextToSize(contactInfo.address, 70);
     doc.text(companyAddressLines, companyX, logoY + 17);
 
     const rightAlignX = pageWidth - margin - 5;
@@ -1938,8 +2039,8 @@ export const generateInvoicePDF = async (order) => {
     const colHeight = Math.max(leftColHeight, rightColHeight, 35);
 
     // Left Column - Customer Info
-    // Warm cream background (#FDF7EF)
-    doc.setFillColor(253, 247, 239);
+    // Warm cream background (#F2F1E6)
+    doc.setFillColor(242, 241, 230);
     doc.roundedRect(margin, yPos, customerColWidth, colHeight, 2, 2, 'F');
 
     doc.setFontSize(8);
@@ -1984,7 +2085,7 @@ export const generateInvoicePDF = async (order) => {
 
     // Right Column - Delivery Address
     const addressColX = margin + customerColWidth + 6;
-    doc.setFillColor(253, 247, 239);   // #FDF7EF
+    doc.setFillColor(242, 241, 230);   // #F2F1E6
     doc.roundedRect(addressColX, yPos, addressColWidth, colHeight, 2, 2, 'F');
 
     doc.setFontSize(8);
@@ -2050,8 +2151,8 @@ export const generateInvoicePDF = async (order) => {
 
     // Draw table header function (used for page breaks)
     const drawTableHeader = () => {
-      // Deep sage green table header
-      doc.setFillColor(101, 112, 93);   // #65705d
+      // Brand red table header
+      doc.setFillColor(207, 27, 52);   // #CF1B34
       doc.rect(margin, yPos, contentWidth, 7, 'F');
 
       doc.setFontSize(7);
@@ -2097,18 +2198,18 @@ export const generateInvoicePDF = async (order) => {
         const hidePrice = row.showPrice === false || isHeaderOnly;
         const hideTotal = row.showTotal === false || isHeaderOnly;
 
-        // Row background (alternating) — warm cream #FDF7EF
+        // Row background (alternating) — warm cream #F2F1E6
         if (rowCount % 2 === 0) {
-          doc.setFillColor(253, 247, 239);   // #FDF7EF
+          doc.setFillColor(242, 241, 230);   // #F2F1E6
           doc.rect(margin, yPos - 2, contentWidth, rowHeight, 'F');
         }
 
-        // Indent-based tint (soft sage instead of purple)
+        // Indent-based tint (soft red instead of sage)
         if (indent === 2) {
-          doc.setFillColor(240, 243, 236);   // very soft sage tint
+          doc.setFillColor(248, 235, 237);   // very soft red tint
           doc.rect(margin, yPos - 2, contentWidth, rowHeight, 'F');
         } else if (indent === 1) {
-          doc.setFillColor(247, 249, 244);   // lighter sage tint
+          doc.setFillColor(252, 244, 245);   // lighter red tint
           doc.rect(margin, yPos - 2, contentWidth, rowHeight, 'F');
         }
 
@@ -2127,7 +2228,7 @@ export const generateInvoicePDF = async (order) => {
         if (indent === 1) nameX += 4;
         if (indent === 2) nameX += 8;
 
-        // Arrow marker for indent (ASCII only — jsPDF helvetica can't render ▸ / →)
+        // Arrow marker for indent
         if (indent > 0) {
           doc.setTextColor(COLORS.textMuted);
           doc.setFontSize(6);
@@ -2141,8 +2242,8 @@ export const generateInvoicePDF = async (order) => {
         doc.setFont('helvetica', nameFont);
         doc.setTextColor(
           isProductHeader ? COLORS.text :
-          indent === 1 ? '#4e5b53' :   // deep sage for variant
-          indent === 2 ? '#7a857a' :   // muted sage for sub-variant
+          indent === 1 ? '#a81428' :   // deep red for variant
+          indent === 2 ? '#6b6b6b' :   // muted gray for sub-variant
           COLORS.text
         );
 
@@ -2156,19 +2257,6 @@ export const generateInvoicePDF = async (order) => {
           displayName = displayName.substring(0, displayName.length - 3) + '...';
         }
         doc.text(displayName, nameX, textY);
-
-        // "See variants below" note (only for product header of variant product)
-        if (isProductHeader) {
-          const nameWidth = doc.getTextWidth(displayName);
-          const noteX = nameX + nameWidth + 2;
-          doc.setFontSize(5);
-          doc.setFont('helvetica', 'italic');
-          doc.setTextColor(COLORS.textMuted);
-          doc.text('', noteX, textY);
-          doc.setFontSize(6.5);
-          doc.setFont('helvetica', 'normal');
-          doc.setTextColor(COLORS.text);
-        }
 
         // ===== Unit column =====
         if (!isHeaderOnly) {
@@ -2189,7 +2277,7 @@ export const generateInvoicePDF = async (order) => {
           doc.text((row.quantity || 0).toString(), colPositions.qty, textY, { align: 'right' });
         }
 
-        // ===== Price column (only discounted price, no strikethrough) =====
+        // ===== Price column =====
         if (hidePrice) {
           doc.setTextColor(COLORS.textMuted);
           doc.text('-', colPositions.price, textY, { align: 'right' });
@@ -2229,9 +2317,9 @@ export const generateInvoicePDF = async (order) => {
       yPos = margin + 10;
     }
 
-    // Warm cream summary box with sage green border
-    doc.setFillColor(253, 247, 239);   // #FDF7EF
-    doc.setDrawColor(101, 112, 93);    // #65705d
+    // Warm cream summary box with brand red border
+    doc.setFillColor(242, 241, 230);   // #F2F1E6
+    doc.setDrawColor(207, 27, 52);     // #CF1B34
     doc.setLineWidth(0.3);
     doc.roundedRect(summaryX, yPos, summaryWidth, 45, 2, 2, 'FD');
 
@@ -2317,8 +2405,8 @@ export const generateInvoicePDF = async (order) => {
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(COLORS.textMuted);
 
-    doc.text('Thank you for shopping with Beauty Bucket!', pageWidth / 2, footerY, { align: 'center' });
-    doc.text('For any queries, contact us at support@beautybucket.com', pageWidth / 2, footerY + 4, { align: 'center' });
+    doc.text("Thank you for shopping with Nishita's Creation!", pageWidth / 2, footerY, { align: 'center' });
+    doc.text(`For any queries, contact us at ${contactInfo.email}`, pageWidth / 2, footerY + 4, { align: 'center' });
 
     // ==================== SAVE PDF ====================
     const pdfBlob = doc.output('blob');

@@ -853,6 +853,8 @@ import {
   ShieldCheck,
   Truck,
   RotateCcw,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { toast } from 'sonner';
 import Navbar from '../components/layout/Navbar';
@@ -890,7 +892,7 @@ const truncateText = (text, limit = 60) => {
 };
 
 /* =========================================================
-   WISHLIST CARD — compact
+   WISHLIST CARD — matches ProductGridSection design
 ========================================================= */
 const WishlistCard = ({
   item,
@@ -944,6 +946,9 @@ const WishlistCard = ({
   const hasMultipleImages = productImages.length > 1;
   const hasHoverImage = productImages.length > 1;
   const isOutOfStock = stockQuantity <= 0;
+  const isLowStock =
+    item?.stockAlertQuantity > 0 &&
+    stockQuantity <= item.stockAlertQuantity;
   const rating = item.rating ? Number(item.rating) : 4.7;
   const fullStars = Math.floor(rating);
   const hasHalfStar = rating - fullStars >= 0.5;
@@ -961,6 +966,30 @@ const WishlistCard = ({
       setActiveIndex(0);
     }
   }, [isHovered]);
+
+  const nextImage = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (hasMultipleImages) {
+      setActiveIndex((prev) => (prev + 1) % productImages.length);
+      setHasUserNavigated(true);
+    }
+  };
+
+  const prevImage = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (hasMultipleImages) {
+      setActiveIndex(
+        (prev) => (prev - 1 + productImages.length) % productImages.length
+      );
+      setHasUserNavigated(true);
+    }
+  };
 
   const goToImage = (e, index) => {
     if (e) {
@@ -1024,29 +1053,34 @@ const WishlistCard = ({
         stars.push(
           <Star
             key={i}
-            className="h-2.5 w-2.5 fill-current"
-            style={{ color: '#f5a623' }}
+            className="h-2.5 w-2.5 sm:h-3 sm:w-3 fill-current text-yellow-400"
           />
         );
       } else if (i === fullStars && hasHalfStar) {
         stars.push(
-          <div key={i} className="relative h-2.5 w-2.5">
-            <Star className="absolute h-2.5 w-2.5 text-gray-200" />
-            <div className="absolute left-0 top-0 h-2.5 w-2.5 w-1/2 overflow-hidden">
-              <Star
-                className="h-2.5 w-2.5 fill-current"
-                style={{ color: '#f5a623' }}
-              />
+          <div key={i} className="relative h-2.5 w-2.5 sm:h-3 sm:w-3">
+            <Star className="absolute h-2.5 w-2.5 sm:h-3 sm:w-3 text-gray-200" />
+            <div className="absolute left-0 top-0 h-2.5 w-2.5 sm:h-3 sm:w-3 w-1/2 overflow-hidden">
+              <Star className="h-2.5 w-2.5 sm:h-3 sm:w-3 fill-current text-yellow-400" />
             </div>
           </div>
         );
       } else {
         stars.push(
-          <Star key={i} className="h-2.5 w-2.5 text-gray-200" />
+          <Star
+            key={i}
+            className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-gray-300"
+          />
         );
       }
     }
     return stars;
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    setHasUserNavigated(false);
+    setActiveIndex(0);
   };
 
   return (
@@ -1058,7 +1092,7 @@ const WishlistCard = ({
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className="group w-full h-full"
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseLeave={handleMouseLeave}
     >
       <Link
         href={`/product/${item.productSlug || item.productId}`}
@@ -1067,23 +1101,24 @@ const WishlistCard = ({
         <article
           className="
             relative flex h-full flex-col
-            bg-white rounded-xl
-            border border-[#ececec]
+            bg-white
+            border border-gray-200
+            rounded-md
             overflow-hidden
-            transition-all duration-500
-            hover:border-[#d92f45]/40
-            hover:shadow-[0_10px_32px_-12px_rgba(217,47,69,0.18)]
+            transition-all duration-300
+            hover:border-[#d92f45]
+            hover:shadow-[0_8px_24px_rgba(217,47,69,0.10)]
           "
         >
-          {/* IMAGE — square aspect = shorter */}
-          <div className="relative w-full aspect-square overflow-hidden bg-[#fafafa]">
+          {/* PRODUCT IMAGE */}
+          <div className="relative w-full aspect-[0.79] overflow-hidden bg-[#fafafa]">
             <Image
               src={getCurrentImage()}
               alt={item.productName}
               fill
               sizes="(max-width: 640px) 48vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
-              className={`object-cover transition-transform duration-700 ease-out ${
-                isHovered ? 'scale-[1.05]' : 'scale-100'
+              className={`object-cover transition-transform duration-500 ease-out ${
+                isHovered ? 'scale-[1.03]' : 'scale-100'
               }`}
               onError={() =>
                 handleImageError(
@@ -1095,115 +1130,150 @@ const WishlistCard = ({
               quality={90}
             />
 
-            {/* Discount chip */}
-            {discountPercent > 0 && (
-              <div
-                className="absolute left-2 top-2 z-10 px-2 py-0.5 rounded-full text-[9px] font-semibold tracking-[0.06em] text-white uppercase"
-                style={{ backgroundColor: BRAND, fontFamily: FONT_BODY }}
-              >
-                −{discountPercent}%
-              </div>
-            )}
+            <div className="pointer-events-none absolute inset-0 bg-black/0 transition duration-300 group-hover:bg-black/[0.03]" />
 
-            {/* Out of stock */}
-            {isOutOfStock && (
-              <div className="absolute inset-0 z-20 flex items-center justify-center bg-white/70 backdrop-blur-[2px]">
-                <span
-                  className="px-3 py-1 rounded-full text-[9px] font-medium uppercase tracking-[0.16em] bg-white border border-[#1a1a1a] text-[#1a1a1a]"
-                  style={{ fontFamily: FONT_BODY }}
-                >
-                  Sold Out
+            {/* Top-right radial shade */}
+            <div
+              className={`pointer-events-none absolute inset-0 z-20 transition-opacity duration-300 ${
+                isMobile ? 'opacity-100' : isHovered ? 'opacity-100' : 'opacity-0'
+              }`}
+              style={{
+                background:
+                  'radial-gradient(circle 130px at 100% 0%, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.28) 35%, rgba(0,0,0,0.10) 65%, rgba(0,0,0,0) 100%)',
+              }}
+            />
+
+            {/* Discount Badge */}
+            {discountPercent > 0 && (
+              <div className="absolute left-2 top-2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-[#d92f45] text-white shadow-md">
+                <span className="text-[10px] font-bold leading-none text-center">
+                  {discountPercent}%
+                  <br />
+                  OFF
                 </span>
               </div>
             )}
 
-            {/* Floating actions — smaller icons */}
+            {/* Out of Stock */}
+            {isOutOfStock && (
+              <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/55">
+                <span className="rounded-full bg-black px-3 py-1.5 text-xs font-medium text-white">
+                  Out of Stock
+                </span>
+              </div>
+            )}
+
+            {/* Low Stock */}
+            {!isOutOfStock && isLowStock && (
+              <div className="absolute bottom-2 left-2 z-10 flex items-center gap-1 rounded bg-orange-500 px-2 py-1 text-[9px] font-medium text-white shadow-md">
+                <AlertTriangle className="h-2.5 w-2.5" />
+                <span>Only {stockQuantity} left</span>
+              </div>
+            )}
+
+            {/* Floating action icons */}
             <div
-              className={`absolute right-2 top-2 z-30 flex flex-col gap-1.5 transition-all duration-500 ease-out ${
+              className={`absolute right-2.5 top-2.5 z-30 flex flex-col gap-2.5 transition-all duration-300 ease-out ${
                 isMobile
                   ? 'translate-x-0 opacity-100'
                   : isHovered
                   ? 'translate-x-0 opacity-100'
-                  : 'translate-x-2 opacity-0'
+                  : 'translate-x-3 opacity-0'
               }`}
             >
+              {/* Remove from wishlist (heart filled red) */}
               <button
                 type="button"
                 onClick={handleRemove}
                 disabled={isRemoving}
                 aria-label="Remove from wishlist"
-                className="flex h-7 w-7 items-center justify-center rounded-full bg-white/95 backdrop-blur-sm shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 hover:scale-110 disabled:opacity-60"
+                className="group/btn flex items-center justify-center text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.55)] transition-all duration-200 hover:scale-125 disabled:opacity-60"
               >
                 {isRemoving ? (
-                  <Loader2
-                    className="h-3 w-3 animate-spin"
-                    style={{ color: BRAND }}
-                  />
+                  <Loader2 className="h-5 w-5 animate-spin" />
                 ) : (
-                  <Heart
-                    className="h-3 w-3"
-                    style={{ color: BRAND, fill: BRAND }}
-                    strokeWidth={2}
-                  />
+                  <Heart className="h-5 w-5 fill-[#d92f45] text-[#d92f45]" />
                 )}
               </button>
 
+              {/* Cart */}
               <button
                 type="button"
                 onClick={handleAddToCart}
                 disabled={isOutOfStock || cartStatusLoading}
                 aria-label={isInCart ? 'View in cart' : 'Add to cart'}
-                className="flex h-7 w-7 items-center justify-center rounded-full bg-white/95 backdrop-blur-sm shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-60"
+                className={`flex items-center justify-center rounded-full transition-all duration-200 hover:scale-125 disabled:cursor-not-allowed disabled:opacity-60 ${
+                  isInCart
+                    ? 'h-6 w-6 bg-[#d92f45] text-white shadow-md'
+                    : 'h-5 w-5 text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.55)]'
+                }`}
               >
                 {cartStatusLoading ? (
                   <Loader2
-                    className="h-3 w-3 animate-spin"
-                    style={{ color: BRAND }}
+                    className={`animate-spin ${
+                      isInCart ? 'h-3.5 w-3.5' : 'h-5 w-5'
+                    }`}
                   />
                 ) : (
                   <ShoppingBag
-                    className="h-3 w-3"
-                    style={{ color: isInCart ? BRAND : '#1a1a1a' }}
-                    strokeWidth={1.8}
+                    className={isInCart ? 'h-3.5 w-3.5' : 'h-5 w-5'}
                   />
                 )}
               </button>
 
+              {/* Quick view */}
               <button
                 type="button"
                 onClick={handleViewDetails}
                 aria-label="Quick view"
-                className="flex h-7 w-7 items-center justify-center rounded-full bg-white/95 backdrop-blur-sm shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 hover:scale-110"
+                className="group/btn flex items-center justify-center text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.55)] transition-all duration-200 hover:scale-125"
               >
-                <Eye
-                  className="h-3 w-3 text-[#1a1a1a]"
-                  strokeWidth={1.8}
-                />
+                <Eye className="h-5 w-5 transition-colors duration-200 group-hover/btn:text-[#d92f45]" />
               </button>
             </div>
 
-            {/* Image dots */}
+            {/* Image navigation */}
             {hasMultipleImages && (
-              <div className="absolute bottom-2 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1">
-                {productImages.map((_, index) => (
-                  <button
-                    key={index}
-                    type="button"
-                    onClick={(e) => goToImage(e, index)}
-                    className={`rounded-full transition-all duration-300 ${
-                      activeIndex === index
-                        ? 'h-1 w-4 bg-[#1a1a1a]'
-                        : 'h-1 w-1 bg-[#1a1a1a]/30 hover:bg-[#1a1a1a]/60'
-                    }`}
-                    aria-label={`Go to image ${index + 1}`}
-                  />
-                ))}
+              <div className="absolute bottom-2 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2">
+                <button
+                  type="button"
+                  onClick={prevImage}
+                  className="rounded-full p-0.5"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4 text-white drop-shadow-md" />
+                </button>
+
+                <div className="flex items-center gap-1.5">
+                  {productImages.map((_, index) => (
+                    <button
+                      key={index}
+                      type="button"
+                      onClick={(e) => goToImage(e, index)}
+                      className={`rounded-full transition-all duration-200 ${
+                        activeIndex === index
+                          ? 'h-1.5 w-1.5 bg-white'
+                          : 'h-1 w-1 bg-white/50 hover:bg-white/80'
+                      }`}
+                      aria-label={`Go to image ${index + 1}`}
+                    />
+                  ))}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={nextImage}
+                  className="rounded-full p-0.5"
+                  aria-label="Next image"
+                >
+                  <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4 text-white drop-shadow-md" />
+                </button>
               </div>
             )}
           </div>
 
-          {/* INFO — compact padding */}
-          <div className="flex flex-1 flex-col px-3 pt-2.5 pb-3">
+          {/* PRODUCT DETAILS */}
+          <div className="flex flex-1 flex-col px-3 pt-2 pb-3">
             {item.categoryName && (
               <span
                 className="text-[8px] font-semibold uppercase tracking-[0.18em] mb-1"
@@ -1214,72 +1284,77 @@ const WishlistCard = ({
             )}
 
             <h3
-              className="min-h-[34px] text-[13px] leading-snug text-[#1a1a1a] sm:text-[14px] line-clamp-2 font-normal tracking-[-0.005em]"
+              className="
+                min-h-[42px]
+                text-[14px]
+                font-normal
+                leading-[1.35]
+                text-[#1a1a1a]
+                sm:text-[15px]
+                lg:text-[16px]
+                line-clamp-2
+              "
               style={{ fontFamily: FONT_BODY }}
               title={item.productName}
             >
               {truncateText(item.productName, 60)}
             </h3>
 
-            <div className="mt-1 flex items-center gap-1">
+            <div className="mt-0.5 flex items-center gap-1">
               <div className="flex items-center gap-0.5">{renderStars()}</div>
               <span
-                className="text-[10px]"
-                style={{ color: INK_SOFT, fontFamily: FONT_BODY }}
+                className="text-[11px] font-normal text-gray-600"
+                style={{ fontFamily: FONT_BODY }}
               >
                 {rating.toFixed(1)}
               </span>
             </div>
 
-            {/* Price + CTA — tighter */}
-            <div className="mt-2.5 flex items-end justify-between gap-2 pt-2.5 border-t border-[#f3f3f3]">
-              <div className="flex flex-col min-w-0">
-                <span
-                  className="text-[15px] leading-none tracking-[-0.02em] font-medium"
-                  style={{ color: INK, fontFamily: FONT_HEADING }}
-                >
-                  ৳{formatPrice(currentPrice)}
-                </span>
+            <div className="mt-1 flex items-center justify-between gap-2">
+              <p
+                className="text-[15px] font-semibold text-[#1a1a1a] sm:text-[16px]"
+                style={{ fontFamily: FONT_BODY }}
+              >
+                Tk. {formatPrice(currentPrice)}
                 {discountPercent > 0 && (
-                  <span
-                    className="text-[10px] leading-none mt-1 line-through"
-                    style={{ color: INK_MUTED, fontFamily: FONT_BODY }}
-                  >
-                    ৳{formatPrice(originalPrice)}
+                  <span className="ml-2 text-[11px] font-normal text-gray-400 line-through">
+                    Tk. {formatPrice(originalPrice)}
                   </span>
                 )}
-              </div>
+              </p>
 
+              {/* Price row cart icon */}
               <button
                 type="button"
                 onClick={handleAddToCart}
                 disabled={isOutOfStock || cartStatusLoading}
                 aria-label={isInCart ? 'View in cart' : 'Add to cart'}
                 className={`
-                  flex h-7 items-center justify-center gap-1 px-2.5 rounded-full
-                  text-[9px] font-semibold uppercase tracking-[0.12em]
-                  transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60
+                  flex shrink-0 items-center justify-center
+                  transition-all duration-200
+                  hover:scale-110
+                  disabled:cursor-not-allowed
+                  disabled:opacity-60
                   ${
                     isInCart
-                      ? 'text-white'
-                      : 'text-[#1a1a1a] border border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white'
+                      ? 'h-8 w-8 rounded-full bg-[#d92f45] text-white shadow-md'
+                      : isOutOfStock
+                      ? 'h-9 w-9 text-gray-300'
+                      : 'h-9 w-9 text-[#d92f45] hover:text-[#b82238]'
                   }
                 `}
-                style={{
-                  fontFamily: FONT_BODY,
-                  backgroundColor: isInCart ? BRAND : 'transparent',
-                  borderColor: isInCart ? BRAND : '#1a1a1a',
-                }}
               >
                 {cartStatusLoading ? (
-                  <Loader2 className="h-3 w-3 animate-spin" />
+                  <Loader2
+                    className={`animate-spin ${
+                      isInCart ? 'h-4 w-4' : 'h-5 w-5'
+                    }`}
+                  />
                 ) : (
-                  <>
-                    <ShoppingBag className="h-2.5 w-2.5" strokeWidth={2.2} />
-                    <span className="hidden sm:inline">
-                      {isInCart ? 'In Bag' : 'Add'}
-                    </span>
-                  </>
+                  <ShoppingBag
+                    className={isInCart ? 'h-4 w-4' : 'h-5 w-5'}
+                    strokeWidth={1.8}
+                  />
                 )}
               </button>
             </div>

@@ -869,12 +869,12 @@ const CourseCard = ({ course, onRegister, userRegistration, index, logo }) => {
               </p>
             ) : (
               <p
-                className="text-[9px] text-[#8a938a] leading-tight"
+                className="text-[9px] text-[#CC1D34] leading-tight"
                 style={{ fontFamily: FONT_BODY }}
               >
-                Closed on
+                Registration Closed on
                 <br />
-                <span className="font-semibold text-[#687169]">
+                <span className="font-semibold text-[#CC1D34]">
                   {formatClosesDate(course.registrationDeadline)}
                 </span>
               </p>
